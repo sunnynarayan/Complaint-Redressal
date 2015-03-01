@@ -6,3 +6,6 @@ Instructions :
 * Change /crs/crs/settings.py->DATABASES according to mysql connection details
 * download link of MySQL-Python connector : http://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python_2.0.3-1debian7.6_all.deb
 * for all tables in manage.py comment managed = False
+* for using encryption run folowing commands :
+1) - sudo apt-get install libffi-dev
+2) - sudo pip install bcrypt

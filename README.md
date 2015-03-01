@@ -3,4 +3,5 @@ This is a web application based on Django framework used to implement a web cent
 
 Instructions :
 * Create a database (name as given in /crs/crs/settings.py) file.
-* Change some lines like the database username and password of your mysql database in the /crs/crs/settings.py . 
+* Change according to mysql connection details in /crs/crs/settings.py->DATABASES
+* download link of MySQL-Python connector : http://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python_2.0.3-1debian7.6_all.deb

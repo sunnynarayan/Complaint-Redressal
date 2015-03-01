@@ -40,22 +40,27 @@ def function_togethostel(str):
 
 def login(request):
 	try:
-		if request.session['is_loggedin']
-			if request.session['user_type']==faculty
+		if request.session['is_loggedin']:					#check if the user is already logged in
+			if request.session['user_type']==faculty :		#if yes then redirect the request to home page according to whether faculty or student
 				return redirect('users/fac_home.html');
-			else
+			else:
 				return redirect('users/stud_home.html');
-		else
-			return render_to_response('users/login_page.html');		
+		else:
+			return render_to_response('users/login_page.html');		#if not then display the login page
 	except NameError:
 		return render_to_response('users/login_page.html');	
 
 def afterlogin(request):
 	username=request.POST['username'];
 	passwd=request.POST['password'];
-	if re.sub('[a-z.0-9]',"",username) != ""
-		return render_to_response('users/login_page.html');
-		
+	if re.sub('[a-z.0-9]',"",username) != "":				#check username for possible SQL injection and other injections
+		return render_to_response('users/login_page.html'); #Error in username entry !!, append error message
+	if (len(passwd) > 20) or (len(passwd) < 8):
+		return render_to_response('users/login_page.html'); #Error in password, append error message
+
+	passwd = make_password(passwd);		#Hashing/encrypting the password for further use
+
+
 	if username.endswith(fac)==True:
     	try:
 			obj=Faculty.objects.get(username=username,password=passwd);#username  in fac table

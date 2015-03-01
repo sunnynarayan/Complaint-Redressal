@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.template import RequestContext, loader
@@ -38,13 +38,24 @@ def function_togethostel(str):
 		return 4;
 
 
-
 def login(request):
-	return render_to_response('users/login_page.html');	
+	try:
+		if request.session['is_loggedin']
+			if request.session['user_type']==faculty
+				return redirect('users/fac_home.html');
+			else
+				return redirect('users/stud_home.html');
+		else
+			return render_to_response('users/login_page.html');		
+	except NameError:
+		return render_to_response('users/login_page.html');	
 
 def afterlogin(request):
-    username=request.POST['username'];
+	username=request.POST['username'];
 	passwd=request.POST['password'];
+	if re.sub('[a-z.0-9]',"",username) != ""
+		return render_to_response('users/login_page.html');
+		
 	if username.endswith(fac)==True:
     	try:
 			obj=Faculty.objects.get(username=username,password=passwd);#username  in fac table
@@ -171,30 +182,6 @@ def view_Ratings_and_comments:
 		rating3=objects3.rating;
 		name4=objects4.UID.username;
 		rating4=objects4.rating;
-
-		
-
-
-
-
-
-		
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
 	if 'Add User' in request.POST:
 		try:
 			obj=User.objects.get(username=username)

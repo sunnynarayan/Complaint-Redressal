@@ -58,12 +58,24 @@ WSGI_APPLICATION = 'crs.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE' : 'django.db.backends.mysql',
-        'NAME' : 'crs',
-	'USER' : 'monty',
-	'PASSWORD' : 'some_pass',
+    'ENGINE' : 'django.db.backends.mysql',
+    'NAME' : 'crs',
+	'USER' : 'root',
+	'PASSWORD' : '',
+	'PORT' : '3306',
+	'SOCK' : '',
     }
 }
+
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.CryptPasswordHasher',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

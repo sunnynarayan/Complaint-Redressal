@@ -17,14 +17,14 @@ class Clink(models.Model):
     uid = models.IntegerField(db_column='UID') # Field name made lowercase.
     time = models.DateTimeField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'Clink'
 
 class Com(models.Model):
     comid = models.IntegerField(db_column='comID', primary_key=True) # Field name made lowercase.
     txt = models.TextField(db_column='Txt') # Field name made lowercase.
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'Com'
 
 class Pollque(models.Model):
@@ -36,7 +36,7 @@ class Pollque(models.Model):
     choice = models.TextField()
     choino = models.IntegerField(db_column='choiNo') # Field name made lowercase.
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'PollQue'
 
 class Pollres(models.Model):
@@ -45,14 +45,14 @@ class Pollres(models.Model):
     votetime = models.DateTimeField(db_column='voteTime') # Field name made lowercase.
     choice = models.IntegerField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'PollRes'
 
 class AuthGroup(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=80)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_group'
 
 class AuthGroupPermissions(models.Model):
@@ -60,7 +60,7 @@ class AuthGroupPermissions(models.Model):
     group = models.ForeignKey(AuthGroup)
     permission = models.ForeignKey('AuthPermission')
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_group_permissions'
 
 class AuthPermission(models.Model):
@@ -69,7 +69,7 @@ class AuthPermission(models.Model):
     content_type = models.ForeignKey('DjangoContentType')
     codename = models.CharField(max_length=100)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_permission'
 
 class AuthUser(models.Model):
@@ -85,7 +85,7 @@ class AuthUser(models.Model):
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_user'
 
 class AuthUserGroups(models.Model):
@@ -93,7 +93,7 @@ class AuthUserGroups(models.Model):
     user = models.ForeignKey(AuthUser)
     group = models.ForeignKey(AuthGroup)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_user_groups'
 
 class AuthUserUserPermissions(models.Model):
@@ -101,7 +101,7 @@ class AuthUserUserPermissions(models.Model):
     user = models.ForeignKey(AuthUser)
     permission = models.ForeignKey(AuthPermission)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_user_user_permissions'
 
 class Complain(models.Model):
@@ -116,7 +116,7 @@ class Complain(models.Model):
     sid = models.IntegerField()
     bypass = models.CharField(max_length=1)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'complain'
 
 class DjangoAdminLog(models.Model):
@@ -129,7 +129,7 @@ class DjangoAdminLog(models.Model):
     action_flag = models.IntegerField()
     change_message = models.TextField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'django_admin_log'
 
 class DjangoContentType(models.Model):
@@ -138,7 +138,7 @@ class DjangoContentType(models.Model):
     app_label = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'django_content_type'
 
 class DjangoSession(models.Model):
@@ -146,7 +146,7 @@ class DjangoSession(models.Model):
     session_data = models.TextField()
     expire_date = models.DateTimeField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'django_session'
 
 class Faculty(models.Model):
@@ -158,14 +158,14 @@ class Faculty(models.Model):
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=128, blank=True)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'faculty'
 
 class Hostel(models.Model):
     name = models.CharField(max_length=30)
     id = models.IntegerField(primary_key=True)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'hostel'
 
 class Secretary(models.Model):
@@ -175,7 +175,7 @@ class Secretary(models.Model):
     hostel = models.IntegerField()
     designation = models.CharField(max_length=20)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'secretary'
 
 class Student(models.Model):
@@ -196,13 +196,13 @@ class Student(models.Model):
     bank = models.CharField(max_length=50, blank=True)
     ifsc = models.CharField(db_column='IFSC', max_length=11, blank=True) # Field name made lowercase.
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'student'
 
 class Warden(models.Model):
     uid = models.ForeignKey(Faculty, db_column='UID') # Field name made lowercase.
     hostel = models.ForeignKey(Hostel, db_column='hostel')
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'warden'
 

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.template import RequestContext, loader
+from django.contrib import auth
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -72,8 +73,8 @@ def afterlogin(request):
 
 def viewcomplaints:
 	if request.session['is_logged']==True:
-		objects1=Entry.objects.all().filter(complainttype=0);#0 for priate complaint
-		objects2=Entry.objects.all().filter(complainttype=1);#1 for public complaint complaint
+		objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
+		objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
 		return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
 	else:
 		return render_to_response('users/invalidlogin.html');
@@ -138,8 +139,91 @@ def EditProfile:
 def trackstatus:
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		
+def ratesecretary:
+	if request.session['is_logged']==True and request.session['user_type']==student:
+		rating=request.Post['rating'];
+		sec_rated=request.Post['rating'];
+		try:
+			obj=Secretary.objects.get(SID=sec_rated);
+			obj.rating=rating;#saving the rating in secretary table
+			obj.save();
+		except:
+
+			render_to_response('users/invalidlogin.html');
+	else:
+		render_to_response('users/invalidlogin.html');
+
+def Hostel_leaving_info:
+	if request.session['is_logged']==True and request.session['user_type']==student:
+		username=request.session['username'];
+
+def view_Ratings_and_comments:
+	if request.session['is_logged']==True and request.session['user_type']==student:
+		objects1=Secretary.objects.all().filter(SID=0);
+		objects2=Secretary.objects.all().filter(SID=1);
+		objects3=Secretary.objects.all().filter(SID=2);
+		objects4=Secretary.objects.all().filter(SID=3);
+		name1=objects1.UID.username;
+		rating1=objects1.rating;
+		name2=objects2.UID.username;
+		rating2=objects2.rating;
+		name3=objects3.UID.username;
+		rating3=objects3.rating;
+		name4=objects4.UID.username;
+		rating4=objects4.rating;
+
+		
 
 
 
 
 
+		
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+	if 'Add User' in request.POST:
+		try:
+			obj=User.objects.get(username=username)
+			return render_to_response('users/login.html',{'msg':Error_User_Exists})
+		except:			
+			if  len(username)==0 or len(username)>128:
+			 	return render_to_response('users/login.html',{'msg':Error_Bad_Username})
+          		
+       			elif len(passwd) != 5 and len(passwd) != 0:
+				return render_to_response('users/login.html',{'msg':Error_Bad_Password})
+			else:
+				q=User(username=request.POST['username'],password=request.POST['password']);
+				q.save();
+				return render_to_response('users/welcome.html',{'username':q.username})						
+   	elif  'Login' in request.POST:
+		user = authenticate(username=username, password=passwd)
+		if user is not None:
+        		if user.is_active:
+            			login(request, user)
+            			return render_to_response('users/welcome.html',{'username':user.username})
+        		else:
+				return render_to_response('users/login.html',{'msg':Error_Bad_Credentials})
+
+            # Return a 'disabled account' error message
+		else:
+			return render_to_response('users/login.html',{'msg':Error_Bad_Credentials})
+        # Return an 'invalid login' error message.
+	
+			
+									
+   	else:
+        	raise Http404()

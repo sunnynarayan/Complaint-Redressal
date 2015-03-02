@@ -22,8 +22,8 @@ def getSecretaryType(str):
 def	getComplaintType(str):
 	if str=='private':
 		return 1;
-	else
-	return 0; 
+	else:
+		return 0; 
 
 def getHostel(str):
 	if str=='Ashoka':
@@ -31,7 +31,7 @@ def getHostel(str):
 	elif str=='Aryabhatta':
 		return 1;
 	elif str=='Chanakya1':
-		return 2:
+		return 2;
 	elif str=='Chanakya2':
 		return 3;
 	else:
@@ -40,15 +40,15 @@ def getHostel(str):
 
 def login(request):
 	try:
-		if request.session['is_loggedin']:					#check if the user is already logged in
-			if request.session['user_type']==faculty :		#if yes then redirect the request to home page according to whether faculty or student
+		if request.session.get("login") == "True":							#check if the user is already logged in
+			if request.session.get("user_type")=="faculty" :		#if yes then redirect the request to home page according to whether faculty or student
 				return redirect('users/fac_home.html');
 			else:
 				return redirect('users/stud_home.html');
-		else:
-			return render_to_response('users/login_page.html');		#if not then display the login page
 	except NameError:
 		return render_to_response('users/login_page.html');	
+
+	return render_to_response('user_module/login_page.html');		#if not then display the login page
 
 def afterLogin(request):
 	username=request.POST['username'];
@@ -59,23 +59,20 @@ def afterLogin(request):
 		return render_to_response('users/login_page.html'); #Error in password, append error message
 
 	passwd = make_password(passwd);		#Hashing/encrypting the password for further use
-
-
-	if username.endswith(fac)==True:
-    	try:
-			obj=Faculty.objects.get(username=username,password=passwd);#username  in fac table
-			request.session['is_loggedin']=True;
+	if username.endswith("fac"):
+		try:
+			obj=Faculty.objects.get(username=username,password=passwd);		#username  in fac table
+			request.session['login']=True;
 			request.session['username']=username;
 			request.session['user_type']=faculty;
 			request.set_cookie['max_age']=60000;
 			return render_to_response('users/fac_home.html');
 		except:
 			return render_to_response('users/invalidlogin.html');
-
-	elif username.endwith(stud)==True:
+	elif username.endwith("stud"):
 		try:
-			obj=Student.objects.get(username=username,password=passwd);#username  in fac table
-			request.session['is_loggedin']=True;
+			obj=Student.objects.get(username=username,password=passwd);	#username  in fac table
+			request.session['login']=True;
 			request.session['username']=username;
 			request.set_cookie['max_age']=60000;
 			request.session['user_type']=student;
@@ -87,14 +84,14 @@ def afterLogin(request):
 	else:
 		return render_to_response('users/invalidlogin.html');
 
-def viewComplaints:
+def viewComplaints(request):
 	if request.session['is_logged']==True:
 		objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
 		objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
 		return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
 	else:
 		return render_to_response('users/invalidlogin.html');
-def lodgeComplaints:
+def lodgeComplaints(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		subject=request.Post['subject'];
 		detail=request.Post['message'];
@@ -111,19 +108,19 @@ def lodgeComplaints:
 	else:
 		return render_to_response('users/invalidlogin.html');
 
-def editProfile:
+def editProfile(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		mobile=request.Post['mobile'];
 		bAccNo=request.Post['bankacc'];
 		bank=request.Post['bank'];
-		email=request.Post['email';]
+		email=request.Post['email'];
 		ifsc=request.Post['ifsc'];
 		if len(mobile)!=10:
-			return render_to_response('users/invalidlogin.html'{msg:'Your mobile number must be 10 digits only'});
+			return render_to_response('users/invalidlogin.html',{msg:'Your mobile number must be 10 digits only'});
 		if len(ifsc)!=11:
-			return render_to_response('users/invalidlogin.html'{msg:'Your IFSC code must be 11 digits long'});
+			return render_to_response('users/invalidlogin.html',{msg:'Your IFSC code must be 11 digits long'});
 		if len(bAccNo)!=18:
-			return render_to_response('users/invalidlogin.html'{msg:'Your Account Number number must be 18 digits only'});
+			return render_to_response('users/invalidlogin.html',{msg:'Your Account Number number must be 18 digits only'});
 		try:
 			obj=Student.objects.get(request.session['user']);
 			obj.mobile=mobile;
@@ -138,7 +135,7 @@ def editProfile:
 	elif request.session['is_logged']==True and request.session['user_type']==faculty:
 		mobile=request.Post['mobile'];
 		if len(mobile)!=10:
-			return render_to_response('users/invalidlogin.html'{msg:'Your mobile number must be 10 digits only'});
+			return render_to_response('users/invalidlogin.html',{msg:'Your mobile number must be 10 digits only'});
 		try:
 			obj=Faculty.objects.get(request.session['user']);
 			obj.mobile=mobile;
@@ -152,10 +149,10 @@ def editProfile:
 
 		
 
-def trackStatus:
-	if request.session['is_logged']==True and request.session['user_type']==student:
+# def trackStatus(request):
+# 	if request.session['is_logged']==True and request.session['user_type']==student:
 		
-def rateSecretary:
+def rateSecretary(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		rating=request.Post['rating'];
 		sec_rated=request.Post['rating'];
@@ -169,11 +166,11 @@ def rateSecretary:
 	else:
 		render_to_response('users/invalidlogin.html');
 
-def hostelLeavingInfo:
+def hostelLeavingInfo(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		username=request.session['username'];
 
-def RatingsAndComments:
+def RatingsAndComments(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		objects1=Secretary.objects.all().filter(SID=0);
 		objects2=Secretary.objects.all().filter(SID=1);

@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.sessions.models import Session
 import datetime
 
-def function_togtsecretarytype(str):
+def getSecretaryType(str):
 	if str=='eco':
 		return 0;
 	elif str=='mess':
@@ -19,13 +19,13 @@ def function_togtsecretarytype(str):
 	elif str=='tech':
 		return 3;
 
-def	function_togettypeofcomplaint(str):
+def	getComplaintType(str):
 	if str=='private':
 		return 1;
 	else
 	return 0; 
 
-def function_togethostel(str):
+def getHostel(str):
 	if str=='Ashoka':
 		return 0;
 	elif str=='Aryabhatta':
@@ -50,7 +50,7 @@ def login(request):
 	except NameError:
 		return render_to_response('users/login_page.html');	
 
-def afterlogin(request):
+def afterLogin(request):
 	username=request.POST['username'];
 	passwd=request.POST['password'];
 	if re.sub('[a-z.0-9]',"",username) != "":				#check username for possible SQL injection and other injections
@@ -87,14 +87,14 @@ def afterlogin(request):
 	else:
 		return render_to_response('users/invalidlogin.html');
 
-def viewcomplaints:
+def viewComplaints:
 	if request.session['is_logged']==True:
 		objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
 		objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
 		return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
 	else:
 		return render_to_response('users/invalidlogin.html');
-def lodgecomplaints:
+def lodgeComplaints:
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		subject=request.Post['subject'];
 		detail=request.Post['message'];
@@ -103,15 +103,15 @@ def lodgecomplaints:
 		hostel=function_togthostel(request.Post['hostel']);
 		time=datetime.datetime.now();
 		Uid=request.session['username'];
-		sec_type=function_togtsecretarytype(request.Post['Secretary']);
-		complaint_type=function_togettypeofcomplaint(request.Post['com_type']);
+		sec_type=getSecretaryType(request.Post['Secretary']);
+		complaint_type=getComplaintType(request.Post['com_type']);
 		complnobj=complaint(UID=uid,time=time,hostel=hostel,type1=sec_type,type2=complaint_type,subject=subject,detail=detail,comment=comment,bypass=0);
 
 
 	else:
 		return render_to_response('users/invalidlogin.html');
 
-def EditProfile:
+def editProfile:
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		mobile=request.Post['mobile'];
 		bAccNo=request.Post['bankacc'];
@@ -152,10 +152,10 @@ def EditProfile:
 
 		
 
-def trackstatus:
+def trackStatus:
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		
-def ratesecretary:
+def rateSecretary:
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		rating=request.Post['rating'];
 		sec_rated=request.Post['rating'];
@@ -169,11 +169,11 @@ def ratesecretary:
 	else:
 		render_to_response('users/invalidlogin.html');
 
-def Hostel_leaving_info:
+def hostelLeavingInfo:
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		username=request.session['username'];
 
-def view_Ratings_and_comments:
+def RatingsAndComments:
 	if request.session['is_logged']==True and request.session['user_type']==student:
 		objects1=Secretary.objects.all().filter(SID=0);
 		objects2=Secretary.objects.all().filter(SID=1);

@@ -55,13 +55,16 @@
 			<p><img src="sm_logo.png"><p>
 			<h2><strong>Complaint Redressal System</strong></h2>
 			<div id="login">
+
 				<form name="form1" action="/logged/" method="post">
 				<fieldset>
 				<p><label for="username">Username:</label>
 				<input type="text" name="userName" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Username')this.value='' "></p>
 				<p><label for="password">Password:</label>
 				<input type="password" name="pass_wd" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Password')this.value='' "></p>
+				<p>{{msg}}</p>
 				<p class="submit"><input type="submit" value="Login" name="log" onclick="ValidateEmail(document.form1.userName)"></p>
+
 				</fieldset>
 				</form>
 			</div>

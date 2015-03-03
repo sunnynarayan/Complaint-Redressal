@@ -1,10 +1,12 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>  
+<html lang="en">
 	<title>
 		IITP Complain Redressal
 	</title>
 	<head>
-		<link rel="shortcut icon" type="image/x-icon" href="http://172.16.1.11/images/spacer.gif">
+		<script src="idvalidate.js"></script>  
+		<meta charset="utf-8">  
+		<link rel="shortcut icon" type="image/x-icon" href="spacer.gif"/>
 		<style type="text/css">
 		body {
 			background-color: #E1DCE6;
@@ -50,20 +52,23 @@
 		</style>
 	</head>
 	<body>
-			<p><img src="https://172.16.1.11/images/sm_logo.png"/><p>
-			<h2><strong>Complaint Redressal System</h2>
+			<p><img src="sm_logo.png"><p>
+			<h2><strong>Complaint Redressal System</strong></h2>
 			<div id="login">
-				<form action="/home/" method="POST">
+
+				<form name="form1" action="/logged/" method="post">
 				<fieldset>
 				<p><label for="username">Username:</label>
-				<input type="text" name="user_name" required value="" onBlur="if(this.value=='')this.value=''" onFocus="if(this.value=='Username')this.value='' "></p>
+				<input type="text" name="userName" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Username')this.value='' "></p>
 				<p><label for="password">Password:</label>
-				<input type="password" name="password"</p>
-				<p class = "Error"> {{msg}}</p>
-				<p><input type="submit" value="Login" name="log">
+				<input type="password" name="pass_wd" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Password')this.value='' "></p>
+				<p>{{msg}}</p>
+				<p class="submit"><input type="submit" value="Login" name="log" onclick="ValidateEmail(document.form1.userName)"></p>
+
 				</fieldset>
 				</form>
 			</div>
 	</body>
 </html>
+
 

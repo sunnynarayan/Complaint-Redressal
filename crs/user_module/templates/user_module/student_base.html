@@ -1,0 +1,91 @@
+<!--this page has to be loaded first-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IITP Complaint</title>
+    <link rel="shortcut icon" type="image/x-icon" href="spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="studpage.css">
+    <style></style>
+    <script type="text/javascript">
+    function view () {
+      // body...
+      
+      var temp = '<object  type="text/html" data="view_studcomplain.html" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+    function lodge () {
+      // body...
+      
+      var temp = '<object  type="text/html" data="stud_lodgecomplain.html" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+    function home () {
+      // body...
+      
+      var temp = '<object  type="text/html" data="student_home.html" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+    function editprofile () {
+      // body...
+      
+      var temp = '<object  type="text/html" data="student_profile.html" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+    function view_rate () {
+      // body...
+      
+      var temp = '<object  type="text/html" data="stud_view_rate.html" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+    function messrebate () {
+      // body...
+      
+      var temp = '<object  type="text/html" data="messrebate.html" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+    function poll () {
+      // body...
+      
+      var temp = '<object  type="text/html" data="stud_poll.html" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+    function hostel_leave() {
+      // body...
+      
+      var temp = '<object  type="text/html" data="stud_hostel_leave.html" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+
+
+
+    </script>
+    </head>
+<body>
+  <img style="width:50%" src="sm_logo.png"> 
+    <p >
+      <span id = "s1" style="float: left;">User: {{msg}} </span>
+      <span id = "s2" style="float: center;" >Student Logged In</span>
+      <span id = "s3" style="float: right;"><a href="login_page.html">Logout</a></span>
+    </p>
+    
+    <div id="Left">
+      <table id="sidearm">
+        <tr id="t"><td><a href="https://iitp.ac.in"><img src="spacer.gif"></a></td></tr>
+        <tr id="t1"><td><button type="button" onclick="home()" style="height:40px;width:170px;">Home</button></td></tr>
+        <tr id="t1"><td><button type="button" onclick="view()" style="height:40px;width:170px;">View Complian</button></td></tr>
+        <tr id="t1"><td><button type="button" onclick="lodge()" style="height:40px;width:170px;">Lodge Complain</button></td></tr>
+        <tr id="t1"><td><button type="button" onclick="editprofile()" style="height:40px;width:170px;">Edit Profile</button></td></tr>
+        <tr id="t1"><td><button type="button" onclick="view_rate()" style="height:40px;width:170px;">View and Rate Secretary</button></td></tr>
+        <tr id="t1"><td><button type="button" onclick="messrebate()" style="height:40px;width:170px;">Mess Rebate</button></td></tr>
+        <tr id="t1"><td><button type="button" onclick="poll()" style="height:40px;width:170px;">Poll</button></td></tr>
+        <tr id="t1"><td><button type="button" onclick="hostel_leave()" style="height:40px;width:170px;">Hostel Leaving Info</button></td></tr>
+        <tr id="extra"><td></td></tr>
+      </table>
+    </div id>
+    <div id="right">
+      <object  type="text/html" data="student_home.html" style="height:514px;width:100%;"></object>
+    </div>
+  </body>
+</html>

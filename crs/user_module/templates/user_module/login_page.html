@@ -53,12 +53,13 @@
 			<p><img src="https://172.16.1.11/images/sm_logo.png"/><p>
 			<h2><strong>Complaint Redressal System</h2>
 			<div id="login">
-				<form action="/user_logged/" method="post">
+				<form action="/home/" method="POST">
 				<fieldset>
 				<p><label for="username">Username:</label>
-				<input type="text" name="usr_name" required value="" onBlur="if(this.value=='')this.value=''" onFocus="if(this.value=='Username')this.value='' "></p>
+				<input type="text" name="user_name" required value="" onBlur="if(this.value=='')this.value=''" onFocus="if(this.value=='Username')this.value='' "></p>
 				<p><label for="password">Password:</label>
-				<input type="password" name="pass_wd"</p>
+				<input type="password" name="password"</p>
+				<p class = "Error"> {{msg}}</p>
 				<p><input type="submit" value="Login" name="log">
 				</fieldset>
 				</form>

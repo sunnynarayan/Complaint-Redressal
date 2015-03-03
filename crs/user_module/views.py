@@ -7,7 +7,20 @@ from django.core.context_processors import csrf
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.sessions.models import Session
+import hashlib
 import datetime
+from user_module.models import Faculty
+from user_module.models import Student
+# from django.contrib.auth.hashers import make_password
+# from django.contrib.auth.hashers import make_password
+
+#module for SHA256
+import re  #for reagex functions
+# def ankt(request):
+# 	abc = "mypassword"
+# 	hash_object = hashlib.sha256(b""+abc)
+# 	hex_dig = hash_object.hexdigest()
+# 	return render_to_response('user_module/untitled.html',{'ankit_chu':hex_dig});
 
 def getSecretaryType(str):
 	if str=='eco':
@@ -42,47 +55,47 @@ def login(request):
 	try:
 		if request.session.get("login") == "True":							#check if the user is already logged in
 			if request.session.get("user_type")=="faculty" :		#if yes then redirect the request to home page according to whether faculty or student
-				return redirect('users/fac_home.html');
+				return render_to_response('user_module/fac_home.html');
 			else:
-				return redirect('users/stud_home.html');
+				return render_to_response('user_module/stud_home.html');
 	except NameError:
-		return render_to_response('users/login_page.html');	
+		return render_to_response('user_module/login_page.html', {'msg':''});	
 
-	return render_to_response('user_module/login_page.html');		#if not then display the login page
+	return render_to_response('user_module/login_page.html', {'msg':''});		#if not then display the login page
 
-def afterLogin(request):
-	username=request.POST['username'];
-	passwd=request.POST['password'];
-	if re.sub('[a-z.0-9]',"",username) != "":				#check username for possible SQL injection and other injections
-		return render_to_response('users/login_page.html'); #Error in username entry !!, append error message
+def afterLogin(request):#after login function working
+	uname = request.POST.get('user_name','');
+	passwd = request.POST.get('password','');
+	if re.sub('[a-z.0-9]',"",uname) != "":				#check username for possible SQL injection and other injections
+		return render_to_response('user_module/login_page.html', {'msg':'Errornous user'}); #Error in username entry !!, append error message
 	if (len(passwd) > 20) or (len(passwd) < 8):
-		return render_to_response('users/login_page.html'); #Error in password, append error message
+		return render_to_response('user_module/login_page.html', {'msg':'error in password'}); #Error in password, append error message
 
-	passwd = make_password(passwd);		#Hashing/encrypting the password for further use
-	if username.endswith("fac"):
+	hash_object = hashlib.sha256(b""+passwd)
+	passwd = hash_object.hexdigest()
+	# passwd = make_password(passwd);		#Hashing/encrypting the password for further use
+	if uname.endswith("fac"):
 		try:
-			obj=Faculty.objects.get(username=username,password=passwd);		#username  in fac table
+			obj=Faculty.objects.get(username=uname,password=passwd);		#username  in fac table
 			request.session['login']=True;
-			request.session['username']=username;
-			request.session['user_type']=faculty;
-			request.set_cookie['max_age']=60000;
-			return render_to_response('users/fac_home.html');
+			request.session['username']=uname;
+			request.session['user_type']="faculty";
+			# request.set_cookie['max_age']=60000;
+			return render_to_response('user_module/hlf_sec.html');
 		except:
-			return render_to_response('users/invalidlogin.html');
-	elif username.endwith("stud"):
+			return render_to_response('user_module/login_page.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
+	elif uname.endswith("stud"):
 		try:
-			obj=Student.objects.get(username=username,password=passwd);	#username  in fac table
+			obj=Student.objects.get(username=uname,password=passwd);	#username  in fac table
 			request.session['login']=True;
-			request.session['username']=username;
+			request.session['username']=uname;
 			request.set_cookie['max_age']=60000;
 			request.session['user_type']=student;
-			return render_to_response('users/stud_home.html');
+			return render_to_response('user_module/hlf_sec.html');
 		except:
-			return render_to_response('users/invalidlogin.html');
-
-
+			return render_to_response('user_module/hlf_sec.html');
 	else:
-		return render_to_response('users/invalidlogin.html');
+		return render_to_response('user_module/login_page.html');
 
 def viewComplaints(request):
 	if request.session['is_logged']==True:
@@ -167,8 +180,12 @@ def rateSecretary(request):
 		render_to_response('users/invalidlogin.html');
 
 def hostelLeavingInfo(request):
-	if request.session['is_logged']==True and request.session['user_type']==student:
+	if request.session.get('is_logged')==True and request.session('user_type')==student:
 		username=request.session['username'];
+		obj=Student.objects.get(username=username);
+		hostel=obj.hostel;
+
+
 
 def RatingsAndComments(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:

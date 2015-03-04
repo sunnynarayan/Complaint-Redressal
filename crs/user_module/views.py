@@ -9,8 +9,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.sessions.models import Session
 import hashlib
 import datetime
-from user_module.models import Faculty
-from user_module.models import Student
+from user_module.models import *
 # from django.contrib.auth.hashers import make_password
 # from django.contrib.auth.hashers import make_password
 
@@ -23,7 +22,7 @@ import re  #for reagex functions
 # 	return render_to_response('user_module/untitled.html',{'ankit_chu':hex_dig});
 def logout(request):
 	request.session.flush()
-	return redirect('crs',{'msg':''})
+	return redirect('/crs/')
 
 def getSecretaryType(str):
 	if str=='eco':
@@ -94,10 +93,12 @@ def afterLogin(request):#after login function working
 			obj=Student.objects.get(username=uname,password=passwd);	#username  in stud table
 			request.session['login']="True";
 			request.session['username']=uname;
-			name = obj.name;
+			request.session['name'] = obj.name;
+			request.session['hostel']=obj.hostel;
+			request.session['uid'] = obj.uid;
 			# 	request.set_cookie['max_age']=60000;
 			request.session['user_type']="student";
-			return render_to_response('user_module/studentBase.html', {'msg':name});
+			return render_to_response('user_module/studentBase.html', {'msg':obj.name});
 		except:
 			return render_to_response('user_module/loginPage.html', {'msg' : 'unknown user : ' + uname + "pass : " + passwd});
 	else:
@@ -124,40 +125,67 @@ def studentPoll(request):
 def studentHostelLeave(request):
 	return render_to_response('user_module/studHostelLeave.html');
 
+def studentMessRebate(request):
+	return render_to_response('user_module/messrebate.html');
 
-def viewComplaints(request):
-	if request.session['is_logged']=="True":
-		objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
-		objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
-		return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
+
+# def viewComplaints(request):
+# 	objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
+# 	objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
+# 	return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
+	
+
+def getCatagory(str):
+	if str == "Mess":
+		return 1
+	elif str == "Environment":
+		return 2
+	elif str == "Technical":
+		return 3
+	elif str == "Maintenance":
+		return 4
 	else:
-		return render_to_response('users/invalidlogin.html');
+		return 0
 
-
-def lodgeComplaints(request):
-	if request.session['is_logged']== "True" and request.session['user_type']=="student":
-		subject=request.Post['subject'];
-		detail=request.Post['message'];
-		comment=request.Post['comment'];
-		bypass=0;
-		hostel=getHostel(request.Post['hostel']);
-		time=datetime.datetime.now();
-		Uid=request.session['username'];
-		sec_type=getSecretaryType(request.Post['Secretary']);
-		complaint_type=getComplaintType(request.Post['com_type']);
-		complnobj=complaint(UID=uid,time=time,hostel=hostel,type1=sec_type,type2=complaint_type,subject=subject,detail=detail,comment=comment,bypass=0);
-
-
+def getTypeDescription(code):
+	if code == 1:
+		return "Mess"
+	elif code == 2:
+		return "Environment"
+	elif code == 3:
+		return "Technical"
+	elif code == 4:
+		return "Maintenance"
 	else:
-		return render_to_response('users/invalidlogin.html');
+		return "Other"
+
+def lodgeComplainDetail(request):
+	subject=request.POST.get('subject');
+	detail=request.POST.get('message');
+	catagory=getCatagory(request.POST.get('catagory'));
+	# bypass=0;
+	hostel=request.session.get("hostel");
+	time=datetime.datetime.now();
+	uid=request.session.get('uid');	
+	history = "Complain added by " + request.session.get("name") + " at time : " + str(time) 
+	# sec_type=getSecretaryType(request.POST['Secretary']);
+	# complainType=getComplaintType(request.POST['com_type']);
+	complainObj=Complain(uid = uid , time = time , hostel = hostel, type=catagory , subject	= subject, detail = detail, comments = 0, history = history );
+	complainObj.save();
+	secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
+	secid = secretaryObj.uid
+	cid=(Complain.objects.get(uid = uid , time = time)).cid
+	CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
+	CLObj.save()
+	return redirect('../complainView/');
 
 def editProfile(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
-		mobile=request.Post['mobile'];
-		bAccNo=request.Post['bankacc'];
-		bank=request.Post['bank'];
-		email=request.Post['email'];
-		ifsc=request.Post['ifsc'];
+		mobile=request.POST['mobile'];
+		bAccNo=request.POST['bankacc'];
+		bank=request.POST['bank'];
+		email=request.POST['email'];
+		ifsc=request.POST['ifsc'];
 		if len(mobile)!=10:
 			return render_to_response('users/invalidlogin.html',{msg:'Your mobile number must be 10 digits only'});
 		if len(ifsc)!=11:
@@ -176,7 +204,7 @@ def editProfile(request):
 		except:
 			return render_to_response('users/invalid.html',{msg:'Error_User_doesnExists'});
 	elif request.session['is_logged']==True and request.session['user_type']==faculty:
-		mobile=request.Post['mobile'];
+		mobile=request.POST['mobile'];
 		if len(mobile)!=10:
 			return render_to_response('users/invalidlogin.html',{msg:'Your mobile number must be 10 digits only'});
 		try:
@@ -189,16 +217,11 @@ def editProfile(request):
 	else:
 		render_to_response('users/invalidlogin.html');
 
-
-		
-
-# def trackStatus(request):
-# 	if request.session['is_logged']==True and request.session['user_type']==student:
 		
 def rateSecretary(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
-		rating=request.Post['rating'];
-		sec_rated=request.Post['rating'];
+		rating=request.POST['rating'];
+		sec_rated=request.POST['rating'];
 		try:
 			obj=Secretary.objects.get(SID=sec_rated);
 			obj.rating=rating;#saving the rating in secretary table

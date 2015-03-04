@@ -1,14 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+<style >
+   #one {
+   	border-right: 3px
+   }
+
+</style>
+
+
+
 </head>
 <body>
 <div id="right">
-	
+	<div id= "one">
+		<h3>Public Complain</h3>
+		<script type="text/javascript">
+		document.write('<table border="1" cellspacing="1" cellpadding="5">');
+			for(var i = 0; i < list1.cid.size; i++){
+   				document.write('<tr>');
+      			document.write('<td>' + list1.time[i]  + '</td>');//Parenthesis to avoid concatenation
+      			document.write('<td><a href="">' + list1.cid[i]  + '</a></td>');//Parenthesis to avoid concatenation
+      			document.write('<td>' + list1.subject[i]  + '</td>'); //Parenthesis to avoid concatenation
+			    document.write('</tr>')
+			}
 
-	This is a test page
+		document.write('</table>')
 
-  </div>
+		</script>
+    </div>
+    <div id="two">
+  		<h3>Private Complain</h3>
+  		<script type="text/javascript">
+		document.write('<table border="1" cellspacing="1" cellpadding="5">');
+			for(var i = 0; i < list2.cid.size; i++){
+   				document.write('<tr>');
+      			document.write('<td>' + list2.time[i]  + '</td>');//Parenthesis to avoid concatenation
+      			document.write('<td>' + list2.cid[i]  + '</td>');//Parenthesis to avoid concatenation
+      			document.write('<td>' + list2.subject[i]  + '</td>'); //Parenthesis to avoid concatenation
+   		document.write('</tr>')
+			}
+
+		document.write('</table>')
+
+		</script>
+  	<div>
+  <div>
 </body>
 </html>

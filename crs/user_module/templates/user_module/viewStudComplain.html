@@ -15,35 +15,36 @@
 <div id="right">
 	<div id= "one">
 		<h3>Public Complain</h3>
-		<script type="text/javascript">
-		document.write('<table border="1" cellspacing="1" cellpadding="5">');
-			for(var i = 0; i < list1.cid.size; i++){
-   				document.write('<tr>');
-      			document.write('<td>' + list1.time[i]  + '</td>');//Parenthesis to avoid concatenation
-      			document.write('<td><a href="">' + list1.cid[i]  + '</a></td>');//Parenthesis to avoid concatenation
-      			document.write('<td>' + list1.subject[i]  + '</td>'); //Parenthesis to avoid concatenation
-			    document.write('</tr>')
-			}
-
-		document.write('</table>')
-
-		</script>
+		<table>
+      <tr>
+        <th>Complain ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+      </tr>
+          {% for item in lists1 %}
+      <tr> 
+        <td>{{ item.cid }}</td>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.time }}</td>
+    </tr>
+    {% endfor %}
+</table>
     </div>
     <div id="two">
   		<h3>Private Complain</h3>
-  		<script type="text/javascript">
-		document.write('<table border="1" cellspacing="1" cellpadding="5">');
-			for(var i = 0; i < list2.cid.size; i++){
-   				document.write('<tr>');
-      			document.write('<td>' + list2.time[i]  + '</td>');//Parenthesis to avoid concatenation
-      			document.write('<td>' + list2.cid[i]  + '</td>');//Parenthesis to avoid concatenation
-      			document.write('<td>' + list2.subject[i]  + '</td>'); //Parenthesis to avoid concatenation
-   		document.write('</tr>')
-			}
-
-		document.write('</table>')
-
-		</script>
+  		<table>
+      <tr>
+        <th>Complain ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+      </tr>
+          {% for item in lists2 %}
+      <tr> 
+        <td>{{ item.cid }}</td>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.time }}</td>
+    </tr>
+    {% endfor %}
   	<div>
   <div>
 </body>

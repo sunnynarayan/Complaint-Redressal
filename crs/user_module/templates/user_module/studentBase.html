@@ -12,49 +12,49 @@
     function view () {
       // body...
       
-      var temp = '<object  type="text/html" data="viewStudComplain.html" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../complainView" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     function lodge () {
       // body...
       
-      var temp = '<object  type="text/html" data="studLodgeComplain.html" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../lodgeComplain" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     function home () {
       // body...
       
-      var temp = '<object  type="text/html" data="studentHome.html" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../studentHome" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     function editprofile () {
       // body...
       
-      var temp = '<object  type="text/html" data="studentProfile.html" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../studentProfile" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     function view_rate () {
       // body...
       
-      var temp = '<object  type="text/html" data="studViewRate.html" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../studViewRate" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     function messrebate () {
       // body...
       
-      var temp = '<object  type="text/html" data="messrebate.html" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../messrebate" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     function poll () {
       // body...
       
-      var temp = '<object  type="text/html" data="studPoll.html" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../studPoll" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     function hostel_leave() {
       // body...
       
-      var temp = '<object  type="text/html" data="studHostelLeave.html" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../studHostelLeave" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
 
@@ -73,7 +73,7 @@
     <div id="Left">
       <table id="sidearm">
         <tr id="t"><td><a href="https://iitp.ac.in"><img src="../../static/img/system/spacer.gif"></a></td></tr>
-        <tr id="t1"><td><button type="submit" formaction = "/studentHome/" style="height:40px;width:170px;">Home</button></td></tr>
+        <tr id="t1"><td><button type="submit" onclick="home()" style="height:40px;width:170px;">Home</button></td></tr>
         <tr id="t1"><td><button type="button" onclick="view()" style="height:40px;width:170px;">View Complian</button></td></tr>
         <tr id="t1"><td><button type="button" onclick="lodge()" style="height:40px;width:170px;">Lodge Complain</button></td></tr>
         <tr id="t1"><td><button type="button" onclick="editprofile()" style="height:40px;width:170px;">Edit Profile</button></td></tr>

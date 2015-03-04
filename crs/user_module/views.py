@@ -21,6 +21,9 @@ import re  #for reagex functions
 # 	hash_object = hashlib.sha256(b""+abc)
 # 	hex_dig = hash_object.hexdigest()
 # 	return render_to_response('user_module/untitled.html',{'ankit_chu':hex_dig});
+def logout(request):
+	request.session.flush()
+	return redirect('crs',{'msg':''})
 
 def getSecretaryType(str):
 	if str=='eco':
@@ -101,23 +104,43 @@ def afterLogin(request):#after login function working
 		return render_to_response('user_module/loginPage.html', {'msg' : 'username recieved : ' + uname + "pass : " + passwd});
 
 def studentComplainView(request):
-	return render_to_response('users/viewStudComplain.html');
+	return render_to_response('user_module/viewStudComplain.html');
+
+def studentLodgeComplain(request):
+	return render_to_response('user_module/studLodgeComplain.html');
+
+def studentHome(request):
+	return render_to_response('user_module/studentHome.html');
+
+def studentProfile(request):
+	return render_to_response('user_module/studentProfile.html');
+
+def studentViewRate(request):
+	return render_to_response('user_module/studViewRate.html');
+
+def studentPoll(request):
+	return render_to_response('user_module/studPoll.html');
+
+def studentHostelLeave(request):
+	return render_to_response('user_module/studHostelLeave.html');
 
 
 def viewComplaints(request):
-	if request.session['is_logged']==True:
+	if request.session['is_logged']=="True":
 		objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
 		objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
 		return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
 	else:
 		return render_to_response('users/invalidlogin.html');
+
+
 def lodgeComplaints(request):
-	if request.session['is_logged']==True and request.session['user_type']==student:
+	if request.session['is_logged']== "True" and request.session['user_type']=="student":
 		subject=request.Post['subject'];
 		detail=request.Post['message'];
 		comment=request.Post['comment'];
 		bypass=0;
-		hostel=function_togthostel(request.Post['hostel']);
+		hostel=getHostel(request.Post['hostel']);
 		time=datetime.datetime.now();
 		Uid=request.session['username'];
 		sec_type=getSecretaryType(request.Post['Secretary']);

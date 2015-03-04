@@ -1,0 +1,41 @@
+body {
+			background-color: #E1DCE6;
+			text-align: center;
+		}
+		p{
+			text-align: center;
+		}
+		h2{
+			color: #000000;
+			font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+			font-size: 25px;
+			line-height: 1.5em;
+			text-align: center;
+		}
+		form fieldset input[type="text"], input[type="password"] {
+		background-color:  ##FFE2FF;
+		border: 1px solid black;
+		border-radius: 3px;
+		color: #5a5656;
+		font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+		font-size: 14px;
+		height: 30px;
+		outline: none;
+		padding: 0px 10px;
+		width: 200px;
+		}
+		#login {
+		margin: 100px auto;
+		width: 500px;
+		}
+		form fieldset input[type="submit"] {
+		background-color: #008dde;
+		border: none;
+		border-radius: 3px;
+		color: #f4f4f4;
+		cursor: pointer;
+		font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+		height: 20px;
+		text-transform: uppercase;
+		width: 100px;
+		}

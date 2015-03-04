@@ -5,6 +5,7 @@
 </head>
 <body>
 <div id="right">
+<form name="complainForm" action="" method="post">
 	<p id="s1">
 		<p id="s1">Select catagory of complain.</p>
 		<select name="Secretary" style="width: 500px">
@@ -12,7 +13,7 @@
 		<option value="eco">Eco</option>
 		<option value="mess">Mess</option>
 		<option value="maintenance">Maintenance</option>
-		<option value="teck">Technical</option>
+		<option value="tech">Technical</option>
 		</select>
 	</p>
 	<p id="s1"><p id="s1">Select type of complain.</p>
@@ -21,6 +22,8 @@
 	<input type="radio" name="com_type" value="Public">Public
 	</p>
 	<p id="s1">
+	<p> Subject</p>
+	<input type="text" name="subject" placeholder="Subject" > 
 				<p id="s1">Add description of complain.</p>
 		<textarea  name="message" rows="10" cols="70"placeholder="Write description of complain."></textarea>
 		
@@ -31,6 +34,7 @@
 	  <input type="file" name="pic" accept="image/*" style="width: 300px">
   <input type="submit" value="Lodge"style="width: 120px">
   <span style="float: right;"><input type="submit" value="Cancel"style="width: 120px"></span>
+  </form>
   </div>
 </body>
 </html>

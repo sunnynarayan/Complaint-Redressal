@@ -55,47 +55,54 @@ def login(request):
 	try:
 		if request.session.get("login") == "True":							#check if the user is already logged in
 			if request.session.get("user_type")=="faculty" :		#if yes then redirect the request to home page according to whether faculty or student
-				return render_to_response('user_module/fac_home.html');
+				return render_to_response('user_module/wardenViewComplain.html');
 			else:
-				return render_to_response('user_module/stud_home.html');
+				return render_to_response('user_module/studentBase.html');
 	except NameError:
-		return render_to_response('user_module/login_page.html', {'msg':''});	
+		return render_to_response('user_module/loginPage.html', {'msg':''});	
 
-	return render_to_response('user_module/login_page.html', {'msg':''});		#if not then display the login page
+	return render_to_response('user_module/loginPage.html', {'msg':''});		#if not then display the login page
 
 def afterLogin(request):#after login function working
-	uname = request.POST.get('user_name','');
+	uname = request.POST.get('username','');
 	passwd = request.POST.get('password','');
-	if re.sub('[a-z.0-9]',"",uname) != "":				#check username for possible SQL injection and other injections
-		return render_to_response('user_module/login_page.html', {'msg':'Errornous user'}); #Error in username entry !!, append error message
+	if re.sub('[a-z.@0-9]',"",uname) != "":				#check username for possible SQL injection and other injections
+		return render_to_response('user_module/loginPage.html', {'msg':'Errornous user'}); #Error in username entry !!, append error message
 	if (len(passwd) > 20) or (len(passwd) < 8):
-		return render_to_response('user_module/login_page.html', {'msg':'error in password'}); #Error in password, append error message
+		return render_to_response('user_module/loginPage.html', {'msg':'error in password'}); #Error in password, append error message
 
 	hash_object = hashlib.sha256(b""+passwd)
 	passwd = hash_object.hexdigest()
 	# passwd = make_password(passwd);		#Hashing/encrypting the password for further use
 	if uname.endswith("fac"):
 		try:
+			uname = uname.replace("@fac","")
 			obj=Faculty.objects.get(username=uname,password=passwd);		#username  in fac table
-			request.session['login']=True;
+			request.session['login']="True";
 			request.session['username']=uname;
 			request.session['user_type']="faculty";
 			# request.set_cookie['max_age']=60000;
-			return render_to_response('user_module/hlf_sec.html');
+			return render_to_response('user_module/wardenViewComplain.html');
 		except:
-			return render_to_response('user_module/login_page.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
+			return render_to_response('user_module/loginPage.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
 	elif uname.endswith("stud"):
 		try:
-			obj=Student.objects.get(username=uname,password=passwd);	#username  in fac table
-			request.session['login']=True;
+			uname = uname.replace("@stud","")
+			obj=Student.objects.get(username=uname,password=passwd);	#username  in stud table
+			request.session['login']="True";
 			request.session['username']=uname;
-			request.set_cookie['max_age']=60000;
-			request.session['user_type']=student;
-			return render_to_response('user_module/hlf_sec.html');
+			name = obj.name;
+			# 	request.set_cookie['max_age']=60000;
+			request.session['user_type']="student";
+			return render_to_response('user_module/studentBase.html', {'msg':name});
 		except:
-			return render_to_response('user_module/hlf_sec.html');
+			return render_to_response('user_module/loginPage.html', {'msg' : 'unknown user : ' + uname + "pass : " + passwd});
 	else:
-		return render_to_response('user_module/login_page.html');
+		return render_to_response('user_module/loginPage.html', {'msg' : 'username recieved : ' + uname + "pass : " + passwd});
+
+def studentComplainView(request):
+	return render_to_response('users/viewStudComplain.html');
+
 
 def viewComplaints(request):
 	if request.session['is_logged']==True:

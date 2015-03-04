@@ -105,8 +105,15 @@ def afterLogin(request):#after login function working
 		return render_to_response('user_module/loginPage.html', {'msg' : 'username recieved : ' + uname + "pass : " + passwd});
 
 def studentComplainView(request):
-	return render_to_response('user_module/viewStudComplain.html');
+	uid=request.session.get('uid')
+	ComplainObjects = Complain.objects.all().filter(uid = uid)
+	return render_to_response('user_module/viewStudComplain.html',{'list' : ComplainObjects});
 
+# def viewComplaints(request):
+# 	objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
+# 	objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
+# 	return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
+	
 def studentLodgeComplain(request):
 	return render_to_response('user_module/studLodgeComplain.html');
 
@@ -127,13 +134,6 @@ def studentHostelLeave(request):
 
 def studentMessRebate(request):
 	return render_to_response('user_module/messrebate.html');
-
-
-# def viewComplaints(request):
-# 	objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
-# 	objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
-# 	return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
-	
 
 def getCatagory(str):
 	if str == "Mess":

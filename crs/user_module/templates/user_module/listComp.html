@@ -5,74 +5,45 @@
 	
 </head>
 <body>
-<div id="right">
-			<table>
-				<tr>
-					<td><button type="button" onclick="delete() "style="height:40px;width:170px;">Delete Complains</button></td>
-					<td><button type="button" onclick="chang_deprt() "style="height:40px;width:170px;">Change Department</button></td>
-					<td><button type="button" onclick="forward() "style="height:40px;width:170px;">Forward</button></td>
-					<td><button type="button" onclick="list() "style="height:40px;width:170px;">List By</button></td>
-				</tr>
-			</table>
-			<table style="width:100%">
-				<tr id="head">
-					<th >FROM</th>
-					<th>DATE</th>
-					<th>SUBJECT</th>
 
-				</tr>
-				
-				<tr >
-					<td>rahul.cs13</td>
-					<td>25 FEB</td>
-					<td>Water problem</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr><tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</table>
-		</div>
+			
+		
+		<div id= "one1">
+		<h3>Public Complain</h3>
+		<table>
+      <tr>
+        <th>Complain ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+      </tr>
+          {% for item in lists1 %}
+      <tr> 
+        <td>{{ item.cid }}</td>
+        <td><a href="">{{ item.subject }}</a></td>
+        <td>{{ item.time }}</td>
+    </tr>
+    {% endfor %}
+</table>
+    </div>
+    <div id="two1">
+  		<h3>Private Complain</h3>
+  		<table>
+      <tr>
+        <th>Complain ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+      </tr>
+          {% for item in lists2 %}
+      <tr> 
+        <td>{{ item.cid }}</td>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.time }}</td>
+    </tr>
+    {% endfor %}
+  	
+    </table>
+    </div>
+    
+
 </body>
 </html>

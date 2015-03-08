@@ -9,8 +9,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.sessions.models import Session
 import hashlib
 import datetime
-from user_module.models import Faculty
-from user_module.models import Student
+from user_module.models import *
 # from django.contrib.auth.hashers import make_password
 # from django.contrib.auth.hashers import make_password
 
@@ -21,6 +20,9 @@ import re  #for reagex functions
 # 	hash_object = hashlib.sha256(b""+abc)
 # 	hex_dig = hash_object.hexdigest()
 # 	return render_to_response('user_module/untitled.html',{'ankit_chu':hex_dig});
+def logout(request):
+	request.session.flush()
+	return redirect('/crs/')
 
 def getSecretaryType(str):
 	if str=='eco':
@@ -55,79 +57,135 @@ def login(request):
 	try:
 		if request.session.get("login") == "True":							#check if the user is already logged in
 			if request.session.get("user_type")=="faculty" :		#if yes then redirect the request to home page according to whether faculty or student
-				return render_to_response('user_module/fac_home.html');
+				return render_to_response('user_module/wardenViewComplain.html');
 			else:
-				return render_to_response('user_module/stud_home.html');
+				return render_to_response('user_module/studentBase.html');
 	except NameError:
-		return render_to_response('user_module/login_page.html', {'msg':''});	
+		return render_to_response('user_module/loginPage.html', {'msg':''});	
 
-	return render_to_response('user_module/login_page.html', {'msg':''});		#if not then display the login page
+	return render_to_response('user_module/loginPage.html', {'msg':''});		#if not then display the login page
 
 def afterLogin(request):#after login function working
-	uname = request.POST.get('user_name','');
+	uname = request.POST.get('username','');
 	passwd = request.POST.get('password','');
-	if re.sub('[a-z.0-9]',"",uname) != "":				#check username for possible SQL injection and other injections
-		return render_to_response('user_module/login_page.html', {'msg':'Errornous user'}); #Error in username entry !!, append error message
+	if re.sub('[a-z.@0-9]',"",uname) != "":				#check username for possible SQL injection and other injections
+		return render_to_response('user_module/loginPage.html', {'msg':'Errornous user'}); #Error in username entry !!, append error message
 	if (len(passwd) > 20) or (len(passwd) < 8):
-		return render_to_response('user_module/login_page.html', {'msg':'error in password'}); #Error in password, append error message
+		return render_to_response('user_module/loginPage.html', {'msg':'error in password'}); #Error in password, append error message
 
 	hash_object = hashlib.sha256(b""+passwd)
 	passwd = hash_object.hexdigest()
 	# passwd = make_password(passwd);		#Hashing/encrypting the password for further use
 	if uname.endswith("fac"):
 		try:
+			uname = uname.replace("@fac","")
 			obj=Faculty.objects.get(username=uname,password=passwd);		#username  in fac table
-			request.session['login']=True;
+			request.session['login']="True";
 			request.session['username']=uname;
 			request.session['user_type']="faculty";
 			# request.set_cookie['max_age']=60000;
-			return render_to_response('user_module/hlf_sec.html');
+			return render_to_response('user_module/wardenViewComplain.html');
 		except:
-			return render_to_response('user_module/login_page.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
+			return render_to_response('user_module/loginPage.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
 	elif uname.endswith("stud"):
 		try:
-			obj=Student.objects.get(username=uname,password=passwd);	#username  in fac table
-			request.session['login']=True;
+			uname = uname.replace("@stud","")
+			obj=Student.objects.get(username=uname,password=passwd);	#username  in stud table
+			request.session['login']="True";
 			request.session['username']=uname;
-			request.set_cookie['max_age']=60000;
-			request.session['user_type']=student;
-			return render_to_response('user_module/hlf_sec.html');
+			request.session['name'] = obj.name;
+			request.session['hostel']=obj.hostel;
+			request.session['uid'] = obj.uid;
+			# 	request.set_cookie['max_age']=60000;
+			request.session['user_type']="student";
+			return render_to_response('user_module/studentBase.html', {'msg':obj.name});
 		except:
-			return render_to_response('user_module/hlf_sec.html');
+			return render_to_response('user_module/loginPage.html', {'msg' : 'unknown user : ' + uname + "pass : " + passwd});
 	else:
-		return render_to_response('user_module/login_page.html');
+		return render_to_response('user_module/loginPage.html', {'msg' : 'username recieved : ' + uname + "pass : " + passwd});
 
-def viewComplaints(request):
-	if request.session['is_logged']==True:
-		objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
-		objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
-		return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
+def studentComplainView(request):
+	uid=request.session.get('uid')
+	ComplainObjects = Complain.objects.all().filter(uid = uid)
+	return render_to_response('user_module/viewStudComplain.html',{'list' : ComplainObjects});
+
+# def viewComplaints(request):
+# 	objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
+# 	objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
+# 	return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
+	
+def studentLodgeComplain(request):
+	return render_to_response('user_module/studLodgeComplain.html');
+
+def studentHome(request):
+	return render_to_response('user_module/studentHome.html');
+
+def studentProfile(request):
+	return render_to_response('user_module/studentProfile.html');
+
+def studentViewRate(request):
+	return render_to_response('user_module/studViewRate.html');
+
+def studentPoll(request):
+	return render_to_response('user_module/studPoll.html');
+
+def studentHostelLeave(request):
+	return render_to_response('user_module/studHostelLeave.html');
+
+def studentMessRebate(request):
+	return render_to_response('user_module/messrebate.html');
+
+def getCatagory(str):
+	if str == "Mess":
+		return 1
+	elif str == "Environment":
+		return 2
+	elif str == "Technical":
+		return 3
+	elif str == "Maintenance":
+		return 4
 	else:
-		return render_to_response('users/invalidlogin.html');
-def lodgeComplaints(request):
-	if request.session['is_logged']==True and request.session['user_type']==student:
-		subject=request.Post['subject'];
-		detail=request.Post['message'];
-		comment=request.Post['comment'];
-		bypass=0;
-		hostel=function_togthostel(request.Post['hostel']);
-		time=datetime.datetime.now();
-		Uid=request.session['username'];
-		sec_type=getSecretaryType(request.Post['Secretary']);
-		complaint_type=getComplaintType(request.Post['com_type']);
-		complnobj=complaint(UID=uid,time=time,hostel=hostel,type1=sec_type,type2=complaint_type,subject=subject,detail=detail,comment=comment,bypass=0);
+		return 0
 
-
+def getTypeDescription(code):
+	if code == 1:
+		return "Mess"
+	elif code == 2:
+		return "Environment"
+	elif code == 3:
+		return "Technical"
+	elif code == 4:
+		return "Maintenance"
 	else:
-		return render_to_response('users/invalidlogin.html');
+		return "Other"
+
+def lodgeComplainDetail(request):
+	subject=request.POST.get('subject');
+	detail=request.POST.get('message');
+	catagory=getCatagory(request.POST.get('catagory'));
+	# bypass=0;
+	hostel=request.session.get("hostel");
+	time=datetime.datetime.now();
+	uid=request.session.get('uid');	
+	history = "Complain added by " + request.session.get("name") + " at time : " + str(time) 
+	# sec_type=getSecretaryType(request.POST['Secretary']);
+	# complainType=getComplaintType(request.POST['com_type']);
+	complainObj=Complain(uid = uid , time = time , hostel = hostel, type=catagory , subject	= subject, detail = detail, comments = 0, history = history );
+	complainObj.save();
+	secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
+	secid = secretaryObj.uid
+	cid=(Complain.objects.get(uid = uid , time = time)).cid
+	CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
+	CLObj.save()
+	return redirect('../complainView/');
 
 def editProfile(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
-		mobile=request.Post['mobile'];
-		bAccNo=request.Post['bankacc'];
-		bank=request.Post['bank'];
-		email=request.Post['email'];
-		ifsc=request.Post['ifsc'];
+		mobile=request.POST['mobile'];
+		bAccNo=request.POST['bankacc'];
+		bank=request.POST['bank'];
+		email=request.POST['email'];
+		ifsc=request.POST['ifsc'];
 		if len(mobile)!=10:
 			return render_to_response('users/invalidlogin.html',{msg:'Your mobile number must be 10 digits only'});
 		if len(ifsc)!=11:
@@ -146,7 +204,7 @@ def editProfile(request):
 		except:
 			return render_to_response('users/invalid.html',{msg:'Error_User_doesnExists'});
 	elif request.session['is_logged']==True and request.session['user_type']==faculty:
-		mobile=request.Post['mobile'];
+		mobile=request.POST['mobile'];
 		if len(mobile)!=10:
 			return render_to_response('users/invalidlogin.html',{msg:'Your mobile number must be 10 digits only'});
 		try:
@@ -159,16 +217,11 @@ def editProfile(request):
 	else:
 		render_to_response('users/invalidlogin.html');
 
-
-		
-
-# def trackStatus(request):
-# 	if request.session['is_logged']==True and request.session['user_type']==student:
 		
 def rateSecretary(request):
 	if request.session['is_logged']==True and request.session['user_type']==student:
-		rating=request.Post['rating'];
-		sec_rated=request.Post['rating'];
+		rating=request.POST['rating'];
+		sec_rated=request.POST['rating'];
 		try:
 			obj=Secretary.objects.get(SID=sec_rated);
 			obj.rating=rating;#saving the rating in secretary table

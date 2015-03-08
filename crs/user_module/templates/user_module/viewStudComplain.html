@@ -7,9 +7,6 @@
    }
 
 </style>
-
-
-
 </head>
 <body>
 <div id="right">
@@ -21,14 +18,14 @@
         <th>Subject</th>
         <th>Date</th>
       </tr>
-          {% for item in lists1 %}
+          {% for item in list %}
       <tr> 
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
     </tr>
     {% endfor %}
-</table>
+</table><!-- 
     </div>
     <div id="two">
   		<h3>Private Complain</h3>
@@ -45,7 +42,8 @@
         <td>{{ item.time }}</td>
     </tr>
     {% endfor %}
-  	<div>
-  <div>
+</table>
+  	</div> -->
+  </div>
 </body>
 </html>

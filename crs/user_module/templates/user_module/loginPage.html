@@ -20,11 +20,11 @@
 				<form name="form1" action="/login/" method="post">   <!-- check the action-->
 				<fieldset>
 				<p><label for="username">Username:</label>
-				<input type="text" name="userName" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Username')this.value='' "></p>
+				<input type="text" name="username" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Username')this.value='' "></p>
 				<p><label for="password">Password:</label>
-				<input type="password" name="pass_wd" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Password')this.value='' "></p>
+				<input type="password" name="password" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Password')this.value='' "></p>
 				<p>{{msg}}</p>
-				<p class="submit"><input type="submit" value="Login" name="log" onclick="ValidateEmail(document.form1.userName)"></p>
+				<p class="submit"><input type="submit" value="Login" name="log" onclick="ValidateEmail(document.form1.username)"></p>
 
 				</fieldset>
 				</form>

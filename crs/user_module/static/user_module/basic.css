@@ -23,7 +23,9 @@ body {
 			height: 150px;
 			}
 			
+
 			#newright{
+
 				position: absolute;
 				top: 200px;
 				left: 180px;
@@ -58,6 +60,28 @@ body {
 				font-family: "Comic Sans MS", sans-serif;
 				text-align: left;
 				background-color: #CCFFCC;
+
+			}#two1{
+				position: absolute;
+				top: 200px;
+				left: 56%
+				width: 43%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: left;
+				background-color: #CCFFCC;
+				border: 1px solid black;
+    			border-collapse: collapse;
+			}
+			#one1{
+
+				position: absolute;
+				top: 200px;
+				left: 180px;
+				width: 43%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: left;
+
+				background-color: #CCFFCC;
 				border: 1px solid black;
     			border-collapse: collapse;
 			}
@@ -67,8 +91,9 @@ body {
 				left: 180px;
 				width: 43%;
 				font-family: "Comic Sans MS", sans-serif;
-				text-align: left;
-				background-color: blue;
+				text-align: center;
+				background-color: #CCFFCC;
+
 				border: 1px solid black;
     			border-collapse: collapse;
 			}

@@ -6,8 +6,6 @@
 </head>
 <body>
 
-			
-		
 		<div id= "one1">
 		<h3>Public Complain</h3>
 		<table>
@@ -19,7 +17,9 @@
           {% for item in lists1 %}
       <tr> 
         <td>{{ item.cid }}</td>
+
         <td><a href="">{{ item.subject }}</a></td>
+
         <td>{{ item.time }}</td>
     </tr>
     {% endfor %}
@@ -38,12 +38,14 @@
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
-    </tr>
+      </tr>
     {% endfor %}
+
   	
     </table>
     </div>
     
+
 
 </body>
 </html>

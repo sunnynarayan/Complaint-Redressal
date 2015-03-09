@@ -3,36 +3,33 @@
 <head>
 <style >
    #one {
-    border-right: 3px
+   	border-right: 3px
    }
 
 </style>
-
-
-
 </head>
 <body>
 <div id="right">
-  <div id= "one">
-    <h3>Public Complain</h3>
-    <table>
+	<div id= "one">
+		<h3>Public Complain</h3>
+		<table>
       <tr>
         <th>Complain ID</th>
         <th>Subject</th>
         <th>Date</th>
       </tr>
-          {% for item in lists1 %}
+          {% for item in list %}
       <tr> 
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
     </tr>
     {% endfor %}
-</table>
+</table><!-- 
     </div>
     <div id="two">
-      <h3>Private Complain</h3>
-      <table>
+  		<h3>Private Complain</h3>
+  		<table>
       <tr>
         <th>Complain ID</th>
         <th>Subject</th>
@@ -45,7 +42,8 @@
         <td>{{ item.time }}</td>
     </tr>
     {% endfor %}
-    <div>
-  <div>
+</table>
+  	</div> -->
+  </div>
 </body>
 </html>

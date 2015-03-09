@@ -30,12 +30,14 @@
         <th>Complain ID</th>
         <th>Subject</th>
         <th>Date</th>
+        <th>Comments</th>
       </tr>
           {% for item in list %}
       <tr> 
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
+        <td>{{ item.comments }}</td>
     </tr>
     {% endfor %}
 </table><!-- 

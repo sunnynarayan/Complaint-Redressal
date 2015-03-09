@@ -12,31 +12,44 @@ import datetime
 from login.models import *
 import re
 
-def studentComplainView(request):
-	uid=request.session.get('uid')
-	ComplainObjects = Complain.objects.all().filter(uid = uid)
-	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects});
+# def isStudent(request):
+# 	user_type = request.session.get("user_type")
 
+# 	if user_type != "student":
+# 		return redirect('/crs/')
+
+def studentComplainView(request):
+	# isStudent(request)
+	uid=request.session.get('uid')
+	ComplainObjects = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = ' + str(uid) + ' OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
+	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects});
 	
 def studentLodgeComplain(request):
+	# isStudent(request)
 	return render_to_response('student/studLodgeComplain.html');
 
 def studentHome(request):
+	# isStudent(request)
 	return render_to_response('student/studentHome.html');
 
 def studentProfile(request):
+	# isStudent(request)
 	return render_to_response('student/studentProfile.html');
 
 def studentViewRate(request):
+	# isStudent(request)
 	return render_to_response('student/studViewRate.html');
 
 def studentPoll(request):
+	# isStudent(request)
 	return render_to_response('student/studPoll.html');
 
 def studentHostelLeave(request):
+	# isStudent(request)
 	return render_to_response('student/studHostelLeave.html');
 
 def studentMessRebate(request):
+	# isStudent(request)
 	return render_to_response('student/messrebate.html');
 
 def getCatagory(str):
@@ -65,11 +78,13 @@ def getTypeDescription(code):
 
 
 def lodgeComplainDetail(request):
+	# isStudent(request)	
 	subject=request.POST.get('subject');
 	detail=request.POST.get('message');
 	catagory=getCatagory(request.POST.get('catagory'));
 	hostel=request.session.get("hostel");
 	time=datetime.datetime.now();
+	public = (request.POST.get('complainType') == "0");
 	uid=request.session.get('uid');	
 	history = "Complain added by " + request.session.get("name") + " at time : " + str(time) 
 	complainObj=Complain(uid = uid , time = time , hostel = hostel, type=catagory , subject	= subject, detail = detail, comments = 0, history = history );
@@ -77,6 +92,10 @@ def lodgeComplainDetail(request):
 	secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
 	secid = secretaryObj.uid
 	cid=(Complain.objects.get(uid = uid , time = time)).cid
-	CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
-	CLObj.save()
+	if (public == True):
+		CLObj = Complainlink(cid = cid, studid = 0, secid = secid)
+		CLObj.save()
+	else:		
+		CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
+		CLObj.save()
 	return redirect('../complainView/');

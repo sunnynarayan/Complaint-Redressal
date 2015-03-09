@@ -1,0 +1,110 @@
+body {
+			background-color: #E1DCE6;
+			width: 98%;
+			text-align: center;}
+			tr {
+				font-size: 18px;
+				width: 1px;
+			}
+			a:link {
+					color: #3E3E68;
+					text-decoration: none;}
+			a:hover {
+					text-decoration: underline;
+					font-weight: bold;	
+					color: black;
+				}
+			a:active{
+					color: #FFFFCC;	
+			}
+			#Left {
+					position: absolute;
+					top: 150px;
+					left: 0px;
+					font-family: "Comic Sans MS", sans-serif;
+					text-align: left;
+					width: 180px;
+					background-color:  #008dde
+
+			}
+			
+			#right{
+				position: absolute;
+				top: 150px;
+				left: 180px;
+				padding-left: 6px;
+				width: 86%;
+				border: 1px solid black;
+    			border-collapse: collapse;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: left;
+				background-color: #CCFFCC;
+
+			}#two1{
+				position: absolute;
+				top: 200px;
+				left: 56%;
+				width: 43%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: left;
+				background-color: #CCFFCC;
+				border: 1px solid black;
+    			border-collapse: collapse;
+			}
+			#one1{
+				position: absolute;
+				top: 200px;
+				left: 180px;
+				width: 43%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: left;
+				background-color: #CCFFCC;
+				border: 1px solid black;
+    			border-collapse: collapse;
+			}
+			#one{
+				position: absolute;
+				top: 200px;
+				left: 180px;
+				width: 43%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: center;
+				background-color: #CCFFCC;
+				border: 1px solid black;
+    			border-collapse: collapse;
+			}
+			#two{
+				border: 1px solid black;
+    			border-collapse: collapse;
+				position: absolute;
+				top: 200px;
+				left: 56%;
+				width: 43.8%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: center;
+				background-color: #CCFFCC;
+			}
+			#sidearm{
+				border: 2px solid blue;
+			}
+
+			#extra {
+				height: 105px;
+			}
+			#t1{
+				height: 30px;
+			}
+			#t{
+				text-align: center;
+				border: 2px solid black;
+			}
+			#dash{
+				width: 100%;
+				background-color:#FFFF99;
+				height: 1px; 
+			}
+			#head{
+				background-color: #FF6600
+				
+
+			}

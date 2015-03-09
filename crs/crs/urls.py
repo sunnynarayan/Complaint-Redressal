@@ -1,22 +1,22 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from user_module import views
+# from user_module import views
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^crs/', 'user_module.views.login'),
-    url(r'^login/$', 'user_module.views.afterLogin'),
+    url(r'^crs/', 'login.views.login'),
+    url(r'^login/$', 'login.views.afterLogin'),
     # url(r'^test/', 'user_module.views.ankt'),
-    url(r'logout', 'user_module.views.logout'),
-    url(r'^complainView/$', 'user_module.views.studentComplainView'),
-    url(r'^lodgeComplain/$', 'user_module.views.studentLodgeComplain'),
-	url(r'^studentHome/$', 'user_module.views.studentHome'),
-    url(r'^studentProfile/$', 'user_module.views.studentProfile'),
-    url(r'^studViewRate/$', 'user_module.views.studentViewRate'),
-    url(r'^messrebate/$', 'user_module.views.studentMessRebate'),
-    url(r'^studPoll/$', 'user_module.views.studentPoll'),
-    url(r'^studHostelLeave/$', 'user_module.views.studentHostelLeave'),
-    url(r'^lodgedComplainDetail/$', 'user_module.views.lodgeComplainDetail'),
+    url(r'logout', 'login.views.logout'),
+    url(r'^complainView/$', 'student.views.studentComplainView'),
+    url(r'^lodgeComplain/$', 'student.views.studentLodgeComplain'),
+	url(r'^studentHome/$', 'student.views.studentHome'),
+    url(r'^studentProfile/$', 'student.views.studentProfile'),
+    url(r'^studViewRate/$', 'student.views.studentViewRate'),
+    url(r'^messrebate/$', 'student.views.studentMessRebate'),
+    url(r'^studPoll/$', 'student.views.studentPoll'),
+    url(r'^studHostelLeave/$', 'student.views.studentHostelLeave'),
+    url(r'^lodgedComplainDetail/$', 'student.views.lodgeComplainDetail'),
 )

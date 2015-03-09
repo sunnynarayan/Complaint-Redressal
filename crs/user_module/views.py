@@ -10,16 +10,8 @@ from django.contrib.sessions.models import Session
 import hashlib
 import datetime
 from user_module.models import *
-# from django.contrib.auth.hashers import make_password
-# from django.contrib.auth.hashers import make_password
 
-#module for SHA256
-import re  #for reagex functions
-# def ankt(request):
-# 	abc = "mypassword"
-# 	hash_object = hashlib.sha256(b""+abc)
-# 	hex_dig = hash_object.hexdigest()
-# 	return render_to_response('user_module/untitled.html',{'ankit_chu':hex_dig});
+import re
 def logout(request):
 	request.session.flush()
 	return redirect('/crs/')
@@ -65,7 +57,7 @@ def login(request):
 
 	return render_to_response('user_module/loginPage.html', {'msg':''});		#if not then display the login page
 
-def afterLogin(request):#after login function working
+def afterLogin(request):								#after login function working
 	uname = request.POST.get('username','');
 	passwd = request.POST.get('password','');
 	if re.sub('[a-z.@0-9]',"",uname) != "":				#check username for possible SQL injection and other injections
@@ -83,7 +75,6 @@ def afterLogin(request):#after login function working
 			request.session['login']="True";
 			request.session['username']=uname;
 			request.session['user_type']="faculty";
-			# request.set_cookie['max_age']=60000;
 			return render_to_response('user_module/wardenViewComplain.html');
 		except:
 			return render_to_response('user_module/loginPage.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
@@ -96,7 +87,6 @@ def afterLogin(request):#after login function working
 			request.session['name'] = obj.name;
 			request.session['hostel']=obj.hostel;
 			request.session['uid'] = obj.uid;
-			# 	request.set_cookie['max_age']=60000;
 			request.session['user_type']="student";
 			return render_to_response('user_module/studentBase.html', {'msg':obj.name});
 		except:
@@ -109,10 +99,6 @@ def studentComplainView(request):
 	ComplainObjects = Complain.objects.all().filter(uid = uid)
 	return render_to_response('user_module/viewStudComplain.html',{'list' : ComplainObjects});
 
-# def viewComplaints(request):
-# 	objects1=Complaint.objects.all().filter(complainttype=0);#0 for priate complaint
-# 	objects2=Complaints.objects.all().filter(complainttype=1);#1 for public complaint complaint
-# 	return render_to_response('users/view_complaint.html',{'lists1':objects1},{'lists2':objects2});#sending two objects list to the html pages
 	
 def studentLodgeComplain(request):
 	return render_to_response('user_module/studLodgeComplain.html');
@@ -159,17 +145,15 @@ def getTypeDescription(code):
 	else:
 		return "Other"
 
+
 def lodgeComplainDetail(request):
 	subject=request.POST.get('subject');
 	detail=request.POST.get('message');
 	catagory=getCatagory(request.POST.get('catagory'));
-	# bypass=0;
 	hostel=request.session.get("hostel");
 	time=datetime.datetime.now();
 	uid=request.session.get('uid');	
 	history = "Complain added by " + request.session.get("name") + " at time : " + str(time) 
-	# sec_type=getSecretaryType(request.POST['Secretary']);
-	# complainType=getComplaintType(request.POST['com_type']);
 	complainObj=Complain(uid = uid , time = time , hostel = hostel, type=catagory , subject	= subject, detail = detail, comments = 0, history = history );
 	complainObj.save();
 	secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)

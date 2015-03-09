@@ -22,8 +22,11 @@ def login(request):
 		if request.session.get("login") == "True":							#check if the user is already logged in
 			if request.session.get("user_type")=="faculty" :		#if yes then redirect the request to home page according to whether faculty or student
 				return render_to_response('warden/wardenViewComplain.html');
+			elif request.session.get("user_type")=="secretary" :
+				return render_to_response('secretary/secHome.html');
 			else:
 				return render_to_response('student/studentBase.html');
+
 	except NameError:
 		return render_to_response('login/loginPage.html', {'msg':''});	
 
@@ -53,16 +56,22 @@ def afterLogin(request):								#after login function working
 	elif uname.endswith("stud"):
 		try:
 			uname = uname.replace("@stud","")
-			obj=Student.objects.get(username=uname,password=passwd);	#username  in stud table
+			obj = Student.objects.get(username=uname,password=passwd);	#username  in stud table
 			request.session['login']="True";
-			request.session['username']=uname;
+			request.session['username'] = uname;
 			request.session['name'] = obj.name;
-			request.session['hostel']=obj.hostel;
+			request.session['hostel']= obj.hostel;
 			request.session['uid'] = obj.uid;
-			request.session['user_type']="student";
-			return render_to_response('student/studentBase.html', {'msg':obj.name});
+
+			if obj.issec=="1":
+				request.session['user_type']="secretary";
+				return render_to_response('secretary/secHome.html', {'msg':obj.name}); 
+			else:
+				request.session['user_type']="student";
+				return render_to_response('student/studentBase.html', {'msg':obj.name});
+
 		except:
-			return render_to_response('login/loginPage.html', {'msg' : 'unknown user : ' + uname + "pass : " + passwd});
+			return render_to_response('login/loginPage.html', {'msg' : 'unknown user(line74) : ' + uname + "pass : " + passwd});
 	else:
-		return render_to_response('user_module/loginPage.html', {'msg' : 'username recieved : ' + uname + "pass : " + passwd});
+		return render_to_response('user_module/loginPage.html', {'msg' : 'username recieved(line76) : ' + uname + "pass : " + passwd});
 

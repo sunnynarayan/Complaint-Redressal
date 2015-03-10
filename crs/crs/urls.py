@@ -19,4 +19,7 @@ urlpatterns = patterns('',
     url(r'^studPoll/$', 'student.views.studentPoll'),
     url(r'^studHostelLeave/$', 'student.views.studentHostelLeave'),
     url(r'^lodgedComplainDetail/$', 'student.views.lodgeComplainDetail'),
+    url(r'^listComp/$', 'secretary.views.secComplainView'),
+    url(r'^secComp/$', 'secretary.views.secLodgeComplain'),
+   # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),
 )

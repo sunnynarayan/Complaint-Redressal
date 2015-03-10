@@ -16,37 +16,38 @@
 			</table>
 		</div>
 		<div id= "one1">
-		<h3>Public Complain</h3>
+		<h3>Public Complains</h3>
 		<table>
       <tr>
         <th>Complain ID</th>
         <th>Subject</th>
         <th>Date</th>
       </tr>
-          {% for item in list %}
+          {% for item in list1 %}
       <tr> 
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
-    </tr>
-    {% endfor %}
-</table>
+      </tr>
+          {% endfor %}
+    </table>
     </div>
-    <div id="two1">
-  		<h3>Private Complain</h3>
-  		<table>
+    <div id= "two1">
+    <h3>Private Complains</h3>
+    <table>
       <tr>
         <th>Complain ID</th>
         <th>Subject</th>
         <th>Date</th>
       </tr>
-          {% for item in lists2 %}
+          {% for item in list1 %}
       <tr> 
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
-    </tr>
-    {% endfor %}
-  	</div>
+      </tr>
+          {% endfor %}
+    </table>
+    </div>
 </body>
 </html>

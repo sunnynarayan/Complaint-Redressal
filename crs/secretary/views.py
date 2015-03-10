@@ -12,13 +12,40 @@ import re
 
 def secComplainView(request):
 	uid=request.session.get('uid')
-	complainObjects = complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid) AND complain.cid = complainLink.CID')
-	return render_to_response('secretary/secHome.html',{'list' : complainObjects});
+	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid) AND complain.cid = complainLink.CID')
+	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink, WHERE (complainLink.studID = uid) AND complain.cid = complainLink.CID')
+	return render_to_response('secretary/listComp.html',{'list1' : pubComplains, 'list2' : priComplains});
 
 def secLodgeComplain(request):
-	return render_to_response('student/secComp.html');
-	
+	return render_to_response('secretary/secComp.html');
 
+# def lodgeComplainDetail(request):
+# 	subject=request.POST.get('subject');
+# 	detail=request.POST.get('message');
+# 	catagory=getCatagory(request.POST.get('catagory'));
+# 	hostel=request.session.get("hostel");
+# 	time=datetime.datetime.now();
+# 	public = (request.POST.get('complainType') == "0");
+# 	uid=request.session.get('uid');	
+# 	history = "Complain added by " + request.session.get("name") + " at time : " + str(time) 
+# 	complainObj=Complain(uid = uid , time = time , hostel = hostel, type=catagory , subject	= subject, detail = detail, comments = 0, history = history );
+# 	complainObj.save();
+# 	secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
+# 	secid = secretaryObj.uid
+# 	cid=(Complain.objects.get(uid = uid , time = time)).cid
+# 	if (public == True):
+# 		CLObj = Complainlink(cid = cid, studid = 0, secid = secid)
+# 		CLObj.save()
+# 	else:		
+# 		CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
+# 		CLObj.save()
+# 	return redirect('../listComp/');
+	
+# def studentComplainView(request):
+# 	# isStudent(request)
+# 	uid=request.session.get('uid')
+# 	ComplainObjects = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = ' + str(uid) + ' OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
+# 	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects});
 
 # ComplainObjects = Complain.objects.raw('SELECT * FROM `complain`, complainLink, WHERE (complainLink.studID = 1000 OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
 
@@ -74,20 +101,3 @@ def secLodgeComplain(request):
 # 	else:
 # 		return "Other"
 
-
-# def lodgeComplainDetail(request):
-# 	subject=request.POST.get('subject');
-# 	detail=request.POST.get('message');
-# 	catagory=getCatagory(request.POST.get('catagory'));
-# 	hostel=request.session.get("hostel");
-# 	time=datetime.datetime.now();
-# 	uid=request.session.get('uid');	
-# 	history = "Complain added by " + request.session.get("name") + " at time : " + str(time) 
-# 	complainObj=Complain(uid = uid , time = time , hostel = hostel, type=catagory , subject	= subject, detail = detail, comments = 0, history = history );
-# 	complainObj.save();
-# 	secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
-# 	secid = secretaryObj.uid
-# 	cid=(Complain.objects.get(uid = uid , time = time)).cid
-# 	CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
-# 	CLObj.save()
-# 	return redirect('../complainView/');

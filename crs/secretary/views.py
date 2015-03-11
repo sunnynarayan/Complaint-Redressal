@@ -8,16 +8,30 @@ import hashlib
 import datetime
 from login.models import *
 import re
-
+from django.db import connection
 
 def secComplainView(request):
 	uid=request.session.get('uid')
-	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid) AND complain.cid = complainLink.CID')
+	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
 	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = uid) AND complain.cid = complainLink.CID')
 	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains});
 
 def secLodgeComplain(request):
 	return render_to_response('secretary/secComp.html');
+
+def forwardToWarden(request):
+	complainArray=request.POST.getlist('complain')
+	length = len(complainArray)
+	for x in range(0,length):
+		comid = complainArray[x]
+		ClO =Complainlink.objects.get(cid=comid)
+		ClO.woid = "1235"
+		ClO.save()
+	# complainObj.wardenID = wardenID
+	# complainObj.save()
+	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+
+
 
 # def lodgeComplainDetail(request):
 # 	subject=request.POST.get('subject');
@@ -100,4 +114,3 @@ def secLodgeComplain(request):
 # 		return "Maintenance"
 # 	else:
 # 		return "Other"
-

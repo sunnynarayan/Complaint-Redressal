@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^studViewRate/$', 'student.views.studentViewRate'),
     url(r'^messrebate/$', 'student.views.studentMessRebate'),
     url(r'^studPoll/$', 'student.views.studentPoll'),
+    url(r'^studProfile/$', 'student.views.studentProfile'),
     url(r'^studHostelLeave/$', 'student.views.studentHostelLeave'),
     url(r'^lodgedComplainDetail/$', 'student.views.lodgeComplainDetail'),
     url(r'^listComp/$', 'secretary.views.secComplainView'),
@@ -29,8 +30,8 @@ urlpatterns = patterns('',
     url(r'^forwardToWarden/$', 'secretary.views.forwardToWarden'),
     url(r'^wardenComplain/$', 'wardenOffice.views.wardenOfficeComplainView'),
     url(r'^forwardToWard/$', 'wardenOffice.views.forwardToWardenOffice'),
-
-
+    url(r'^changePassword/$', 'login.views.changePasswd'),
+    url(r'^restPassword/$', 'login.views.resetPasswd'),
     
 
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),

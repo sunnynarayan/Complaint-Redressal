@@ -99,3 +99,21 @@ def lodgeComplainDetail(request):
 		CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
 		CLObj.save()
 	return redirect('../complainView/');
+
+def studentProfile(request):
+	uid = request.session.get('uid')
+	student = Student.objects.get(uid=uid)
+	mobile = student.mobile
+	username = student.username
+	name = student.name
+	sex = student.sex
+	padd = student.padd
+	email = student.email
+	roll = student.roll
+	room = student.room
+	hostel = student.hostel
+	bloodgrp = student.bloodgrp
+	baccno = student.baccno
+	bank = student.bank
+	IFSC = student.ifsc
+	return render_to_response('student/studentProfile.html',{'mobile' : mobile, 'username' : username, 'name' : name, 'sex' : sex, 'padd' : padd, 'email' : email, 'roll' : roll, 'hostel' : hostel, 'room' : room, 'baccno' : baccno, 'bank' : bank, 'IFSC' : IFSC});

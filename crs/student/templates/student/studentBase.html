@@ -6,7 +6,11 @@
 <head>
   <title>IITP Complaint</title>
     <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
-    <link rel="stylesheet" type="text/css" href="../../static/user_module/studpage.css">
+    <link rel="stylesheet" type="text/css" href="../../static/student/basic.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/student/css.css">
+    <link rel="stylesheet" type="text/css" href="../../static/student/try.css">
+    <link rel="stylesheet" type="text/css" href="../../static/student/css2.css">
     <style></style>
     <script type="text/javascript">
     function view () {
@@ -57,35 +61,45 @@
       var temp = '<object  type="text/html" data="../studHostelLeave" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+    function resetPassword () {
+      // body...
 
+      var temp = '<object  type="text/html" data="../changePassword" style="height:600px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
 
 
     </script>
     </head>
 <body>
+<div id="upper">
   <img style="width:50%" src="../../static/img/system/sm_logo.png"> 
     <p >
       <span id = "s1" style="float: left;">User: {{msg}} </span>
       <span id = "s2" style="float: center;" >Student Logged In</span>
       <span id = "s3" style="float: right;"><a href="../../logout">Logout</a></span>
     </p>
+    </div>
     
-    <div id="Left">
-      <table id="sidearm">
-        <tr id="t"><td><a href="https://iitp.ac.in"><img src="../../static/img/system/spacer.gif"></a></td></tr>
-        <tr id="t1"><td><button type="submit" onclick="home()" style="height:40px;width:170px;">Home</button></td></tr>
-        <tr id="t1"><td><button type="button" onclick="view()" style="height:40px;width:170px;">View Complian</button></td></tr>
-        <tr id="t1"><td><button type="button" onclick="lodge()" style="height:40px;width:170px;">Lodge Complain</button></td></tr>
-        <tr id="t1"><td><button type="button" onclick="editprofile()" style="height:40px;width:170px;">Edit Profile</button></td></tr>
-        <tr id="t1"><td><button type="button" onclick="view_rate()" style="height:40px;width:170px;">View and Rate Secretary</button></td></tr>
-        <tr id="t1"><td><button type="button" onclick="messrebate()" style="height:40px;width:170px;">Mess Rebate</button></td></tr>
-        <tr id="t1"><td><button type="button" onclick="poll()" style="height:40px;width:170px;">Poll</button></td></tr>
-        <tr id="t1"><td><button type="button" onclick="hostel_leave()" style="height:40px;width:170px;">Hostel Leaving Info</button></td></tr>
-        <tr id="extra"><td></td></tr>
-      </table>
-    </div id>
+    <div class="menu-wrap2">
+        <nav class="menu2">
+        <ul class="clearfix">
+            <li class="current-item"><a href="https://iitp.ac.in"><img src="../../static/img/system/spacer.gif"></a></li>
+            <li><a  onClick="home()">Home</a></li>
+            <li><a  onClick="view()">View</a></li>
+            <li><a  onClick="lodge()">Lodge</a></li>
+            <li><a  onClick="editprofile()">Edit profile</a></li>
+            <li><a  onClick="view_rate()">View &amp; Rate Sec.</a></li>
+            <li><a  onClick="messrebate()">Mess Rebate</a></li>
+            <li><a  onClick="poll()">Poll</a></li>
+            <li><a  onClick="hostel_leave()">Hostel leave Info.</a></li>
+            <li><a  onClick="resetPassword()">Change Password</a></li>
+        </ul>
+        </nav>
+    </div>
     <div id="right">
       <object  type="text/html" data="../complainView" style="height:600px;width:100%;"></object>
     </div>
   </body>
+
 </html>

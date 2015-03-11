@@ -51,7 +51,10 @@ def afterLogin(request):								#after login function working
 			request.session['username']=uname;
 			request.session['user_type']="faculty";
 			request.session['uid']= obj.fid;
-			return render_to_response('warden/wardenBase.html');
+			if uname=='nalin':
+				return render_to_response('wardenOffice/wardenHome.html', {'msg' : obj.name});
+			else:
+				return render_to_response('warden/wardenBase.html', {'msg' : obj.name})
 		except:
 			return render_to_response('login/loginPage.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
 	elif uname.endswith("stud"):

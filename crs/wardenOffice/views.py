@@ -16,29 +16,44 @@ from student.views import getTypeDescription,getCatagory
 
 def wardenOfficeComplainView(request):
 
-	uid=request.session.get('uid')		
+		uid=request.session.get('uid')
 	# PublicComplainObjects = Complainlink.objects.all?().filter(wardenid = uid).filter(studid = 0);
-	query1 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID = 0'
-	PublicComplainObjects = Complainlink.objects.raw(query1)
-	query2 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID != 0'
-	PrivateComplainObjects = Complainlink.objects.raw(query2)
+		query1 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID = 0'
+		PublicComplainObjects = Complainlink.objects.raw(query1)
+		query2 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID != 0'
+		PrivateComplainObjects = Complainlink.objects.raw(query2)
 	# PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
-	Privatelist=[];
-	Publiclist=[];
-	for num in PrivateComplainObjects:
-		numCid=num.cid
-		Privatelist.append(Complain.objects.get(cid=numCid));		#username  in fac table
-	for num in PublicComplainObjects:
-		numCid=num.cid
-		Publiclist.append(Complain.objects.get(cid=numCid));
-	return render_to_response('wardenOffice/wardenOfficeViewComplain.html',{'list1' : Publiclist, 'list2':Privatelist});
+		Privatelist=[];
+		Publiclist=[];
+		for num in PrivateComplainObjects:
+			numCid=num.cid
+			Privatelist.append(Complain.objects.get(cid=numCid));		#username  in fac table
+		for num in PublicComplainObjects:
+			numCid=num.cid
+			Publiclist.append(Complain.objects.get(cid=numCid));
+		return render_to_response('wardenOffice/wardenAllComplain.html',{'list1' : Publiclist, 'list2':Privatelist});
 
 def wardenOfficeHome(request):
 	try:
 		uid=request.session.get('uid')
-		return render_to_response('wardenOffice/wardenOfficeHome.html');
+		return render_to_response('wardenOffice/wardenHome.html');
 	except:
 		return render_to_response('login/loginPage.html');
+
+def forwardToWardenOffice(request):
+	complainArray=request.POST.getlist('complain')
+	length = len(complainArray)
+	for x in range(0,length):
+		comid = complainArray[x]
+		ClO =Complainlink.objects.get(cid=comid)
+		hostel=(Complain.objects.get(cid=comid)).hostel
+		wardenId = (Warden.objects.get(hostel=hostel)).fid
+		ClO.wardenid = wardenId
+		ClO.save()
+	# complainObj.wardenID = wardenID
+	# complainObj.save()
+	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+
 
 def viewSecretary(request):
 	# try:
@@ -67,3 +82,4 @@ def viewSecretary(request):
 
 
 # Create your views here.
+

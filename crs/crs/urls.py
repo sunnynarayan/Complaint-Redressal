@@ -20,12 +20,17 @@ urlpatterns = patterns('',
     url(r'^studHostelLeave/$', 'student.views.studentHostelLeave'),
     url(r'^lodgedComplainDetail/$', 'student.views.lodgeComplainDetail'),
     url(r'^listComp/$', 'secretary.views.secComplainView'),
+    url(r'^listCompWardenOffice/$', 'wardenOffice.views.wardenOfficeComplainView'),
     url(r'^secComp/$', 'secretary.views.secLodgeComplain'),
     url(r'^wardenHome/$', 'warden.views.wardenHome'),
     url(r'^wardenViewComplain/$', 'warden.views.wardenComplainView'),
     url(r'^wardenViewSecretary/$', 'warden.views.viewSecretary'),
     url(r'^wardenEditProfile/$', 'warden.views.wardenEditProfile'),
     url(r'^forwardToWarden/$', 'secretary.views.forwardToWarden'),
+    url(r'^wardenComplain/$', 'wardenOffice.views.wardenOfficeComplainView'),
+    url(r'^forwardToWard/$', 'wardenOffice.views.forwardToWardenOffice'),
+
+
     
 
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),

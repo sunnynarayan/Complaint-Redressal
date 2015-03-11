@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head><link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/wardenOffice/basic.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/wardenOffice/css.css">
+    <link rel="stylesheet" type="text/css" href="../../static/wardenOffice/try.css">
+    <link rel="stylesheet" type="text/css" href="../../static/wardenOffice/css2.css">
+<style >
+   
+</style>
+</head>
+<body>
+<form id="FORM" action="../forwardToWard/" method="POST">        <!-- Add action-->
+<div class="menu-wrap"> 
+      <button type="submit" form="FORM" value="">Submit</button>
+
+        <nav class="menu">
+        <ul class="clearfix">
+            <li class="current-item"><a href="#">Statistics</a></li>
+            <li>
+                <a href="#">List By <span class="arrow">&#9660;</span></a>
+ 
+                <ul class="sub-menu">
+                    <li><a href="#">ECO</a></li>
+                    <li><a href="#">Mess</a></li>
+                    <li><a href="#">Technical</a></li>
+                    <li><a href="#">Maintenance</a></li>
+                </ul>
+            </li>
+            <li><a href="">Forward to warden</a></li>
+            
+            <li><a href="#">Delete</a></li>
+        </ul>
+        </nav>
+    </div>
+
+	<div id= "one1">
+		<h3>Complains forwarded by Secretaries </h3>
+		<table>
+      <tr>
+      	<th>&nbsp;</th>
+        <th>Complain ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+        <th>Comments</th>
+      </tr>
+          {% for item in list1 %}
+      <tr> 
+      	<td><input type="checkbox" class="checked" name="complain" value="{{ item.cid }}"></td>
+        <td>{{ item.cid }}</td>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.time }}</td>
+        <td>{{ item.comments }}</td>
+    </tr>
+    {% endfor %}
+</table> 
+    </div>
+    <div id="two1">
+  		<h3>Private Complain</h3>
+  		<table>
+      <tr>
+        <th>Complain ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+      </tr>
+          {% for item in list2 %}
+      <tr>
+      	<td><input type="checkbox" name="complain" value="{{ item.cid }}"></td>
+        <td>{{ item.cid }}</td>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.time }}</td>
+    </tr>
+    {% endfor %}
+</table>
+  	</div> 
+  </div>
+  </div>
+</form>
+</body>
+</html>

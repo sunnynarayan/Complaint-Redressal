@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/wardenOffice/basic.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/wardenOffice/css.css">
+    <link rel="stylesheet" type="text/css" href="../../static/wardenOffice/try.css">
+    <link rel="stylesheet" type="text/css" href="../../static/wardenOffice/css2.css">
+	<title>View Complain</title>
+  <script type="text/javascript">
+  function view () {
+    // body...
+      var temp = '<object  type="text/html" data="../wardenComplain" style="height:425px;width:100%;"></object>' 
+                                                                                                        // url = listwancomp
+      document.getElementById("right").innerHTML = temp;
+  }
+  </script>
+</head>
+<body>
+    <div id="upper">
+	  <img style="width:50%" src="../../static/img/system/sm_logo.png"> 
+    <p >
+      <span id = "s1" style="float: left;">User: {msg} </span>
+      <span id = "s2" style="float: center;" > Warden Office</span>
+      <span id = "s3" style="float: right;"><a href="../../logout">Logout</a></span>
+    </p>
+    </div>
+    <div class="menu-wrap2" >
+        <nav class="menu2">
+        <ul class="clearfix">
+            <li class="current-item"><a href="https://iitp.ac.in"><img src="../../static/img/system/spacer.gif"></a></li>
+            <li><a onClick="view()">View Complains</a></li>
+            
+            <li><a onClick="view_rate()">View Sec.</a></li>
+            <li><a onClick="messrebate()">View Mess Rebate</a></li>
+            <li><a onClick="poll()">Poll Status</a></li>
+            <li><a onClick="hostel_leave()">Hostel leave Info.</a></li>
+            <li><a href="" onClick="helloWorld()">More options</a></li>
+        </ul>
+        </nav>
+    </div>
+     
+    <div id="right">
+      <object  type="text/html" data="../wardenComplain" style="height:425px;width:100%;"></object>
+    </div>
+   
+</body>
+</html>

@@ -128,7 +128,7 @@ class Complainlink(models.Model):
     wardenid = models.IntegerField(db_column='wardenID', blank=True, null=True) # Field name made lowercase.
     class Meta:
        managed = False
-        db_table = 'complainLink'
+       db_table = 'complainLink'
 
 class DjangoAdminLog(models.Model):
     id = models.IntegerField(primary_key=True)

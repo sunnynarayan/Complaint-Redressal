@@ -3,12 +3,43 @@
 <head>
 	<title></title>
 </head>
+<style type="text/css">
+	body{
+		text-align: center;
+		color: #090;
+	}
+	form{
+		border : solid;
+		margin-left: 20%;
+		margin-right: 20%;
+	}
+	.inpText:hover{
+		background-color: #8888BB;
+		color: #FFF;
+	}
+	.inpText{
+		margin-left: 20px;
+	}
+
+</style>
 <body>
-<div id="right">
-	
-
-	This is a test  for profile
-
-  </div>
+	<div id="right">
+		
+		<h3>My Profile</h3>	
+		<form>
+			<p><label>Username:</label><input class = "inpText"  type="text" value="{{username}}"></p>
+			<p><label>Name:</label><input class = "inpText"  type="text" value="{{name}}"></p>
+			<p><label>Mobile:</label><input  class = "inpText" type="text" value="{{mobile}}"></p>
+			<p><label>Sex:</label><input  class = "inpText" type="text" value="{{sex}}"></p>
+			<p><label>Permanent Address:</label><input  class = "inpText" type="text" value="{{padd}}"></p>
+			<p><label>Email:</label><input class = "inpText"  type="text" value="{{email}}"></p>
+			<p><label>Hostel:</label><input class = "inpText"  type="text" value="{{hostel}}"></p>
+			<p><label>Room No.:</label><input  class = "inpText" type="text" value="{{room}}"></p>
+			<p><label>Blood Group:</label><input  class = "inpText" type="text" value="{{bloodgrp}}"></p>
+			<p><label>Bank Acc. No.:</label><input class = "inpText"  type="text" value="{{baccno}}"></p>
+			<p><label>Bank:</label><input  class = "inpText" type="text" value="{{bank}}"></p>
+			<p><label>IFSC:</label><input class = "inpText"  type="text" value="{{IFSC}}"></p>
+	 	</form>
+	 </div>
 </body>
 </html>

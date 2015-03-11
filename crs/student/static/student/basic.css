@@ -1,4 +1,5 @@
 body {
+
 			}
 			#upper{
 			background-color: orange;
@@ -43,7 +44,7 @@ body {
 				font-family: "Comic Sans MS", sans-serif;
 				text-align: left;
 				background-color: #CCFFCC;
-
+				height: auto;
 			}#two1{
 				position: absolute;
 				top: 50px;
@@ -116,7 +117,5 @@ body {
 				height: 1px; 
 			}
 			#head{
-				background-color: #FF6600
-				
-
+				background-color: #FF6600;
 			}

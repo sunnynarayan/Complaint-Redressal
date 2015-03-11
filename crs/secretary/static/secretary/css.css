@@ -59,7 +59,9 @@ body {
     display:inline-block;
     text-shadow:0px 1px 0px rgba(0,0,0,0.4);
 }
- 
+ .menu > ul > .current-item{
+    background-color:#525252;
+ }
 .menu > ul > li:hover > a, .menu > ul > .current-item > a {
     background:#2e2728;
 }

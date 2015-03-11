@@ -12,12 +12,10 @@
 <body>
 <form id="FORM" action="../forwardToWarden/" method="POST">
     <div class="menu-wrap">
-        
-        <button type="submit" form="FORM" value="">Submit</button>
-        <!-- <button type="button" onclick="complainList()" style="height:40px;width:170px;">submit</button> -->
         <nav class="menu">
         <ul class="clearfix">
             <li class="current-item"><a href="#">Home</a></li>
+
             <!-- <li>
                 <a href="#">Forward to <span class="arrow"> &#9660; </span></a>
  
@@ -35,6 +33,7 @@
             </li>-->
             <li ><a href="#">Photos</a></li>
             <li><a href="#">Site Help</a></li>
+            <li class="s_button"><button type="submit" form="FORM" value="" style="height:50px;">Forward to Warden</button></li>
         </ul>
         </nav>
     </div>
@@ -77,6 +76,7 @@
           {% endfor %}
     </table>
     </div>
+
    </form>
 </body>
 </html>

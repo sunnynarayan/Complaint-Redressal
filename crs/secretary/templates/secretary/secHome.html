@@ -12,8 +12,19 @@
       var temp = '<object  type="text/html" data="../listComp/" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+
     function lodge () {
       var temp = '<object  type="text/html" data="../secComp/" style="height:600px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+
+    function editprofile () {
+      var temp = '<object  type="text/html" data="..//" style="height:600px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+
+    function hostelLeave () {
+      var temp = '<object  type="text/html" data="../studHostelLeave/" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     </script>
@@ -37,13 +48,13 @@
             <li><a onClick="view_rate()">View &amp; Rate Sec.</a></li>
             <li><a onClick="messrebate()">Mess Rebate</a></li>
             <li><a onClick="poll()">Poll</a></li>
-            <li><a onClick="hostel_leave()">Hostel leave Info.</a></li>
+            <li><a onClick="hostelLeave()">Hostel leave Info.</a></li>
             <li><a href="" onClick="helloWorld()">More options</a></li>
         </ul>
         </nav>
     </div>
     <div id="right">
-      <object  type="text/html" data="../listComp/" style="height:514px;width:100%;"></object>
+      <object  type="text/html" data="../listComp/" style="height:700px;width:100%;"></object>
     </div>
   </body>
 </html>

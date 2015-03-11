@@ -13,8 +13,8 @@ import re
 def secComplainView(request):
 	uid=request.session.get('uid')
 	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid) AND complain.cid = complainLink.CID')
-	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink, WHERE (complainLink.studID = uid) AND complain.cid = complainLink.CID')
-	return render_to_response('secretary/listComp.html',{'list1' : pubComplains, 'list2' : priComplains});
+	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = uid) AND complain.cid = complainLink.CID')
+	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains});
 
 def secLodgeComplain(request):
 	return render_to_response('secretary/secComp.html');

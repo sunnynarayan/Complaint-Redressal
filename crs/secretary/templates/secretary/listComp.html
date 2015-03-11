@@ -2,19 +2,40 @@
 <html>
 <head>
 	<title>View Complains</title>
-	
+	<link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/basic.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/css.css">
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/try.css">
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/css2.css">
 </head>
 <body>
-<div id="right">
-			<table>
-				<tr>
-					<td><button type="button" onclick="delete() "style="height:40px;width:170px;">Delete Complains</button></td>
-					<td><button type="button" onclick="chang_deprt() "style="height:40px;width:170px;">Change Department</button></td>
-					<td><button type="button" onclick="forward() "style="height:40px;width:170px;">Forward</button></td>
-					<td><button type="button" onclick="list() "style="height:40px;width:170px;">List By</button></td>
-				</tr>
-			</table>
-		</div>
+    <div class="menu-wrap">
+        <nav class="menu">
+        <ul class="clearfix">
+            <li class="current-item"><a href="#">Home</a></li>
+            <li>
+                <a href="#">Forward to <span class="arrow">&#9660;</a>
+ 
+                <ul class="sub-menu">
+                    <li><a href="#">Warden Office</a></li>
+                    <li><a href="#">CC</a></li>
+                </ul>
+            </li>
+           <!-- <li><a href="#">List By</a>
+              <ul class="sub-menu">
+                    <li><a href="#">date</a></li>
+                    <li><a href="#">CC</a></li>
+                </ul>
+            </li>-->
+            <li ><a href="#">Photos</a></li>
+            <li><a href="#">Site Help</a></li>
+        </ul>
+        </nav>
+    </div>
+
+			
+		
 		<div id= "one1">
 		<h3>Public Complains</h3>
 		<table>
@@ -23,7 +44,7 @@
         <th>Subject</th>
         <th>Date</th>
       </tr>
-          {% for item in list1 %}
+          {% for item in public %}
       <tr> 
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
@@ -40,7 +61,7 @@
         <th>Subject</th>
         <th>Date</th>
       </tr>
-          {% for item in list1 %}
+          {% for item in private %}
       <tr> 
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>

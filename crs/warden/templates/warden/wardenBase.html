@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<title>View Complain</title>
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/user_module/basic.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/user_module/css.css">
+    <link rel="stylesheet" type="text/css" href="../../static/user_module/try.css">
+    <link rel="stylesheet" type="text/css" href="../../static/user_module/css2.css">
+	 <script type="text/javascript">
+    function viewComplain() {
+      // body...
+      
+      var temp = '<object  type="text/html" data="../complainView" style="height:600px;width:100%;"></object>' 
+      document.getElementById("right").innerHTML = temp;
+    }
+    function viewSecretary() {
+      // body...
+      
+      var temp = '<object  type="text/html" data="" style="height:600px;width:100%;"></object>'   // check data
+      document.getElementById("right").innerHTML = temp;
+    }
+    function viewPollResults() {
+      // body...
+      
+      var temp = '<object  type="text/html" data="" style="height:600px;width:100%;"></object>'   // check data
+      document.getElementById("right").innerHTML = temp;
+    </script>
+</head>
+<body>
+<div id="upper">
+	<img style="width:50%" src="../../static/img/system/sm_logo.png"> 
+    <p >
+      <span id = "s1" style="float: left;">User: {msg} </span>
+      <span id = "s2" style="float: center;" > Warden Logged In</span>
+      <span id = "s3" style="float: right;"><a href="../../logout">Logout</a></span>
+    </p>
+    </div>
+    
+    <div class="menu-wrap2" >
+        <nav class="menu2">
+        <ul class="clearfix">
+            <li class="current-item"><a href="https://iitp.ac.in"><img src="../../static/img/system/spacer.gif"></a></li>
+            <li><a onClick="viewComplain()">View Complain</a></li>
+            <li><a onClick="viewSecretary()">View Secretary</a></li>
+            <li><a onClick="viewPollResult()">View Poll Results</a></li>
+        </ul>
+        </nav>
+    </div>
+    <div id="right">
+      <object  type="text/html" data="../wardenviewcomplain" style="height:600px;width:100%;"></object>
+    </div>
+   
+</body>
+</html>

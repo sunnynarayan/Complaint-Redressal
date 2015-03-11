@@ -144,7 +144,7 @@ class Complain(models.Model):
 
 
 class Complainlink(models.Model):
-    cid = models.IntegerField(db_column='CID')  # Field name made lowercase.
+    cid = models.IntegerField(db_column='CID', primary_key=True)  # Field name made lowercase.
     studid = models.IntegerField(db_column='studID', blank=True, null=True)  # Field name made lowercase.
     secid = models.IntegerField(db_column='secID', blank=True, null=True)  # Field name made lowercase.
     woid = models.IntegerField(db_column='woID', blank=True, null=True)  # Field name made lowercase.

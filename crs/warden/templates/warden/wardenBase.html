@@ -12,13 +12,13 @@
     function viewComplain() {
       // body...
       
-      var temp = '<object  type="text/html" data="../complainView" style="height:600px;width:100%;"></object>' 
+      var temp = '<object  type="text/html" data="../wardenViewComplain/" style="height:600px;width:100%;"></object>' 
       document.getElementById("right").innerHTML = temp;
     }
     function viewSecretary() {
       // body...
       
-      var temp = '<object  type="text/html" data="" style="height:600px;width:100%;"></object>'   // check data
+      var temp = '<object  type="text/html" data="../wardenViewSecretary/" style="height:600px;width:100%;"></object>'   // check data
       document.getElementById("right").innerHTML = temp;
     }
     function viewPollResults() {
@@ -42,14 +42,14 @@
         <nav class="menu2">
         <ul class="clearfix">
             <li class="current-item"><a href="https://iitp.ac.in"><img src="../../static/img/system/spacer.gif"></a></li>
-            <li><a onClick="viewComplain()">View Complain</a></li>
-            <li><a onClick="viewSecretary()">View Secretary</a></li>
-            <li><a onClick="viewPollResult()">View Poll Results</a></li>
+            <li><button type="button" onclick="viewComplain()" style="height:40px;width:170px;">View Complain</button></li>
+            <li><button type="button" onclick="viewSecretary()" style="height:40px;width:170px;">View Secretary</button></li>
+            <li><button type="button" onclick="viewPollResult()" style="height:40px;width:170px;">View Poll Results</button></li>
         </ul>
         </nav>
     </div>
     <div id="right">
-      <object  type="text/html" data="../wardenviewcomplain" style="height:600px;width:100%;"></object>
+      <object  type="text/html" data="../wardenViewComplain" style="height:600px;width:100%;"></object>
     </div>
    
 </body>

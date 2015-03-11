@@ -10,18 +10,23 @@
     <link rel="stylesheet" type="text/css" href="../../static/secretary/css2.css">
 </head>
 <body>
+<form id="FORM" action="../forwardToWarden/" method="POST">
     <div class="menu-wrap">
+        
+        <button type="submit" form="FORM" value="">Submit</button>
+        <!-- <button type="button" onclick="complainList()" style="height:40px;width:170px;">submit</button> -->
         <nav class="menu">
         <ul class="clearfix">
             <li class="current-item"><a href="#">Home</a></li>
-            <li>
-                <a href="#">Forward to <span class="arrow">&#9660;</a>
+            <!-- <li>
+                <a href="#">Forward to <span class="arrow"> &#9660; </span></a>
  
                 <ul class="sub-menu">
-                    <li><a href="#">Warden Office</a></li>
-                    <li><a href="#">CC</a></li>
+
+                    <li><a type="submit" href="../forwardToWarden/">Warden Office</a></li>
+                    <li><a type="submit" href="#">CC</a></li>
                 </ul>
-            </li>
+            </li> -->
            <!-- <li><a href="#">List By</a>
               <ul class="sub-menu">
                     <li><a href="#">date</a></li>
@@ -33,19 +38,19 @@
         </ul>
         </nav>
     </div>
-
-			
-		
+    <p id="sunny"></p>
 		<div id= "one1">
 		<h3>Public Complains</h3>
 		<table>
       <tr>
+        <th></th>
         <th>Complain ID</th>
         <th>Subject</th>
         <th>Date</th>
       </tr>
           {% for item in public %}
-      <tr> 
+      <tr>
+        <td><input type="checkbox" class="checked" name="complain" value="{{ item.cid }}"></td>
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
@@ -57,12 +62,14 @@
     <h3>Private Complains</h3>
     <table>
       <tr>
+        <th></th>
         <th>Complain ID</th>
         <th>Subject</th>
         <th>Date</th>
       </tr>
           {% for item in private %}
-      <tr> 
+      <tr>
+        <td><input type="checkbox" name="complain" value="{{ item.cid }}"></td>
         <td>{{ item.cid }}</td>
         <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
@@ -70,5 +77,6 @@
           {% endfor %}
     </table>
     </div>
+   </form>
 </body>
 </html>

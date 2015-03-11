@@ -27,6 +27,8 @@ urlpatterns = patterns('',
     url(r'^wardenViewSecretary/$', 'warden.views.viewSecretary'),
     url(r'^wardenEditProfile/$', 'warden.views.wardenEditProfile'),
     url(r'^forwardToWarden/$', 'secretary.views.forwardToWarden'),
+    url(r'^changePassword/$', 'login.views.changePasswd'),
+    url(r'^restPassword/$', 'login.views.resetPasswd'),
     
 
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),

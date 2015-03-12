@@ -23,15 +23,16 @@ def login(request):
 	try:
 		if request.session.get("login") == "True":							#check if the user is already logged in
 			if request.session.get("user_type")=="faculty" :		#if yes then redirect the request to home page according to whether faculty or student
-				return render_to_response('warden/wardenViewComplain.html');
+				if request.session.get("username") == "nalin":
+					return render_to_response('wardenOffice/wardenHome.html', {'msg' : 'Nalin Bharti'});
+				else :
+					return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
 			elif request.session.get("user_type")=="secretary" :
-				return render_to_response('secretary/secHome.html');
+				return render_to_response('secretary/secHome.html', {'msg' : request.session.get('name')});
 			else:
-				return render_to_response('student/studentBase.html');
-
+				return render_to_response('student/studentBase.html', {'msg' : request.session.get('name')});
 	except NameError:
 		return render_to_response('login/loginPage.html', {'msg':''});	
-
 	return render_to_response('login/loginPage.html', {'msg':''});		#if not then display the login page
 
 def afterLogin(request):								#after login function working
@@ -51,6 +52,7 @@ def afterLogin(request):								#after login function working
 			obj=Faculty.objects.get(username=uname,password=passwd);		#username  in fac table
 			request.session['login']="True";
 			request.session['username']=uname;
+			request.session['name'] = obj.name;
 			request.session['user_type']="faculty";
 			request.session['uid']= obj.fid;
 			if uname=='nalin':

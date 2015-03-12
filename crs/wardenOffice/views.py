@@ -34,11 +34,7 @@ def wardenOfficeComplainView(request):
 		return render_to_response('wardenOffice/wardenAllComplain.html',{'list1' : Publiclist, 'list2':Privatelist});
 
 def wardenOfficeHome(request):
-	try:
-		uid=request.session.get('uid')
-		return render_to_response('wardenOffice/wardenHome.html');
-	except:
-		return render_to_response('login/loginPage.html');
+	return render_to_response('wardenOffice/wardenHome.html', {'msg' : request.session.get('name') });
 
 def forwardToWardenOffice(request):
 	complainArray=request.POST.getlist('complain')
@@ -52,7 +48,7 @@ def forwardToWardenOffice(request):
 		ClO.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
-	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+	return redirect('../wardenComplain');
 
 
 def viewSecretary(request):

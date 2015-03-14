@@ -1,0 +1,13 @@
+from django.contrib import admin
+from login.models import *
+from secretary.models import *
+from student.models import *
+from warden.models import *
+from wardenOffice.models import *
+
+admin.site.register(login)
+admin.site.register(secretary)
+admin.site.register(student)
+admin.site.register(warden)
+admin.site.register(wardenOffice)
+

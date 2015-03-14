@@ -31,8 +31,8 @@ def forwardToWarden(request):
 	# complainObj.save()
 	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
-def editProfile(request):
-	return redirect('/xyz/')
+# def editProfile(request):
+# 	return redirect('//')
 
 
 # def lodgeComplainDetail(request):

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head><title>Secretary</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/basic.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/css.css">
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/try.css">
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/css2.css">
+    <script type="text/javascript">
+    function view () {
+      var temp = '<object  type="text/html" data="../listComp/" style="height:514px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+
+    function lodge () {
+      var temp = '<object  type="text/html" data="../secComp/" style="height:600px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+
+    function editprofile () {
+      var temp = '<object  type="text/html" data="../studentProfile/" style="height:600px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+
+    function hostelLeave () {
+      var temp = '<object  type="text/html" data="../studHostelLeave/" style="height:600px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+    </script>
+    </head>
+<body>
+<div id="upper">
+  <img style="width:50%" src="../../static/img/system/sm_logo.png"> 
+    <p >
+      <span id = "s1" style="float: left;">User: {{msg}} </span>
+      <span id = "s2" style="float: center;" > Secretary Logged In</span>
+      <span id = "s3" style="float: right;"><a href="../../logout">logout</a></span>
+    </p>
+    </div>
+    <div class="menu-wrap2" >
+        <nav class="menu2">
+        <ul class="clearfix">
+            <li class="current-item"><a href="https://iitp.ac.in"><img src="../../static/img/system/spacer.gif"></a></li>
+            <li><a onClick="view()">View</a></li>
+            <li><a onClick="lodge()">Lodge</a></li>
+            <li><a onClick="editprofile()">Edit profile</a></li>
+            <li><a onClick="view_rate()">View &amp; Rate Sec.</a></li>
+            <li><a onClick="messrebate()">Mess Rebate</a></li>
+            <li><a onClick="poll()">Poll</a></li>
+            <li><a onClick="hostelLeave()">Hostel leave Info.</a></li>
+            <li><a href="" onClick="helloWorld()">More options</a></li>
+        </ul>
+        </nav>
+    </div>
+    <div id="right">
+      <object  type="text/html" data="../listComp/" style="height:700px;width:100%;"></object>
+    </div>
+  </body>
+</html>

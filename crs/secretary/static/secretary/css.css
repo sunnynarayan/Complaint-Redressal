@@ -11,7 +11,7 @@ body {
 .menu-wrap {
     
     position: absolute;
-    
+    top: 0px;
     left:0px;
     width:100%;
     min-width: 900px;

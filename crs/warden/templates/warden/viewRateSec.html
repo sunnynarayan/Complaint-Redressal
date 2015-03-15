@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>View Rate Secretary</title>
+</head>
+<body>
+<h3>Ashoka Hall</h3>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Secretary</th>
+			<th>Rating</th>
+		</tr>
+		{% for item of secretary %}
+		<tr>
+			<td>{{ item.name }}</td>
+			<td>{{ item.post }}</td>
+			<td>{{ item.rating }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<h3>Chadakya Hall</h3>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Secretary</th>
+			<th>Rating</th>
+		</tr>
+		{% for item of secretary %}
+		<tr>
+			<td>{{ item.name }}</td>
+			<td>{{ item.post }}</td>
+			<td>{{ item.rating }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<h3>GBH Hall</h3>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Secretary</th>
+			<th>Rating</th>
+		</tr>
+		{% for item of secretary %}
+		<tr>
+			<td>{{ item.name }}</td>
+			<td>{{ item.post }}</td>
+			<td>{{ item.rating }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<h3>Aryabhatta Hall</h3>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Secretary</th>
+			<th>Rating</th>
+		</tr>
+		{% for item of secretary %}
+		<tr>
+			<td>{{ item.name }}</td>
+			<td>{{ item.post }}</td>
+			<td>{{ item.rating }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>

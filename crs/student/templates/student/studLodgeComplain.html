@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	
+	</style>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
+
+<script>
+$(document).ready(function() {
+$( "#custom" ).hide(); 
+$("#cust").click(function() {
+$( "#custom" ).show();});
+$("#pub").click(function() {
+$( "#custom" ).hide();});
+$("#pri").click(function() {
+$( "#custom" ).hide();});
+});
+</script>
+
+
 <div id="right">
 <form name="complainForm" action="../lodgedComplainDetail/" method="post">
 	<p id="s1">
@@ -15,25 +31,41 @@
 		<option value="Technical">Technical</option>
 		</select>
 	</p>
-	<p id="s1"><p id="s1">Select type of complain.</p>
-		<input type="radio" name="complainType" value="1" checked>Private
-	<br>
-	<input type="radio" name="complainType" value="0">Public
-	</p>
+	
 	<p id="s1">
 	<p> Subject</p>
 	<input type="text" name="subject" placeholder="Subject" > 
 				<p id="s1">Add description of complain.</p>
-		<textarea  name="message" rows="10" cols="70"placeholder="Write description of complain."></textarea>
-		
-		
+		<textarea  name="message" rows="10" cols="70"placeholder="Write description of complain."></textarea></p>
+		<p id="s1">Add picture of issue(Optional)&nbsp<input type="file" name="pic" accept="image/*" style="width: 300px"></p>
+  <p id="s1"><p id="s1">Select type of complain.</p>
+		<input id="pri" type="radio" name="complainType" value="1" checked>Private
+
+	<input id="pub" type="radio" name="complainType" value="0">Public
+
+	<input id="cust" type="radio" name="complainType" value="2">Custom
 	</p>
-	<p id="s1">Add picture of issue(Optional)</p>
-	</br>
-	  <input type="file" name="pic" accept="image/*" style="width: 300px">
-  <input type="submit" name = "Lodge" value="Lodge"style="width: 120px">
-  <span style="float: right;"><input type="submit" value="Cancel"style="width: 120px"></span>
+	<div id="custom" >
+  		<p>Add other people</p>
+  		<p><label for="first">First:</label>
+				<input type="text" name="first" required value="" >&nbsp
+			<label for="second">Second:</label>
+				<input type="text" name="second" required value="" >&nbsp
+			<label for="third">Third:</label>
+				<input type="text" name="third" required value="" >&nbsp
+			<label for="fourt">Fourth:</label>
+				<input type="text" name="fourth" required value="" >&nbsp
+			<label for="fifth">First:</label>
+				<input type="text" name="fifth" required value="" >
+			</p>
+  	 </div>
+  <span style="float: center;"><input id="" type="submit" name = "Lodge" value="Lodge"style="width: 120px"></span>
+  <span style="float: center;"><input type="submit" value="Cancel"style="width: 120px"></span>
+ 
 </form>
   </div>
+  
+
+
 </body>
 </html>

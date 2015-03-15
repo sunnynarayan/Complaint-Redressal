@@ -28,6 +28,12 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'softwareprojmanager@gmail.com'
+EMAIL_HOST_PASSWORD = 'hopelessnessbeyond'
+EMAIL_USE_TLS = True
+
 
 INSTALLED_APPS = (
     'django.contrib.admin',

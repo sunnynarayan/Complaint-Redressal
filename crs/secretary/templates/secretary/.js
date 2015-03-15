@@ -20,12 +20,11 @@ if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
 if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
 // Calculated strength value, we can return messages
 // If value is less than 2
-
-if (strength < 4   ) {
+if (strength < 3) {
 $('#result').removeClass()
 $('#result').addClass('weak')
 return 'Weak'
-} else if (strength == 4) {
+} else if (strength == 3) {
 $('#result').removeClass()
 $('#result').addClass('good')
 $('#submit').show();
@@ -36,6 +35,5 @@ $('#result').addClass('strong')
 $('#submit').show();
 return 'Strong'
 }
-
 }
 });

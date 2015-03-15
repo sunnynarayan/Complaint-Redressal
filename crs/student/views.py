@@ -17,6 +17,8 @@ import re
 
 # 	if user_type != "student":
 # 		return redirect('/crs/')
+def validatePassword(passwd):
+	return ((len(passwd) < 21) and (len(passwd) >7))
 
 def studentComplainView(request):
 	# isStudent(request)
@@ -100,16 +102,21 @@ def lodgeComplainDetail(request):
 		CLObj.save()
 	return redirect('../complainView/');
 
-def forgetpassword(request):
-	render_to_response(student/resetpassword.html)
+# def forgetPassword(request):#forgetpassword page loading
+	# render_to_response(student/resetpassword.html)
 
-def resettingpassword(request):
-	newpassword=request.POST.get('password');
-	uid=request.session.get('uid')
-	student = Student.objects.get(uid=uid)
-	student.password=newpassword
-	student.save()
-	render_to_response(student/studentHome.html)
+# def resettingPassword(request):#resetting password
+	# newpassword=request.POST.get('password');
+	# uid=request.session.get('uid')
+	# if validatePassword(newpassword):
+		# student = Student.objects.get(uid=uid)
+		# hash_object = hashlib.sha256(b""+newpassword)
+		# passwd = hash_object.hexdigest()
+		# student.password=passwd
+		# student.save()
+		# render_to_response(student/studentHome.html)
+	# else:
+		# render_to_response(student/studentHome.html,{'msg':Invalid Password})
 
 
 

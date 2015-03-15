@@ -100,6 +100,20 @@ def lodgeComplainDetail(request):
 		CLObj.save()
 	return redirect('../complainView/');
 
+def forgetpassword(request):
+	render_to_response(student/resetpassword.html)
+
+def resettingpassword(request):
+	newpassword=request.POST.get('password');
+	uid=request.session.get('uid')
+	student = Student.objects.get(uid=uid)
+	student.password=newpassword
+	student.save()
+	render_to_response(student/studentHome.html)
+
+
+
+
 def studentProfile(request):
 	uid = request.session.get('uid')
 	student = Student.objects.get(uid=uid)

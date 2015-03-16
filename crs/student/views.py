@@ -12,46 +12,56 @@ import datetime
 from login.models import *
 import re
 
-# def isStudent(request):
-# 	user_type = request.session.get("user_type")
+def isStudent(request):
+	user_type = request.session.get("user_type",'')
+	if user_type != "student":
+		return False
+	else:
+		return True
 
-# 	if user_type != "student":
-# 		return redirect('/crs/')
 def validatePassword(passwd):
 	return ((len(passwd) < 21) and (len(passwd) >7))
 
 def studentComplainView(request):
-	# isStudent(request)
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	uid=request.session.get('uid')
 	ComplainObjects = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = ' + str(uid) + ' OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
-	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects});
+	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects, 'user_type' : request.session.get('user_type')});
 	
 def studentLodgeComplain(request):
-	# isStudent(request)
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	return render_to_response('student/studLodgeComplain.html');
 
 def studentHome(request):
-	# isStudent(request)
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	return render_to_response('student/studentHome.html');
 
 def studentProfile(request):
-	# isStudent(request)
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	return render_to_response('student/studentProfile.html');
 
 def studentViewRate(request):
-	# isStudent(request)
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	return render_to_response('student/studViewRate.html');
 
 def studentPoll(request):
-	# isStudent(request)
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	return render_to_response('student/studPoll.html');
 
 def studentHostelLeave(request):
-	# isStudent(request)
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	return render_to_response('student/studHostelLeave.html');
 
 def studentMessRebate(request):
-	# isStudent(request)
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	return render_to_response('student/messrebate.html');
 
 def getCatagory(str):
@@ -80,7 +90,8 @@ def getTypeDescription(code):
 
 
 def lodgeComplainDetail(request):
-	# isStudent(request)	
+	if not (isStudent(request)):
+		return redirect('/crs/')	
 	subject=request.POST.get('subject');
 	detail=request.POST.get('message');
 	catagory=getCatagory(request.POST.get('catagory'));
@@ -122,6 +133,8 @@ def lodgeComplainDetail(request):
 
 
 def studentProfile(request):
+	if not (isStudent(request)):
+		return redirect('/crs/')
 	uid = request.session.get('uid')
 	student = Student.objects.get(uid=uid)
 	mobile = student.mobile

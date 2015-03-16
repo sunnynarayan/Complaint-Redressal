@@ -10,16 +10,29 @@ from login.models import *
 import re
 from django.db import connection
 
+def isSecretary(request):
+	user_type = request.session.get("user_type",'')
+	if user_type != "secretary":
+		return False
+	else:
+		return True
+
 def secComplainView(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
 	uid=request.session.get('uid')
 	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
 	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = uid) AND complain.cid = complainLink.CID')
 	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains});
 
 def secLodgeComplain(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
 	return render_to_response('secretary/secComp.html');
 
 def forwardToWarden(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
 	complainArray=request.POST.getlist('complain')
 	length = len(complainArray)
 	for x in range(0,length):

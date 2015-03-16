@@ -177,6 +177,7 @@ class Faculty(models.Model):
     off_ph = models.CharField(max_length=10)
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=128)
+    iswarden = models.IntegerField(db_column='isWarden')  # Field name made lowercase.
     class Meta:
         managed = False
         db_table = 'faculty'

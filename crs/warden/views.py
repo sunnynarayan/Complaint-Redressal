@@ -13,9 +13,17 @@ from login.models import *
 import re
 from student.views import getTypeDescription,getCatagory
 
+def isWarden(request):
+	user_type = request.session.get("user_type",'')
+	if user_type != "warden":
+		return False
+	else:
+		return True
+
 
 def wardenComplainView(request):
-
+	if not (isWarden(request)):
+		return redirect('/crs/')
 	uid=request.session.get('uid')		
 	# PublicComplainObjects = Complainlink.objects.all().filter(wardenid = uid).filter(studid = 0);
 	query1 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID = 0'
@@ -35,6 +43,8 @@ def wardenComplainView(request):
 
 
 def wardenHome(request):
+	if not (isWarden(request)):
+		return redirect('/crs/')
 	try:
 		uid=request.session.get('uid')
 		return render_to_response('warden/wardenHome.html');
@@ -42,6 +52,9 @@ def wardenHome(request):
 		return render_to_response('login/loginPage.html');
 
 def wardenProfile(request):
+	if not (isWarden(request)):
+		return redirect('/crs/')
+
 	try:
 		uid=request.session.get('uid')
 		return render_to_response('warden/wardenProfile.html');
@@ -49,6 +62,8 @@ def wardenProfile(request):
 		return render_to_response(login/loginPage.html);
 
 def viewSecretary(request):
+	if not (isWarden(request)):
+		return redirect('/crs/')
 	# try:
 	uid=request.session.get('uid')
 	ashokaseclist=[];
@@ -66,6 +81,9 @@ def viewSecretary(request):
 	# 	return render_to_response('login/loginPage.html');
 
 def wardenEditProfile(request):
+	if not (isWarden(request)):
+		return redirect('/crs/')
+		
 	try:
 		uid=request.session.get('uid');
 		obj=Faculty.objects.get(fid=uid);

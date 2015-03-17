@@ -17,23 +17,23 @@ def logout(request):
 	request.session['login']="False";
 	request.session.flush()
 	return redirect('/crs/')
-
 def validatePassword(passwd):
 	return ((len(passwd) > 20) or (len(passwd) < 8))
 
 def login(request):
 	try:
 		if request.session.get("login") == "True":							#check if the user is already logged in
-			if request.session.get("user_type")=="wardenOffice" :		#if yes then redirect the request to home page according to whether faculty or student
-				return render_to_response('wardenOffice/wardenHome.html', {'msg' : 'Nalin Bharti'});
-			elif request.session.get("user_type")=="warden":
+			if request.session.get("user_type")=="faculty" :		#if yes then redirect the request to home page according to whether faculty or student
+				if request.session.get("username") == "nalin":
+					return render_to_response('wardenOffice/wardenHome.html', {'msg' : 'Nalin Bharti'});
+				else :
 					return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
 			elif request.session.get("user_type")=="secretary" :
 				return render_to_response('secretary/secHome.html', {'msg' : request.session.get('name')});
 			else:
 				return render_to_response('student/studentBase.html', {'msg' : request.session.get('name')});
 	except NameError:
-		pass
+		return render_to_response('login/loginPage.html', {'msg':''});	
 	return render_to_response('login/loginPage.html', {'msg':''});		#if not then display the login page
 
 def afterLogin(request):								#after login function working
@@ -54,13 +54,11 @@ def afterLogin(request):								#after login function working
 			request.session['login']="True";
 			request.session['username']=uname;
 			request.session['name'] = obj.name;
-			# request.session['user_type']="faculty";
+			request.session['user_type']="faculty";
 			request.session['uid']= obj.fid;
-			if obj.iswarden == 2:
-				request.session['user_type']="wardenOffice";
+			if uname=='nalin':
 				return render_to_response('wardenOffice/wardenHome.html', {'msg' : obj.name});
-			elif obj.iswarden == 1:
-				request.session['user_type']="warden";
+			else:
 				return render_to_response('warden/wardenBase.html', {'msg' : obj.name})
 		except:
 			return render_to_response('login/loginPage.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
@@ -82,7 +80,7 @@ def afterLogin(request):								#after login function working
 				return render_to_response('student/studentBase.html', {'msg':obj.name});
 
 		except:
-			return render_to_response('login/loginPage.html');
+			return render_to_response('login/loginPage.html', {'msg' : obj.issec});
 	else:
 		return render_to_response('login/loginPage.html', {'msg' : 'username recieved(line76) : ' + uname + "pass : " + passwd});
 
@@ -155,7 +153,7 @@ def resettingPassword(request):#resetting password
 			passwd = hash_object.hexdigest()
 			obj.password=passwd
 			obj.save()
-			return HttpResponse('Password changed succeesfully')
+			return HttpResponse('Password changed successfully')
 	else:
 		return HttpResponse('Error in key')	
 
@@ -167,7 +165,7 @@ def sendEmailForPassword(request):
 		obj=Student.objects.get(username=username,email=email);
 		subject="Confirmation Link For Reset Password"
 		message='The Key is'+obj.key_value+'Click on the Confirmation LINK '+'http://127.0.0.1:8000/confirmationLink/';
-		send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)
+		send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)#sending mail
 		return render_to_response('login/messageSent.html')
 
 	elif username.endswith("fac"):

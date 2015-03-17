@@ -33,6 +33,10 @@ urlpatterns = patterns('',
     url(r'^forwardToWard/$', 'wardenOffice.views.forwardToWardenOffice'),
     url(r'^changePassword/$', 'login.views.changePasswd'),
     url(r'^restPassword/$', 'login.views.resetPasswd'),
+    url(r'^mailTo/$', 'login.views.sendEmailForPassword'),
+    url(r'^confirmationLink/$', 'login.views.forgetPassword'),
+    url(r'^ForgetPasswordButton/$', 'login.views.onClickForgetPassword'),
+    url(r'^newPassword/$', 'login.views.resettingPassword'),
     
 
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),

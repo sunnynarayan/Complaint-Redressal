@@ -105,7 +105,31 @@ def lodgeComplainDetail(request):
 		CLObj.save()
 	return redirect('../complainView/');
 
+def onClickForgetPassword(request):
+	render_to_response(student/emailPage.html)
 
+def forgetPassword(request):
+	render_to_response(student/forgetpassword.html)
+
+def resettingPassword(request):#resetting password
+	newpassword=request.POST.get('password');
+	uid=request.session.get('uid')
+	if validatePassword(newpassword):
+		student = Student.objects.get(uid=uid)
+		hash_object = hashlib.sha256(b""+newpassword)
+		passwd = hash_object.hexdigest()
+		student.password=passwd
+		student.save()
+		render_to_response(student/studentHome.html)
+	else:
+		render_to_response(student/studentHome.html,{'msg':Invalid Password})
+
+def sendEmailForPassword(request):
+	email=request.POST.get('email')
+	subject="Confirmation Link For Reset Password"
+	message=message()
+	send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)
+	render_to_response(student/messageSent.html)
 
 def studentProfile(request):
 	uid = request.session.get('uid')

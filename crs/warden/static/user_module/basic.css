@@ -1,17 +1,20 @@
 body {
 			}
 			#upper{
-			background-color: orange;
-			width: 100%;
-			height: 150px;
-			text-align: center;
+				background-image: url("../img/system/img-boat.jpg");
+			    
+			    background-repeat: no-repeat;
+			    background-size: 100%;
+				width: 100%;
+				height: 23.5%;
+				text-align: center;
 			}
 			tr {
 				font-size: 18px;
 				width: 1px;
 			}
 			a:link {
-					color: #3E3E68;
+					color: #FFF;
 					text-decoration: none;}
 			a:hover {
 					text-decoration: underline;
@@ -23,7 +26,7 @@ body {
 			}
 			#Left {
 					position: absolute;
-					top: 150px;
+					top: 23.5%;
 					left: 0px;
 					font-family: "Comic Sans MS", sans-serif;
 					text-align: left;
@@ -34,7 +37,7 @@ body {
 			
 			#right{
 				position: absolute;
-				top: 150px;
+				top: 23.5%;
 				left: 180px;
 				padding-left: 0px;
 				width: 86%;
@@ -127,3 +130,4 @@ body {
 				
 
 			}
+			#s1{color: #FFF;}

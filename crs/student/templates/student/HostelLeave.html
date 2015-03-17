@@ -9,34 +9,34 @@
    <div id="only">
    <h3>Hostel Leaving Form</h3>
 
-   <form name="Hostel Leaving" action="../studHostelLeave/" method="post">
+   <form name="Hostel Leaving" action="/studHostelLeave/" method="POST">
    <table>
     <tr>
       <td><label>Name:</label></td>
-      <td><input class = "inpText"  type="text" value="{{name}}"></td> 
+      <td><input class = "inpText"  type="text" value="{{obj.name}}"></td> 
     </tr>
     <tr>
     	<td><label>Roll No:</label></td>
-    	<td><input class = "inpText"  type="text" value="{{roll}}"></td>
+    	<td><input class = "inpText"  type="text" value="{{obj.roll}}"></td>
     </tr>
       <tr>
           <td><label>Hostel:</label></td>
-          <td><input class = "inpText"  type="text" value="{{hostel}}"></td>
+          <td><input class = "inpText"  type="text" value="{{obj.hostel}}"></td>
       </tr>
       <tr>
           <td><label>Mobile No:</label></td>
-          <td><input class = "inpText"  type="text" value="{{mobile}}"></td>
+          <td><input class = "inpText"  type="text" value="{{obj.mobile}}"></td>
       </tr>
       <tr>
           <td><label>StartDate:</label></td>
-          <td><input class = "inpText"  type="text" value=""></td>
+          <td><input class = "inpText"  name="start_date" type="text" value=""></td>
       </tr>
       <tr>
           <td><label>EndDate:</label></td>
-          <td><input class = "inpText"  type="text" value=""></td>
+          <td><input class = "inpText" name="end_date" type="text" value=""></td>
       </tr>
       <tr><td><label>Laptop:</label></td>
-      <td><select>
+      <td><select name = "laptop" > 
       <option value="Yes">Yes</option>
       <option value="No">No</option>
       </select>
@@ -44,15 +44,11 @@
       </tr>
       <tr>
           <td><label>Destination:</label></td>
-          <td><input class = "inpText"  type="text" value=""></td>
+          <td><input class = "inpText"  name="destination" "type"="text" value=""></td>
       </tr>
       <tr>
           <td><label>Reason:</label></td>
-          <td><input class = "inpText"  type="text" value=""></td>
-      </tr>
-      <tr>
-          <td><label>Password:</label></td>
-          <td><input class = "inpText"  type="text" value=""></td>
+          <td><input class = "inpText" name="reason" type="text" value=""></td>
       </tr>
       </table>
       </br>

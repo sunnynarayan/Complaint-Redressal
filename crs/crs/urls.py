@@ -37,5 +37,8 @@ urlpatterns = patterns('',
     url(r'^confirmationLink/$', 'login.views.forgetPassword'),
     url(r'^ForgetPasswordButton/$', 'login.views.onClickForgetPassword'),
     url(r'^newPassword/$', 'login.views.resettingPassword'),
+    url(r'^OpenHostelPage/$', 'student.views.OpenHostelPage'),
+    url(r'^studHostelLeave/$', 'student.views.HostelLeavingSubmit'),
+
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),
 )

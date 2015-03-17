@@ -120,6 +120,21 @@ class Complain(models.Model):
         managed = False
         db_table = 'complain'
 
+class HostelLeavingInformation(models.Model):
+    name = models.TextField()
+    start_date = models.CharField(db_column='start_Date', max_length=6)  # Field name made lowercase.
+    end_date = models.CharField(db_column='end_Date', max_length=6)  # Field name made lowercase.
+    laptop = models.CharField(max_length=3)
+    destination = models.CharField(max_length=30)
+    reason = models.TextField()
+    hostel = models.IntegerField()
+    roll = models.CharField(max_length=8)
+    mobile = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'hostel_leaving_information'
+
 class Complainlink(models.Model):
     cid = models.IntegerField(db_column='CID', primary_key=True) # Field name made lowercase.
     studid = models.IntegerField(db_column='studID', blank=True, null=True) # Field name made lowercase.

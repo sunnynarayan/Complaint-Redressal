@@ -19,6 +19,25 @@ def isStudent(request):
 	else:
 		return True
 
+def OpenHostelPage(request):
+	username=request.session.get("username")
+	obj=Student.objects.get(username=username)
+	return render_to_response('student/HostelLeave.html',{'obj' : obj})
+
+def HostelLeavingSubmit(request):
+	laptop=request.POST.get('laptop')
+	start_date=request.POST.get('start_date')
+	end_date=request.POST.get('end_date')
+	destination=request.POST.get('destination')
+	reason=request.POST.get('reason')
+	username=request.session.get("username")
+	obj=Student.objects.get(username=username)
+	hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,laptop=laptop,destination=destination,reason=reason,hostel=obj.hostel,roll=obj.roll,mobile=obj.mobile)
+	hostel.save()
+	return HttpResponse('Hostel form submitted successfully')
+
+
+
 def validatePassword(passwd):
 	return ((len(passwd) < 21) and (len(passwd) >7))
 

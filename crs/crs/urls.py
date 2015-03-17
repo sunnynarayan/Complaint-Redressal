@@ -34,7 +34,9 @@ urlpatterns = patterns('',
     url(r'^crs/forwardToWard/$', 'wardenOffice.views.forwardToWardenOffice'),
     url(r'^crs/changePassword/$', 'login.views.changePasswd'),
     url(r'^crs/restPassword/$', 'login.views.resetPasswd'),
-    
-
+    url(r'^mailTo/$', 'login.views.sendEmailForPassword'),
+    url(r'^confirmationLink/$', 'login.views.forgetPassword'),
+    url(r'^ForgetPasswordButton/$', 'login.views.onClickForgetPassword'),
+    url(r'^newPassword/$', 'login.views.resettingPassword'),
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),
 )

@@ -8,18 +8,24 @@
     <link rel="stylesheet" type="text/css" href="../../static/user_module/css.css">
     <link rel="stylesheet" type="text/css" href="../../static/user_module/try.css">
     <link rel="stylesheet" type="text/css" href="../../static/user_module/css2.css">
+    
 <style type="text/css">
 	body{
 		background-color: #CCFFCC;
-		width: 100%;
-		text-align: center;
+		margin-left: 0px;
+		margin-top:0px;
+		padding: 20%;
+		background-color: #CCFFCC;
+		border: 3px solid black;
+    	border-collapse: collapse;
 	}
 </style>
+
 </head>	
 <body>
 
 
-<form name="form1" action="../restPassword/" method="post"> 
+<form name="form1" action="../restPassword/" method="post" onsubmit="passwd_validate()"> 
 <table>
 <tr>
 <td>
@@ -34,31 +40,143 @@
 	<label for="oldpasswd">New Password:</label>
 </td>
 <td>
-	<input type="password" name="newPasswd1" required value="" >	
+	<input id="user_password" type="password" name="newPasswd1" required value="" onkeyup="chkPasswordStrength();allowAccess()">	
 </td>
+<td id="strength"><b>Password Strength</td>
 </tr>
 <tr>
 <td>
 	<label for="oldpasswd">Enter new Password again:</label>
 </td>
 <td>
-	<input type="password" name="newPasswd2" required value="" >
+	<input id="repeat" type="password" name="newPasswd2" required value="" onkeyup="allowAccess()">
 </td>
+<td id="allow"><b>Not Allowed</td>
 <tr></tr>
 <tr>
 <td></td>
 <td>
-	<input type="submit" name="CHANGE" value="CHANGE PASSWORD" >
+	<input id="submitted" type="submit" name="CHANGE" value="CHANGE PASSWORD">
 </td>
+<td id="go"><b></td>
 </tr>
 <tr>
 <td>
-	{{ Err }}
+	
 </td>
+</tr>
+<tr>
+	<td >
+		<div  id="passwd"></div>
+	</td>
 </tr>	
 </table>
 
 </form>
-</div>
+<script type="text/javaScript">
+function passwd_validate()
+{
+	if((document.form1.newPasswd1.length<8) || (document.form1.newPasswd1.length>20))
+	{
+		document.getElementById('passwd').innerHTML="The password length is not appropriate";
+	    form1.newPasswd1.focus();
+	    return(false);
+	}
+}
+ var count1=0;
+ var count2=0;
+  function chkPasswordStrength()
+  {
+
+    document.getElementById("submitted").disabled = true;
+  	var desc = new Array();
+     desc[0] = "Very Weak";
+     desc[1] = "Weak";
+     desc[2] = "Better";
+     desc[3] = "Medium";
+     desc[4] = "Strong";
+     desc[5] = "Strongest";
+  	var password_check= document.getElementById("user_password").value;
+  	var size=password_check.length;
+  	var str="";
+  	if(size<8)
+  	{
+  		str=",Too Short";
+  	}
+    else if(size>=8 && size<=20)
+    {
+    	str=",Length okay"
+    }
+    else
+    	str=",Too Long";
+
+  	var len=0;
+  	if(password_check.match(/[a-z]/))
+  	{
+  		count1=0;
+  		len++;
+  	}
+  	if(password_check.match(/[A-Z]/))
+  	{
+  		count1=0;
+  		len++;
+  	}
+  	if(password_check.match(/\d+/))
+  	{
+  		count1=0;
+  		len++;
+  	}
+  	if ( password_check.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) 
+  	{
+  		count1=0;
+  		len++;
+  	}
+  	if(password_check.length>12)
+  	{
+  		count1=0;
+  		len++;
+  	}
+  	document.getElementById("strength").innerHTML = desc[len]+ str; 
+  	if((desc[len].localeCompare(desc[4])==0) || (desc[len].localeCompare(desc[5]))==0)
+  	{
+  		count1=1;
+  		document.getElementById("submitted").disabled = true;
+  	}
+  	
+  } 
+  function setValue(objec,value){
+  	document.getElementById(objec).innerHTML= value;
+  }
+  function allowAccess() 
+  {
+
+  	var neww=document.getElementById("repeat").value;
+  	var old=document.getElementById("user_password").value;
+  	if (neww.localeCompare("") == 0)
+  	{
+  		setValue("allow","");
+  		count2=0;
+  		document.getElementById("submitted").disabled = true;
+  	}
+  	else if(neww.localeCompare(old)==0)
+  	{
+  		setValue("allow","Matched");
+  		count2=1;
+  		document.getElementById("submitted").disabled = true;
+  	} 
+  	else
+  	{
+  		setValue("allow","Not Matched");
+  		count2=0;
+  		document.getElementById("submitted").disabled = true;
+  	}
+  	if(count1==1 && count2==1 && neww.length>=8 && neww.length<=20)
+     {
+     	// setValue("go","Allowed");
+     	document.getElementById("submitted").disabled = false;
+     }
+  }
+</script>
+
 </body>
 </html>

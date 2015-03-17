@@ -99,6 +99,9 @@ def getCatagory(str):
         return 0
 
 
+def message():
+	return "The confirmation Link for the reset password is Confirmation Link.Please Click on it to reset password"
+
 def getTypeDescription(code):
     if code == 1:
         return "Mess"
@@ -137,7 +140,6 @@ def lodgeComplainDetail(request):
         CLObj.save()
     return redirect('../complainView/');
 
-
 # def forgetPassword(request):#forgetpassword page loading
 # render_to_response(student/resetpassword.html)
 
@@ -153,8 +155,6 @@ def lodgeComplainDetail(request):
 # render_to_response(student/studentHome.html)
 # else:
 # render_to_response(student/studentHome.html,{'msg':Invalid Password})
-
-
 
 
 def studentProfile(request):

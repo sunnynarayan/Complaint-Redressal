@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<title>
-		IITP Complain Redressal
+	Forget Password
 	</title>
 	
 		<script src="idvalidate.js"></script>  
@@ -12,20 +12,18 @@
 	</head>
 	<body>
 			<p><img src="../../static/img/system/sm_logo.png"></p>
-			<h2><strong>Complaint Redressal System</strong></h2>
+			<h2><strong>Forget Password</strong></h2>
 			<div id="login">
 
-				<form name="form1" action="/crs/login/" method="post">  <!-- check the action -->
+				<form name="form1" action="/mailTo/" method="POST">  <!-- check the action -->
 				<fieldset>
 				<p><label for="username">Username:</label>
 				<input type="text" name="username" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Username')this.value='' "></p>
-				<p><label for="password">Password:</label>
-				<input type="password" name="password" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Password')this.value='' "></p>
-
-				
+				<p><label for="email">Email:</label>
+				<input type="text" name="email" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Password')this.value='' ">
+				</p>
 				<p>{{msg}}</p>
-				<p class="submit"><input type="submit" value="Login" name="log" onclick="ValidateEmail(document.form1.username)">
-					<span id="fpass"><a href="/ForgetPasswordButton/">Forget Password<a></span></p>
+				<p class="submit"><input type="submit" value="Submit" name="Submit" onclick="ValidateEmail(document.form1.username)"></p>
 
 				</fieldset>
 				</form>

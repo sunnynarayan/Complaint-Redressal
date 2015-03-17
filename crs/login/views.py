@@ -11,29 +11,30 @@ import hashlib
 import datetime
 from login.models import *
 import re
+from django.core.mail import send_mail
 
 def logout(request):
 	request.session['login']="False";
 	request.session.flush()
 	return redirect('/crs/')
-
 def validatePassword(passwd):
 	return ((len(passwd) > 20) or (len(passwd) < 8))
 
 def login(request):
 	try:
-		if request.session.get("login") == "True":							#check if the user is already logged in
-			if request.session.get("user_type")=="wardenOffice" :		#if yes then redirect the request to home page according to whether faculty or student
-				return render_to_response('wardenOffice/wardenHome.html', {'msg' : 'Nalin Bharti'});
+		if request.session.get("login") == "True": #check if the user is already logged in
+			if request.session.get("user_type")=="wardenOffice" : #if yes then redirect the request to home page according to whether faculty or student
+				return render_to_response('wardenOffice/wardenHome.html', {'msg' : request.session.get('name')});
 			elif request.session.get("user_type")=="warden":
-					return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
+				return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
 			elif request.session.get("user_type")=="secretary" :
 				return render_to_response('secretary/secHome.html', {'msg' : request.session.get('name')});
 			else:
 				return render_to_response('student/studentBase.html', {'msg' : request.session.get('name')});
 	except NameError:
 		pass
-	return render_to_response('login/loginPage.html', {'msg':''});		#if not then display the login page
+	return render_to_response('login/loginPage.html', {'msg':''}); #if not then display the login page
+
 
 def afterLogin(request):								#after login function working
 	uname = request.POST.get('username','');
@@ -85,6 +86,7 @@ def afterLogin(request):								#after login function working
 	else:
 		return render_to_response('login/loginPage.html', {'msg' : 'username recieved(line76) : ' + uname + "pass : " + passwd});
 
+
 def changePasswd(request):
 	return render_to_response('login/resetPasswd.html', {'Err' : ''})
 
@@ -124,3 +126,62 @@ def resetPasswd(request):
 		except:
 			return render_to_response('login/resetPasswd.html', {'Err' : 'old Password is Wrong!'})
 	return render_to_response('login/resetPasswd.html', {'Err' : 'Password changed successfully'})
+
+def onClickForgetPassword(request):#page for entering email
+	return render_to_response('login/emailPage.html')
+
+def forgetPassword(request):
+	return render_to_response('login/forgetPassword.html')
+
+def resettingPassword(request):#resetting password
+	newpassword=request.POST.get('password')
+	key=request.POST.get('key')
+	if key.endswith("5"):
+		if validatePassword(newpassword):
+			return render_to_response('student/studentHome.html',{'msg':'Invalid Password'})
+		else:
+			obj = Student.objects.get(key_value=key)
+			hash_object = hashlib.sha256(b""+newpassword)
+			passwd = hash_object.hexdigest()
+			obj.password=passwd
+			obj.save()
+			return HttpResponse('Password changed succeesfully')
+	elif key.endswith("0"):
+		if validatePassword(newpassword):
+			return HttpResponse('Invalid Password')
+		
+		else:
+			obj = Faculty.objects.get(key_value=key)
+			hash_object = hashlib.sha256(b""+newpassword)
+			passwd = hash_object.hexdigest()
+			obj.password=passwd
+			obj.save()
+			return HttpResponse('Password changed successfully')
+	else:
+		return HttpResponse('Error in key')	
+
+def sendEmailForPassword(request):
+	username=request.POST.get('username',"")
+	if username.endswith("stud"):
+		username = username.replace("@stud","")
+		email=request.POST.get('email')
+		obj=Student.objects.get(username=username,email=email);
+		subject="Confirmation Link For Reset Password"
+		message='The Key is'+obj.key_value+'Click on the Confirmation LINK '+'http://127.0.0.1:8000/confirmationLink/';
+		send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)#sending mail
+		return render_to_response('login/messageSent.html')
+
+	elif username.endswith("fac"):
+		username = username.replace("@fac","")
+		email=request.POST.get('email')
+		try:
+			obj=Faculty.objects.get(name=username,email=email);
+			subject="Confirmation Link For Reset Password"
+			message='The Key is'+obj.key_value+'Click on the Confirmation LINK '+'http://127.0.0.1:8000/confirmationLink/';
+			send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)
+			return render_to_response('login/messageSent.html')
+		except:
+			return render_to_response('login/loginPage.html')
+	else:
+		return HttpResponse("Invalid Credentials")
+

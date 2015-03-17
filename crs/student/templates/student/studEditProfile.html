@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type= "text/javascript" src="stateCity.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/student/sep.css">
+	<script type="text/javascript" src="mobzipValidate.js"></script>    
+
+
+
+
+</head>
+<body>	
+<div id="right">
+	<div id="top">
+	<h1>Edit Your User Profile</h1>
+	</div>
+	<form name="test" method="POST" action=""> <!--see for action-->
+		<div id="personal">
+		<br>
+		<span id="head">Personal Information</span>
+		<p id="leftm"><label>Username</label><input id="rightm" type="text" value="{{username}}"></p>
+	<table id="leftm">
+	<tr><td>Name</td>
+		<td><input id="rightm" type="text" size="35" name="Name" value="{{name}}"></td>
+	<tr></table>
+	<p id="leftm">Roll Number<input  id ="rightm" type="text" size="10" name="rollNum" value="{{roll}}"></p>
+	
+	<p id="leftm">Sex<input id="rightm" type="text" name="sex" size="5" value="{{sex}}"></p>
+	<p id="leftm">Blood&nbsp;Group<select id="rightm" name="bgroup" style="width: 50px">
+			 <option value="Aplus">A+</option>
+			 <option value="Aminus">A-</option>
+			 <option value="Bplus">B+</option>
+			 <option value="Bminus">B-</option>
+			 <option value="ABplus">AB+</option>
+			 <option value="ABminus">AB-</option>
+			 <option value="Oplus">O+</option>
+			 <option value="Ominus">O-</option> 
+		    </select></p>
+		
+	</div>
+	
+	<div id="hostel">
+		<br><span id="head">Contact Details</span>
+		<p id="leftm">Mobile<input id="rightm" type="text" size="12" name="mnum" value="" ></p>
+		<p id="leftm">Hostel<select id="rightm" name="hostel" style="width: 150px">
+			 <option value="Ashoka">Ashoka</option>
+			 <option value="Chanakya1">Chanakya&nbsp;1</option>
+			 <option value="Chanakya2">Chanakya&nbsp;2</option>
+			 <option value="Chanakya3">Chanakya&nbsp;3</option>
+			 <option value="Aryabhatta">Aryabhatta</option>
+			 <option value="GBH">GBH</option> 
+		    </select>
+		<span id="leftm">Room<input id="rightm" type="text" size="4" name="room" value=""></span></p>
+		<p id="leftm">Permanent&nbsp;&nbsp; Address<input id="rightm" type="text" size="30" name="padd" value="">
+		<span id="leftm">State</span><select id="state" name="state" style="width: 150px"></select>
+		<span id="leftm">City</span><select id="city" name="city" style="width: 150px" ></select>
+		
+		
+		<span id="leftm">Pin&nbsp;&nbsp;Code<input id="rightm" type="text" size="8" name="zip" value=""></p>
+	</div>
+
+	<div id="bankD">
+	<br><span id="head">Bank Details</span>
+	<p id="leftm">Bank&nbsp;Name<select id="rightm" name="bankName" style="width:300px">
+		<option value="1">State Bank of India</option>
+		<option value="10">State Bank of India and Associates</option>
+		<option value="22">Federal Bank</option>
+		<option value="29">Indian Bank</option>
+		<option value="28">Union Bank of India</option>
+		<option value="31">Andhra Bank</option>
+		<option value="34">Punjab National Bank </option>
+		<option value="35">Allahabad Bank</option>
+		<option value="38">Vijaya Bank</option>
+		<option value="39">AXIS Bank</option>
+		<option value="36">HDFC Bank</option>
+		<option value="37">Bank of Baroda</option>
+		<option value="42">Karnataka Bank</option>
+		<option value="43">Oriental Bank of Commerce</option>
+		<option value="40">Karur Vysya Bank</option>
+		<option value="46">Kotak Mahindra Bank</option>
+		<option value="47">INGVysya Bank</option>
+		<option value="44">ICICI Bank </option>
+		<option value="45">IndusInd Bank</option>
+		<option value="51">IMPS</option>
+		<option value="50">Central Bank of India</option>
+		<option value="48">Bank of India</option>
+		<option value="54">Syndicate Bank</option>
+		<option value="53">Bank of Maharashatra</option>
+		<option value="52">IDBI Bank</option>
+		<option value="56">Corporation Bank</option>
+		<option value="60">Yes Bank</option>
+		<option value="64">Nepal SBI Bank Ltd.</option>
+		<option value="66">Canara Bank</option>
+		<option value="68">UCO Bank</option>
+		<option value="70">BANK OF INDIA</option>
+		<option value="72">CENTRAL BANK OF INDIA</option>
+		<option value="74">UNITED BANK OF INDIA</option>
+	</select>
+		<span id="leftm">Account&nbsp;&nbsp; Number</span><input id="rightm" type="text" size="20" name="accnum" value="">
+		<span id="leftm">IFSC&nbsp;&nbsp; Code</span><input id="rightm" type="text" size="20" name="ifsc" value=""></p>
+	</div>
+	</br><p id = "one"><input type="submit"   name="submit" value="Submit" onclick="Validate(document.test.mnum,document.test.zip)"></p>
+</form>
+</div>
+<script language="javascript">
+    populateStates("state", "city");
+</script>
+
+
+</body>
+</html>

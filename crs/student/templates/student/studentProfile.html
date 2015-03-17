@@ -1,45 +1,50 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
+	<link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="stylesheet" type="text/css" href="../../static/student/sep.css">
 </head>
-<style type="text/css">
-	body{
-		text-align: center;
-		color: #090;
-	}
-	form{
-		border : solid;
-		margin-left: 20%;
-		margin-right: 20%;
-	}
-	.inpText:hover{
-		background-color: #8888BB;
-		color: #FFF;
-	}
-	.inpText{
-		margin-left: 20px;
-	}
+<body>	
+<div id="right">
+	<div id="top">
+	<h1>Your User Profile</h1>
+	</div>
+	<form name="test" method="GET" action=""> <!--see for action-->
+		<div id="personal">
+		<br>
+		<span id="head">Personal Information</span>
+		<p id="leftm"><label>Username</label><input id="rightm" type="text" value="{{username}}"></p>
+	<table id="leftm">
+	<tr><td>Name</td>
+		<td><input id="rightm" type="text" size="35" name="Name" value="{{name}}"></td>
+	<tr></table>
+	<p id="leftm">Roll Number<input  id ="rightm" type="text" size="10" name="rollNum" value="{{roll}}"></p>
+	
+	<p id="leftm">Sex<input id="rightm" type="text" name="sex" size="5" value="{{sex}}"></p>
+	<p id="leftm">Blood&nbsp;Group<input id="rightm" type="text" name="blood" size="4" value="{{bloodgrp}}"></p>
+	</div>
+	
+	<div id="hostel">
+		<br><span id="head">Contact Details</span>
+		<p id="leftm">Mobile<input id="rightm" type="text" size="12" name="mnum" value="{{mobile}}" ></p>
+		<p id="leftm">Hostel<input id="rightm" type="text" size="12" name="hostel"  value="{{hostel}}">
+		<span id="leftm">Room<input id="rightm" type="text" size="4" name="room" value="{{room}}"></span></p>
+		<p id="leftm">Permanent&nbsp;&nbsp; Address<input id="rightm" type="text" size="30" name="padd" value="{{padd}}">
+		<span id="leftm">State</span><input id="rightm" type="text" size="15" name="state" value="{{state}}"> <!-- Add state in database-->
+		<span id="leftm">City</span><input id="rightm" type="text" size="15" name="city" value="{{city}}">    <!-- Add city in database-->
+		<span id="leftm">Pin&nbsp;&nbsp;Code<input id="rightm" type="text" size="8" name="zip" value="{{zip}}"></p> <!-- Add zip in database-->
+	</div>
 
-</style>
-<body>
-	<div id="right">
-		
-		<h3>My Profile</h3>	
-		<form>
-			<p><label>Username:</label><input class = "inpText"  type="text" value="{{username}}"></p>
-			<p><label>Name:</label><input class = "inpText"  type="text" value="{{name}}"></p>
-			<p><label>Mobile:</label><input  class = "inpText" type="text" value="{{mobile}}"></p>
-			<p><label>Sex:</label><input  class = "inpText" type="text" value="{{sex}}"></p>
-			<p><label>Permanent Address:</label><input  class = "inpText" type="text" value="{{padd}}"></p>
-			<p><label>Email:</label><input class = "inpText"  type="text" value="{{email}}"></p>
-			<p><label>Hostel:</label><input class = "inpText"  type="text" value="{{hostel}}"></p>
-			<p><label>Room No.:</label><input  class = "inpText" type="text" value="{{room}}"></p>
-			<p><label>Blood Group:</label><input  class = "inpText" type="text" value="{{bloodgrp}}"></p>
-			<p><label>Bank Acc. No.:</label><input class = "inpText"  type="text" value="{{baccno}}"></p>
-			<p><label>Bank:</label><input  class = "inpText" type="text" value="{{bank}}"></p>
-			<p><label>IFSC:</label><input class = "inpText"  type="text" value="{{IFSC}}"></p>
-	 	</form>
-	 </div>
+	<div id="bankD">
+	<br><span id="head">Bank Details</span>
+	<p id="leftm">Bank&nbsp;Name<input id="rightm" type="text" size="15" name="bank" value="{{bank}}">
+	<span id="leftm">Account&nbsp;&nbsp; Number</span><input id="rightm" type="text" size="20" name="accnum" value="{{baccno}}">
+	<span id="leftm">IFSC&nbsp;&nbsp; Code</span><input id="rightm" type="text" size="20" name="ifsc" value="{{IFSC}}"></p>
+	</div>
+	</br><p id = "one"><input type="button" value="Click here to edit your profile" ></p>
+</form>
+</div>
 </body>
 </html>

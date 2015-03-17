@@ -120,6 +120,23 @@ class Complain(models.Model):
         managed = False
         db_table = 'complain'
 
+class serialComplain(models.Model):
+    cid = models.IntegerField(primary_key=True)
+    uid = models.IntegerField(db_column='UID') # Field name made lowercase.
+    time = models.DateTimeField()
+    hostel = models.IntegerField()
+    type = models.IntegerField()
+    subject = models.TextField()
+    detail = models.TextField()
+    history = models.TextField()
+    comments = models.IntegerField()
+    serial_number = models.IntegerField()
+    studID = models.IntegerField()
+    class Meta:
+        managed = False
+        db_table = 'complain'
+
+
 class Complainlink(models.Model):
     cid = models.IntegerField(db_column='CID', primary_key=True) # Field name made lowercase.
     studid = models.IntegerField(db_column='studID', blank=True, null=True) # Field name made lowercase.

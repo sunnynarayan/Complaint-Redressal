@@ -20,10 +20,12 @@
 				<p><label for="username">Username:</label>
 				<input type="text" name="username" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Username')this.value='' "></p>
 				<p><label for="password">Password:</label>
-				<input type="password" name="password" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Password')this.value='' ">
-				</p>
+				<input type="password" name="password" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Password')this.value='' "></p>
+
+				
 				<p>{{msg}}</p>
-				<p class="submit"><input type="submit" value="Login" name="log" onclick="ValidateEmail(document.form1.username)"></p>
+				<p class="submit"><input type="submit" value="Login" name="log" onclick="ValidateEmail(document.form1.username)">
+					<span id="fpass"><a href="/ForgetPasswordButton/">Forget Password<a></span></p>
 
 				</fieldset>
 				</form>

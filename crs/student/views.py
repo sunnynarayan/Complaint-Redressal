@@ -61,6 +61,9 @@ def studentProfile(request):
         return redirect('/crs/')
     return render_to_response('student/studentProfile.html');
 
+def studEditProfile(request):
+    return render_to_response('student/studEditProfile.html')
+
 
 def studentViewRate(request):
     if not (isStudent(request)):

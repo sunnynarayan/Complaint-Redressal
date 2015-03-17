@@ -8,7 +8,7 @@
         }  
         else  
         {  
-            alert("You have entered an invalid email address!");  
+            alert("You have entered an invalid Username!");  
             document.form1.userName.focus();  
             return false;  
         }  

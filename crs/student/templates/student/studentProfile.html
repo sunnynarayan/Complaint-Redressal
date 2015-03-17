@@ -5,6 +5,13 @@
 	<title></title>
 	<link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
     <link rel="stylesheet" type="text/css" href="../../static/student/sep.css">
+    <script type="text/javascript">
+    function studEditProfile() {
+    	var temp = '<object  type="text/html" data="../studEditProfile" style="height:600px;width:100%;"></object>'
+      	document.getElementById("right").innerHTML = temp;
+    }
+    </script>
+    
 </head>
 <body>	
 <div id="right">
@@ -43,7 +50,7 @@
 	<span id="leftm">Account&nbsp;&nbsp; Number</span><input id="rightm" type="text" size="20" name="accnum" value="{{baccno}}">
 	<span id="leftm">IFSC&nbsp;&nbsp; Code</span><input id="rightm" type="text" size="20" name="ifsc" value="{{IFSC}}"></p>
 	</div>
-	</br><p id = "one"><input type="button" value="Click here to edit your profile" ></p>
+	</br><p id = "one"><input type="button" value="Click here to edit your profile" onclick="studEditProfile()" ></p>
 </form>
 </div>
 </body>

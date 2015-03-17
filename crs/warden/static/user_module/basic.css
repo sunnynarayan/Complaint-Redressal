@@ -1,5 +1,4 @@
-body {
-			}
+
 			#upper{
 				background-image: url("../img/system/img-boat.jpg");
 			    
@@ -130,4 +129,9 @@ body {
 				
 
 			}
-			#s1{color: #FFF;}
+			#s1{color: #FFF;
+				margin-left: 2%;
+			}
+			#s3{
+				margin-right: 5%;
+			}

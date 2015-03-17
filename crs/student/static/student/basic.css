@@ -10,7 +10,10 @@ body {
 				height: 23.5%;
 				text-align: center;
 			}
-			#s1{color: #FFF}
+			#s1{color: #FFFFFF;
+
+				margin-left: 2%;
+			}
 			tr {
 				font-size: 18px;
 				width: 1px;
@@ -121,4 +124,7 @@ body {
 			}
 			#head{
 				background-color: #FF6600;
+			}
+			#s3{
+				margin-right: 5%;
 			}

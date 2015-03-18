@@ -12,8 +12,12 @@
 		y1= parseInt(y);
 		z1= parseInt(z);
 		n=(x1+y1+z1)/3;
+		if (x1>0 && y1 > 0 && z1 >0) {
 		document.getElementById("nutrition").innerHTML = n;
 		// body...
+		}
+		else
+			document.getElementById("nutrition").innerHTML = "Enter +ve Number.";
 	}
 
 	</script>
@@ -29,15 +33,15 @@
 			</tr>
 			<tr>
 				<td>Vitamin Contain</td>
-				<td><input id="cal1" type="number" onkeyup="calNutri()" name="vitamins" required value="0" ></td>
+				<td><input id="cal1" type="number" onchange ="calNutri()" name="vitamins" required value="0" ></td>
 			</tr>
 			<tr>
 				<td>Protein Contain</td>
-				<td><input id="cal2" type="number" onkeyup="calNutri()" name="proteins" required value="0" ></td>
+				<td><input id="cal2" type="number" onchange ="calNutri()" name="proteins" required value="0" ></td>
 			</tr>
 			<tr>
 				<td>Fat Contain</td>
-				<td><input id="cal3" type="number" onkeyup="calNutri()" name="fat" required value="0" ></td>
+				<td><input id="cal3" type="number" onchange ="calNutri()" name="fat" required value="0" ></td>
 			</tr>
 			<tr>
 				<td>Average of Nutrition</td>

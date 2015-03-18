@@ -149,7 +149,7 @@ def lodgeComplainDetail(request):
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
     complainObj = Complain(uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0,
-                           history=history);
+                           history=history,status=1);
     complainObj.save();
     secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
     secid = secretaryObj.uid
@@ -162,6 +162,23 @@ def lodgeComplainDetail(request):
         CLObj.save()
     return redirect('../complainView/');
 
+def relodgeComplain(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	complainArray=request.POST.getlist('complain')
+	length = len(complainArray)
+	for x in range(0,length):
+		comid = complainArray[x]
+		obj=Complain.objects.get(cid=comid)
+		if obj.status==1:
+			obj.status=11
+			obj.save()
+		else:
+			obj.status=22
+			obj.save()
+	# complainObj.wardenID = wardenID
+	# complainObj.save()
+	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 # def forgetPassword(request):#forgetpassword page loading
 # render_to_response(student/resetpassword.html)
 

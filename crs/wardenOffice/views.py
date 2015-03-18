@@ -12,7 +12,7 @@ import hashlib
 import datetime
 from login.models import *
 import re
-from student.views import getTypeDescription,getCatagory
+from student.views import *
 
 def isWardenOffice(request):
 	user_type = request.session.get("user_type",'')
@@ -26,9 +26,11 @@ def wardenOfficeComplainView(request):
 		return redirect('/crs/')
 	uid=request.session.get('uid')
 	# PublicComplainObjects = Complainlink.objects.all?().filter(wardenid = uid).filter(studid = 0);
-	query1 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID = 0'
+	# query1 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID = 0'
+	# query2 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID != 0'
+	query1 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status = 22 OR complain.status=12) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID'
+	query2 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status=22 OR complain.status=12) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID'
 	PublicComplainObjects = Complainlink.objects.raw(query1)
-	query2 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID != 0'
 	PrivateComplainObjects = Complainlink.objects.raw(query2)
 	# PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
 	Privatelist=[];
@@ -57,7 +59,18 @@ def forwardToWardenOffice(request):
 		hostel=(Complain.objects.get(cid=comid)).hostel
 		wardenId = (Warden.objects.get(hostel=hostel)).fid
 		ClO.wardenid = wardenId
+		obj=Complain.objects.get(cid=ClO.cid)
 		ClO.save()
+		if obj.status==2:
+			obj.status=3
+			obj.save()
+		elif obj.status==12:
+			obj.status==13
+			obj.save()
+		else:
+			obj.status=23
+			obj.save()
+		
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
 	return redirect('../wardenComplain');

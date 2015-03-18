@@ -168,7 +168,7 @@ def sendEmailForPassword(request):
 		obj=Student.objects.get(username=username,email=email);
 		subject="Confirmation Link For Reset Password"
 		message='The Key is'+obj.key_value+'Click on the Confirmation LINK '+'http://127.0.0.1:8000/confirmationLink/';
-		send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)#sending mail
+		send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)
 		return render_to_response('login/messageSent.html')
 
 	elif username.endswith("fac"):

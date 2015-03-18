@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>View Meal</title>
+</head>
+<body>
+<h3>List Of Meals</h3>
+		<table>
+      <tr>
+        <th>Serial No.</th>
+        <th>Name</th>
+        <th>Avg. nutrition Value</th>
+      </tr>
+          {% for item in public %}
+      <tr>
+        <td>{{ item.serial }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.nutrition }}</td>
+      </tr>
+      <tr></tr>
+          {% endfor %}
+    </table>
+</body>
+</html>

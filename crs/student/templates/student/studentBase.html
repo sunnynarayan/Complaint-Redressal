@@ -5,65 +5,55 @@
 <html>
 <head>
   <title>IITP Complaint</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/logoSmall.png"/>
     <link rel="stylesheet" type="text/css" href="../../static/student/basic.css">
-    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/logoSmall.png"/>
     <link rel="stylesheet" type="text/css" href="../../static/student/css.css">
     <link rel="stylesheet" type="text/css" href="../../static/student/try.css">
     <link rel="stylesheet" type="text/css" href="../../static/student/css2.css">
     <style></style>
     <script type="text/javascript">
     function view () {
-      // body...
-      
       var temp = '<object  type="text/html" data="../complainView" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+
     function lodge () {
-      // body...
-      
       var temp = '<object  type="text/html" data="../lodgeComplain" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+
     function home () {
-      // body...
-      
       var temp = '<object  type="text/html" data="../studentHome" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+
     function editprofile () {
-      // body...
-      
       var temp = '<object  type="text/html" data="../studentProfile" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+
     function view_rate () {
-      // body...
-      
       var temp = '<object  type="text/html" data="../studViewRate" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+
     function messrebate () {
-      // body...
-      
       var temp = '<object  type="text/html" data="../messrebate" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+
     function poll () {
-      // body...
-      
       var temp = '<object  type="text/html" data="../studPoll" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+
     function hostel_leave() {
-      // body...
-      
       var temp = '<object  type="text/html" data="../studHostelLeave" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
-    function resetPassword () {
-      // body...
 
+    function resetPassword () {
       var temp = '<object  type="text/html" data="../changePassword" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
@@ -73,10 +63,10 @@
     </head>
 <body>
 <div id="upper">
-  <img style="width:50%" src="../../static/img/system/sm_logo.png"> 
+   <img style="width:5%" src="../../static/img/system/logoSmall.png"><img style="width:50%" src="../../static/img/system/name.png"> 
     <p >
-      <span id = "s1" style="float: left;">User: {{msg}} </span>
-      <span id = "s2" style="float: center;">Student Logged In</span>
+      <span id = "s1" style="float: left;">Welcome: {{msg}} </span>
+      <span id = "s1" style="float: center;">Student </span>
       <span id = "s3" style="float: right;"><a href="../../logout">Logout</a></span>
     </p>
     </div>

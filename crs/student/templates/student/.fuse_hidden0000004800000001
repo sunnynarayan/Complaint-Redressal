@@ -23,7 +23,7 @@
           {% for item in list %}
       <tr> 
         <td>{{ item.cid }}</td>
-        <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.subject }}</a></td>
+        <td>{{ item.subject }}</td>
         <td>{{ item.time }}</td>
         <td>{{ item.comments }}</td>
         <td>{{ item.studID }}</td>

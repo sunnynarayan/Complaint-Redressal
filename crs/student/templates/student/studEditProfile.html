@@ -2,10 +2,11 @@
 <html>
 <head>
 	<title></title>
-	<script type= "text/javascript" src="stateCity.js"></script>
+	{% load staticfiles %}
+	<script type= "text/javascript" src="../../static/student/stateCity.js"></script>
 	<link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
     <link rel="stylesheet" type="text/css" href="../../static/student/sep.css">
-	<script type="text/javascript" src="mobzipValidate.js"></script>    
+	<script type="text/javascript" src="../../static/student/mobzipValidate.js"></script>    
 
 
 
@@ -16,7 +17,7 @@
 	<div id="top">
 	<h1>Edit Your User Profile</h1>
 	</div>
-	<form name="test" method="POST" action=""> <!--see for action-->
+	<form name="test" method="POST" action="../studEditProfile/"> <!--see for action-->
 		<div id="personal">
 		<br>
 		<span id="head">Personal Information</span>
@@ -99,7 +100,7 @@
 		<option value="74">UNITED BANK OF INDIA</option>
 	</select>
 		<span id="leftm">Account&nbsp;&nbsp; Number</span><input id="rightm" type="text" size="20" name="accnum" value="">
-		<span id="leftm">IFSC&nbs;p&nbsp; Code</span><input id="rightm" type="text" size="20" name="ifsc" value=""></p>
+		<span id="leftm">IFSC&nbsp;&nbsp; Code</span><input id="rightm" type="text" size="20" name="ifsc" value=""></p>
 	</div>
 	</br><p id = "one"><input type="submit"   name="submit" value="Submit" onclick="Validate(document.test.mnum,document.test.zip)"></p>
 </form>

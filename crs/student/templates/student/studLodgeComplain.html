@@ -9,17 +9,16 @@
 
 <script>
 $(document).ready(function() {
-	$( "#custom" ).hide();
-}); 
+$( "#custom" ).hide(); 
 $("#cust").click(function() {
-	$( "#custom" ).show();
-});
+$( "#custom" ).show();});
 $("#pub").click(function() {
-	$( "#custom" ).hide();
-});
+$( "#custom" ).hide();});
 $("#pri").click(function() {
-	$( "#custom" ).hide();
+$( "#custom" ).hide();});
 });
+</script>
+
 
 <div id="right">
 <form name="complainForm" action="../lodgedComplainDetail/" method="post">
@@ -42,21 +41,21 @@ $("#pri").click(function() {
 	<div id="custom" >
   		<p>Add other people</p>
   		<p><label for="first">First:</label>
-				<input type="text" name="first" value="" />&nbsp;
+				<input type="text" name="first"  />&nbsp;
 			<label for="second">Second:</label>
-				<input type="text" name="second" value="" />&nbsp;
+				<input type="text" name="second"  />&nbsp;
 			<label for="third">Third:</label>
-				<input type="text" name="third" value="" />&nbsp;
+				<input type="text" name="third"  />&nbsp;
 			<label for="fourt">Fourth:</label>
-				<input type="text" name="fourth" value="" />&nbsp;
+				<input type="text" name="fourth"  />&nbsp;
 			<label for="fifth">Fifth:</label>
-				<input type="text" name="fifth" value="" />
+				<input type="text" name="fifth"  />
 			</p>
   	 </div>	
-	<p>Subject&nbsp;&nbsp;<input type="text" name="subject" placeholder="Subject" > </p>
+	<p>Subject&nbsp;&nbsp;<input type="text" name="subject" placeholder="Subject" required value="" > </p>
 	
 	<p>Add description of complain</p>
-	<p><textarea  name="message" rows="10" cols="70" placeholder="Write description of complain."></textarea></p>
+	<p><textarea  name="message" rows="10" cols="70" placeholder="Write description of complain." required value=""></textarea></p>
 	<p>Add picture of issue(Optional)&nbsp;<input type="file" name="pic" accept="image/*" style="width: 300px"></p>
   
   <span style="float: center;"><input id="" type="submit" name = "Lodge" value="Lodge" style="width: 120px"></span>

@@ -56,9 +56,8 @@ def studentComplainView(request):
 
 
 def studentViewComplain(request):
-    indexF = request.GET.get('CID')
-    index = int(indexF)
-    qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.studID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
+    index = request.GET.get('CID')
+    qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \"" + str(index) + "\" AND (b.studID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
     complainObject = Complain.objects.raw(qry)
     return render_to_response("student/compDetail.html", {'item': complainObject[0]})
 

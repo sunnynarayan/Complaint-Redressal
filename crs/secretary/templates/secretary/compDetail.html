@@ -1,41 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-    <link rel="stylesheet" type="text/css" href="../../static/secretary/basic.css">
-    <link rel="stylesheet" type="text/css" href="../../static/secretary/css.css">
-    <link rel="stylesheet" type="text/css" href="../../static/secretary/try.css">
-    <link rel="stylesheet" type="text/css" href="../../static/secretary/css2.css">
+	<title></title>   
+    <link rel="stylesheet" type="text/css" href="../../static/secretary/compDetail.css">
+
 </head>
 <body>
-	<div class="menu-wrap">
-        <nav class="menu">
-        <ul class="clearfix">
-            <li class="current-item"><a href="#">Home</a></li>
-            <li>
-                <a href="#">Forward to <span class="arrow">&#9660;</span></a>
-                <ul class="sub-menu">
-                    <li><a href="#">Warden Office</a></li>
-                    <li><a href="#">CC</a></li>
-                </ul>
-            </li>
-            <li><a href="#">List By</a>
-              <ul class="sub-menu">
-                    <li><a href="#">date</a></li>
-                    <li><a href="#">CC</a></li>
-                </ul>
-            </li>
-            <li ><a href="#">Photos</a></li>
-            <li><a href="#">Site Help</a></li>
-        </ul>
-        </nav>
-    </div>
-    </br></br></br></br>
-    <p >
-      <span id = "s1" style="float: left;">{{ item.subject }}</span>
-      <span id = "s3" style="float: right;">{{ item.cid }}</span>
-    </p>
-    </br></br>
-    <p>{{ item.detail }}</p>
+      <br><br><br>
+
+      <div id="div1">
+        <br><br><br>
+      <span id = "one">Complain ID&nbsp;:&nbsp;{{ item.cid }}</span>
+      <span id = "two">Lodge&nbsp;Time&nbsp;:&nbsp;{{ item.time }}</span><br>
+      <table id="three" cellspacing="14"><tr><td>Complain&nbsp;Type&nbsp;:</td><td>{{item.type}}</td></tr>
+                        <tr><td>Complain&nbsp;Subject&nbsp;:</td><td>{{ item.subject }}</td></tr><br>
+                        <tr><td>Complain&nbsp;History&nbsp;:</td><td>{{ item.history }}</td></tr><table>
+      <span id="seven">Complain&nbsp;Detail&nbsp;:</span>
+      <table id="four"><tr><td>{{item.detail}}</td></tr><table>
+
+        <br><br><br>
+      </div>
+
 </body>
 </html>

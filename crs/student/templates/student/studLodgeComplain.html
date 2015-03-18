@@ -2,22 +2,24 @@
 <html>
 <head>
 	
-<!-- <style></style> // <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+<style></style>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body>
 
- // <script>
-// $(document).ready(function() {
-// $( "#custom" ).hide(); 
-// $("#cust").click(function() {
-// $( "#custom" ).show();});
-// $("#pub").click(function() {
-// $( "#custom" ).hide();});
-// $("#pri").click(function() {
-// $( "#custom" ).hide();});
-// });
- </script>
-
+<script>
+$(document).ready(function() {
+	$( "#custom" ).hide();
+}); 
+$("#cust").click(function() {
+	$( "#custom" ).show();
+});
+$("#pub").click(function() {
+	$( "#custom" ).hide();
+});
+$("#pri").click(function() {
+	$( "#custom" ).hide();
+});
 
 <div id="right">
 <form name="complainForm" action="../lodgedComplainDetail/" method="post">
@@ -40,15 +42,15 @@
 	<div id="custom" >
   		<p>Add other people</p>
   		<p><label for="first">First:</label>
-				<input type="text" name="first" required value="" />&nbsp;
+				<input type="text" name="first" value="" />&nbsp;
 			<label for="second">Second:</label>
-				<input type="text" name="second" required value="" />&nbsp;
+				<input type="text" name="second" value="" />&nbsp;
 			<label for="third">Third:</label>
-				<input type="text" name="third" required value="" />&nbsp;
+				<input type="text" name="third" value="" />&nbsp;
 			<label for="fourt">Fourth:</label>
-				<input type="text" name="fourth" required value="" />&nbsp;
+				<input type="text" name="fourth" value="" />&nbsp;
 			<label for="fifth">Fifth:</label>
-				<input type="text" name="fifth" required value="" />
+				<input type="text" name="fifth" value="" />
 			</p>
   	 </div>	
 	<p>Subject&nbsp;&nbsp;<input type="text" name="subject" placeholder="Subject" > </p>

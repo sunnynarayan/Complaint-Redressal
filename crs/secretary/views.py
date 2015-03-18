@@ -64,6 +64,20 @@ def rejectComplain(request):
 	# complainObj.save()
 	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
+def secViewComplain(request):
+    indexF = request.GET.get('CID')
+    index = int(indexF)
+    qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.secID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
+    complainObject = Complain.objects.raw(qry)
+    return render_to_response("secretary/compDetail.html", {'item': complainObject[0]})
+
+ #    if not (isSecretary(request)):
+	# 	return redirect('/crs/')
+	# uid=request.session.get('uid')
+	# pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
+	# priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = uid) AND complain.cid = complainLink.CID')
+	# return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains});
+
 
 # def editProfile(request):
 # 	return redirect('//')

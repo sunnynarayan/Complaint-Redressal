@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Item</title>
+	<script type="text/javascript">
+	function calNutri () {
+		var n=0, x1=0,y1=0,z1=0;
+		var x = document.getElementById("cal1").value;
+		var y = document.getElementById("cal2").value;
+		var z = document.getElementById("cal3").value;
+		x1= parseInt(x);
+		y1= parseInt(y);
+		z1= parseInt(z);
+		n=(x1+y1+z1)/3;
+		document.getElementById("nutrition").innerHTML = n;
+		// body...
+	}
+
+	</script>
+</head>
+<body>
+<form name="form1" action="" method="post" > 
+		<div>
+		<h3>Add New Item</h3>
+		<table>
+			<tr>
+				<td>Item Name</td>
+				<td><input type="text" name="itemName" required value="" ></td>
+			</tr>
+			<tr>
+				<td>Vitamin Contain</td>
+				<td><input id="cal1" type="number" onkeyup="calNutri()" name="vitamins" required value="0" ></td>
+			</tr>
+			<tr>
+				<td>Protein Contain</td>
+				<td><input id="cal2" type="number" onkeyup="calNutri()" name="proteins" required value="0" ></td>
+			</tr>
+			<tr>
+				<td>Fat Contain</td>
+				<td><input id="cal3" type="number" onkeyup="calNutri()" name="fat" required value="0" ></td>
+			</tr>
+			<tr>
+				<td>Average of Nutrition</td>
+				<td><p id="nutrition"></p></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" name="addItem" value="Add Item"></td>
+			</tr>
+		</table>
+    </div>
+    </form>
+</body>
+</html>

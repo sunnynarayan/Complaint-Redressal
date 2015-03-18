@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style >
+   
+
+</style>
+</head>
+<body>
+
+	<div id= "one1">
+		<h3>Your Complains : </h3>
+		<table>
+      <tr>
+        <th>Complain ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+        <th>Comments</th>
+        <th>Student ID</th>
+        <th>Serial Number</th>
+        <th>Type</th>
+      </tr>
+          {% for item in list %}
+      <tr> 
+        <td>{{ item.cid }}</td>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.time }}</td>
+        <td>{{ item.comments }}</td>
+        <td>{{ item.studID }}</td>
+        <td>{{ item.serial_number }}</td>
+        <td>{{ item.type }}</td>
+    </tr>
+    {% endfor %}
+</table><!-- 
+    </div>
+    <div id="two">
+  		<h3>Private Complain</h3>
+  		<table>
+      <tr>
+        <th>Complain ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+      </tr>
+          {% for item in lists2 %}
+      <tr> 
+        <td>{{ item.cid }}</td>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.time }}</td>
+    </tr>
+    {% endfor %}
+</table>
+  	</div> -->
+  </div>
+  </div>
+</body>
+</html>

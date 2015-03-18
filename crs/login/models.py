@@ -18,14 +18,14 @@ class Clink(models.Model):
     uid = models.IntegerField(db_column='UID') # Field name made lowercase.
     time = models.DateTimeField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'Clink'
 
 class Com(models.Model):
     comid = models.IntegerField(db_column='comID', primary_key=True) # Field name made lowercase.
     txt = models.TextField(db_column='Txt') # Field name made lowercase.
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'Com'
 
 class Pollque(models.Model):
@@ -37,7 +37,7 @@ class Pollque(models.Model):
     choice = models.TextField()
     choino = models.IntegerField(db_column='choiNo') # Field name made lowercase.
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'PollQue'
 
 class Pollres(models.Model):
@@ -47,14 +47,14 @@ class Pollres(models.Model):
     votetime = models.DateTimeField(db_column='voteTime') # Field name made lowercase.
     choice = models.IntegerField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'PollRes'
 
 class AuthGroup(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(unique=True, max_length=80)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_group'
 
 class AuthGroupPermissions(models.Model):
@@ -62,7 +62,7 @@ class AuthGroupPermissions(models.Model):
     group = models.ForeignKey(AuthGroup)
     permission = models.ForeignKey('AuthPermission')
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_group_permissions'
 
 class AuthPermission(models.Model):
@@ -71,7 +71,7 @@ class AuthPermission(models.Model):
     content_type = models.ForeignKey('DjangoContentType')
     codename = models.CharField(max_length=100)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_permission'
 
 class AuthUser(models.Model):
@@ -87,7 +87,7 @@ class AuthUser(models.Model):
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_user'
 
 class AuthUserGroups(models.Model):
@@ -95,7 +95,7 @@ class AuthUserGroups(models.Model):
     user = models.ForeignKey(AuthUser)
     group = models.ForeignKey(AuthGroup)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_user_groups'
 
 class AuthUserUserPermissions(models.Model):
@@ -103,7 +103,7 @@ class AuthUserUserPermissions(models.Model):
     user = models.ForeignKey(AuthUser)
     permission = models.ForeignKey(AuthPermission)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'auth_user_user_permissions'
 
 class Complain(models.Model):
@@ -117,7 +117,7 @@ class Complain(models.Model):
     history = models.TextField()
     comments = models.IntegerField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'complain'
 
 class HostelLeavingInformation(models.Model):
@@ -132,7 +132,7 @@ class HostelLeavingInformation(models.Model):
     mobile = models.TextField()
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'hostel_leaving_information'
 
 class serialComplain(models.Model):
@@ -148,7 +148,7 @@ class serialComplain(models.Model):
     serial_number = models.IntegerField()
     studID = models.IntegerField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'complain'
 
 
@@ -159,7 +159,7 @@ class Complainlink(models.Model):
     woid = models.IntegerField(db_column='woID', blank=True, null=True) # Field name made lowercase.
     wardenid = models.IntegerField(db_column='wardenID', blank=True, null=True) # Field name made lowercase.
     class Meta:
-       managed = False
+       # managed = False
        db_table = 'complainLink'
 
 class DjangoAdminLog(models.Model):
@@ -172,7 +172,7 @@ class DjangoAdminLog(models.Model):
     content_type = models.ForeignKey('DjangoContentType', blank=True, null=True)
     user = models.ForeignKey(AuthUser)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'django_admin_log'
 
 class DjangoContentType(models.Model):
@@ -190,7 +190,7 @@ class DjangoMigrations(models.Model):
     name = models.CharField(max_length=255)
     applied = models.DateTimeField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'django_migrations'
 
 class DjangoSession(models.Model):
@@ -198,8 +198,36 @@ class DjangoSession(models.Model):
     session_data = models.TextField()
     expire_date = models.DateTimeField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'django_session'
+
+class CaptchaCaptchastore(models.Model):
+    id = models.IntegerField(primary_key=True)
+    challenge = models.CharField(max_length=32)
+    response = models.CharField(max_length=32)
+    hashkey = models.CharField(unique=True, max_length=40)
+    expiration = models.DateTimeField()
+    class Meta:
+        # managed = False
+        db_table = 'captcha_captchastore'
+
+class Fooditems(models.Model):
+    fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.
+    name = models.CharField(unique=True, max_length=100)
+    vitamins = models.IntegerField()
+    proteins = models.IntegerField()
+    fat = models.IntegerField()
+    nutritions = models.DecimalField(max_digits=10, decimal_places=0)
+    class Meta:
+        # managed = False
+        db_table = 'foodItems'
+class Meals(models.Model):
+    mid = models.IntegerField(db_column='MID', primary_key=True) # Field name made lowercase.
+    items = models.CharField(unique=True, max_length=100)
+    avgnutrition = models.DecimalField(db_column='avgNutrition', max_digits=10, decimal_places=0) # Field name made lowercase.
+    class Meta:
+        # managed = False
+        db_table = 'meals'
 
 class Faculty(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.
@@ -211,14 +239,14 @@ class Faculty(models.Model):
     password = models.CharField(max_length=128)
     iswarden = models.IntegerField(db_column='isWarden')  # Field name made lowercase.
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'faculty'
 
 class Hostel(models.Model):
     name = models.CharField(max_length=30)
     id = models.IntegerField(primary_key=True)
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'hostel'
 
 class Secretary(models.Model):
@@ -226,7 +254,7 @@ class Secretary(models.Model):
     type = models.IntegerField()
     hostel = models.IntegerField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'secretary'
 
 class Student(models.Model):
@@ -248,14 +276,12 @@ class Student(models.Model):
     ifsc = models.CharField(db_column='IFSC', max_length=11, blank=True) # Field name made lowercase.
     issec = models.IntegerField(db_column='isSec') # Field name made lowercase.
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'student'
 
 class Warden(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.
     hostel = models.IntegerField()
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'warden'
-
-

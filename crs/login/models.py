@@ -217,9 +217,9 @@ class Fooditems(models.Model):
     vitamins = models.IntegerField()
     proteins = models.IntegerField()
     fat = models.IntegerField()
-    nutritions = models.DecimalField(max_digits=10, decimal_places=0)
+    nutritions = models.DecimalField(max_digits=10, decimal_places=3)
     class Meta:
-        # managed = False
+        managed = False
         db_table = 'foodItems'
 class Meals(models.Model):
     mid = models.IntegerField(db_column='MID', primary_key=True) # Field name made lowercase.

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		View Items
+	</title>
+</head>
+<body>
+<h3 align="center"> View Items </h3>
+<form name="form_1" action="" method="post">
+<table>
+<tr>
+   <th> Name Of Item </th>
+   <th> Protein Value</th>
+   <th> Vitamin Value</th>
+   <th> Fats </th>
+   <th> Nutritional Value </th>
+</tr>
+   {% for item in list %}
+<tr>
+   <td> {{ item.name }} </td>
+   <td> {{ item.proteins}} </td>
+   <td> {{ item.vitamins}} </td>
+   <td> {{ item.fat}} </td>
+   <td> {{ item.nutritions}} </td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

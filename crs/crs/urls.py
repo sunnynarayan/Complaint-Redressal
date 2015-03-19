@@ -41,6 +41,11 @@ urlpatterns = patterns('',
     url(r'^newPassword/$', 'login.views.resettingPassword'),
     url(r'^OpenHostelPage/$', 'student.views.OpenHostelPage'),
     url(r'^studHostelLeave/$', 'student.views.HostelLeavingSubmit'),
-
+    url(r'^poll/$', 'secretary.views.poll'),
+    url(r'^pollAddItem/$', 'secretary.views.pollAddItem'),
+    url(r'^pollViewItem/$', 'secretary.views.pollViewItem'),
+    url(r'^addingFoodItem/$', 'secretary.views.addingFoodItem'),
+    url(r'^pollMakeMeal/$', 'secretary.views.pollMakeMeal'),
+    url(r'^makingMeal/$', 'secretary.views.makingMeal'),
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),
 )

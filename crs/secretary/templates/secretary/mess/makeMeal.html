@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		
+	</title>
+</head>
+<body>
+<h3 align="center">  Make dish</h3>
+<form name="form_2" action="/makingMeal/">
+<table>
+<tr> 
+   <th> Items </th>
+   <th> Protein Value </th>
+   <th> Vitamin Value </th>
+   <th> Fat Value </th>
+   <th> Nutritional Value </th>
+</tr>
+{% for item in list %}
+<tr>
+   <td> <input type="checkbox" class="item_list" name="foodItems" value="{{ item.fid }}" onclick="Display("{{ item.nutritions }}")">{{ item.name }}</td>
+   <td> {{ item.proteins }} </td>
+   <td> {{ item.vitamins }} </td>
+   <td> {{ item.fat }} </td>
+   <td> {{ item.nutritions }} </td>
+
+  <!-- <td><input type="checkbox" id="item_1" name="" value="" onclick="Display(1)">A</td> -->
+   <!-- <td> <input type="checkbox" id="item_2" name="" value="" onclick="Display(2)">B</td> -->
+   <!-- <td> <input type="checkbox" id="item_3" name="" value="" onclick="Display(3)">C</td> -->
+   <!-- <td> <input type="checkbox" id="item_4" name="" value="" onclick="Display(4)">D</td> -->
+</tr>
+{% endfor %}
+<tr>
+	<td>
+		
+	</td>
+	<td>
+		<button type="submit" align="center" value=""> Submit </button>
+	</td>
+	<td id="my_nutrition">
+        Current Value
+	</td>
+</tr>
+</table>
+</form>
+<script type="text/javascript">
+    var x=0,a=0;
+	function Display(item_value)
+	{
+		var y;
+		var z=document.querySelectorAll('input[type="checkbox"]:checked').length;
+		if(z==0)
+		{
+			y=0;
+			x=0;
+			a=0;
+		}
+		else
+		{
+		   if(z>a)
+		     {
+			    x=x+item_value;
+		     }
+		   else
+		     {
+			    x=x-item_value;
+		     }
+
+                y=x/z;
+        }
+                a=z;
+         
+        document.getElementById("my_nutrition").innerHTML="Current Nutrition Value= "+ y;
+      
+    }
+       
+</script>
+</body>
+</html>

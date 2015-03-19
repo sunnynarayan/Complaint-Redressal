@@ -51,12 +51,51 @@ def secViewComplain(request):
     complainObject = Complain.objects.raw(qry)
     return render_to_response("secretary/compDetail.html", {'item': complainObject[0]})
 
- #    if not (isSecretary(request)):
-	# 	return redirect('/crs/')
-	# uid=request.session.get('uid')
-	# pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
-	# priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = uid) AND complain.cid = complainLink.CID')
-	# return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains});
+def poll(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	return render_to_response("secretary/mess/messhome.html", {'msg': request.session.get('name')})
+
+def pollAddItem(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	return render_to_response("secretary/mess/addItem.html", {'msg': request.session.get('name')})
+
+def addingFoodItem(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	itemName = request.POST.get('itemName')
+	vitamins = request.POST.get('vitamins') 
+	proteins = request.POST.get('proteins')
+	fat = request.POST.get('fat')
+	avgNutr = (int(vitamins) + int(proteins) + int(fat))/3
+	item = Fooditems(name=itemName,vitamins=vitamins,proteins=proteins,fat=fat,nutritions=avgNutr)
+	item.save()
+	return redirect("/pollViewItem/")
+
+def pollViewItem(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	items = Fooditems.objects.raw("SELECT * FROM foodItems")
+	return render_to_response("secretary/mess/viewItem.html", {'list': items })
+
+def pollMakeMeal(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	items = Fooditems.objects.raw("SELECT * FROM foodItems")
+	return render_to_response("secretary/mess/makeMeal.html", {'list': items })
+
+def makingMeal(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	meals=request.POST.getlist('foodItems')
+	length = len(meals)
+	make = meals[0] + ""
+	for x in range(1,length):
+		make = "," + meals[x]
+	
+	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+
 
 # def editProfile(request):
 # 	return redirect('//')

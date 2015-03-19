@@ -8,23 +8,27 @@
     <link rel="stylesheet" type="text/css" href="../../../static/secretary/css2.css">
     <link rel="stylesheet" type="text/css" href="../../../static/secretary/basic.css">
     <script type="text/javascript">
+    function home () {
+      document.getElementById("right").innerHTML = "Welcome to the Mess Polling !";
+    }
+
     function addItem () {
-      var temp = '<object  type="text/html" data="" style="height:514px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../pollAddItem" style="height:514px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
 
     function viewItem () {
-      var temp = '<object  type="text/html" data="" style="height:600px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../pollViewItem" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
 
     function makeMeal () {
-      var temp = '<object  type="text/html" data="" style="height:600px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../pollMakeMeal" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
 
     function viewMeal () {
-      var temp = '<object  type="text/html" data="" style="height:600px;width:100%;"></object>'
+      var temp = '<object  type="text/html" data="../viewMeal" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
     </script>
@@ -34,13 +38,14 @@
   <img style="width:5%" src="../../../static/img/system/logoSmall.png"><img style="width:50%" src="../../../static/img/system/name.png"> 
     <p >
       <span id = "s1" style="float: left;">Welcome: {{msg}} </span>
-      <span id = "s1" style="float: center;" > Secretary </span>
+      <span id = "s1" style="float: center;" > Secretary : Mess Polling </span>
       <span id = "s3" style="float: right;"><a href="../../logout">logout</a></span>
     </p>
     </div>
 	<div class="menu-wrap2" >
         <nav class="menu2">
         <ul class="clearfix">
+            <li><a onClick="home()">Home</a></li>
             <li><a onClick="addItem()">Add Item</a></li>
             <li><a onClick="viewItem()">View Item</a></li>
             <li><a onClick="makeMeal()">Make Meal</a></li>
@@ -49,7 +54,7 @@
         </nav>
     </div>
      <div id="right">
-      <object  type="text/html" data="" style="height:700px;width:100%;"></object>
+        <object  type="text/html" data="../home" style="height:600px;width:100%;"></object>
     </div>
 </body>
 </html>

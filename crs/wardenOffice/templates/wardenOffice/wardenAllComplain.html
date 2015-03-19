@@ -9,11 +9,112 @@
 <style >
    
 </style>
+<script type="text/javascript">
+    function d1 (text) {
+      var x = document.getElementById("d1");
+      x.innerHTML = "Complain lodge";
+      // document.getElementById("t3").innerHTML = "yoComplain lodge";
+    }
+    function out1 () {
+      var x = document.getElementById("d1");
+      x.innerHTML = "1";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    function d2 (text) {
+      var x = document.getElementById("d2");
+      x.innerHTML = "Complain reached to W.O.";
+      // document.getElementById("text").innerHTML = text;
+    }
+    function out2 () {
+      var x = document.getElementById("d2");
+      x.innerHTML = "2";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    function d3 (text) {
+      var x = document.getElementById("d3");
+      x.innerHTML = "Complain reached to Warden";
+      // document.getElementById("text").innerHTML = text;
+    }
+    function out3 () {
+      var x = document.getElementById("d3");
+      x.innerHTML = "3";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    function d11 (text) {
+      var x = document.getElementById("d11");
+      x.innerHTML = "Complian Re-lodge";
+      // document.getElementById("text").innerHTML = text;
+    }
+    function out11 () {
+      var x = document.getElementById("d11");
+      x.innerHTML = "11";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    function d12 (text) {
+      var x = document.getElementById("d12");
+      x.innerHTML = "Re-lodge reached to W.O.";
+      // document.getElementById("text").innerHTML = text;
+    }
+    function out12 () {
+      var x = document.getElementById("d12");
+      x.innerHTML = "12";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    function d13 (text) {
+      var x = document.getElementById("d13");
+      x.innerHTML = "Re-lodge reached to Warden";
+      // document.getElementById("text").innerHTML = text;
+    }
+    function out13 () {
+      var x = document.getElementById("d13");
+      x.innerHTML = "13";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    function d21 (text) {
+      var x = document.getElementById("d21");
+      x.innerHTML = "Complain Rejected by secretary";
+      // document.getElementById("text").innerHTML = text;
+    }
+    function out21 () {
+      var x = document.getElementById("d21");
+      x.innerHTML = "21";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    function d22 (text) {
+      var x = document.getElementById("d22");
+      x.innerHTML = "Complain by-passed the secretary reched W.O.";
+      // document.getElementById("text").innerHTML = text;
+    }
+    function out22 () {
+      var x = document.getElementById("d22");
+      x.innerHTML = "22";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    function d23 (text) {
+      var x = document.getElementById("d23");
+      x.innerHTML = "By-passed complain reached Warden";
+      // document.getElementById("text").innerHTML = text;
+    }
+    function out23 () {
+      var x = document.getElementById("d23");
+      x.innerHTML = "23";
+      // body...
+      // document.getElementById("text").innerHTML = " sd";
+    }
+    </script>
 </head>
 <body>
 <form id="FORM" action="../forwardToWard/" method="POST">        <!-- Add action-->
 <div class="menu-wrap"> 
-      <button type="submit" form="FORM" value="">Submit</button>
+      
 
         <nav class="menu">
         <ul class="clearfix">
@@ -30,7 +131,7 @@
             </li>
             <li class="s_button"><button type="submit" form="FORM" value="" style="height:50px;">Forward to Warden</button></li>
             <li class="s_button"><button type="submit" form="FORM" value="" style="height:50px;">Reject</button></li>
-            <li><a href="#">Delete</a></li>
+            <li class="s_button"><button type="submit" form="FORM" value="" style="height:50px;">Submit</button></li>
         </ul>
         </nav>
     </div>
@@ -76,6 +177,30 @@
   	</div> 
   </div>
   </div>
+  <div id="down" >
+    <table>
+      <tr>
+      <td><span  id="d1" onmouseover="d1('first')" onmouseout="out1()">1</span></td>
+      <td><span  id="d2" onmouseover="d2('first')" onmouseout="out2()">2</span></td>
+      <td><span  id="d3" onmouseover="d3('first')" onmouseout="out3()">3</span></td>
+      <td><span  id="d11" onmouseover="d11('first')" onmouseout="out11()">11</span></td>
+      <td><span  id="d12" onmouseover="d12('first')" onmouseout="out12()">12</span></td>
+      <td><span  id="d13" onmouseover="d13('first')" onmouseout="out13()">13</span></td>
+      <td><span  id="d21" onmouseover="d21('first')" onmouseout="out21()">21</span></td>
+      <td><span  id="d22" onmouseover="d22('first')" onmouseout="out22()">22</span></td>
+      <td><span  id="d23" onmouseover="d23('first')" onmouseout="out23()">23</span></td>
+     <!--  <td>14</td>
+      <td>21</td>
+      <td>22</td>
+      <td>23</td>
+      <td>24</td> -->
+      </tr>
+      <!-- <tr>
+        <td>
+          <span  id="t3" >3</span>
+        </td>
+      </tr> -->
+    </table></div>
 </form>
 </body>
 </html>

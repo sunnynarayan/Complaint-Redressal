@@ -48,7 +48,7 @@ def studentComplainView(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid')
-    qry = "SELECT a.cid, a.time, a.type, a.subject, a.comments, b.studID, @a:=@a+1 serial_number FROM complain a, complainLink b, (SELECT @a:= 0) AS a WHERE (b.studID = " + str(
+    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments, b.studID, @a:=@a+1 serial_number FROM complain a, complainLink b, (SELECT @a:= 0) AS a WHERE (b.studID = " + str(
         uid) + " OR b.studID = 0) AND a.cid = b.CID"
     serialComplainObjects = serialComplain.objects.raw(qry);
     # request.session['complains'] = serialComplainObjects;

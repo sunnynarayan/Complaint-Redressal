@@ -120,6 +120,7 @@
         <th>Student ID</th>
         <th>Serial Number</th>
         <th>Type</th>
+        <th>Status Code</th>
       </tr>
           {% for item in list %}
       <tr> 
@@ -130,6 +131,7 @@
         <td>{{ item.studID }}</td>
         <td>{{ item.serial_number }}</td>
         <td>{{ item.type }}</td>
+        <td>{{ item.status }}</td>
     </tr>
     {% endfor %}
 </table><!-- 

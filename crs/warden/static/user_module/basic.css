@@ -1,4 +1,10 @@
-
+			#down{
+				position: absolute;
+				bottom: 0px;
+					
+				width: 100%;
+				
+			}
 			#upper{
 				background-image: url("../img/system/img-boat.jpg");
 			    

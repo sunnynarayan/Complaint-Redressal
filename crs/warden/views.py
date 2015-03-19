@@ -12,7 +12,6 @@ import datetime
 from login.models import *
 import re
 from student.views import getTypeDescription,getCatagory
-
 def isWarden(request):
 	user_type = request.session.get("user_type",'')
 	if user_type != "warden":
@@ -26,9 +25,11 @@ def wardenComplainView(request):
 		return redirect('/crs/')
 	uid=request.session.get('uid')		
 	# PublicComplainObjects = Complainlink.objects.all().filter(wardenid = uid).filter(studid = 0);
-	query1 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID = 0'
+	# query1 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID = 0'
+	query1 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 3 OR complain.status = 13 OR complain.status = 23) AND (complainLink.wardenid = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID'
+	query2 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 3 OR complain.status =  13 OR complain.status = 23) AND (complainLink.wardenid = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID'
 	PublicComplainObjects = Complainlink.objects.raw(query1)
-	query2 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID != 0'
+	# query2 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID != 0'
 	PrivateComplainObjects = Complainlink.objects.raw(query2)
 	# PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
 	Privatelist=[];

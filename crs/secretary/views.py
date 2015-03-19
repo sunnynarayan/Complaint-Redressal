@@ -21,8 +21,8 @@ def secComplainView(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
 	uid=request.session.get('uid')
-	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = uid OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
-	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = uid) AND complain.cid = complainLink.CID')
+	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complain.status = 1 OR complain.status=2 OR complain.status=3 OR complain.status=11 OR complain.status=12 OR complain.status=13) AND (complainLink.secID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID')
+	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complain.status = 1 OR complain.status=2 OR complain.status=3 OR complain.status=11 OR complain.status=12 OR complain.status=13) AND (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID')
 	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains});
 
 def secLodgeComplain(request):
@@ -40,6 +40,26 @@ def forwardToWarden(request):
 		ClO =Complainlink.objects.get(cid=comid)
 		ClO.woid = "1235"
 		ClO.save()
+		obj=Complain.objects.get(cid=ClO.cid)
+		if obj.status==1:
+			obj.status==2
+			obj.save()
+		else:
+			obj.save()
+	# complainObj.wardenID = wardenID
+	# complainObj.save()
+	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+
+def rejectComplain(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	complainArray=request.POST.getlist('complain')
+	length = len(complainArray)
+	for x in range(0,length):
+		comid = complainArray[x]
+		obj=Complain.objects.get(cid=ClO.cid)
+		obj.status=21
+		obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
 	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
@@ -95,6 +115,7 @@ def makingMeal(request):
 		make = "," + meals[x]
 	
 	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+
 
 
 # def editProfile(request):

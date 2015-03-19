@@ -56,9 +56,8 @@ def studentComplainView(request):
 
 
 def studentViewComplain(request):
-    indexF = request.GET.get('CID')
-    index = int(indexF)
-    qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.studID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
+    index = request.GET.get('CID')
+    qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \"" + str(index) + "\" AND (b.studID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
     complainObject = Complain.objects.raw(qry)
     return render_to_response("student/compDetail.html", {'item': complainObject[0]})
 
@@ -136,6 +135,72 @@ def getTypeDescription(code):
     else:
         return "Other"
 
+def getComplainID(catagory, hostel):
+	complain = ""
+	if hostel == 1:
+		complain = complain + "AS"
+	elif hostel == 2:
+		complain = complain + "AR"
+	elif hostel == 3:
+		complain = complain + "AR"
+	else:
+		complain = complain + "xx"
+
+	complain = complain + "-"
+
+	if catagory == 1:
+		complain = complain + "ME"
+	elif catagory == 2:
+		complain = complain + "EN"
+	elif catagory == 3:
+		complain = complain + "TE"
+	elif catagory == 4:
+		complain = complain + "MA"
+	else:
+		complain = complain + "xx"
+
+	complain = complain + "-"
+	dt = datetime.datetime.now()
+	dateComplain = dt.date()
+	dateDatabase = Complainid.objects.get(hostel=hostel,type = catagory)
+	if(dateDatabase.date < dateComplain):
+		dateDatabase.date = dateComplain
+		dateDatabase.id = 1
+		dateDatabase.save()
+
+	numericMonth = dt.month
+	numericDay = dt.day
+	numericYear = dt.year
+
+	if numericDay < 10:
+		complain = complain + "0" + str(numericDay)
+	else:
+		complain = complain + str(numericDay)
+
+	complain = complain + "/"
+
+	if numericMonth < 10:
+		complain = complain + "0" + str(numericMonth)
+	else:
+		complain = complain + str(numericMonth)
+
+	complain = complain + "/"
+	numericYear = numericYear - 2000
+	complain = complain + str(numericYear)
+	compno = int(dateDatabase.id)
+	dateDatabase.id = dateDatabase.id + 1
+	dateDatabase.save()
+	complain = complain + "-"
+	if compno < 10:
+		complain = complain + "000" + str(compno)
+	elif compno < 100:
+		complain = complain + "00" + str(compno)
+	elif compno < 1000:
+		complain = complain + "0" + str(compno)
+	else:
+		complain = complain + str(compno)
+	
+	return complain
 
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
@@ -148,12 +213,12 @@ def lodgeComplainDetail(request):
     public = (request.POST.get('complainType') == "0");
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
-    complainObj = Complain(uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0,
-                           history=history);
+    cid = getComplainID(catagory, hostel)
+    complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0,
+                           history=history, status = 1);
     complainObj.save();
     secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
     secid = secretaryObj.uid
-    cid = (Complain.objects.get(uid=uid, time=time)).cid
     if (public == True):
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
         CLObj.save()
@@ -162,6 +227,23 @@ def lodgeComplainDetail(request):
         CLObj.save()
     return redirect('../complainView/');
 
+def relodgeComplain(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	complainArray=request.POST.getlist('complain')
+	length = len(complainArray)
+	for x in range(0,length):
+		comid = complainArray[x]
+		obj=Complain.objects.get(cid=comid)
+		if obj.status==1:
+			obj.status=11
+			obj.save()
+		else:
+			obj.status=22
+			obj.save()
+	# complainObj.wardenID = wardenID
+	# complainObj.save()
+	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 # def forgetPassword(request):#forgetpassword page loading
 # render_to_response(student/resetpassword.html)
 

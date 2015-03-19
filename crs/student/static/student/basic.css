@@ -1,6 +1,12 @@
 body {
 
 			}
+			#down{
+				position: absolute;
+				bottom: 50px;
+					
+				width: 100%;
+			}
 			#upper{
 			background-image: url("../img/system/img-boat.jpg");
 			    

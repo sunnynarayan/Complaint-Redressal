@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
+	<meta charset="utf-8">
 <style></style>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
@@ -21,7 +21,7 @@ $( "#custom" ).hide();});
 
 
 <div id="right">
-<form name="complainForm" action="../lodgedComplainDetail/" method="post">
+<form name="complainForm" action="../lodgedComplainDetail/" method="post" enctype="multipart/form-data">
 	
 		<p id="s1">Select catagory of complain.</p>
 		<select name="catagory" style="width: 500px">
@@ -56,10 +56,15 @@ $( "#custom" ).hide();});
 	
 	<p>Add description of complain</p>
 	<p><textarea  name="message" rows="10" cols="70" placeholder="Write description of complain." required value=""></textarea></p>
-	<p>Add picture of issue(Optional)&nbsp;<input type="file" name="pic" accept="image/*" style="width: 300px"></p>
-  
-  <span style="float: center;"><input id="" type="submit" name = "Lodge" value="Lodge" style="width: 120px"></span>
-  <span style="float: center;"><input type="submit" value="Cancel" style="width: 120px"></span>
+	{% csrf_token %}
+			<p>{{ form.non_field_errors }}</p>
+			<p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+			<p>
+				{{ form.docfile.errors }}
+				{{ form.docfile }}
+			</p>
+			<p><input type="submit" id="sbmit"  value="Lodge" /></p>
+ 
  
 </form>
   </div>

@@ -11,7 +11,16 @@ import hashlib
 import datetime
 from login.models import *
 import re
+from django.core.urlresolvers import reverse
+from django import forms
 
+class DocumentForm(forms.Form):
+    docfile = forms.FileField(
+        label='Select a file'
+    )
+
+# def loadfile(request):
+    # return render_to_response('list.html')
 
 def isStudent(request):
     user_type = request.session.get("user_type", '')
@@ -20,6 +29,35 @@ def isStudent(request):
     else:
         return True
 
+def list(request): # Handle file upload
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = Document(docfile = request.FILES['docfile'])
+            newdoc.save()
+        return HttpResponse('uploaded')
+
+
+            # Redirect to the document list after POST
+            # return HttpResponseRedirect(reverse('crs.student.views.list'))
+    # else:
+        # form = DocumentForm() # A empty, unbound form
+
+    # Load documents for the list page
+    # documents = Document.objects.all()
+
+    # Render list page with the documents and the form
+    # return render_to_response(
+    #     'list.html',
+    #     {'documents': documents, 'form': form},
+    #     context_instance=RequestContext(request)
+    # )
+    else:
+        return HttpResponse('kjkj')
+
+def loadPage(request):
+    form =DocumentForm()
+    return render_to_response('student/list.html',{'form': form})
 
 def OpenHostelPage(request):
 	username=request.session.get("username")
@@ -27,18 +65,19 @@ def OpenHostelPage(request):
 	return render_to_response('student/HostelLeave.html',{'obj' : obj})
 
 def HostelLeavingSubmit(request):
-	laptop=request.POST.get('laptop')
-	start_date=request.POST.get('start_date')
-	end_date=request.POST.get('end_date')
-	destination=request.POST.get('destination')
-	reason=request.POST.get('reason')
-	username=request.session.get("username")
-	obj=Student.objects.get(username=username)
-	hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,laptop=laptop,destination=destination,reason=reason,hostel=obj.hostel,roll=obj.roll,mobile=obj.mobile)
-	hostel.save()
-	return HttpResponse('Hostel form submitted successfully')
-
-
+    laptop=request.POST.get('laptop', '')
+    start_date=request.POST.get('start_date', datetime.datetime.now().date())
+    end_date=request.POST.get('end_date' , datetime.datetime.now().date())
+    destination=request.POST.get('destination', '')
+    reason=request.POST.get('reason', '')
+    username=request.session.get("username")
+    obj = Student.objects.get(username=username)
+    # rollno = obj.roll
+    hostel=obj.hostel
+    mobile=obj.mobile
+    hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,laptop=laptop,destination=destination,reason=reason,hostel=hostel,mobile=mobile)
+    hostel.save()
+    return HttpResponse('Hostel form submitted successfully')
 
 def validatePassword(passwd):
     return ((len(passwd) < 21) and (len(passwd) > 7))
@@ -57,7 +96,16 @@ def studentComplainView(request):
 
 def studentViewComplain(request):
     index = request.GET.get('CID')
-    qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \"" + str(index) + "\" AND (b.studID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
+    qry = ""
+    if request.session.get("user_type")=="student" :
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.studID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"        
+    elif request.session.get("user_type")=="secretary" :
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+    elif request.session.get("user_type")=="wardenOffice" :
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+    elif request.session.get("user_type")=="warden" :
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+        
     complainObject = Complain.objects.raw(qry)
     return render_to_response("student/compDetail.html", {'item': complainObject[0]})
 
@@ -65,7 +113,8 @@ def studentViewComplain(request):
 def studentLodgeComplain(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    return render_to_response('student/studLodgeComplain.html');
+    form =DocumentForm()
+    return render_to_response('student/studLodgeComplain.html',{'form': form})
 
 
 def studentHome(request):
@@ -217,6 +266,11 @@ def lodgeComplainDetail(request):
     complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0,
                            history=history, status = 1);
     complainObj.save();
+    try:
+        newdoc = Document(docfile = request.FILES['docfile'])
+        newdoc.save()
+    except:
+        d=request.POST['subject']
     secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
     secid = secretaryObj.uid
     if (public == True):

@@ -1,5 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+
 # from user_module import views
 
 admin.autodiscover()
@@ -31,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^crs/wardenViewSecretary/$', 'warden.views.viewSecretary'),
     url(r'^crs/wardenEditProfile/$', 'warden.views.wardenEditProfile'),
     url(r'^crs/forwardToWarden/$', 'secretary.views.forwardToWarden'),
+    url(r'^crs/rejectComplain/$', 'secretary.views.rejectComplain'),
     url(r'^crs/wardenComplain/$', 'wardenOffice.views.wardenOfficeComplainView'),
     url(r'^crs/forwardToWard/$', 'wardenOffice.views.forwardToWardenOffice'),
     url(r'^crs/changePassword/$', 'login.views.changePasswd'),
@@ -47,5 +51,10 @@ urlpatterns = patterns('',
     url(r'^addingFoodItem/$', 'secretary.views.addingFoodItem'),
     url(r'^pollMakeMeal/$', 'secretary.views.pollMakeMeal'),
     url(r'^makingMeal/$', 'secretary.views.makingMeal'),
+    url(r'^list/$','student.views.list'),
+    url(r'^Page/$','student.views.loadPage'),
+)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),
-)
+

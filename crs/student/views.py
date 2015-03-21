@@ -87,8 +87,7 @@ def studentComplainView(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid')
-    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments, b.studID, @a:=@a+1 serial_number FROM complain a, complainLink b, (SELECT @a:= 0) AS a WHERE (b.studID = " + str(
-        uid) + " OR b.studID = 0) AND a.cid = b.CID"
+    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments, b.studID, @a:=@a+1 serial_number FROM complain a, complainLink b, (SELECT @a:= 0) AS a WHERE (b.studID = " + str(uid) + " OR b.studID = 0) AND a.cid = b.CID"
     serialComplainObjects = serialComplain.objects.raw(qry);
     # request.session['complains'] = serialComplainObjects;
     return render_to_response("student/viewStudComplain.html", {'list': serialComplainObjects});
@@ -98,9 +97,9 @@ def studentViewComplain(request):
     index = request.GET.get('CID')
     qry = ""
     if request.session.get("user_type")=="student" :
-        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.studID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"        
+        qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studID = 0)  AND c.cid = a.cid"        
     elif request.session.get("user_type")=="secretary" :
-        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secid = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="warden" :
@@ -271,6 +270,26 @@ def lodgeComplainDetail(request):
         newdoc.save()
     except:
         d=request.POST['subject']
+    first=request.POST.get('first')
+    second=request.POST.get('second')
+    third=request.POST.get('third')
+    fourth=request.POST.get('fourth')
+    fifth=request.POST.get('fifth')
+    fid=Student.objects.get(roll = first).uid
+    sid=Student.objects.get(roll = second).uid
+    thirdid=Student.objects.get(roll= third).uid
+    fourthid=Student.objects.get(roll = fourth).uid
+    fifthid=Student.objects.get(roll = fifth).uid
+    studComp1=Studcomplainlink(cid=cid,studid=fid)
+    studComp2=Studcomplainlink(cid=cid,studid=sid)
+    studComp3=Studcomplainlink(cid=cid,studid=thirdid)
+    studComp4=Studcomplainlink(cid=cid,studid=fourthid)
+    studComp5=Studcomplainlink(cid=cid,studid=fifthid)
+    studComp1.save()
+    studComp2.save()
+    studComp3.save()
+    studComp4.save()
+    studComp5.save()
     secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
     secid = secretaryObj.uid
     if (public == True):

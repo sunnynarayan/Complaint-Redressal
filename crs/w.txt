@@ -216,7 +216,8 @@ class DjangoSession(models.Model):
 
 
 class Document(models.Model):
-    docfile = models.TextField()
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    docfile = models.CharField(max_length=100)
 
     class Meta:
         managed = False
@@ -277,15 +278,6 @@ class HostelLeavingInformation(models.Model):
         db_table = 'hostel_leaving_information'
 
 
-class LoginDocument(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    docfile = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'login_document'
-
-
 class Meals(models.Model):
     mid = models.IntegerField(db_column='MID', primary_key=True)  # Field name made lowercase.
     items = models.CharField(max_length=100)
@@ -304,6 +296,15 @@ class Secretary(models.Model):
     class Meta:
         managed = False
         db_table = 'secretary'
+
+
+class Studcomplainlink(models.Model):
+    cid = models.CharField(max_length=19)
+    studid = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'studComplainlink'
 
 
 class Student(models.Model):

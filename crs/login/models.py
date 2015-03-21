@@ -21,6 +21,15 @@ class Clink(models.Model):
         managed = False
         db_table = 'Clink'
 
+# class Document(models.Model):
+    # docfile = models.FileField(upload_to='documents/%Y/%m/%d')
+
+class Document(models.Model):
+    docfile = models.FileField(upload_to='documents')
+    class Meta:
+        managed = True
+        db_table='document'
+
 class Com(models.Model):
     comid = models.IntegerField(db_column='comID', primary_key=True) # Field name made lowercase.
     txt = models.TextField(db_column='Txt') # Field name made lowercase.
@@ -123,13 +132,13 @@ class Complain(models.Model):
 
 class HostelLeavingInformation(models.Model):
     name = models.TextField()
-    start_date = models.CharField(db_column='start_Date', max_length=6)  # Field name made lowercase.
-    end_date = models.CharField(db_column='end_Date', max_length=6)  # Field name made lowercase.
+    start_date = models.CharField(db_column='start_Date', max_length=100)  # Field name made lowercase.
+    end_date = models.CharField(db_column='end_Date', max_length=100)  # Field name made lowercase.
     laptop = models.CharField(max_length=3)
     destination = models.CharField(max_length=30)
     reason = models.TextField()
     hostel = models.IntegerField()
-    roll = models.CharField(max_length=8)
+    # roll = models.CharField(max_length=8)
     mobile = models.TextField()
 
     class Meta:

@@ -34,7 +34,6 @@ EMAIL_HOST_USER = 'softwareprojmanager@gmail.com'
 EMAIL_HOST_PASSWORD = 'hopelessnessbeyond'
 EMAIL_USE_TLS = True
 
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 )
 
 ROOT_URLCONF = 'crs.urls'
@@ -91,7 +91,6 @@ PASSWORD_HASHERS = (
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -100,6 +99,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/

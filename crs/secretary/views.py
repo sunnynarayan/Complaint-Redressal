@@ -114,7 +114,7 @@ def makingMeal(request):
 	for x in range(1,length):
 		make = "," + meals[x]
 	
-	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+	return redirect('crs/listComp/',{'msg':'Succesfully Redirected!!!'})
 
 
 

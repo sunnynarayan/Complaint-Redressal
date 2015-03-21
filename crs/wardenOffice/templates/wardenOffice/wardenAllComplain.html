@@ -150,7 +150,7 @@
       <tr> 
       	<td><input type="checkbox" class="checked" name="complain" value="{{ item.cid }}"></td>
         <td>{{ item.cid }}</td>
-        <td>{{ item.subject }}</td>
+        <a href="/crs/viewComplain?CID={{item.cid}}"><td>{{ item.subject }}</td></a>
         <td>{{ item.time }}</td>
         <td>{{ item.comments }}</td>
     </tr>
@@ -169,7 +169,7 @@
       <tr>
       	<td><input type="checkbox" name="complain" value="{{ item.cid }}"></td>
         <td>{{ item.cid }}</td>
-        <td>{{ item.subject }}</td>
+        <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.subject }}</a></td>
         <td>{{ item.time }}</td>
     </tr>
     {% endfor %}

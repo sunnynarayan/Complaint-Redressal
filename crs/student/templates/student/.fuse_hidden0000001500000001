@@ -106,45 +106,10 @@
       // document.getElementById("text").innerHTML = " sd";
     }
     function enterMouseStatus (elementID) {
-      var x = document.getElementById("status-"+elementID);
+      var x = document.getElementById(elementID);
       var value = x.innerHTML;
       var valueInt = parseInt(value);
-      switch(valueInt){
-        case 1 :  x.innerHTML = "Complain lodged"; break;
-        case 2 :  x.innerHTML = "Complain forwarded to W.O."; break;
-        case 3 :  x.innerHTML = "Complain forwarded to Warden"; break;
-        case 11 :  x.innerHTML = "Complain Re-lodged"; break;
-        case 12 :  x.innerHTML = "Re-lodged forwarded to W.O."; break;
-        case 13 :  x.innerHTML = "Re-lodged forwarded to Warden"; break;
-        case 21 :  x.innerHTML = "Complain rejected by secretary"; break;
-        case 22 :  x.innerHTML = "By-passed secretary, forwarded to W.O."; break;
-        case 23 :  x.innerHTML = "By-passwd complain forwarded to Warden"; break;
-      }
-    }
-    function leaveMouseStatus (elementID) {
-      var x = document.getElementById("status-"+elementID);
-      var value = x.innerHTML;
-
-      if (value == "Complain lodged"){
-        x.innerHTML = "1";
-      }else if(value == "Complain forwarded to W.O."){
-        x.innerHTML = "2";
-      }else if(value == "Complain forwarded to Warden"){
-        x.innerHTML = "3";
-      }else if(value == "Complain Re-lodged"){
-        x.innerHTML = "11";
-      }else if(value == "Re-lodged forwarded to W.O."){
-        x.innerHTML = "12";
-      }else if(value == "Re-lodged forwarded to Warden"){
-        x.innerHTML = "13";
-      }else if(value == "Complain rejected by secretary"){
-        x.innerHTML = "21";
-      }
-      else if(value == "By-passed secretary, forwarded to W.O."){
-        x.innerHTML = "22";
-      }else if(value == "By-passwd complain forwarded to Warden"){
-        x.innerHTML = "23";
-      }
+      
     }
     </script>
 </head>
@@ -172,7 +137,7 @@
         <td>{{ item.studID }}</td>
         <td>{{ item.serial_number }}</td>
         <td>{{ item.type }}</td>
-        <td  id = "status-{{item.cid}}" onmouseover="enterMouseStatus(&#34;{{item.cid}}&#34;)" onmouseout="leaveMouseStatus(&#34;{{item.cid}}&#34;)">{{ item.status }}</td>
+        <td id = "status-{{item.cid}}" onmouseover="enterMouseStatus(status-{{item.cid}})" onmouseout="leaveMouseStatus(status-{{item.cid}})">{{ item.status }}</td>
     </tr>
     {% endfor %}
 </table><!-- 

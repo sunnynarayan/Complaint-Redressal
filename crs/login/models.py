@@ -232,22 +232,27 @@ class CaptchaCaptchastore(models.Model):
         db_table = 'captcha_captchastore'
 
 class Fooditems(models.Model):
-    fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.
+    fid = models.IntegerField(db_column='FID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(unique=True, max_length=100)
     vitamins = models.IntegerField()
     proteins = models.IntegerField()
     fat = models.IntegerField()
-    nutritions = models.DecimalField(max_digits=10, decimal_places=3)
+    nutritions = models.DecimalField(max_digits=4, decimal_places=2)
+
     class Meta:
         managed = False
         db_table = 'foodItems'
+                
 class Meals(models.Model):
-    mid = models.IntegerField(db_column='MID', primary_key=True) # Field name made lowercase.
-    items = models.CharField(unique=True, max_length=100)
-    avgnutrition = models.DecimalField(db_column='avgNutrition', max_digits=10, decimal_places=0) # Field name made lowercase.
+    mid = models.IntegerField(db_column='MID', primary_key=True)  # Field name made lowercase.
+    fid = models.CharField(db_column='FID', unique=True, max_length=100)  # Field name made lowercase.
+    avgnutrition = models.DecimalField(db_column='avgNutrition', max_digits=4, decimal_places=2)  # Field name made lowercase.
+    name = models.CharField(max_length=120)
+
     class Meta:
         managed = False
         db_table = 'meals'
+
 
 class Faculty(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

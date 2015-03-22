@@ -11,11 +11,11 @@
         <th>Name</th>
         <th>Avg. nutrition Value</th>
       </tr>
-          {% for item in public %}
+          {% for item in list %}
       <tr>
-        <td>{{ item.serial }}</td>
+        <td>{{ forloop.counter }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.nutritions }}</td>
+        <td>{{ item.avgnutrition }}</td>
       </tr>
       <tr></tr>
           {% endfor %}

@@ -7,7 +7,7 @@
 </head>
 <body>
 <h3 align="center">  Make dish</h3>
-<form name="form_2" action="/makingMeal/">
+<form name="form_2" action="../makingMeal/" method="POST">
 <table>
 <tr> 
    <th> Items </th>
@@ -18,7 +18,7 @@
 </tr>
 {% for item in list %}
 <tr>
-   <td> <input type="checkbox" class="item_list" name="foodItems" value="{{ item.fid }}" onclick="Display("{{ item.nutritions }}")">{{ item.name }}</td>
+   <td> <input type="checkbox" class="item_list" name="foodItems" value="{{ forloop.counter }}" onclick="Display("{{ item.nutritions }}")">{{ item.name }}</td>
    <td> {{ item.proteins }} </td>
    <td> {{ item.vitamins }} </td>
    <td> {{ item.fat }} </td>

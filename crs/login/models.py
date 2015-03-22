@@ -30,6 +30,16 @@ class Document(models.Model):
         managed = True
         db_table='document'
 
+
+class Studcomplainlink(models.Model):
+    cid = models.CharField(max_length=100)
+    studid = models.IntegerField()
+
+    class Meta:
+        managed = True
+        db_table = 'studComplainlink'
+
+
 class Com(models.Model):
     comid = models.IntegerField(db_column='comID', primary_key=True) # Field name made lowercase.
     txt = models.TextField(db_column='Txt') # Field name made lowercase.

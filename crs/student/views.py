@@ -265,19 +265,24 @@ def rateSecretary(request):
     type2=getCatagory(type1)
     obj=Secretary.objects.get(type=type2,hostel=hostel)
     secId=obj.uid
-    secObj=Secretaryrating(secid=secId,rating=rating,studid=uid)
-    secObj.save()
-    count=0
-    n=1
-    finalRating=1.0
-    obj=Secretaryrating.objects.get(secid=secId)
-    count +=obj.rating
-    ++n
-    finalRating=count/n
-    sec=Secretary.objects.get(uid=secId)
-    sec.rating=finalRating
-    sec.save()
-    return render_to_response('student/studentHome.html')
+    try:
+        secObj=Secretaryrating(secid=secId,rating=rating,studid=uid)
+        secObj.save()
+        count=0.0
+        n=0.0
+        finalRating=0.0
+        # qry = "SELECT * FROM secretaryRating a WHERE a.secID = " + str(secId) 
+        obj=Secretaryrating.objects.filter(secid =int(secId))
+        for obje in obj:
+            count +=obje.rating
+            n=n+1
+        finalRating=count/n
+        sec=Secretary.objects.get(uid=secId)
+        sec.rating=finalRating
+        sec.save()
+        return HttpResponse('You have voted')
+    except:
+        return HttpResponse('You have already Voted')
 
 def lodgeComplainDetail(request):
     if not (isStudent(request)):

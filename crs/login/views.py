@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 def logout(request):
 	request.session['login']="False";
 	request.session.flush()
-	return HttpResponse('bkb')
+	return redirect('/crs/')
 def validatePassword(passwd):
 	return ((len(passwd) > 20) or (len(passwd) < 8))
 

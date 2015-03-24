@@ -242,22 +242,27 @@ class CaptchaCaptchastore(models.Model):
         db_table = 'captcha_captchastore'
 
 class Fooditems(models.Model):
-    fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.
+    fid = models.IntegerField(db_column='FID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(unique=True, max_length=100)
     vitamins = models.IntegerField()
     proteins = models.IntegerField()
     fat = models.IntegerField()
-    nutritions = models.DecimalField(max_digits=10, decimal_places=3)
+    nutritions = models.DecimalField(max_digits=4, decimal_places=2)
+
     class Meta:
         managed = False
         db_table = 'foodItems'
+                
 class Meals(models.Model):
-    mid = models.IntegerField(db_column='MID', primary_key=True) # Field name made lowercase.
-    items = models.CharField(unique=True, max_length=100)
-    avgnutrition = models.DecimalField(db_column='avgNutrition', max_digits=10, decimal_places=0) # Field name made lowercase.
+    mid = models.IntegerField(db_column='MID', primary_key=True)  # Field name made lowercase.
+    fid = models.CharField(db_column='FID', unique=True, max_length=100)  # Field name made lowercase.
+    avgnutrition = models.DecimalField(db_column='avgNutrition', max_digits=4, decimal_places=2)  # Field name made lowercase.
+    name = models.CharField(max_length=120)
+
     class Meta:
         managed = False
         db_table = 'meals'
+
 
 class Faculty(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.
@@ -283,8 +288,11 @@ class Secretary(models.Model):
     uid = models.IntegerField(db_column='UID', primary_key=True) # Field name made lowercase.
     type = models.IntegerField()
     hostel = models.IntegerField()
+
+    rating = models.DecimalField(db_column='rating', max_digits=4, decimal_places=2)
+
     class Meta:
-        managed = False
+        managed = True
         db_table = 'secretary'
 
 class Student(models.Model):
@@ -310,13 +318,15 @@ class Student(models.Model):
         db_table = 'student'
 
 class Secretaryrating(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
     secid = models.IntegerField(db_column='secID')  # Field name made lowercase.
     studid = models.IntegerField(db_column='studID')  # Field name made lowercase.
     rating = models.IntegerField()
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'secretaryRating'
+
 
 class Warden(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

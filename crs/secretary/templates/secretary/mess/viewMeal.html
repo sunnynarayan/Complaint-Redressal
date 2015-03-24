@@ -5,20 +5,28 @@
 </head>
 <body>
 <h3>List Of Meals</h3>
+<form>
 		<table>
       <tr>
         <th>Serial No.</th>
         <th>Name</th>
         <th>Avg. nutrition Value</th>
+        <th>Breakfast</th>
+        <th>Lunch</th>
+        <th>Dinner</th>
       </tr>
           {% for item in list %}
       <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.avgnutrition }}</td>
+        <td><input type="checkbox" value="" name="breakfast"></td>
+        <td><input type="checkbox" value="" name="lunch"></td>
+        <td><input type="checkbox" value="" name="dinner"></td>
       </tr>
       <tr></tr>
           {% endfor %}
     </table>
+</form>    
 </body>
 </html>

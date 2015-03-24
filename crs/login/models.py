@@ -288,7 +288,6 @@ class Secretary(models.Model):
     uid = models.IntegerField(db_column='UID', primary_key=True) # Field name made lowercase.
     type = models.IntegerField()
     hostel = models.IntegerField()
-
     rating = models.DecimalField(db_column='rating', max_digits=4, decimal_places=2)
 
     class Meta:
@@ -313,8 +312,11 @@ class Student(models.Model):
     bank = models.CharField(max_length=50, blank=True)
     ifsc = models.CharField(db_column='IFSC', max_length=11, blank=True) # Field name made lowercase.
     issec = models.IntegerField(db_column='isSec') # Field name made lowercase.
+    state = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    pincode = models.CharField(max_length=6)
     class Meta:
-        managed = False
+        managed = True
         db_table = 'student'
 
 class Secretaryrating(models.Model):

@@ -52,6 +52,8 @@ urlpatterns = patterns('',
     url(r'^pollMakeMeal/$', 'secretary.views.pollMakeMeal'),
     url(r'^makingMeal/$', 'secretary.views.makingMeal'),
     url(r'^list/$','student.views.list'),
+    url(r'^crs/loadRateSecPage/$','student.views.loadRateSecPage'),
+    url(r'^rateSecretary/$','student.views.rateSecretary'),
     url(r'^Page/$','student.views.loadPage'),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

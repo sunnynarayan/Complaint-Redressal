@@ -250,6 +250,35 @@ def getComplainID(catagory, hostel):
 	
 	return complain
 
+
+
+def loadRateSecPage(request):
+    return render_to_response('student/rateSec.html')
+
+def rateSecretary(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    uid = request.session.get('uid') 
+    hostel=request.session.get('hostel')
+    type1=request.POST.get('type')
+    rating=request.POST.get('rating')
+    type2=getCatagory(type1)
+    obj=Secretary.objects.get(type=type2,hostel=hostel)
+    secId=obj.uid
+    secObj=Secretaryrating(secid=secId,rating=rating,studid=uid)
+    secObj.save()
+    count=0
+    n=1
+    finalRating=1.0
+    obj=Secretaryrating.objects.get(secid=secId)
+    count +=obj.rating
+    ++n
+    finalRating=count/n
+    sec=Secretary.objects.get(uid=secId)
+    sec.rating=finalRating
+    sec.save()
+    return render_to_response('student/studentHome.html')
+
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
@@ -270,26 +299,29 @@ def lodgeComplainDetail(request):
         newdoc.save()
     except:
         d=request.POST['subject']
-    first=request.POST.get('first')
-    second=request.POST.get('second')
-    third=request.POST.get('third')
-    fourth=request.POST.get('fourth')
-    fifth=request.POST.get('fifth')
-    fid=Student.objects.get(roll = first).uid
-    sid=Student.objects.get(roll = second).uid
-    thirdid=Student.objects.get(roll= third).uid
-    fourthid=Student.objects.get(roll = fourth).uid
-    fifthid=Student.objects.get(roll = fifth).uid
-    studComp1=Studcomplainlink(cid=cid,studid=fid)
-    studComp2=Studcomplainlink(cid=cid,studid=sid)
-    studComp3=Studcomplainlink(cid=cid,studid=thirdid)
-    studComp4=Studcomplainlink(cid=cid,studid=fourthid)
-    studComp5=Studcomplainlink(cid=cid,studid=fifthid)
-    studComp1.save()
-    studComp2.save()
-    studComp3.save()
-    studComp4.save()
-    studComp5.save()
+    try:
+        first=request.POST.get('first')
+        second=request.POST.get('second')
+        third=request.POST.get('third')
+        fourth=request.POST.get('fourth')
+        fifth=request.POST.get('fifth')
+        fid=Student.objects.get(roll = first).uid
+        sid=Student.objects.get(roll = second).uid
+        thirdid=Student.objects.get(roll= third).uid
+        fourthid=Student.objects.get(roll = fourth).uid
+        fifthid=Student.objects.get(roll = fifth).uid
+        studComp1=Studcomplainlink(cid=cid,studid=fid)
+        studComp2=Studcomplainlink(cid=cid,studid=sid)
+        studComp3=Studcomplainlink(cid=cid,studid=thirdid)
+        studComp4=Studcomplainlink(cid=cid,studid=fourthid)
+        studComp5=Studcomplainlink(cid=cid,studid=fifthid)
+        studComp1.save()
+        studComp2.save()
+        studComp3.save()
+        studComp4.save()
+        studComp5.save()
+    except:
+        d=request.POST['subject']
     secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
     secid = secretaryObj.uid
     if (public == True):

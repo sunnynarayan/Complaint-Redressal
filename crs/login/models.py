@@ -36,7 +36,7 @@ class Studcomplainlink(models.Model):
     studid = models.IntegerField()
 
     class Meta:
-        managed = True
+        # managed = False
         db_table = 'studComplainlink'
 
 
@@ -109,7 +109,7 @@ class AuthUser(models.Model):
         managed = False
         db_table = 'auth_user'
 
-class AuthUserGroups(models.Model):
+class AuthUserGroups(models.Model):   
     id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(AuthUser)
     group = models.ForeignKey(AuthGroup)
@@ -308,6 +308,15 @@ class Student(models.Model):
     class Meta:
         managed = False
         db_table = 'student'
+
+class Secretaryrating(models.Model):
+    secid = models.IntegerField(db_column='secID')  # Field name made lowercase.
+    studid = models.IntegerField(db_column='studID')  # Field name made lowercase.
+    rating = models.IntegerField()
+
+    class Meta:
+        managed = True
+        db_table = 'secretaryRating'
 
 class Warden(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

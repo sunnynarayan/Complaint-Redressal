@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		
+	</title>
+</head>
+<body>
+<h3 align="center"> Breakfast, lunch and dinner menus </h3>
+
+<div id="container">
+    <div id="one">
+    	<h2> Breakfast options:</h2>
+    	<table>
+    	{% for items in list1 %}
+        <tr>
+        <td><input type="checkbox" value=""></td>
+        <td> Menu {{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.mid }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.type }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div id="two">
+    	<h2> Lunch options:</h2>
+    	<table>
+    	{% for items in list2 %}
+        <tr>
+        <td><input type="checkbox" value=""></td>
+        <td> Menu {{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.mid }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.type }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div id="three">
+    	<h2> Dinner options:</h2>
+    	<table>
+    	{% for items in list3 %}
+        <tr>
+        <td><input type="checkbox" value=""></td>
+        <td> Menu {{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.mid }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.type }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <button type="submit" value="" > Start Poll </button>
+</div>
+
+</body>
+</html>

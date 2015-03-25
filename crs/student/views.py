@@ -99,7 +99,7 @@ def studentViewComplain(request):
     if request.session.get("user_type")=="student" :
         qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studID = 0)  AND c.cid = a.cid"        
     elif request.session.get("user_type")=="secretary" :
-        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secid = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="warden" :

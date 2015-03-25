@@ -263,6 +263,15 @@ class Meals(models.Model):
         managed = False
         db_table = 'meals'
 
+class Pollmenu(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    hostel = models.IntegerField()
+    mid = models.IntegerField(db_column='MID')  # Field name made lowercase.
+    type = models.CharField(max_length=1)
+
+    class Meta:
+        managed = False
+        db_table = 'pollMenu'
 
 class Faculty(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

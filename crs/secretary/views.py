@@ -144,9 +144,51 @@ def makingMeal(request):
 	return redirect('/crs/viewMeal/')
 
 def viewMeal(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
 	items = Meals.objects.all()
+	MealList = []
+	for meal in items:
+		MealList.append(int(meal.mid))
+	request.session['mealList'] = MealList
 	return render_to_response("secretary/mess/viewMeal.html", {'list' : items})
 
+def addItemToPoll(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	breakfastItems = request.POST.getlist('breakfast')
+	lunchItems = request.POST.getlist('lunch')
+	dinnerItems = request.POST.getlist('dinner')
+	mealList = request.session.get('mealList')
+	pollMenuItem = []
+	if len(breakfastItems) > 0:
+		for breakfast in breakfastItems:
+			if int(breakfast) < 1 or int(breakfast) > len(mealList):
+				return redirect('/crs/viewMeal/')
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(breakfast)-1],type=1))
+	if len(lunchItems) > 0:
+		for lunch in lunchItems:
+			if int(lunch) < 1 or int(lunch) > len(mealList):
+				return redirect('/crs/viewMeal/')
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(lunch)-1],type=2))
+
+	if len(dinnerItems) > 0:
+		for dinner in dinnerItems:
+			if int(dinner) < 1 or int(dinner) > len(mealList):
+				return redirect('/crs/viewMeal/')
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(dinner)-1],type=3))
+
+	for item in pollMenuItem:
+		item.save()
+	return redirect('/crs/viewMeal/')
+
+def viewPollOptions(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	breakfastItems = Pollmenu.objects.filter(hostel=request.session.get('hostel'), type=1)
+	lunchItems = Pollmenu.objects.filter(hostel=request.session.get('hostel'), type=2)
+	dinnerItems = Pollmenu.objects.filter(hostel=request.session.get('hostel'), type=3)	
+	return render_to_response("secretary/mess/viewMenu.html", {'list1' : breakfastItems, 'list2' : lunchItems, 'list3' : dinnerItems})
 # def editProfile(request):
 # 	return redirect('//')
 

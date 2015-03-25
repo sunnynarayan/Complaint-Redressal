@@ -36,7 +36,7 @@ class Studcomplainlink(models.Model):
     studid = models.IntegerField()
 
     class Meta:
-        managed = True
+        # managed = False
         db_table = 'studComplainlink'
 
 
@@ -109,7 +109,7 @@ class AuthUser(models.Model):
         managed = False
         db_table = 'auth_user'
 
-class AuthUserGroups(models.Model):
+class AuthUserGroups(models.Model):   
     id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(AuthUser)
     group = models.ForeignKey(AuthGroup)
@@ -297,8 +297,10 @@ class Secretary(models.Model):
     uid = models.IntegerField(db_column='UID', primary_key=True) # Field name made lowercase.
     type = models.IntegerField()
     hostel = models.IntegerField()
+    rating = models.DecimalField(db_column='rating', max_digits=4, decimal_places=2)
+
     class Meta:
-        managed = False
+        managed = True
         db_table = 'secretary'
 
 class Student(models.Model):
@@ -319,9 +321,23 @@ class Student(models.Model):
     bank = models.CharField(max_length=50, blank=True)
     ifsc = models.CharField(db_column='IFSC', max_length=11, blank=True) # Field name made lowercase.
     issec = models.IntegerField(db_column='isSec') # Field name made lowercase.
+    state = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    pincode = models.CharField(max_length=6)
+    class Meta:
+        managed = True
+        db_table = 'student'
+
+class Secretaryrating(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    secid = models.IntegerField(db_column='secID')  # Field name made lowercase.
+    studid = models.IntegerField(db_column='studID')  # Field name made lowercase.
+    rating = models.IntegerField()
+
     class Meta:
         managed = False
-        db_table = 'student'
+        db_table = 'secretaryRating'
+
 
 class Warden(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

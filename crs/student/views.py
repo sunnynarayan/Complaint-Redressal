@@ -97,7 +97,7 @@ def studentViewComplain(request):
     index = request.GET.get('CID')
     qry = ""
     if request.session.get("user_type")=="student" :
-        qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studID = 0)  AND c.cid = a.cid"        
+        qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"        
     elif request.session.get("user_type")=="secretary" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="wardenOffice" :
@@ -128,8 +128,36 @@ def studentProfile(request):
     return render_to_response('student/studentProfile.html');
 
 def studEditProfile(request):
-    return render_to_response('student/studEditProfile.html')
+    uid=request.session.get('uid')
+    obj=Student.objects.get(uid=uid)
+    return render_to_response('student/studEditProfile.html',{'list' : obj})
 
+def afterEditProfile(request):
+    uid=request.session.get('uid');
+    obj=Student.objects.get(uid=uid);
+    padd=request.POST.get('padd')
+    state=request.POST.get('state')
+    city=request.POST.get('city')
+    pincode=request.POST.get('pincode')
+    bank=request.POST.get('bankName')
+    ifsc=request.POST.get('ifsc')
+    account=request.POST.get('accnum')
+    email=request.POST.get('email')
+    mobile=request.POST.get('mobile');
+    if len(account)<=11 and  len(ifsc)<=11 and len(mobile)==10 and len(pincode)==6:
+        obj.mobile=mobile;
+        obj.bank=bank;
+        obj.ifsc=ifsc;
+        obj.baccno=account;
+        obj.email=email
+        obj.padd=padd
+        obj.state=state
+        obj.city=city
+        obj.pincode=pincode
+        obj.save();
+        return render_to_response('student/studentHome.html')
+    else:
+        return HttpResponse(len(account))
 
 def studentViewRate(request):
     if not (isStudent(request)):
@@ -250,6 +278,40 @@ def getComplainID(catagory, hostel):
 	
 	return complain
 
+
+
+def loadRateSecPage(request):
+    return render_to_response('student/rateSec.html')
+
+def rateSecretary(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    uid = request.session.get('uid') 
+    hostel=request.session.get('hostel')
+    type1=request.POST.get('type')
+    rating=request.POST.get('rating')
+    type2=getCatagory(type1)
+    obj=Secretary.objects.get(type=type2,hostel=hostel)
+    secId=obj.uid
+    try:
+        secObj=Secretaryrating(secid=secId,rating=rating,studid=uid)
+        secObj.save()
+        count=0.0
+        n=0.0
+        finalRating=0.0
+        # qry = "SELECT * FROM secretaryRating a WHERE a.secID = " + str(secId) 
+        obj=Secretaryrating.objects.filter(secid =int(secId))
+        for obje in obj:
+            count +=obje.rating
+            n=n+1
+        finalRating=count/n
+        sec=Secretary.objects.get(uid=secId)
+        sec.rating=finalRating
+        sec.save()
+        return HttpResponse('You have voted')
+    except:
+        return HttpResponse('You have already Voted')
+
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
@@ -265,31 +327,36 @@ def lodgeComplainDetail(request):
     complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0,
                            history=history, status = 1);
     complainObj.save();
+    studComp1=Studcomplainlink(cid=cid,studid=uid)
+    studComp1.save()
     try:
         newdoc = Document(docfile = request.FILES['docfile'])
         newdoc.save()
     except:
         d=request.POST['subject']
-    first=request.POST.get('first')
-    second=request.POST.get('second')
-    third=request.POST.get('third')
-    fourth=request.POST.get('fourth')
-    fifth=request.POST.get('fifth')
-    fid=Student.objects.get(roll = first).uid
-    sid=Student.objects.get(roll = second).uid
-    thirdid=Student.objects.get(roll= third).uid
-    fourthid=Student.objects.get(roll = fourth).uid
-    fifthid=Student.objects.get(roll = fifth).uid
-    studComp1=Studcomplainlink(cid=cid,studid=fid)
-    studComp2=Studcomplainlink(cid=cid,studid=sid)
-    studComp3=Studcomplainlink(cid=cid,studid=thirdid)
-    studComp4=Studcomplainlink(cid=cid,studid=fourthid)
-    studComp5=Studcomplainlink(cid=cid,studid=fifthid)
-    studComp1.save()
-    studComp2.save()
-    studComp3.save()
-    studComp4.save()
-    studComp5.save()
+    try:
+        first=request.POST.get('first')
+        second=request.POST.get('second')
+        third=request.POST.get('third')
+        fourth=request.POST.get('fourth')
+        fifth=request.POST.get('fifth')
+        fid=Student.objects.get(roll = first).uid
+        sid=Student.objects.get(roll = second).uid
+        thirdid=Student.objects.get(roll= third).uid
+        fourthid=Student.objects.get(roll = fourth).uid
+        fifthid=Student.objects.get(roll = fifth).uid
+        studComp1=Studcomplainlink(cid=cid,studid=fid)
+        studComp2=Studcomplainlink(cid=cid,studid=sid)
+        studComp3=Studcomplainlink(cid=cid,studid=thirdid)
+        studComp4=Studcomplainlink(cid=cid,studid=fourthid)
+        studComp5=Studcomplainlink(cid=cid,studid=fifthid)
+        studComp1.save()
+        studComp2.save()
+        studComp3.save()
+        studComp4.save()
+        studComp5.save()
+    except:
+        d=request.POST['subject']
     secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
     secid = secretaryObj.uid
     if (public == True):

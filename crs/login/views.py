@@ -73,7 +73,6 @@ def afterLogin(request):								#after login function working
 			request.session['name'] = obj.name;
 			request.session['hostel']= obj.hostel;
 			request.session['uid'] = obj.uid;
-
 			if obj.issec==1:                    
 				request.session['user_type']="secretary";
 				return render_to_response('secretary/secHome.html', {'msg':obj.name}); 

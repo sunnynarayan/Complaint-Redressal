@@ -57,7 +57,7 @@ urlpatterns = patterns('',
     url(r'^crs/viewMeal/$', 'secretary.views.viewMeal'),
     url(r'^crs/addItemToPoll/$', 'secretary.views.addItemToPoll'),
     url(r'^crs/viewPollOptions/$', 'secretary.views.viewPollOptions'),
-    url(r'^crs/pdf/$', 'secretary.views.some_view'),
+    # url(r'^crs/pdf/$', 'secretary.views.some_view'),
     url(r'^crs/list/$','student.views.list'),
     url(r'^Page/$','student.views.loadPage'),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

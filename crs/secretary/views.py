@@ -10,10 +10,10 @@ from login.models import *
 import re
 from django.db import connection
 from django.core import serializers
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Image
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.pagesizes import landscape
+# from reportlab.pdfgen import canvas
+# from reportlab.platypus import Image
+# from reportlab.lib.pagesizes import letter
+# from reportlab.lib.pagesizes import landscape
 
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
@@ -200,38 +200,38 @@ def viewPollOptions(request):
 
 # from django.http import HttpResponse
 
-def some_view(request):
-	# Create the HttpResponse object with the appropriate PDF headers.
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
+# def some_view(request):
+# 	# Create the HttpResponse object with the appropriate PDF headers.
+# 	response = HttpResponse(content_type='application/pdf')
+# 	response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
 
-	# Create the PDF object, using the response object as its "file."
-	p = canvas.Canvas(response)
-	p.setFont('Helvetica', 48, leading=None)
-	p.drawCentredString(300, 750, "Warden's Office")
+# 	# Create the PDF object, using the response object as its "file."
+# 	p = canvas.Canvas(response)
+# 	p.setFont('Helvetica', 48, leading=None)
+# 	p.drawCentredString(300, 750, "Warden's Office")
 
-	p.setFont('Helvetica', 25, leading=None)
-	p.drawCentredString(300, 700, "Hostel Leaving Form")
+# 	p.setFont('Helvetica', 25, leading=None)
+# 	p.drawCentredString(300, 700, "Hostel Leaving Form")
 	
-	line1 = "I " + request.session.get('name')
-	line2 = "staying presently in Room No 209" 
-	line3 = "of Ashoka Hall"
-	line4 = "do hereby intimate that I am leaving hostel"
+# 	line1 = "I " + request.session.get('name')
+# 	line2 = "staying presently in Room No 209" 
+# 	line3 = "of Ashoka Hall"
+# 	line4 = "do hereby intimate that I am leaving hostel"
 
-	# p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
-	p.setFont('Helvetica', 25, leading=None)
-	p.drawString(50, 600, line1 + " " + line2)
-	p.setFont('Helvetica', 25, leading=None)
-	p.drawString(50, 550, line2)
-	p.setFont('Helvetica', 25, leading=None)
-	p.drawString(50, 500, line3)
-	# Draw things on the PDF. Here's where the PDF generation happens.
-	# See the ReportLab documentation for the full list of functionality.
+# 	# p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
+# 	p.setFont('Helvetica', 25, leading=None)
+# 	p.drawString(50, 600, line1 + " " + line2)
+# 	p.setFont('Helvetica', 25, leading=None)
+# 	p.drawString(50, 550, line2)
+# 	p.setFont('Helvetica', 25, leading=None)
+# 	p.drawString(50, 500, line3)
+# 	# Draw things on the PDF. Here's where the PDF generation happens.
+# 	# See the ReportLab documentation for the full list of functionality.
 	
-	# Close the PDF object cleanly, and we're done.
-	p.showPage()
-	p.save()
-	return response
+# 	# Close the PDF object cleanly, and we're done.
+# 	p.showPage()
+# 	p.save()
+# 	return response
 # def editProfile(request):
 # 	return redirect('//')
 

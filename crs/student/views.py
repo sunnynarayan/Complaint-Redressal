@@ -13,6 +13,8 @@ from login.models import *
 import re
 from django.core.urlresolvers import reverse
 from django import forms
+from datetime import timedelta
+from django.db import transaction
 
 class DocumentForm(forms.Form):
     docfile = forms.FileField(
@@ -211,6 +213,7 @@ def getTypeDescription(code):
     else:
         return "Other"
 
+@transaction.atomic
 def getComplainID(catagory, hostel):
 	complain = ""
 	if hostel == 1:
@@ -312,6 +315,7 @@ def rateSecretary(request):
     except:
         return HttpResponse('You have already Voted')
 
+@transaction.atomic
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
@@ -319,7 +323,7 @@ def lodgeComplainDetail(request):
     detail = request.POST.get('message');
     catagory = getCatagory(request.POST.get('catagory'));
     hostel = request.session.get("hostel");
-    time = datetime.datetime.now();
+    time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
     public = (request.POST.get('complainType') == "0");
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)

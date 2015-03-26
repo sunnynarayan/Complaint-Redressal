@@ -12,12 +12,12 @@
     <div id="one">
     	<h2> Breakfast options:</h2>
     	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
     	{% for items in list1 %}
         <tr>
-        <td><input type="checkbox" value=""></td>
-        <td> Menu {{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.mid }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.type }}"></td>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
         </tr>
         {% endfor %}
         </table>
@@ -25,12 +25,12 @@
     <div id="two">
     	<h2> Lunch options:</h2>
     	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
     	{% for items in list2 %}
         <tr>
-        <td><input type="checkbox" value=""></td>
-        <td> Menu {{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.mid }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.type }}"></td>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
         </tr>
         {% endfor %}
         </table>
@@ -38,12 +38,12 @@
     <div id="three">
     	<h2> Dinner options:</h2>
     	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
     	{% for items in list3 %}
         <tr>
-        <td><input type="checkbox" value=""></td>
-        <td> Menu {{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.mid }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.type }}"></td>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
         </tr>
         {% endfor %}
         </table>

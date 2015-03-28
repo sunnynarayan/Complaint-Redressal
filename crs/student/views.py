@@ -13,6 +13,8 @@ from login.models import *
 import re
 from django.core.urlresolvers import reverse
 from django import forms
+from datetime import timedelta
+from django.db import transaction
 
 class DocumentForm(forms.Form):
     docfile = forms.FileField(
@@ -87,8 +89,7 @@ def studentComplainView(request):   #shows list of complains
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid')
-    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments, b.studID, @a:=@a+1 serial_number FROM complain a, complainLink b, (SELECT @a:= 0) AS a WHERE (b.studID = " + str(
-        uid) + " OR b.studID = 0) AND a.cid = b.CID"
+    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments, b.studID, @a:=@a+1 serial_number FROM complain a, complainLink b, (SELECT @a:= 0) AS a WHERE (b.studID = " + str(uid) + " OR b.studID = 0) AND a.cid = b.CID"
     serialComplainObjects = serialComplain.objects.raw(qry);
     # request.session['complains'] = serialComplainObjects;
     #edited
@@ -99,7 +100,7 @@ def studentViewComplain(request):  #shows details of complain
     index = request.GET.get('CID')
     qry = ""
     if request.session.get("user_type")=="student" :
-        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.studID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"        
+        qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"        
     elif request.session.get("user_type")=="secretary" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="wardenOffice" :
@@ -130,8 +131,36 @@ def studentProfile(request):
     return render_to_response('student/studentProfile.html');
 
 def studEditProfile(request):
-    return render_to_response('student/studEditProfile.html')
+    uid=request.session.get('uid')
+    obj=Student.objects.get(uid=uid)
+    return render_to_response('student/studEditProfile.html',{'list' : obj})
 
+def afterEditProfile(request):
+    uid=request.session.get('uid');
+    obj=Student.objects.get(uid=uid);
+    padd=request.POST.get('padd')
+    state=request.POST.get('state')
+    city=request.POST.get('city')
+    pincode=request.POST.get('pincode')
+    bank=request.POST.get('bankName')
+    ifsc=request.POST.get('ifsc')
+    account=request.POST.get('accnum')
+    email=request.POST.get('email')
+    mobile=request.POST.get('mobile');
+    if len(account)<=11 and  len(ifsc)<=11 and len(mobile)==10 and len(pincode)==6:
+        obj.mobile=mobile;
+        obj.bank=bank;
+        obj.ifsc=ifsc;
+        obj.baccno=account;
+        obj.email=email
+        obj.padd=padd
+        obj.state=state
+        obj.city=city
+        obj.pincode=pincode
+        obj.save();
+        return render_to_response('student/studentHome.html')
+    else:
+        return HttpResponse(len(account))
 
 def studentViewRate(request):
     if not (isStudent(request)):
@@ -185,6 +214,7 @@ def getTypeDescription(code):
     else:
         return "Other"
 
+@transaction.atomic
 def getComplainID(catagory, hostel):
 	complain = ""
 	if hostel == 1:
@@ -252,6 +282,40 @@ def getComplainID(catagory, hostel):
 	
 	return complain
 
+
+
+def loadRateSecPage(request):
+    return render_to_response('student/rateSec.html')
+
+def rateSecretary(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    uid = request.session.get('uid') 
+    hostel=request.session.get('hostel')
+    type1=request.POST.get('type')
+    rating=request.POST.get('rating')
+    type2=getCatagory(type1)
+    obj=Secretary.objects.get(type=type2,hostel=hostel)
+    secId=obj.uid
+    try:
+        secObj=Secretaryrating(secid=secId,rating=rating,studid=uid)
+        secObj.save()
+        count=0.0
+        n=0.0
+        finalRating=0.0
+        obj=Secretaryrating.objects.filter(secid =int(secId))
+        for obje in obj:
+            count +=obje.rating
+            n=n+1
+        finalRating=count/n
+        sec=Secretary.objects.get(uid=secId)
+        sec.rating=finalRating
+        sec.save()
+        return HttpResponse('You have voted')
+    except:
+        return HttpResponse('You have already Voted')
+
+@transaction.atomic
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
@@ -259,28 +323,61 @@ def lodgeComplainDetail(request):
     detail = request.POST.get('message');
     catagory = getCatagory(request.POST.get('catagory'));
     hostel = request.session.get("hostel");
-    time = datetime.datetime.now();
-    public = (request.POST.get('complainType') == "0");
+    time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
+    complainAccess = int(request.POST.get('complainType'));
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
     cid = getComplainID(catagory, hostel)
     complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0,
                            history=history, status = 1);
-    complainObj.save();
+    secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
+    secid = secretaryObj.uid
     try:
         newdoc = Document(docfile = request.FILES['docfile'])
         newdoc.save()
     except:
-        d=request.POST['subject']
-    secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
-    secid = secretaryObj.uid
-    if (public == True):
-        CLObj = Complainlink(cid=cid, studid=0, secid=secid)
-        CLObj.save()
-    else:
+        pass
+
+    SCLArray = []
+    # CLArray = []
+    CLObj = None
+    if complainAccess == 2:
+        # try:
+        first=request.POST.get('first')
+        second=request.POST.get('second','')
+        third=request.POST.get('third','')
+        fourth=request.POST.get('fourth','')
+        fifth=request.POST.get('fifth','')
+        rollArray = []
+        rollArray.append(first)
+        if not second == '':
+            rollArray.append(second)
+        if not third == '':
+            rollArray.append(third)
+        if not  fourth == '':
+            rollArray.append(fourth)
+        if not fifth == '':
+            rollArray.append(fifth) 
+        for x in rollArray:
+            tempUid = Student.objects.get(roll = x).uid
+            obj = Studcomplainlink(cid=cid,studid=tempUid)
+            SCLArray.append(obj)
+
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
-        CLObj.save()
-    return redirect('/crs/complainView/');
+        # except:
+        #     pass
+    elif complainAccess == 0:
+        CLObj = Complainlink(cid=cid, studid=0, secid=secid)
+    elif complainAccess == 1:
+        CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
+    complainObj.save();
+    CLObj.save()
+    SCLObj = Studcomplainlink(cid=cid, studid=uid)
+    SCLArray.append(SCLObj)
+    for x in SCLArray:
+        x.save()
+
+    return redirect('../complainView/');
 
 def relodgeComplain(request):
 	if not (isSecretary(request)):
@@ -299,22 +396,6 @@ def relodgeComplain(request):
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
 	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
-# def forgetPassword(request):#forgetpassword page loading
-# render_to_response(student/resetpassword.html)
-
-# def resettingPassword(request):#resetting password
-# newpassword=request.POST.get('password');
-# uid=request.session.get('uid')
-# if validatePassword(newpassword):
-# student = Student.objects.get(uid=uid)
-# hash_object = hashlib.sha256(b""+newpassword)
-# passwd = hash_object.hexdigest()
-# student.password=passwd
-# student.save()
-# render_to_response(student/studentHome.html)
-# else:
-# render_to_response(student/studentHome.html,{'msg':Invalid Password})
-
 
 def studentProfile(request):
     if not (isStudent(request)):

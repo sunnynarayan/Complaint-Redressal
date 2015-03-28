@@ -26,13 +26,13 @@
     		var mob = /[0-9]{6}/;  
         	if(inputText.value.match(mob))  
         	{  
-            	document.test.zip.focus();  
+            	document.test.pincode.focus();  
             	return true;  
         	}  
         	else  
         	{  
             	alert("You have entered an invalid Zip Code!");  
-            	document.test.zip.focus();  
+            	document.test.pincode.focus();  
             	return false;  
         	}  
     	}

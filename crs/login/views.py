@@ -12,6 +12,8 @@ import datetime
 from login.models import *
 import re
 from django.core.mail import send_mail
+from django.core.context_processors import csrf
+from django.views.decorators.csrf import requires_csrf_token
 
 def logout(request):
 	request.session['login']="False";
@@ -22,7 +24,7 @@ def validatePassword(passwd):
 
 def login(request):
 	try:
-		if request.session.get("login") == "True": #check if the user is already logged in
+		if request.session.get("login") == "True": 					#check if the user is already logged in
 			if request.session.get("user_type")=="wardenOffice" : #if yes then redirect the request to home page according to whether faculty or student
 				return render_to_response('/crs/complainView/', {'msg' : request.session.get('name')});
 			elif request.session.get("user_type")=="warden":
@@ -35,16 +37,21 @@ def login(request):
 				return redirect('/crs/complainView/');
 	except NameError:
 		pass
-	return render_to_response('login/loginPage.html', {'msg':''}); #if not then display the login page
+	c = {}
+	c.update(csrf(request))
+	return render_to_response('login/loginPage.html', {'msg' : ''}, context_instance=RequestContext(request)); #if not then display the login page
 
 
 def afterLogin(request):								#after login function working
 	uname = request.POST.get('username','');
 	passwd = request.POST.get('password','');
-	if re.sub('[a-z.@0-9]',"",uname) != "":				#check username for possible SQL injection and other injections
-		return render_to_response('login/loginPage.html', {'msg':'Errornous user'}); #Error in username entry !!, append error message
+	lengthUsername = len(uname)
+	if lengthUsername > 29 or lengthUsername < 1:
+		return render_to_response('login/loginPage.html', {'msg':'Invalid username1'}, context_instance=RequestContext(request))
+	if len(re.sub('[^a-z.@0-9]',"",uname)) != lengthUsername:				#check username for possible SQL injection and other injections
+		return render_to_response('login/loginPage.html', {'msg':'Inavlid username2'}, context_instance=RequestContext(request)); #Error in username entry !!, append error message
 	if validatePassword(passwd):
-		return render_to_response('login/loginPage.html', {'msg':'error in password'}); #Error in password, append error message
+		return render_to_response('login/loginPage.html', {'msg':'error in password'}, context_instance=RequestContext(request)); #Error in password, append error message
 
 	hash_object = hashlib.sha256(b""+passwd)
 	passwd = hash_object.hexdigest()
@@ -64,8 +71,12 @@ def afterLogin(request):								#after login function working
 			elif obj.iswarden == 1:
 				request.session['user_type']="warden";
 				return render_to_response('warden/wardenBase.html', {'msg' : obj.name})
+			else:
+				request.session['login']="False";
+				request.session.flush()
+				return render_to_response('login/loginPage.html', {'msg':'User not authorised.'}, context_instance=RequestContext(request))
 		except:
-			return render_to_response('login/loginPage.html', {'msg':'invalid user: '+uname + 'password : ' + passwd});
+			return render_to_response('login/loginPage.html', {'msg':'User is not registered'}, context_instance=RequestContext(request));
 	elif uname.endswith("stud"):
 		try:
 			uname = uname.replace("@stud","")
@@ -77,15 +88,15 @@ def afterLogin(request):								#after login function working
 			request.session['uid'] = obj.uid;
 			if obj.issec==1:                    
 				request.session['user_type']="secretary";
-				return redirect('/crs/listComp/'); 
+				return redirect('/crs/listComp/');
 			else:
 				request.session['user_type']="student";
 				# return render_to_response('student/studentBase.html', {'msg':obj.name});
 				return redirect('/crs/complainView/');
 		except:
-			return render_to_response('login/loginPage.html', {'msg' : 'User does not exist!'});
+			return render_to_response('login/loginPage.html', {'msg' : 'User is not registered'}, context_instance=RequestContext(request));
 	else:
-		return render_to_response('login/loginPage.html', {'msg' : 'username recieved(line76) : ' + uname + "pass : " + passwd});
+		return render_to_response('login/loginPage.html', {'msg' : 'Invalid username format'}, context_instance=RequestContext(request));
 
 
 def changePasswd(request):

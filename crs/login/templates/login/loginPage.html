@@ -16,6 +16,7 @@
 			<div id="login">
 
 				<form name="form1" action="/crs/login/" method="post">  <!-- check the action -->
+				{% csrf_token %}
 				<fieldset>
 				<p><label for="username">Username:</label>
 				<input type="text" name="username" required value="" onBlur="if(this.value=='')this.value='' " onFocus="if(this.value=='Username')this.value='' "></p>
@@ -25,7 +26,7 @@
 				
 				<p>{{msg}}</p>
 				<p class="submit"><input type="submit" value="Login" name="log" onclick="ValidateEmail(document.form1.username)">
-					<span id="fpass"><a href="/ForgetPasswordButton/">Forget Password<a></span></p>
+					<span id="fpass"><a href="/ForgetPasswordButton/">Forget Password</a></span></p>
 
 				</fieldset>
 				</form>

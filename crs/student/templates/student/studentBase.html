@@ -28,6 +28,11 @@
       document.getElementById("right").innerHTML = temp;
     }
 
+    function viewprofile () {
+      var temp = '<object  type="text/html" data="/studViewProfile/" style="height:600px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
+
     function editprofile () {
       var temp = '<object  type="text/html" data="/studEditProfile/" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
@@ -79,6 +84,7 @@
             <li><a  onClick="view()">View</a></li>
             <li><a  onClick="lodge()">Lodge</a></li>
             <li><a  onClick="editprofile()">Edit profile</a></li>
+            <li><a  onClick="viewprofile()">View profile</a></li>
             <li><a  onClick="view_rate()">View &amp; Rate Sec.</a></li>
             <li><a  onClick="messrebate()">Mess Rebate</a></li>
             <li><a  onClick="poll()">Poll</a></li>

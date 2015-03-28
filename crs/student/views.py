@@ -14,6 +14,9 @@ import re
 from django.core.urlresolvers import reverse
 from django import forms
 
+# global globlid
+# globlid=0
+
 class DocumentForm(forms.Form):
     docfile = forms.FileField(
         label='Select a file'
@@ -92,6 +95,10 @@ def studentComplainView(request):
     # request.session['complains'] = serialComplainObjects;
     return render_to_response("student/viewStudComplain.html", {'list': serialComplainObjects});
 
+# def viewrating(request):
+# 	# hostel=request.session.get('hostel')
+# 	sec=Secreatary.objects.get(hostel=1,type=2)
+# 	return render_to_response('viewrating.html',{'sec':sec});
 
 def studentViewComplain(request):
     index = request.GET.get('CID')
@@ -103,10 +110,11 @@ def studentViewComplain(request):
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="warden" :
-        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
-        
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"       
     complainObject = Complain.objects.raw(qry)
-    return render_to_response("student/compDetail.html", {'item': complainObject[0]})
+    # documents = Document.objects.get(id = (complainObject[0].picid))
+    documents=Document.objects.get(cid=complainObject[0].cid)
+    return render_to_response("student/compDetail.html", {'item': complainObject[0],'documents':documents})
 
 
 def studentLodgeComplain(request):
@@ -308,7 +316,7 @@ def rateSecretary(request):
         sec=Secretary.objects.get(uid=secId)
         sec.rating=finalRating
         sec.save()
-        return HttpResponse('You have voted')
+        return HttpResponse(sec.rating)
     except:
         return HttpResponse('You have already Voted')
 
@@ -325,15 +333,23 @@ def lodgeComplainDetail(request):
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
     cid = getComplainID(catagory, hostel)
     complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0,
-                           history=history, status = 1);
+                           history=history, status = 1,picid = 0);
     complainObj.save();
     studComp1=Studcomplainlink(cid=cid,studid=uid)
+    # studComp=Complainlink(cid=cid)
     studComp1.save()
+    sec=Secretary.objects.get(type=catagory,hostel=hostel)
+    warden=Warden.objects.get(hostel=hostel)
+    studlink=Complainlink(cid=cid,studid=uid,secid=sec.uid,wardenid=warden.fid,woid=1025)
+    studlink.save()
+    
+    # complain=Complain.objects.get(cid = cid)
     try:
-        newdoc = Document(docfile = request.FILES['docfile'])
-        newdoc.save()
+    	newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
+    	# newdoc=Document.objects.get(docfile=request.FILES['docfile'])
+    	newdoc.save()
     except:
-        d=request.POST['subject']
+    	d=request.POST['subject']
     try:
         first=request.POST.get('first')
         second=request.POST.get('second')
@@ -420,7 +436,10 @@ def studentProfile(request):
     baccno = student.baccno
     bank = student.bank
     IFSC = student.ifsc
+    state=student.state
+    city=student.city
+    pincode=student.pincode
     return render_to_response('student/studentProfile.html',
                               {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
-                               'bank': bank, 'IFSC': IFSC});
+                               'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp});

@@ -25,10 +25,12 @@ class Clink(models.Model):
     # docfile = models.FileField(upload_to='documents/%Y/%m/%d')
 
 class Document(models.Model):
-    docfile = models.FileField(upload_to='documents')
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
+    cid = models.CharField(max_length=100)
     class Meta:
         managed = True
-        db_table='document'
+        db_table = 'document'
 
 
 class Studcomplainlink(models.Model):
@@ -135,6 +137,7 @@ class Complain(models.Model):
     detail = models.TextField()
     history = models.TextField()
     comments = models.IntegerField()
+    picid = models.CharField(db_column='picId',max_length=100)
     status = models.IntegerField(blank=True, null=True)
     class Meta:
         managed = False

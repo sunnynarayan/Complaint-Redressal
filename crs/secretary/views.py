@@ -10,10 +10,10 @@ from login.models import *
 import re
 from django.db import connection
 from django.core import serializers
-# from reportlab.pdfgen import canvas
-# from reportlab.platypus import Image
-# from reportlab.lib.pagesizes import letter
-# from reportlab.lib.pagesizes import landscape
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Image
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import landscape
 
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
@@ -198,122 +198,40 @@ def viewPollOptions(request):
 	return render_to_response("secretary/mess/viewMenu.html", {'list1' : breakfastItems, 'list2' : lunchItems, 'list3' : dinnerItems})
 
 
-# from django.http import HttpResponse
+from django.http import HttpResponse
 
-# def some_view(request):
-# 	# Create the HttpResponse object with the appropriate PDF headers.
-# 	response = HttpResponse(content_type='application/pdf')
-# 	response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
+def some_view(request):
+	# Create the HttpResponse object with the appropriate PDF headers.
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
 
-# 	# Create the PDF object, using the response object as its "file."
-# 	p = canvas.Canvas(response)
-# 	p.setFont('Helvetica', 48, leading=None)
-# 	p.drawCentredString(300, 750, "Warden's Office")
+	# Create the PDF object, using the response object as its "file."
+	p = canvas.Canvas(response)
+	p.setFont('Helvetica', 48, leading=None)
+	p.drawCentredString(300, 750, "Warden's Office")
 
-# 	p.setFont('Helvetica', 25, leading=None)
-# 	p.drawCentredString(300, 700, "Hostel Leaving Form")
+	p.setFont('Helvetica', 25, leading=None)
+	p.drawCentredString(300, 700, "Hostel Leaving Form")
 	
-# 	line1 = "I " + request.session.get('name')
-# 	line2 = "staying presently in Room No 209" 
-# 	line3 = "of Ashoka Hall"
-# 	line4 = "do hereby intimate that I am leaving hostel"
+	line1 = "I " + request.session.get('name')
+	line2 = "staying presently in Room No 209" 
+	line3 = "of Ashoka Hall"
+	line4 = "do hereby intimate that I am leaving hostel"
 
-# 	# p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
-# 	p.setFont('Helvetica', 25, leading=None)
-# 	p.drawString(50, 600, line1 + " " + line2)
-# 	p.setFont('Helvetica', 25, leading=None)
-# 	p.drawString(50, 550, line2)
-# 	p.setFont('Helvetica', 25, leading=None)
-# 	p.drawString(50, 500, line3)
-# 	# Draw things on the PDF. Here's where the PDF generation happens.
-# 	# See the ReportLab documentation for the full list of functionality.
+	# p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
+	p.setFont('Helvetica', 25, leading=None)
+	p.drawString(50, 600, line1)
+	p.setFont('Helvetica', 25, leading=None)
+	p.drawString(50, 550, line2)
+	p.setFont('Helvetica', 25, leading=None)
+	p.drawString(50, 500, line3)
+	# Draw things on the PDF. Here's where the PDF generation happens.
+	# See the ReportLab documentation for the full list of functionality.
 	
-# 	# Close the PDF object cleanly, and we're done.
-# 	p.showPage()
-# 	p.save()
-# 	return response
-# def editProfile(request):
-# 	return redirect('//')
+	# Close the PDF object cleanly, and we're done.
+	p.showPage()
+	p.save()
+	return response
+def editProfile(request):
+	return redirect('//')
 
-
-# def lodgeComplainDetail(request):
-# 	subject=request.POST.get('subject');
-# 	detail=request.POST.get('message');
-# 	catagory=getCatagory(request.POST.get('catagory'));
-# 	hostel=request.session.get("hostel");
-# 	time=datetime.datetime.now();
-# 	public = (request.POST.get('complainType') == "0");
-# 	uid=request.session.get('uid');	
-# 	history = "Complain added by " + request.session.get("name") + " at time : " + str(time) 
-# 	complainObj=Complain(uid = uid , time = time , hostel = hostel, type=catagory , subject	= subject, detail = detail, comments = 0, history = history );
-# 	complainObj.save();
-# 	secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
-# 	secid = secretaryObj.uid
-# 	cid=(Complain.objects.get(uid = uid , time = time)).cid
-# 	if (public == True):
-# 		CLObj = Complainlink(cid = cid, studid = 0, secid = secid)
-# 		CLObj.save()
-# 	else:		
-# 		CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
-# 		CLObj.save()
-# 	return redirect('../listComp/');
-	
-# def studentComplainView(request):
-# 	# isStudent(request)
-# 	uid=request.session.get('uid')
-# 	ComplainObjects = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = ' + str(uid) + ' OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
-# 	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects});
-
-# ComplainObjects = Complain.objects.raw('SELECT * FROM `complain`, complainLink, WHERE (complainLink.studID = 1000 OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
-
-
-# def studentComplainView(request):
-# 	uid=request.session.get('uid')
-# 	ComplainObjects = Complain.objects.all().filter(uid = uid)
-# 	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects});
-
-	
-# def studentLodgeComplain(request):
-# 	return render_to_response('student/studLodgeComplain.html');
-
-# def studentHome(request):
-# 	return render_to_response('student/studentHome.html');
-
-# def studentProfile(request):
-# 	return render_to_response('student/studentProfile.html');
-
-# def studentViewRate(request):
-# 	return render_to_response('student/studViewRate.html');
-
-# def studentPoll(request):
-# 	return render_to_response('student/studPoll.html');
-
-# def studentHostelLeave(request):
-# 	return render_to_response('student/studHostelLeave.html');
-
-# def studentMessRebate(request):
-# 	return render_to_response('student/messrebate.html');
-
-# def getCatagory(str):
-# 	if str == "Mess":
-# 		return 1
-# 	elif str == "Environment":
-# 		return 2
-# 	elif str == "Technical":
-# 		return 3
-# 	elif str == "Maintenance":
-# 		return 4
-# 	else:
-# 		return 0
-
-# def getTypeDescription(code):
-# 	if code == 1:
-# 		return "Mess"
-# 	elif code == 2:
-# 		return "Environment"
-# 	elif code == 3:
-# 		return "Technical"
-# 	elif code == 4:
-# 		return "Maintenance"
-# 	else:
-# 		return "Other"

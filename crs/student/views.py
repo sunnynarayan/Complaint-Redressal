@@ -108,7 +108,7 @@ def studentViewComplain(request):  #shows details of complain
     qry = ""
     if request.session.get("user_type")=="student" :
         qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"        
-    elif request.session.get("user_type")=="secretary" :
+    elif request.session.get("user_type")="secretary" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
@@ -168,7 +168,7 @@ def afterEditProfile(request):
         obj.city=city
         obj.pincode=pincode
         obj.save();
-        return render_to_response('student/studentHome.html')
+        return render_to_response('student/studentProfile.html')
     else:
         return HttpResponse(len(account))
 

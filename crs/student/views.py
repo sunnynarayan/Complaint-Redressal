@@ -67,7 +67,7 @@ def loadPage(request):
 def OpenHostelPage(request):
 	username=request.session.get("username")
 	obj=Student.objects.get(username=username)
-	return render_to_response('student/HostelLeave.html',{'obj' : obj})
+	return render_to_response('student/HostelLeave.html',{'obj' : obj}, context_instance=RequestContext(request))
 
 def HostelLeavingSubmit(request):
     laptop=request.POST.get('laptop', '')
@@ -126,7 +126,7 @@ def studentLodgeComplain(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     form =DocumentForm()
-    return render_to_response('student/lodgeComp.html',{'form': form})
+    return render_to_response('student/lodgeComp.html',{'form': form}, context_instance=RequestContext(request))
 
 
 def studentHome(request):
@@ -325,12 +325,29 @@ def rateSecretary(request):
     except:
         return HttpResponse('You have already Voted')
 
+def validateText(rawText):
+    i = 0
+    rawText = re.sub(r'[^a-zA-Z0-9\s,.:;\(\)\'"=\-+\/*#\<\>$&@%~?!\[\]\{\}\\]','',rawText)
+    while i != len(rawText):
+        ch = rawText[i]
+        if re.search(r'[\'\\\<\>&!#";\-\/\*\{\}\(\)]', ""+ch):
+            rawText = rawText[:i] + "&#" + str(ord(ch)) + ";" + rawText[i+1:]
+            i = i + 3 + len(str(ord(ch)))
+        else:
+            i = i + 1
+        # print str(i) + "," + str(len(rawText)) + " " + rawText
+    return rawText
+
 @transaction.atomic
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    subject = request.POST.get('subject');
-    detail = request.POST.get('message');
+    subject = request.POST.get('subject', '');
+    subject = validateText(subject)
+    detail = request.POST.get('message', '');
+    detail = validateText(detail)
+    if detail == '' or subject == '':
+        return redirect('/crs/complainView/')
     catagory = getCatagory(request.POST.get('catagory'));
     hostel = request.session.get("hostel");
     time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
@@ -387,7 +404,7 @@ def lodgeComplainDetail(request):
     for x in SCLArray:
         x.save()
 
-    return redirect('../complainView/');
+    return redirect('/crs/complainView/');
 
 def relodgeComplain(request):
 	if not (isSecretary(request)):

@@ -143,7 +143,7 @@ def studentProfile(request):
 def studEditProfile(request):
     uid=request.session.get('uid')
     obj=Student.objects.get(uid=uid)
-    return render_to_response('student/studEditProfile.html',{'list' : obj})
+    return render_to_response('student/studEditProfile.html',{'list' : obj,'msg': request.session.get('name') })
 
 def afterEditProfile(request):
     uid=request.session.get('uid');
@@ -172,10 +172,10 @@ def afterEditProfile(request):
     else:
         return HttpResponse(len(account))
 
-def studentViewRate(request):
+def rateSecretary(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    return render_to_response('student/studViewRate.html');
+    return render_to_response('student/rateSecretary.html');
 
 
 def studentPoll(request):
@@ -295,7 +295,7 @@ def getComplainID(catagory, hostel):
 
 
 def loadRateSecPage(request):
-    return render_to_response('student/rateSec.html')
+    return render_to_response('student/rateSecretaryAshoka.html')
 
 def rateSecretary(request):
     if not (isStudent(request)):
@@ -432,4 +432,4 @@ def studentProfile(request):
     return render_to_response('student/studentProfile.html',
                               {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
-                               'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp});
+                               'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});

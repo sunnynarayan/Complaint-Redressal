@@ -9,6 +9,7 @@ import datetime
 from login.models import *
 import re
 from django.db import connection
+from django.core import serializers
 
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
@@ -23,7 +24,8 @@ def secComplainView(request):
 	uid=request.session.get('uid')
 	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complain.status = 1 OR complain.status=2 OR complain.status=3 OR complain.status=11 OR complain.status=12 OR complain.status=13) AND (complainLink.secID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID')
 	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complain.status = 1 OR complain.status=2 OR complain.status=3 OR complain.status=11 OR complain.status=12 OR complain.status=13) AND (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID')
-	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains});
+	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
+	# return render_to_response('secretary/listComp.html',{'list' : allCom, 'msg': request.session.get('name')});
 
 def secLodgeComplain(request):
 	if not (isSecretary(request)):
@@ -69,7 +71,7 @@ def secViewComplain(request):
     index = int(indexF)
     qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.secID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
     complainObject = Complain.objects.raw(qry)
-    return render_to_response("secretary/compDetail.html", {'item': complainObject[0]})
+    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0]})
 
 def poll(request):
 	if not (isSecretary(request)):
@@ -91,7 +93,7 @@ def addingFoodItem(request):
 	avgNutr = (int(vitamins) + int(proteins) + int(fat))/3
 	item = Fooditems(name=itemName,vitamins=vitamins,proteins=proteins,fat=fat,nutritions=avgNutr)
 	item.save()
-	return redirect("/pollViewItem/")
+	return redirect("/crs/pollViewItem/")
 
 def pollViewItem(request):
 	if not (isSecretary(request)):
@@ -102,21 +104,49 @@ def pollViewItem(request):
 def pollMakeMeal(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	items = Fooditems.objects.raw("SELECT * FROM foodItems")
+	items = Fooditems.objects.raw("SELECT * FROM foodItems ORDER BY FID")
+	item = []
+	name = []
+	nutrition = []
+	for x in items:
+		item.append(int(x.fid))
+		name.append(str(x.name))
+		nutrition.append(x.nutritions)
+	request.session['item'] = item
+	request.session['name'] = name
+	request.session['nutrition'] = nutrition
 	return render_to_response("secretary/mess/makeMeal.html", {'list': items })
+
 
 def makingMeal(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	meals=request.POST.getlist('foodItems')
-	length = len(meals)
-	make = meals[0] + ""
+	itemIndex=request.POST.getlist('foodItems')
+	itemIndex.sort();
+	items = request.session.get('item')
+	name = request.session.get('name')
+	nutrition = request.session.get('nutrition')
+	length = len(itemIndex)
+	if (length == 0):
+		return redirect('/crs/pollMakeMeal/')
+
+	makeFid = str(items[int(itemIndex[0]) - 1])
+	makeName = str(name[int(itemIndex[0]) - 1])
+	makeNutrition = nutrition[int(itemIndex[0]) - 1]
 	for x in range(1,length):
-		make = "," + meals[x]
-	
-	return redirect('crs/listComp/',{'msg':'Succesfully Redirected!!!'})
+		makeFid = makeFid + "," + str(items[int(itemIndex[x]) - 1])
+		makeName = makeName + "," + str(name[int(itemIndex[x]) - 1])
+		makeNutrition = makeNutrition + nutrition[int(itemIndex[x]) - 1]
 
+	makeNutrition = makeNutrition / length
 
+	Meal = Meals(fid = makeFid, name = makeName, avgnutrition = makeNutrition)
+	Meal.save()
+	return redirect('/crs/viewMeal/')
+
+def viewMeal(request):
+	items = Meals.objects.all()
+	return render_to_response("secretary/mess/viewMeal.html", {'list' : items})
 
 # def editProfile(request):
 # 	return redirect('//')

@@ -83,7 +83,7 @@ def validatePassword(passwd):
     return ((len(passwd) < 21) and (len(passwd) > 7))
 
 
-def studentComplainView(request):
+def studentComplainView(request):   #shows list of complains
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid')
@@ -91,10 +91,11 @@ def studentComplainView(request):
         uid) + " OR b.studID = 0) AND a.cid = b.CID"
     serialComplainObjects = serialComplain.objects.raw(qry);
     # request.session['complains'] = serialComplainObjects;
-    return render_to_response("student/viewStudComplain.html", {'list': serialComplainObjects});
+    #edited
+    return render_to_response("student/tables.html", {'list': serialComplainObjects, 'msg': request.session.get('name')});
 
 
-def studentViewComplain(request):
+def studentViewComplain(request):  #shows details of complain
     index = request.GET.get('CID')
     qry = ""
     if request.session.get("user_type")=="student" :
@@ -107,14 +108,14 @@ def studentViewComplain(request):
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         
     complainObject = Complain.objects.raw(qry)
-    return render_to_response("student/compDetail.html", {'item': complainObject[0]})
+    return render_to_response("student/complainDetail.html", {'item': complainObject[0]})
 
 
 def studentLodgeComplain(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     form =DocumentForm()
-    return render_to_response('student/studLodgeComplain.html',{'form': form})
+    return render_to_response('student/lodgeComp.html',{'form': form})
 
 
 def studentHome(request):
@@ -279,7 +280,7 @@ def lodgeComplainDetail(request):
     else:
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
         CLObj.save()
-    return redirect('../complainView/');
+    return redirect('/crs/complainView/');
 
 def relodgeComplain(request):
 	if not (isSecretary(request)):

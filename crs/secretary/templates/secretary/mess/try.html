@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>View Meal</title>
+</head>
+<body>
+<h3>List Of Meals</h3>
+<form id = "submitForm" method="POST" action="/crs/addItemToPoll/">
+		<table>
+      <tr>
+        <th>Serial No.</th>
+        <th>Name</th>
+        <th>Avg. nutrition Value</th>
+        <th>Breakfast</th>
+        <th>Lunch</th>
+        <th>Dinner</th>
+      </tr>
+          {% for item in list %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.avgnutrition }}</td>
+        <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;)"></td>
+        <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition }}&#34;)"></td>
+        <td><input type="checkbox"  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition }}&#34;)"></td>
+      </tr>
+      <tr></tr>
+          {% endfor %}
+      
+    </table>
+    <input type="hidden" value="15" id="id1">
+    <input type="hidden" value="20" id="id2">
+    <input type="hidden" value="10" id="id3">
+</form>  
+
+<p id="breakfast">Average </p>  <p id="Limit1" > Lidmit=15 </p> 
+<p id="lunch">Average</p>      <p id="Limit2" > Limit=20 </p>
+<p id="dinner">Average</p>      <p id="Limit3" > Limit=10 </p>
+<button form = "submitForm" type="Submit" value="" formaction = "/crs/addItemToPoll/" id="submitted" disabled="true"> Submit </button>
+<script type="text/javascript">
+    var x=0,a=0,count1=0;
+    var l=0,b=0,count2=0;
+    var m=0,c=0,count3=0;
+  function Display(strItemValue)
+  {
+    var item_value = parseFloat(strItemValue);
+    //var count1=0;
+    var y;
+    var z=document.querySelectorAll('input[type="checkbox"][name="breakfast"]:checked').length;
+    var lim=parseFloat(document.getElementById("id1").value);
+    if(z==0)
+    {
+      y=0;
+      x=0;
+      a=0;
+    }
+    else
+    {
+       if(z>a)
+         {
+          x=x+item_value;
+         }
+       else
+         {
+          x=x-item_value;
+         }
+
+                y=x/z;
+        }
+                a=z;
+         if(y<lim)
+         {
+            document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+ y.toFixed(2)+", too less";
+            count1=0;
+         }
+         else
+         {
+            document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+ y.toFixed(2)+", value plausible";
+            count1=1;
+         }
+         Check();
+    }
+       
+      function Display1(strItemValue)
+  {
+    var item_value = parseFloat(strItemValue);
+    var y;
+    //var count2=0;
+    var z=document.querySelectorAll('input[type="checkbox"][name="lunch"]:checked').length;
+    var lim=parseFloat(document.getElementById("id2").value);
+    if(z==0)
+    {
+      y=0;
+      l=0;
+      b=0;
+    }
+    else
+    {
+       if(z>b)
+         {
+          l=l+item_value;
+         }
+       else
+         {
+          l=l-item_value;
+         }
+
+                y=l/z;
+        }
+                b=z;
+         
+        if(y<lim)
+         {
+            document.getElementById("lunch").innerHTML="Current Nutrition Value for lunch= "+ y.toFixed(2)+", too less";
+            count2=0;
+         }
+         else
+         {
+            document.getElementById("lunch").innerHTML="Current Nutrition Value for lunch= "+ y.toFixed(2)+", value plausible";
+            count2=1;
+         }
+      Check();
+    }
+       
+    
+  function Display2(strItemValue)
+  {
+    var item_value = parseFloat(strItemValue);
+    var y;
+    //var count3=0;
+    var z=document.querySelectorAll('input[type="checkbox"][name="dinner"]:checked').length;
+    var lim=parseFloat(document.getElementById("id3").value);
+    if(z==0)
+    {
+      y=0;
+      m=0;
+      c=0;
+    }
+    else
+    {
+       if(z>c)
+         {
+          m=m+item_value;
+         }
+       else
+         {
+          m=m-item_value;
+         }
+
+                y=m/z;
+        }
+                c=z;
+         
+         if(y<lim)
+         {
+            document.getElementById("dinner").innerHTML="Current Nutrition Value for dinner= "+ y.toFixed(2)+", too less";
+            count3=0;
+         }
+         else
+         {
+            document.getElementById("dinner").innerHTML="Current Nutrition Value for dinner= "+ y.toFixed(2)+", value plausible";
+            count3=1;
+         }
+      Check();
+    }
+    function Check()
+    {
+      if(count1==1 && count2==1 && count3==1)
+      {
+          document.getElementById("submitted").disabled=false;
+      }
+      else
+      {
+        document.getElementById("submitted").disabled=true;
+      }
+    }
+       
+</script>
+</body>
+</html>

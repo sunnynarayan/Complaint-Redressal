@@ -13,6 +13,8 @@ from login.models import *
 import re
 from django.core.urlresolvers import reverse
 from django import forms
+from datetime import timedelta
+from django.db import transaction
 
 # global globlid
 # globlid=0
@@ -106,7 +108,7 @@ def studentViewComplain(request):
     if request.session.get("user_type")=="student" :
         qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"        
     elif request.session.get("user_type")=="secretary" :
-        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secid = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="warden" :
@@ -219,6 +221,7 @@ def getTypeDescription(code):
     else:
         return "Other"
 
+@transaction.atomic
 def getComplainID(catagory, hostel):
 	complain = ""
 	if hostel == 1:
@@ -307,7 +310,6 @@ def rateSecretary(request):
         count=0.0
         n=0.0
         finalRating=0.0
-        # qry = "SELECT * FROM secretaryRating a WHERE a.secID = " + str(secId) 
         obj=Secretaryrating.objects.filter(secid =int(secId))
         for obje in obj:
             count +=obje.rating
@@ -320,6 +322,7 @@ def rateSecretary(request):
     except:
         return HttpResponse('You have already Voted')
 
+@transaction.atomic
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
@@ -327,60 +330,61 @@ def lodgeComplainDetail(request):
     detail = request.POST.get('message');
     catagory = getCatagory(request.POST.get('catagory'));
     hostel = request.session.get("hostel");
-    time = datetime.datetime.now();
-    public = (request.POST.get('complainType') == "0");
+    time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
+    complainAccess = int(request.POST.get('complainType'));
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
     cid = getComplainID(catagory, hostel)
-    complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0,
-                           history=history, status = 1,picid = 0);
-    complainObj.save();
-    studComp1=Studcomplainlink(cid=cid,studid=uid)
-    # studComp=Complainlink(cid=cid)
-    studComp1.save()
-    sec=Secretary.objects.get(type=catagory,hostel=hostel)
-    warden=Warden.objects.get(hostel=hostel)
-    studlink=Complainlink(cid=cid,studid=uid,secid=sec.uid,wardenid=warden.fid,woid=1025)
-    studlink.save()
-    
-    # complain=Complain.objects.get(cid = cid)
+    complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0, history=history, status = 1);
+    secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
+    secid = secretaryObj.uid
     try:
     	newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
     	# newdoc=Document.objects.get(docfile=request.FILES['docfile'])
     	newdoc.save()
     except:
-    	d=request.POST['subject']
-    try:
+        pass
+
+    SCLArray = []
+    # CLArray = []
+    CLObj = None
+    if complainAccess == 2:
+        # try:
         first=request.POST.get('first')
-        second=request.POST.get('second')
-        third=request.POST.get('third')
-        fourth=request.POST.get('fourth')
-        fifth=request.POST.get('fifth')
-        fid=Student.objects.get(roll = first).uid
-        sid=Student.objects.get(roll = second).uid
-        thirdid=Student.objects.get(roll= third).uid
-        fourthid=Student.objects.get(roll = fourth).uid
-        fifthid=Student.objects.get(roll = fifth).uid
-        studComp1=Studcomplainlink(cid=cid,studid=fid)
-        studComp2=Studcomplainlink(cid=cid,studid=sid)
-        studComp3=Studcomplainlink(cid=cid,studid=thirdid)
-        studComp4=Studcomplainlink(cid=cid,studid=fourthid)
-        studComp5=Studcomplainlink(cid=cid,studid=fifthid)
-        studComp1.save()
-        studComp2.save()
-        studComp3.save()
-        studComp4.save()
-        studComp5.save()
-    except:
-        d=request.POST['subject']
-    secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
-    secid = secretaryObj.uid
-    if (public == True):
-        CLObj = Complainlink(cid=cid, studid=0, secid=secid)
-        CLObj.save()
-    else:
+        second=request.POST.get('second','')
+        third=request.POST.get('third','')
+        fourth=request.POST.get('fourth','')
+        fifth=request.POST.get('fifth','')
+        rollArray = []
+        rollArray.append(first)
+        if not second == '':
+            rollArray.append(second)
+        if not third == '':
+            rollArray.append(third)
+        if not  fourth == '':
+            rollArray.append(fourth)
+        if not fifth == '':
+            rollArray.append(fifth) 
+        for x in rollArray:
+            tempUid = Student.objects.get(roll = x).uid
+            obj = Studcomplainlink(cid=cid,studid=tempUid)
+            SCLArray.append(obj)
+
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
-        CLObj.save()
+        # except:
+        #     pass
+    elif complainAccess == 0:
+        CLObj = Complainlink(cid=cid, studid=0, secid=secid)
+    elif complainAccess == 1:
+        CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
+
+    complainObj.save();
+    CLObj.save()
+    SCLObj = Studcomplainlink(cid=cid, studid=uid)
+    SCLArray.append(SCLObj)
+    for x in SCLArray:
+        x.save()
+
     return redirect('../complainView/');
 
 def relodgeComplain(request):
@@ -400,22 +404,6 @@ def relodgeComplain(request):
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
 	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
-# def forgetPassword(request):#forgetpassword page loading
-# render_to_response(student/resetpassword.html)
-
-# def resettingPassword(request):#resetting password
-# newpassword=request.POST.get('password');
-# uid=request.session.get('uid')
-# if validatePassword(newpassword):
-# student = Student.objects.get(uid=uid)
-# hash_object = hashlib.sha256(b""+newpassword)
-# passwd = hash_object.hexdigest()
-# student.password=passwd
-# student.save()
-# render_to_response(student/studentHome.html)
-# else:
-# render_to_response(student/studentHome.html,{'msg':Invalid Password})
-
 
 def studentProfile(request):
     if not (isStudent(request)):

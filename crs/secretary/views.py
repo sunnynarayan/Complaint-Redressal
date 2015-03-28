@@ -10,6 +10,10 @@ from login.models import *
 import re
 from django.db import connection
 from django.core import serializers
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Image
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import landscape
 
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
@@ -111,9 +115,9 @@ def pollMakeMeal(request):
 		item.append(int(x.fid))
 		name.append(str(x.name))
 		nutrition.append(x.nutritions)
-	request.session['item'] = item
-	request.session['name'] = name
-	request.session['nutrition'] = nutrition
+	request.session['Messitem'] = item
+	request.session['Messname'] = name
+	request.session['Messnutrition'] = nutrition
 	return render_to_response("secretary/mess/makeMeal.html", {'list': items })
 
 
@@ -122,9 +126,9 @@ def makingMeal(request):
 		return redirect('/crs/')
 	itemIndex=request.POST.getlist('foodItems')
 	itemIndex.sort();
-	items = request.session.get('item')
-	name = request.session.get('name')
-	nutrition = request.session.get('nutrition')
+	items = request.session.get('Messitem')
+	name = request.session.get('Messname')
+	nutrition = request.session.get('Messnutrition')
 	length = len(itemIndex)
 	if (length == 0):
 		return redirect('/crs/pollMakeMeal/')
@@ -144,91 +148,90 @@ def makingMeal(request):
 	return redirect('/crs/viewMeal/')
 
 def viewMeal(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
 	items = Meals.objects.all()
+	MealList = []
+	for meal in items:
+		MealList.append(int(meal.mid))
+	request.session['mealList'] = MealList
 	return render_to_response("secretary/mess/viewMeal.html", {'list' : items})
 
-# def editProfile(request):
-# 	return redirect('//')
+def addItemToPoll(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	breakfastItems = request.POST.getlist('breakfast')
+	lunchItems = request.POST.getlist('lunch')
+	dinnerItems = request.POST.getlist('dinner')
+	mealList = request.session.get('mealList')
+	pollMenuItem = []
+	if len(breakfastItems) > 0:
+		for breakfast in breakfastItems:
+			if int(breakfast) < 1 or int(breakfast) > len(mealList):
+				return redirect('/crs/viewMeal/')
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(breakfast)-1],type=1))
+	if len(lunchItems) > 0:
+		for lunch in lunchItems:
+			if int(lunch) < 1 or int(lunch) > len(mealList):
+				return redirect('/crs/viewMeal/')
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(lunch)-1],type=2))
+
+	if len(dinnerItems) > 0:
+		for dinner in dinnerItems:
+			if int(dinner) < 1 or int(dinner) > len(mealList):
+				return redirect('/crs/viewMeal/')
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(dinner)-1],type=3))
+
+	for item in pollMenuItem:
+		item.save()
+	return redirect('/crs/viewMeal/')
+
+def viewPollOptions(request):
+	if not (isSecretary(request)):
+		return redirect('/crs/')
+	qryBreakfast = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 1 AND a.MID = b.MID"
+	qryLunch = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 2 AND a.MID = b.MID"
+	qryDinner = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 3 AND a.MID = b.MID"
+	breakfastItems = Meals.objects.raw(qryBreakfast)
+	lunchItems = Meals.objects.raw(qryLunch)
+	dinnerItems = Meals.objects.raw(qryDinner)	
+	return render_to_response("secretary/mess/viewMenu.html", {'list1' : breakfastItems, 'list2' : lunchItems, 'list3' : dinnerItems})
 
 
-# def lodgeComplainDetail(request):
-# 	subject=request.POST.get('subject');
-# 	detail=request.POST.get('message');
-# 	catagory=getCatagory(request.POST.get('catagory'));
-# 	hostel=request.session.get("hostel");
-# 	time=datetime.datetime.now();
-# 	public = (request.POST.get('complainType') == "0");
-# 	uid=request.session.get('uid');	
-# 	history = "Complain added by " + request.session.get("name") + " at time : " + str(time) 
-# 	complainObj=Complain(uid = uid , time = time , hostel = hostel, type=catagory , subject	= subject, detail = detail, comments = 0, history = history );
-# 	complainObj.save();
-# 	secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
-# 	secid = secretaryObj.uid
-# 	cid=(Complain.objects.get(uid = uid , time = time)).cid
-# 	if (public == True):
-# 		CLObj = Complainlink(cid = cid, studid = 0, secid = secid)
-# 		CLObj.save()
-# 	else:		
-# 		CLObj = Complainlink(cid = cid, studid = uid, secid = secid)
-# 		CLObj.save()
-# 	return redirect('../listComp/');
+from django.http import HttpResponse
+
+def some_view(request):
+	# Create the HttpResponse object with the appropriate PDF headers.
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
+
+	# Create the PDF object, using the response object as its "file."
+	p = canvas.Canvas(response)
+	p.setFont('Helvetica', 48, leading=None)
+	p.drawCentredString(300, 750, "Warden's Office")
+
+	p.setFont('Helvetica', 25, leading=None)
+	p.drawCentredString(300, 700, "Hostel Leaving Form")
 	
-# def studentComplainView(request):
-# 	# isStudent(request)
-# 	uid=request.session.get('uid')
-# 	ComplainObjects = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.studID = ' + str(uid) + ' OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
-# 	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects});
+	line1 = "I " + request.session.get('name')
+	line2 = "staying presently in Room No 209" 
+	line3 = "of Ashoka Hall"
+	line4 = "do hereby intimate that I am leaving hostel"
 
-# ComplainObjects = Complain.objects.raw('SELECT * FROM `complain`, complainLink, WHERE (complainLink.studID = 1000 OR complainLink.studID = 0) AND complain.cid = complainLink.CID')
-
-
-# def studentComplainView(request):
-# 	uid=request.session.get('uid')
-# 	ComplainObjects = Complain.objects.all().filter(uid = uid)
-# 	return render_to_response('student/viewStudComplain.html',{'list' : ComplainObjects});
-
+	# p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
+	p.setFont('Helvetica', 25, leading=None)
+	p.drawString(50, 600, line1)
+	p.setFont('Helvetica', 25, leading=None)
+	p.drawString(50, 550, line2)
+	p.setFont('Helvetica', 25, leading=None)
+	p.drawString(50, 500, line3)
+	# Draw things on the PDF. Here's where the PDF generation happens.
+	# See the ReportLab documentation for the full list of functionality.
 	
-# def studentLodgeComplain(request):
-# 	return render_to_response('student/studLodgeComplain.html');
+	# Close the PDF object cleanly, and we're done.
+	p.showPage()
+	p.save()
+	return response
+def editProfile(request):
+	return redirect('//')
 
-# def studentHome(request):
-# 	return render_to_response('student/studentHome.html');
-
-# def studentProfile(request):
-# 	return render_to_response('student/studentProfile.html');
-
-# def studentViewRate(request):
-# 	return render_to_response('student/studViewRate.html');
-
-# def studentPoll(request):
-# 	return render_to_response('student/studPoll.html');
-
-# def studentHostelLeave(request):
-# 	return render_to_response('student/studHostelLeave.html');
-
-# def studentMessRebate(request):
-# 	return render_to_response('student/messrebate.html');
-
-# def getCatagory(str):
-# 	if str == "Mess":
-# 		return 1
-# 	elif str == "Environment":
-# 		return 2
-# 	elif str == "Technical":
-# 		return 3
-# 	elif str == "Maintenance":
-# 		return 4
-# 	else:
-# 		return 0
-
-# def getTypeDescription(code):
-# 	if code == 1:
-# 		return "Mess"
-# 	elif code == 2:
-# 		return "Environment"
-# 	elif code == 3:
-# 		return "Technical"
-# 	elif code == 4:
-# 		return "Maintenance"
-# 	else:
-# 		return "Other"

@@ -81,7 +81,7 @@ def afterLogin(request):								#after login function working
 				return render_to_response('student/studentBase.html', {'msg':obj.name});
 
 		except:
-			return render_to_response('login/loginPage.html');
+			return render_to_response('login/loginPage.html', {'msg' : 'User does not exist!'});
 	else:
 		return render_to_response('login/loginPage.html', {'msg' : 'username recieved(line76) : ' + uname + "pass : " + passwd});
 

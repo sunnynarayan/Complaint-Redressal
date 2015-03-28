@@ -31,6 +31,10 @@
       var temp = '<object  type="text/html" data="../viewMeal" style="height:600px;width:100%;"></object>'
       document.getElementById("right").innerHTML = temp;
     }
+    function viewPollOptions () {
+      var temp = '<object  type="text/html" data="../viewPollOptions/" style="height:600px;width:100%;"></object>'
+      document.getElementById("right").innerHTML = temp;
+    }
     </script>
 </head>
 <body>
@@ -50,6 +54,7 @@
             <li><a onClick="viewItem()">View Item</a></li>
             <li><a onClick="makeMeal()">Make Meal</a></li>
             <li><a onClick="viewMeal()">View Meal</a></li>
+            <li><a onClick="viewPollOptions()">View Poll Options</a></li>
         </ul>
         </nav>
     </div>

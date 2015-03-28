@@ -48,6 +48,8 @@ INSTALLED_APPS = (
     'secretary',
 )
 
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -71,7 +73,7 @@ DATABASES = {
     'ENGINE' : 'django.db.backends.mysql',
     'NAME' : 'crs',
 	'USER' : 'root',
-	'PASSWORD' : '',
+	'PASSWORD' : 'sunny424',
 	'PORT' : '3306',
 	'SOCK' : '',
     }
@@ -97,9 +99,10 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
 MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)

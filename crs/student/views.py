@@ -88,21 +88,22 @@ def validatePassword(passwd):
     return ((len(passwd) < 21) and (len(passwd) > 7))
 
 
-def studentComplainView(request):
+def studentComplainView(request):   #shows list of complains
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid')
     qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments, b.studID, @a:=@a+1 serial_number FROM complain a, complainLink b, (SELECT @a:= 0) AS a WHERE (b.studID = " + str(uid) + " OR b.studID = 0) AND a.cid = b.CID"
     serialComplainObjects = serialComplain.objects.raw(qry);
     # request.session['complains'] = serialComplainObjects;
-    return render_to_response("student/viewStudComplain.html", {'list': serialComplainObjects});
+    #edited
+    return render_to_response("student/tables.html", {'list': serialComplainObjects, 'msg': request.session.get('name')});
 
 # def viewrating(request):
 # 	# hostel=request.session.get('hostel')
 # 	sec=Secreatary.objects.get(hostel=1,type=2)
 # 	return render_to_response('viewrating.html',{'sec':sec});
 
-def studentViewComplain(request):
+def studentViewComplain(request):  #shows details of complain
     index = request.GET.get('CID')
     qry = ""
     if request.session.get("user_type")=="student" :
@@ -116,17 +117,16 @@ def studentViewComplain(request):
     complainObject = Complain.objects.raw(qry)
     try:
     	documents=Document.objects.get(cid=complainObject[0].cid)
-    	return render_to_response("student/compDetail.html", {'item': complainObject[0],'documents':documents})
+    	return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents})
     except:
-    	return render_to_response("student/compDetail.html", {'item': complainObject[0]})
-
+    	return render_to_response("student/complainDetail.html", {'item': complainObject[0]})
 
 
 def studentLodgeComplain(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     form =DocumentForm()
-    return render_to_response('student/studLodgeComplain.html',{'form': form})
+    return render_to_response('student/lodgeComp.html',{'form': form})
 
 
 def studentHome(request):
@@ -380,7 +380,6 @@ def lodgeComplainDetail(request):
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
     elif complainAccess == 1:
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
-
     complainObj.save();
     CLObj.save()
     SCLObj = Studcomplainlink(cid=cid, studid=uid)

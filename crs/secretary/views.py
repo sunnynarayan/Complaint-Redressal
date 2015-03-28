@@ -28,7 +28,8 @@ def secComplainView(request):
 	uid=request.session.get('uid')
 	pubComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complain.status = 1 OR complain.status=2 OR complain.status=3 OR complain.status=11 OR complain.status=12 OR complain.status=13) AND (complainLink.secID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID')
 	priComplains = Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complain.status = 1 OR complain.status=2 OR complain.status=3 OR complain.status=11 OR complain.status=12 OR complain.status=13) AND (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID')
-	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains});
+	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
+	# return render_to_response('secretary/listComp.html',{'list' : allCom, 'msg': request.session.get('name')});
 
 def secLodgeComplain(request):
 	if not (isSecretary(request)):
@@ -74,7 +75,7 @@ def secViewComplain(request):
     index = int(indexF)
     qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.secID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
     complainObject = Complain.objects.raw(qry)
-    return render_to_response("secretary/compDetail.html", {'item': complainObject[0]})
+    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0]})
 
 def poll(request):
 	if not (isSecretary(request)):

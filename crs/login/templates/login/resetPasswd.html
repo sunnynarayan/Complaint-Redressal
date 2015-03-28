@@ -1,182 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<title></title>
-	<link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
-    <link rel="stylesheet" type="text/css" href="../../static/user_module/basic.css">
-    <link rel="shortcut icon" type="image/x-icon" href="../../static/img/system/spacer.gif"/>
-    <link rel="stylesheet" type="text/css" href="../../static/user_module/css.css">
-    <link rel="stylesheet" type="text/css" href="../../static/user_module/try.css">
-    <link rel="stylesheet" type="text/css" href="../../static/user_module/css2.css">
-    
-<style type="text/css">
-	body{
-		background-color: #CCFFCC;
-		margin-left: 0px;
-		margin-top:0px;
-		padding: 20%;
-		background-color: #CCFFCC;
-		border: 3px solid black;
-    	border-collapse: collapse;
-	}
-</style>
 
-</head>	
-<body>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
+    <title></title>
 
-<form name="form1" action="../restPassword/" method="post" onsubmit="passwd_validate()"> 
-<table>
-<tr>
-<td>
-	<label for="oldpasswd">Old Password:</label>
-</td>
-<td>
-	<input type="password" name="oldPasswd" required value="" >	
-</td>
-</tr>
-<tr>
-<td>
-	<label for="oldpasswd">New Password:</label>
-</td>
-<td>
-	<input id="user_password" type="password" name="newPasswd1" required value="" onkeyup="chkPasswordStrength();allowAccess()">	
-</td>
-<td id="strength"><b>Password Strength</td>
-</tr>
-<tr>
-<td>
-	<label for="oldpasswd">Enter new Password again:</label>
-</td>
-<td>
-	<input id="repeat" type="password" name="newPasswd2" required value="" onkeyup="allowAccess()">
-</td>
-<td id="allow"><b>Not Allowed</td>
-<tr></tr>
-<tr>
-<td></td>
-<td>
-	<input id="submitted" type="submit" name="CHANGE" value="CHANGE PASSWORD">
-</td>
-<td id="go"><b></td>
-</tr>
-<tr>
-<td>
-	
-</td>
-</tr>
-<tr>
-	<td >
-		<div  id="passwd"></div>
-	</td>
-</tr>	
-</table>
+    <!-- Bootstrap Core CSS -->
+    <link href="../../static/user_module/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-</form>
-<script type="text/javaScript">
-function passwd_validate()
-{
-	if((document.form1.newPasswd1.length<8) || (document.form1.newPasswd1.length>20))
-	{
-		document.getElementById('passwd').innerHTML="The password length is not appropriate";
-	    form1.newPasswd1.focus();
-	    return(false);
-	}
-}
- var count1=0;
- var count2=0;
-  function chkPasswordStrength()
-  {
+    <!-- MetisMenu CSS -->
+    <link href="../../static/user_module/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
-    document.getElementById("submitted").disabled = true;
-  	var desc = new Array();
-     desc[0] = "Very Weak";
-     desc[1] = "Weak";
-     desc[2] = "Better";
-     desc[3] = "Medium";
-     desc[4] = "Strong";
-     desc[5] = "Strongest";
-  	var password_check= document.getElementById("user_password").value;
-  	var size=password_check.length;
-  	var str="";
-  	if(size<8)
-  	{
-  		str=",Too Short";
-  	}
-    else if(size>=8 && size<=20)
-    {
-    	str=",Length okay"
+    <!-- Custom CSS -->
+    <link href="../../static/user_module/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../../static/user_module/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <style>
+    #submit{
+        margin-left: 40%;
     }
-    else
-    	str=",Too Long";
-
-  	var len=0;
-  	if(password_check.match(/[a-z]/))
-  	{
-  		count1=0;
-  		len++;
-  	}
-  	if(password_check.match(/[A-Z]/))
-  	{
-  		count1=0;
-  		len++;
-  	}
-  	if(password_check.match(/\d+/))
-  	{
-  		count1=0;
-  		len++;
-  	}
-  	if ( password_check.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) 
-  	{
-  		count1=0;
-  		len++;
-  	}
-  	if(password_check.length>12)
-  	{
-  		count1=0;
-  		len++;
-  	}
-  	document.getElementById("strength").innerHTML = desc[len]+ str; 
-  	if((desc[len].localeCompare(desc[4])==0) || (desc[len].localeCompare(desc[5]))==0)
-  	{
-  		count1=1;
-  		document.getElementById("submitted").disabled = true;
-  	}
-  	
-  } 
-  function setValue(objec,value){
-  	document.getElementById(objec).innerHTML= value;
-  }
-  function allowAccess() 
-  {
-
-  	var neww=document.getElementById("repeat").value;
-  	var old=document.getElementById("user_password").value;
-  	if (neww.localeCompare("") == 0)
-  	{
-  		setValue("allow","");
-  		count2=0;
-  		document.getElementById("submitted").disabled = true;
-  	}
-  	else if(neww.localeCompare(old)==0)
-  	{
-  		setValue("allow","Matched");
-  		count2=1;
-  		document.getElementById("submitted").disabled = true;
-  	} 
-  	else
-  	{
-  		setValue("allow","Not Matched");
-  		count2=0;
-  		document.getElementById("submitted").disabled = true;
-  	}
-  	if(count1==1 && count2==1 && neww.length>=8 && neww.length<=20)
-     {
-     	// setValue("go","Allowed");
-     	document.getElementById("submitted").disabled = false;
-     }
-  }
+    </style>
+    <script>
+    $(document).ready(function() {
+    $('#password').keypress(function() {
+    $('#result').html(checkStrength($('#password').val()))
+    })
+    function checkStrength(password) {
+    var strength = 0
+    if (password.length < 8) {
+    $('#result').removeClass()
+    $('#result').addClass('short')
+    // $('#submit').hide()
+    return 'Too short'
+    }
+    if (password.length >= 8) strength += 1
+    // If password contains both lower and uppercase characters, increase strength value.
+    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1
+    // If it has numbers and characters, increase strength value.
+    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1
+    // If it has one special character, increase strength value.
+    if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+    // If it has two special characters, increase strength value.
+    if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+    // Calculated strength value, we can return messages
+    // If value is less than 2
+    if (strength < 4 &&   ) {   
+    $('#result').removeClass()
+    $('#result').addClass('weak')
+    // $('#submit').hide()
+    return 'Weak'
+    } else if (strength == 4) {
+    $('#result').removeClass()
+    $('#result').addClass('good')
+    $('#submit').show();    
+    return 'Good'
+} else {
+$('#result').removeClass()
+$('#result').addClass('strong')
+$('#submit').show();
+return 'Strong'
+}
+}
+});
+</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#submit').hide();
+    });
 </script>
 
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><h3>Reset Password</h3></h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" action="POST">
+                            <fieldset>
+                                <div class="form-group">
+                                    <h4>New Password</h4>
+                                    <input type="password" class="form-control" name="password" type="password" autofocus required value="">
+                                    <h4>Key</h4>
+                                    <input class="form-control" placeholder="Key" name="key" type="key" autofocus required value="">
+                                </div>
+                                <span id="submit"><button type="button" class="btn btn-outline btn-primary" name="submit" value="submit">Submit</button><span>
+                                
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../../static/user_module/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../static/user_module/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../../static/user_module/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../../static/user_module/dist/js/sb-admin-2.js"></script>
+
 </body>
+
 </html>

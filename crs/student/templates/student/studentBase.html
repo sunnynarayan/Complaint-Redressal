@@ -13,10 +13,10 @@
     <link rel="stylesheet" type="text/css" href="../../static/student/css2.css">
     <style></style>
     <script type="text/javascript">
-    function view () {
-      var temp = '<object  type="text/html" data="../complainView" style="height:600px;width:100%;"></object>'
-      document.getElementById("right").innerHTML = temp;
-    }
+    // function view () {
+    //   var temp = '<object  type="text/html" data="../complainView" style="height:600px;width:100%;"></object>'
+    //   document.getElementById("right").innerHTML = temp;
+    // }
 
     function lodge () {
       var temp = '<object  type="text/html" data="../lodgeComplain" style="height:600px;width:100%;"></object>'
@@ -81,7 +81,7 @@
         <ul class="clearfix">
             <li class="current-item"><a href="https://iitp.ac.in"><img src="../../static/img/system/spacer.gif"></a></li>
             <li><a  onClick="home()">Home</a></li>
-            <li><a  onClick="view()">View</a></li>
+            <li><a href="/crs/viewComplain/" >View</a></li>
             <li><a  onClick="lodge()">Lodge</a></li>
             <li><a  onClick="editprofile()">Edit profile</a></li>
             <li><a  onClick="viewprofile()">View profile</a></li>
@@ -93,9 +93,9 @@
         </ul>
         </nav>
     </div>
-    <div id="right">
+    <!-- <div id="right">
       <object  type="text/html" data="../complainView" style="height:600px;width:100%;"></object>
-    </div>
+    </div> -->
   </body>
 
 </html>

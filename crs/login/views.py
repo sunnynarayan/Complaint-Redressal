@@ -24,13 +24,15 @@ def login(request):
 	try:
 		if request.session.get("login") == "True": #check if the user is already logged in
 			if request.session.get("user_type")=="wardenOffice" : #if yes then redirect the request to home page according to whether faculty or student
-				return render_to_response('wardenOffice/wardenHome.html', {'msg' : request.session.get('name')});
+				return render_to_response('/crs/complainView/', {'msg' : request.session.get('name')});
 			elif request.session.get("user_type")=="warden":
 				return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
 			elif request.session.get("user_type")=="secretary" :
-				return render_to_response('secretary/secHome.html', {'msg' : request.session.get('name')});
+				# return render_to_response('secretary/secHome.html', {'msg' : request.session.get('name')});
+				return redirect('/crs/listComp/');
 			else:
-				return render_to_response('student/studentBase.html', {'msg' : request.session.get('name')});
+				# return render_to_response('student/studentBase.html', {'msg' : request.session.get('name')});
+				return redirect('/crs/complainView/');
 	except NameError:
 		pass
 	return render_to_response('login/loginPage.html', {'msg':''}); #if not then display the login page
@@ -75,11 +77,11 @@ def afterLogin(request):								#after login function working
 			request.session['uid'] = obj.uid;
 			if obj.issec==1:                    
 				request.session['user_type']="secretary";
-				return render_to_response('secretary/secHome.html', {'msg':obj.name}); 
+				return redirect('/crs/listComp/'); 
 			else:
 				request.session['user_type']="student";
-				return render_to_response('student/studentBase.html', {'msg':obj.name});
-
+				# return render_to_response('student/studentBase.html', {'msg':obj.name});
+				return redirect('/crs/complainView/');
 		except:
 			return render_to_response('login/loginPage.html', {'msg' : 'User does not exist!'});
 	else:

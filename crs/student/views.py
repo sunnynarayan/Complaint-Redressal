@@ -114,9 +114,12 @@ def studentViewComplain(request):
     elif request.session.get("user_type")=="warden" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"       
     complainObject = Complain.objects.raw(qry)
-    # documents = Document.objects.get(id = (complainObject[0].picid))
-    documents=Document.objects.get(cid=complainObject[0].cid)
-    return render_to_response("student/compDetail.html", {'item': complainObject[0],'documents':documents})
+    try:
+    	documents=Document.objects.get(cid=complainObject[0].cid)
+    	return render_to_response("student/compDetail.html", {'item': complainObject[0],'documents':documents})
+    except:
+    	return render_to_response("student/compDetail.html", {'item': complainObject[0]})
+
 
 
 def studentLodgeComplain(request):

@@ -423,10 +423,7 @@
                                 <div>
                                     <h4>Details</h4>
                                     <p>{{ item.detail }}</p>
-                                </div>
-                                <div>
-                                    <h4>Attachments</h4>
-                                    <p>{{ item.image }}</p>
+
                                 </div>
                                 
                                 </div>
@@ -445,6 +442,16 @@
         <!-- /#page-wrapper -->
 
     </div>
+
+     {% if documents %}
+      <ul>
+        <li><a href="{{ documents.docfile.url }}">{{ documents.docfile.name }}</a></li>
+      </ul>
+    {% else %}
+      <p>No image file</p>
+    {% endif %}
+      <br><br><br>
+
     <!-- /#wrapper -->
 
     <!-- jQuery -->

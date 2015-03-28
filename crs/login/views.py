@@ -41,7 +41,7 @@ def login(request):
 def afterLogin(request):								#after login function working
 	uname = request.POST.get('username','');
 	passwd = request.POST.get('password','');
-	if re.sub('[a-z.@0-9]',"",uname) != "":				#check username for possible SQL injection and other injections
+	if len(re.sub('[a-z.@0-9]',"",uname)) != len(uname):				#check username for possible SQL injection and other injections
 		return render_to_response('login/loginPage.html', {'msg':'Errornous user'}); #Error in username entry !!, append error message
 	if validatePassword(passwd):
 		return render_to_response('login/loginPage.html', {'msg':'error in password'}); #Error in password, append error message

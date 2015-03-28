@@ -172,10 +172,10 @@ def afterEditProfile(request):
     else:
         return HttpResponse(len(account))
 
-def studentViewRate(request):
+def rateSecretary(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    return render_to_response('student/studViewRate.html');
+    return render_to_response('student/rateSecretary.html');
 
 
 def studentPoll(request):
@@ -295,7 +295,7 @@ def getComplainID(catagory, hostel):
 
 
 def loadRateSecPage(request):
-    return render_to_response('student/rateSec.html')
+    return render_to_response('student/rateSecretaryAshoka.html')
 
 def rateSecretary(request):
     if not (isStudent(request)):

@@ -392,7 +392,7 @@
                 </div>
                 <div class="col-lg-10">
                     <form action="/crs/complainView/">
-                        <button type="submit" class="btn btn-outline btn-primary" style="float:right" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        <button class="btn btn-outline btn-primary" style="float:left" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -416,7 +416,7 @@
                                     <thead>
                                         <tr>
                                             <th>Complain Subject</th>
-                                            <th>{{ item.subject }}</th>   
+                                            <th>{{ item.subject|safe }}</th>   
                                         </tr>
                                         <tr>
                                             <th>Complain Type</th>
@@ -434,7 +434,7 @@
                                 </table> 
                                 <div>
                                     <h4>Details</h4>
-                                    <p>{{ item.detail }}</p>
+                                    <p>{{ item.detail|safe }}</p>
                                 </div>
                                 <div>
                                     <h4>Attachments</h4>

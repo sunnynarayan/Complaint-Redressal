@@ -106,6 +106,8 @@ def studentComplainView(request):   #shows list of complains
 def studentViewComplain(request):  #shows details of complain
     index = request.GET.get('CID')
     request.session['currentCid']=index;
+    var1=0
+    var2=0
     qry = ""
     if request.session.get("user_type")=="student" :
         qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"
@@ -115,13 +117,28 @@ def studentViewComplain(request):  #shows details of complain
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="warden" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"       
+    else :
+        return HttpResponse('error')
     complainObject = Complain.objects.raw(qry)
     try:
     	documents=Document.objects.get(cid=complainObject[0].cid)
-    	return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents})
+        var1=1
     except:
-    	return render_to_response("student/complainDetail.html", {'item': complainObject[0]})
-
+        var1=0
+    try:
+        qry="SELECT * FROM comment a WHERE a.cid= \'"+str(complainObject[0].cid)+"\'"
+        comment=Comment.objects.raw(qry)
+        var2=1
+    except:
+        var2=0
+    if var1==1 and var2==0:
+    	return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents})
+    elif var1==1 and var2==1:
+        return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
+    elif var1==0 and var2==1:
+        return render_to_response("student/complainDetail.html", {'item': complainObject[0],'comment':comment})
+    else:
+        return HttpResponse('error')
 
 def studentLodgeComplain(request):
     if not (isStudent(request)):

@@ -453,11 +453,31 @@
         <li><a href="{{ documents.docfile.url }}">{{ documents.docfile.name }}</a></li>
       </ul>
     {% else %}
-      <p>No image file</p>
+      <p>No Image File Uploaded</p>
     {% endif %}
       <br><br><br>
                                 
                                 </div>
+                    {% if comment %}
+            <h3>Comments : </h3>
+        <table>
+      <tr>
+        <th>Comment Added By</th>
+        <th>Time</th>
+        <th>Comment</th>
+      </tr>
+          {% for item in comment %}
+      <tr> 
+        <td>{{ item.name }}</td>
+        <td>{{ item.time }}</td>
+        <td>{{ item.comment }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+      <p>Comments</p>
+    {% endif %}
+      <br><br><br>
+</table>
 
              <button type="button" name="cbutton" id="cbutton">Comment</button> 
                                 <div class="commentBox">

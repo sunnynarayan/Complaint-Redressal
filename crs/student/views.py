@@ -67,7 +67,7 @@ def loadPage(request):
 def OpenHostelPage(request):
 	username=request.session.get("username")
 	obj=Student.objects.get(username=username)
-	return render_to_response('student/HostelLeave.html',{'obj' : obj})
+	return render_to_response('student/HostelLeave.html',{'obj' : obj}, context_instance=RequestContext(request))
 
 def HostelLeavingSubmit(request):
     laptop=request.POST.get('laptop', '')
@@ -105,9 +105,10 @@ def studentComplainView(request):   #shows list of complains
 
 def studentViewComplain(request):  #shows details of complain
     index = request.GET.get('CID')
+    request.session['currentCid']=index;
     qry = ""
     if request.session.get("user_type")=="student" :
-        qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"        
+        qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"
     elif request.session.get("user_type")=="secretary" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
     elif request.session.get("user_type")=="wardenOffice" :
@@ -126,7 +127,7 @@ def studentLodgeComplain(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     form =DocumentForm()
-    return render_to_response('student/lodgeComp.html',{'form': form})
+    return render_to_response('student/lodgeComp.html',{'form': form}, context_instance=RequestContext(request))
 
 
 def studentHome(request):
@@ -168,7 +169,7 @@ def afterEditProfile(request):
         obj.city=city
         obj.pincode=pincode
         obj.save();
-        return render_to_response('student/studentHome.html')
+        return render_to_response('student/studentProfile.html')
     else:
         return HttpResponse(len(account))
 
@@ -325,12 +326,29 @@ def rateSecretary(request):
     except:
         return HttpResponse('You have already Voted')
 
+def validateText(rawText):
+    i = 0
+    rawText = re.sub(r'[^a-zA-Z0-9\s,.:;\(\)\'"=\-+\/*#\<\>$&@%~?!\[\]\{\}\\]','',rawText)
+    while i != len(rawText):
+        ch = rawText[i]
+        if re.search(r'[\'\\\<\>&!#";\-\/\*\{\}\(\)]', ""+ch):
+            rawText = rawText[:i] + "&#" + str(ord(ch)) + ";" + rawText[i+1:]
+            i = i + 3 + len(str(ord(ch)))
+        else:
+            i = i + 1
+        # print str(i) + "," + str(len(rawText)) + " " + rawText
+    return rawText
+
 @transaction.atomic
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    subject = request.POST.get('subject');
-    detail = request.POST.get('message');
+    subject = request.POST.get('subject', '');
+    subject = validateText(subject)
+    detail = request.POST.get('message', '');
+    detail = validateText(detail)
+    if detail == '' or subject == '':
+        return redirect('/crs/complainView/')
     catagory = getCatagory(request.POST.get('catagory'));
     hostel = request.session.get("hostel");
     time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
@@ -387,7 +405,7 @@ def lodgeComplainDetail(request):
     for x in SCLArray:
         x.save()
 
-    return redirect('../complainView/');
+    return redirect('/crs/complainView/');
 
 def relodgeComplain(request):
 	if not (isSecretary(request)):
@@ -408,24 +426,27 @@ def relodgeComplain(request):
 	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
 
-def comments(request):
-	uid=request.session.get('uid')
-	user_type=request.session.get("user_type","")
-	cid=request.POST.get['cid']
-	comment=request.POST.get['cid']
-	time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');	
-	if user_type == "student":
-		name=Student.objects.get(uid='uid').name
-		obj=Comment(cid=cid,comment=comment,time=time,name=name)
-		obj.save()
-		return HttpResponse('successfull')
-	elif user_type == "faculty":
-		name=Faculty.objects.get(fid=uid).name 
-		obj=Comment(cid=cid,comment=comment,time=time,name=name)
-		obj.save()
-		return HttpResponse('successfull')
-	else:
-		return render_to_response('login/login.html')
+def comment(request):
+    if 'submit' in request.POST:
+	   uid=request.session.get('uid')
+	   user_type=request.session.get("user_type","")
+	   comment=request.POST.get('cbox')
+	   cid=request.session.get('currentCid')
+	   time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');	
+	   if user_type == "student":
+	       name=Student.objects.get(uid=uid).name
+	       obj=Comment(cid=cid,comment=comment,time=time,name=name)
+	       obj.save()
+	       return redirect('/crs/complainView/')
+	   elif user_type == "faculty":
+	       name=Faculty.objects.get(fid=uid).name 
+	       obj=Comment(cid=cid,comment=comment,time=time,name=name)
+	       obj.save()
+	       return redirect('/crs/complainView/')
+	   else:
+	       return HttpResponse('unsuccessfull')
+    else:
+        return HttpResponse('error')
 
 def studentProfile(request):
     if not (isStudent(request)):

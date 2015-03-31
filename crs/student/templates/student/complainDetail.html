@@ -20,21 +20,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../../static/student/dist/js/sb-admin-2.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function()
-    {
-        $('#submit').hide();
-        $('#text').hide();
-        
-
-
-    });
-    $('#comment').onClick(function()
-        {
-            $('#submit').show();
-            $('#text').show();
-        });
-    </script>
+    
 
     <!-- Bootstrap Core CSS -->
 
@@ -48,6 +34,18 @@
 
     <!-- Custom Fonts -->
     <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+        <!-- jQuery -->
+    <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../../static/student/dist/js/sb-admin-2.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -404,8 +402,8 @@
                     <h1 class="page-header">Complain Details</h1>
                 </div>
                 <div class="col-lg-10">
-                    <form action="/crs/complainView/">
-                        <button type="submit" class="btn btn-outline btn-primary" style="float:right" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <form action="/crs/complainView/" name="back">
+                        <button class="btn btn-outline btn-primary" style="float:left" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -429,7 +427,7 @@
                                     <thead>
                                         <tr>
                                             <th>Complain Subject</th>
-                                            <th>{{ item.subject }}</th>   
+                                            <th>{{ item.subject|safe }}</th>   
                                         </tr>
                                         <tr>
                                             <th>Complain Type</th>
@@ -461,9 +459,29 @@
                                 
                                 </div>
 
-               <p> <button name="comment" value=Comment id="comment" /> </p></button></p>
-                <input  type="text"  name="comment"   id="text"/>
-                <input type="submit" value="Submit" id="submit" name="Submit"/>
+             <button type="button" name="cbutton" id="cbutton">Comment</button> 
+                                <div class="commentBox">
+                                <form action="/comment/"   method="POST">
+                                    <input type="text" name="cbox">
+                                    <button type="submit" name="submit">Submit</button>
+                                </form>
+                                </div>
+                                <script type="text/javascript">
+                                    $(document).ready(function(){
+                                        $(".commentBox").hide();
+                                        $("#cbutton").click(function(){
+                                            $(".commentBox").show();
+                                        });
+                                    });
+                                </script>
+                                    
+                                </div>
+                                <div>
+    
+                                </div>
+                                
+                                </div><br>
+                                
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
                             <!-- /.row (nested) -->

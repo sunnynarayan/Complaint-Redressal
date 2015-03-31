@@ -37,8 +37,6 @@ def login(request):
 				return redirect('/crs/complainView/');
 	except NameError:
 		pass
-	c = {}
-	c.update(csrf(request))
 	return render_to_response('login/loginPage.html', {'msg' : ''}, context_instance=RequestContext(request)); #if not then display the login page
 
 
@@ -47,9 +45,9 @@ def afterLogin(request):								#after login function working
 	passwd = request.POST.get('password','');
 	lengthUsername = len(uname)
 	if lengthUsername > 29 or lengthUsername < 1:
-		return render_to_response('login/loginPage.html', {'msg':'Invalid username1'}, context_instance=RequestContext(request))
-	if len(re.sub('[^a-z.@0-9]',"",uname)) != lengthUsername:				#check username for possible SQL injection and other injections
-		return render_to_response('login/loginPage.html', {'msg':'Inavlid username2'}, context_instance=RequestContext(request)); #Error in username entry !!, append error message
+		return render_to_response('login/loginPage.html', {'msg':'Invalid username'}, context_instance=RequestContext(request))
+	if re.search('[^a-z.@0-9]',uname):				#check username for possible SQL injection and other injections
+		return render_to_response('login/loginPage.html', {'msg':'Inavlid username'}, context_instance=RequestContext(request)); #Error in username entry !!, append error message
 	if validatePassword(passwd):
 		return render_to_response('login/loginPage.html', {'msg':'error in password'}, context_instance=RequestContext(request)); #Error in password, append error message
 
@@ -88,11 +86,10 @@ def afterLogin(request):								#after login function working
 			request.session['uid'] = obj.uid;
 			if obj.issec==1:                    
 				request.session['user_type']="secretary";
-				return redirect('/crs/listComp/');
+				return redirect ('/crs/listComp/');
 			else:
-				request.session['user_type']="student";
-				# return render_to_response('student/studentBase.html', {'msg':obj.name});
-				return redirect('/crs/complainView/');
+				request.session['user_type']="student"
+				return redirect ('/crs/complainView/')
 		except:
 			return render_to_response('login/loginPage.html', {'msg' : 'User is not registered'}, context_instance=RequestContext(request));
 	else:

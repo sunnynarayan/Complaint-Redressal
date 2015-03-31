@@ -411,7 +411,7 @@ $( "#custom" ).hide();});
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form name="complainForm" action="../lodgedComplainDetail/" method="post">
+                                    <form name="complainForm" action="../lodgedComplainDetail/" method="post" enctype="multipart/form-data">
                                     	<div class="form-group">
                                             <label>Department</label>
                                             <select name="catagory" class="form-control">
@@ -460,10 +460,7 @@ $( "#custom" ).hide();});
                                             <label>Static Control</label>
                                             <p class="form-control-static">email@example.com</p>
                                         </div> -->
-                                        <div class="form-group">
-                                            <label>File input</label>
-                                            <input type="file" name="pic" accept="image/*">
-                                        </div>
+                                       
                                         
                                         <!-- <div class="form-group">
                                             <label>Checkboxes</label>
@@ -525,6 +522,13 @@ $( "#custom" ).hide();});
                                                 <option>5</option>
                                             </select>
                                         </div>-->
+                                
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
                                         <button type="submit" name = "Lodge" value="Lodge" class="btn btn-outline btn-success">Lodge</button>
                                         <!-- <button type="submit" class="btn btn-default">Submit Button</button> -->
                                         <!-- <button type="reset" class="btn btn-default">Reset Button</button> -->

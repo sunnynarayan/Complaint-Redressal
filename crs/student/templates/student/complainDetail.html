@@ -10,8 +10,34 @@
     <meta name="author" content="">
 
     <title></title>
+     <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../../static/student/dist/js/sb-admin-2.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function()
+    {
+        $('#submit').hide();
+        $('#text').hide();
+        
+
+
+    });
+    $('#comment').onClick(function()
+        {
+            $('#submit').show();
+            $('#text').show();
+        });
+    </script>
 
     <!-- Bootstrap Core CSS -->
+
     <link href="../../static/student/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
@@ -33,7 +59,6 @@
 </head>
 
 <body>
-
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -425,8 +450,20 @@
                                     <p>{{ item.detail }}</p>
 
                                 </div>
+                                {% if documents %}
+      <ul>
+        <li><a href="{{ documents.docfile.url }}">{{ documents.docfile.name }}</a></li>
+      </ul>
+    {% else %}
+      <p>No image file</p>
+    {% endif %}
+      <br><br><br>
                                 
                                 </div>
+
+               <p> <button name="comment" value=Comment id="comment" /> </p></button></p>
+                <input  type="text"  name="comment"   id="text"/>
+                <input type="submit" value="Submit" id="submit" name="Submit"/>
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
                             <!-- /.row (nested) -->
@@ -439,33 +476,16 @@
             </div>
             <!-- /.row -->
         </div>
-        <!-- /#page-wrapper -->
 
+
+
+         
     </div>
-
-     {% if documents %}
-      <ul>
-        <li><a href="{{ documents.docfile.url }}">{{ documents.docfile.name }}</a></li>
-      </ul>
-    {% else %}
-      <p>No image file</p>
-    {% endif %}
-      <br><br><br>
-
+    
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="../../static/student/dist/js/sb-admin-2.js"></script>
-
+   
 </body>
 
 </html>

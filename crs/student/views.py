@@ -407,6 +407,26 @@ def relodgeComplain(request):
 	# complainObj.save()
 	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
+
+def comments(request):
+	uid=request.session.get('uid')
+	user_type=request.session.get("user_type","")
+	cid=request.POST.get['cid']
+	comment=request.POST.get['cid']
+	time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');	
+	if user_type == "student":
+		name=Student.objects.get(uid='uid').name
+		obj=Comment(cid=cid,comment=comment,time=time,name=name)
+		obj.save()
+		return HttpResponse('successfull')
+	elif user_type == "faculty":
+		name=Faculty.objects.get(fid=uid).name 
+		obj=Comment(cid=cid,comment=comment,time=time,name=name)
+		obj.save()
+		return HttpResponse('successfull')
+	else:
+		return render_to_response('login/login.html')
+
 def studentProfile(request):
     if not (isStudent(request)):
         return redirect('/crs/')

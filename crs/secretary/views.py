@@ -14,6 +14,9 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Image
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.pagesizes import landscape
+from django.core.context_processors import csrf
+from django.views.decorators.csrf import requires_csrf_token
+from django.core.context_processors import csrf
 
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
@@ -236,3 +239,66 @@ def some_view(request):
 def editProfile(request):
 	return redirect('//')
 
+def searchDatabase(request):
+	return render_to_response ("secretary/search.html", context_instance=RequestContext(request))
+
+def validateTypeOfSearch(argument):
+	try:
+		if int(argument)>0 and int(argument)<6:
+			return True
+		else:
+			return False
+	except:
+		return False
+
+def validateParameter(parameter, sequence):
+	if sequence == "1":
+		if re.search('^[A-Z]{2}-[A-Z]{2}-\d{2}/\d{2}/\d{2}-\d{4}$', parameter):
+			return True
+	elif sequence == "2":
+		if re.search('^[A-Za-z]*$', parameter) and (len(parameter) > 0 and  len(parameter) < 51):
+			return True
+	elif sequence == "3":
+		if re.search('^\d{4}-\d{2}-\d{2}$', parameter):
+			return True
+	# elif sequence == "4":
+		# if re.search('')
+	# elif sequence == "5":
+		# if re.search('')
+
+	return False
+
+def searchItem(request):
+	# search type details : 
+	# 1 - search by complainID
+	# 2 - search by student's Name
+	# 3 - search by lodge date
+	# 4 - search by subject
+	# 5 - search by detail
+	typeOfSearch = str(request.POST.get('type',''))
+	if not validateTypeOfSearch(typeOfSearch):
+		return redirect ('/crs/search/') 								#redirect to search page
+		# return render_to_response("281")
+	parameter = str(request.POST.get('parameter',''))
+	# if not validateParameter(parameter, typeOfSearch):
+		# return redirect('/crs/search')
+		# return render_to_response("285")
+	if typeOfSearch == '1':
+		complain = Complain.objects.raw('SELECT * FROM complain WHERE cid = ' + parameter)
+		return render_to_response("secretary/searchResult.html", {'list' : complain})
+	elif typeOfSearch == '2':
+		complain = []
+		# try:
+		student = Student.objects.filter(name__icontains=parameter)
+		for stud in student:
+			complain.extend(Complain.objects.filter(uid = stud.uid))
+		# except:
+			# pass
+		return render_to_response("secretary/searchResult.html", {'list' : complain})
+	elif typeOfSearch == '3':
+		complain = Complain.objects.raw('SELECT * FROM complain WHERE time LIKE \'' + parameter + '%\'')
+		return render_to_response("secretary/searchResult.html", {'list' : complain})
+	# elif typeOfSearch == '4':
+	# 	pass
+	# elif typeOfSearch == '5':
+	# 	pass

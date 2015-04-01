@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search window</title>
+</head>
+<body>
+<form action="/crs/searchResult/" method="POST">
+	{% csrf_token %}
+	<select name="type" >
+		<option value="1">By CID</option>
+		<option value="2">By stud name</option>
+		<option value="3">By lodge date</option>
+		<!-- <option value="4"></option> -->
+	</select>
+
+	<input type="text" name="parameter">
+	<input type="submit" value="Submit">
+
+</form>
+</body>
+</html>

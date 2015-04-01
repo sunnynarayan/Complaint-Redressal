@@ -62,6 +62,8 @@ urlpatterns = patterns('',
     url(r'^crs/list/$','student.views.list'),
     # url(r'^crs/viewrating/$','student.views.viewrating'),
     url(r'^Page/$','student.views.loadPage'),
+    url(r'^crs/search/$', 'secretary.views.searchDatabase'),
+    url(r'^crs/searchResult/$', 'secretary.views.searchItem'),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

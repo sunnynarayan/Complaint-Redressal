@@ -29,12 +29,10 @@ def login(request):
 				return render_to_response('/crs/complainView/', {'msg' : request.session.get('name')});
 			elif request.session.get("user_type")=="warden":
 				return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
-			elif request.session.get("user_type")=="secretary" :
-				# return render_to_response('secretary/secHome.html', {'msg' : request.session.get('name')});
-				return redirect('/crs/listComp/');
+			elif request.session.get("user_type")=="secretary":
+				return redirect ('/crs/listComp/');
 			else:
-				# return render_to_response('student/studentBase.html', {'msg' : request.session.get('name')});
-				return redirect('/crs/complainView/');
+				return redirect ('/crs/complainView/');
 	except NameError:
 		pass
 	return render_to_response('login/loginPage.html', {'msg' : ''}, context_instance=RequestContext(request)); #if not then display the login page
@@ -85,8 +83,8 @@ def afterLogin(request):								#after login function working
 			request.session['hostel']= obj.hostel;
 			request.session['uid'] = obj.uid;
 			if obj.issec==1:                    
-				request.session['user_type']="secretary";
-				return redirect ('/crs/listComp/');
+				request.session['user_type']="secretary"
+				return redirect ('/crs/listComp/')
 			else:
 				request.session['user_type']="student"
 				return redirect ('/crs/complainView/')
@@ -110,7 +108,6 @@ def resetPasswd(request):
 
 	hash_object = hashlib.sha256(b""+oldPasswd)
 	oldPasswd = hash_object.hexdigest()
-
 	hash_object = hashlib.sha256(b""+newPasswd)
 	newPasswd = hash_object.hexdigest()
 
@@ -193,4 +190,3 @@ def sendEmailForPassword(request):
 			return render_to_response('login/loginPage.html')
 	else:
 		return HttpResponse("Invalid Credentials")
-

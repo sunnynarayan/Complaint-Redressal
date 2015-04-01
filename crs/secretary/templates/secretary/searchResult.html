@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search Result</title>
+</head>
+<body>
+search Result:
+<table>
+	<th><td>CID</td><td>time</td><td>subject</td><td>status</td></th>
+	{% for item in list%}
+	<tr><td>{{ item.cid }}</td><td>{{ item.time }}</td><td>{{ item.subject }}</td><td>{{ item.status }}</td></tr>
+	{% endfor %}
+</table>
+</body>
+</html>

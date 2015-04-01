@@ -25,8 +25,8 @@ def validatePassword(passwd):
 def login(request):
 	try:
 		if request.session.get("login") == "True": 					#check if the user is already logged in
-			if request.session.get("user_type")=="wardenOffice" : #if yes then redirect the request to home page according to whether faculty or student
-				return render_to_response('/crs/complainView/', {'msg' : request.session.get('name')});
+			if request.session.get("user_type")=="student": #if yes then redirect the request to home page according to whether faculty or student
+				return render_to_response('student/tables.html/', {'msg' : request.session.get('name')});
 			elif request.session.get("user_type")=="warden":
 				return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
 			elif request.session.get("user_type")=="secretary":

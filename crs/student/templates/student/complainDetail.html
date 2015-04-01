@@ -10,8 +10,20 @@
     <meta name="author" content="">
 
     <title></title>
+     <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../../static/student/dist/js/sb-admin-2.js"></script>
+    
 
     <!-- Bootstrap Core CSS -->
+
     <link href="../../static/student/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
@@ -45,7 +57,6 @@
 </head>
 
 <body>
-
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -391,7 +402,7 @@
                     <h1 class="page-header">Complain Details</h1>
                 </div>
                 <div class="col-lg-10">
-                    <form action="/crs/complainView/">
+                    <form action="/crs/complainView/" name="back">
                         <button class="btn btn-outline btn-primary" style="float:left" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
                 </div>
@@ -434,18 +445,43 @@
                                 </table> 
                                 <div>
                                     <h4>Details</h4>
-                                    <p>{{ item.detail|safe }}</p>
+                                    <p>{{ item.detail }}</p>
+
                                 </div>
-                                <div>
-                                    <h4>Attachments</h4>
-                                    <p>{{ item.image }}</p>
+                                {% if documents %}
+      <ul>
+        <li><a href="{{ documents.docfile.url }}">{{ documents.docfile.name }}</a></li>
+      </ul>
+    {% else %}
+      <p>No Image File Uploaded</p>
+    {% endif %}
+      <br><br><br>
+                                
                                 </div>
-                                    <h4>Comments :</h4><br>
-                                    put all the lists of Complaints
-                                </div><br>
-                                <button type="button" name="cbutton" id="cbutton">Comment</button> 
+                    {% if comment %}
+            <h3>Comments : </h3>
+        <table>
+      <tr>
+        <th>Comment Added By</th>
+        <th>Time</th>
+        <th>Comment</th>
+      </tr>
+          {% for item in comment %}
+      <tr> 
+        <td>{{ item.name }}</td>
+        <td>{{ item.time }}</td>
+        <td>{{ item.comment }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+      <p>Comments</p>
+    {% endif %}
+      <br><br><br>
+</table>
+
+             <button type="button" name="cbutton" id="cbutton">Comment</button> 
                                 <div class="commentBox">
-                                <form action="#" method="POST">
+                                <form action="/comment/"   method="POST">
                                     <input type="text" name="cbox">
                                     <button type="submit" name="submit">Submit</button>
                                 </form>
@@ -458,6 +494,14 @@
                                         });
                                     });
                                 </script>
+                                    
+                                </div>
+                                <div>
+    
+                                </div>
+                                
+                                </div><br>
+                                
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
                             <!-- /.row (nested) -->
@@ -470,11 +514,16 @@
             </div>
             <!-- /.row -->
         </div>
-        <!-- /#page-wrapper -->
 
+
+
+         
     </div>
+    
     <!-- /#wrapper -->
 
+    <!-- jQuery -->
+   
 </body>
 
 </html>

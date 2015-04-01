@@ -421,7 +421,7 @@ search Result:
                                         
                                     </thead>  
                                         <tbody>
-                                        {% for item in public %}
+                                        {% for item in list %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>

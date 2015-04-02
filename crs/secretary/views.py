@@ -39,7 +39,7 @@ def secLodgeComplain(request):
 		return redirect('/crs/')
 	return render_to_response('secretary/secComp.html');
 
-def forwardToWarden(request):
+def forwardToWardenOffice(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
 	complainArray=request.POST.getlist('complain')

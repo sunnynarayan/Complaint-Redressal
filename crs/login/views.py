@@ -65,7 +65,7 @@ def afterLogin(request):								#after login function working
 			request.session['uid']= obj.fid;
 			if obj.iswarden == 2:
 				request.session['user_type']="wardenOffice";
-				return render_to_response('wardenOffice/wardenHome.html', {'msg' : obj.name});
+				return redirect('/crs/listCompWardenOffice/')
 			elif obj.iswarden == 1:
 				request.session['user_type']="warden";
 				return render_to_response('warden/wardenBase.html', {'msg' : obj.name})

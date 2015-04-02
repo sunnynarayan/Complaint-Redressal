@@ -597,7 +597,7 @@
                                         
                                     </thead>  
                                         <tbody>
-                                        {% for item in public %}
+                                        {% for item in list1 %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
                                                     <td> <input type="checkbox" class="checked" name="compalain" value="{{ item.cid }}"></td>
@@ -695,7 +695,7 @@
                                                 </tr>
                                             {% endif %}
                                     {% endfor %}
-                                    {% for item in private %}
+                                    {% for item in list2 %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
                                                     <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}" ></td>

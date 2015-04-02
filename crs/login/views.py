@@ -31,6 +31,8 @@ def login(request):
 				return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
 			elif request.session.get("user_type")=="secretary":
 				return redirect ('/crs/listComp/');
+			elif request.session.get("user_type")=="wardenOffice":
+				return redirect('/crs/listCompWardenOffice/')
 			else:
 				return redirect ('/crs/complainView/');
 	except NameError:

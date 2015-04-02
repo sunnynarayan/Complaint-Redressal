@@ -49,9 +49,9 @@ def forwardToWarden(request):
 		ClO =Complainlink.objects.get(cid=comid)
 		ClO.woid = "1235"
 		ClO.save()
-		obj=Complain.objects.get(cid=ClO.cid)
+		obj=Complain.objects.get(cid=comid)
 		if obj.status==1:
-			obj.status==2
+			obj.status=2
 			obj.save()
 		else:
 			obj.save()

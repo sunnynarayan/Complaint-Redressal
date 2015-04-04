@@ -425,22 +425,19 @@ def lodgeComplainDetail(request):
     return redirect('/crs/complainView/');
 
 def relodgeComplain(request):
-	if not (isSecretary(request)):
+	if not (isStudent(request)):
 		return redirect('/crs/')
-	complainArray=request.POST.getlist('complain')
-	length = len(complainArray)
-	for x in range(0,length):
-		comid = complainArray[x]
-		obj=Complain.objects.get(cid=comid)
-		if obj.status==1:
-			obj.status=11
-			obj.save()
-		else:
-			obj.status=22
-			obj.save()
+	comid=request.session.get('currentCid')
+	obj=Complain.objects.get(cid=comid)
+	if obj.status==1:
+		obj.status=11
+		obj.save()
+	else:
+		obj.status=22
+		obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
-	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+	return redirect('/crs/complainView/',{'msg':'Succesfully Redirected!!!'})
 
 
 def comment(request):

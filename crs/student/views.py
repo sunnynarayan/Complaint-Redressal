@@ -92,8 +92,8 @@ def studentComplainView(request):   #shows list of complains
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid')
-    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments, b.studID, @a:=@a+1 serial_number FROM complain a, complainLink b, (SELECT @a:= 0) AS a WHERE (b.studID = " + str(uid) + " OR b.studID = 0) AND a.cid = b.CID"
-    serialComplainObjects = serialComplain.objects.raw(qry);
+    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments FROM complain a, studComplainlink b WHERE (b.studid = " + str(uid) + " OR b.studid = 0) AND a.cid = b.cid"
+    serialComplainObjects = Complain.objects.raw(qry);
     # request.session['complains'] = serialComplainObjects;
     #edited
     return render_to_response("student/tables.html", {'list': serialComplainObjects, 'msg': request.session.get('name')});
@@ -106,8 +106,6 @@ def studentComplainView(request):   #shows list of complains
 def studentViewComplain(request):  #shows details of complain
     index = request.GET.get('CID')
     request.session['currentCid']=index;
-    var1=0
-    var2=0
     qry = ""
     if request.session.get("user_type")=="student" :
         qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"        
@@ -120,25 +118,17 @@ def studentViewComplain(request):  #shows details of complain
     else :
         return HttpResponse('error')
     complainObject = Complain.objects.raw(qry)
+    comment = []
+    documents = []
     try:
-    	documents=Document.objects.get(cid=complainObject[0].cid)
-        var1=1
+    	documents.extend(Document.objects.get(cid=complainObject[0].cid))
     except:
-        var1=0
+        pass
     try:
-        qry="SELECT * FROM comment a WHERE a.cid= \'"+str(complainObject[0].cid)+"\'"
-        comment=Comment.objects.raw(qry)
-        var2=1
+        comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
     except:
-        var2=0
-    if var1==1 and var2==0:
-    	return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents})
-    elif var1==1 and var2==1:
-        return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
-    elif var1==0 and var2==1:
-        return render_to_response("student/complainDetail.html", {'item': complainObject[0],'comment':comment})
-    else:
-        return HttpResponse('error')
+        pass
+    return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
 
 def studentLodgeComplain(request):
     if not (isStudent(request)):

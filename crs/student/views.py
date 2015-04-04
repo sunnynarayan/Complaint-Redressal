@@ -190,10 +190,10 @@ def afterEditProfile(request):
     else:
         return HttpResponse(len(account))
 
-def rateSecretary(request):
-    if not (isStudent(request)):
-        return redirect('/crs/')
-    return render_to_response('student/rateSecretary.html');
+# def rateSecretary(request):
+#     if not (isStudent(request)):
+#         return redirect('/crs/')
+#     return render_to_response('student/rateSecretary.html');
 
 
 def studentPoll(request):

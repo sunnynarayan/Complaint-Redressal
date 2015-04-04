@@ -463,8 +463,8 @@ def comment(request):
         return HttpResponse('error')
 
 def studentProfile(request):
-    if not (isStudent(request)):
-        return redirect('/crs/')
+    # if not (isStudent(request)):
+    #     return redirect('/crs/')  //commented so that i can use in secretary
 
     uid = request.session.get('uid')
     student = Student.objects.get(uid=uid)

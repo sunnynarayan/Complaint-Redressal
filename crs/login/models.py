@@ -148,7 +148,7 @@ class Complain(models.Model):
     detail = models.TextField()
     history = models.TextField()
     comments = models.IntegerField()
-    picid = models.CharField(db_column='picId',max_length=100)
+    # picid = models.CharField(db_column='picId',max_length=100)
     status = models.IntegerField(blank=True, null=True)
     class Meta:
         managed = False

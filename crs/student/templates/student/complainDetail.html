@@ -268,9 +268,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -404,6 +404,12 @@
                 <div class="col-lg-10">
                     <form action="/crs/complainView/" name="back">
                         <button class="btn btn-outline btn-primary" style="float:left" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </form>
+                    <form action="/crs/studRelodge/" name="relodge">
+                        <button class="btn btn-outline btn-warning" style="float:right" onclick="/crs/studRelodge/">&nbsp;&nbsp;&nbsp;&nbsp;Relodge&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </form>
+                    <form action="/crs/rejectComplain/" name="reject">
+                        <button class="btn btn-outline btn-info" style="float:right" onclick="/crs/rejectComplain/">&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
                 </div>
                 <!-- /.col-lg-12 -->

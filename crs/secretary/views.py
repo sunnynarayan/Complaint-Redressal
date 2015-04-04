@@ -30,6 +30,7 @@ def secComplainView(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
 	uid=request.session.get('uid')
+<<<<<<< HEAD
 	pubComplains = []
 	priComplains = []
 	try:
@@ -40,15 +41,15 @@ def secComplainView(request):
 		priComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID'))
 	except:
 		pass	
-	return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
+	return render_to_response('secretary/messSecHome.html', {'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
 	# return render_to_response('secretary/listComp.html',{'list' : allCom, 'msg': request.session.get('name')});
 
 def secLodgeComplain(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	return render_to_response('secretary/secComp.html');
+	return render_to_response('secretary/secComp.html', {'msg': request.session.get('name')});
 
-def forwardToWarden(request):
+def forwardToWardenOffice(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
 	complainArray=request.POST.getlist('complain')
@@ -58,9 +59,9 @@ def forwardToWarden(request):
 		ClO =Complainlink.objects.get(cid=comid)
 		ClO.woid = "1235"
 		ClO.save()
-		obj=Complain.objects.get(cid=ClO.cid)
+		obj=Complain.objects.get(cid=comid)
 		if obj.status==1:
-			obj.status==2
+			obj.status=2
 			obj.save()
 		else:
 			obj.save()
@@ -92,7 +93,7 @@ def secViewComplain(request):
 def poll(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	return render_to_response("secretary/mess/messhome.html", {'msg': request.session.get('name')})
+	return render_to_response("secretary/mess/messHome.html", {'msg': request.session.get('name')})
 
 def pollAddItem(request):
 	if not (isSecretary(request)):
@@ -245,8 +246,6 @@ def some_view(request):
 	p.showPage()
 	p.save()
 	return response
-def editProfile(request):
-	return redirect('//')
 
 def searchDatabase(request):
 	return render_to_response ("secretary/search.html", context_instance=RequestContext(request))

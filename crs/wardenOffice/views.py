@@ -41,14 +41,14 @@ def wardenOfficeComplainView(request):
 	for num in PublicComplainObjects:
 		numCid=num.cid
 		Publiclist.append(Complain.objects.get(cid=numCid));
-	return render_to_response('wardenOffice/wardenAllComplain.html',{'list1' : Publiclist, 'list2':Privatelist});
+	return render_to_response('wardenOffice/wardenHome.html',{'list1' : Publiclist, 'list2':Privatelist, 'msg': request.session.get('name')});
 
 def wardenOfficeHome(request):
 	if not (isWardenOffice(request)):
 		return redirect('/crs/')
 	return render_to_response('wardenOffice/wardenHome.html', {'msg' : request.session.get('name') });
 
-def forwardToWardenOffice(request):
+def forwardToWarden(request):
 	if not (isWardenOffice(request)):
 		return redirect('/crs/')
 	complainArray=request.POST.getlist('complain')
@@ -65,7 +65,7 @@ def forwardToWardenOffice(request):
 			obj.status=3
 			obj.save()
 		elif obj.status==12:
-			obj.status==13
+			obj.status=13
 			obj.save()
 		else:
 			obj.status=23

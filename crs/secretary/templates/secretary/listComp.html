@@ -61,7 +61,7 @@
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <strong>John Smith</strong>
@@ -102,7 +102,7 @@
                                 <strong>Read All Messages</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
@@ -112,7 +112,7 @@
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-tasks">
-                        <li>
+                       <!--  <li>
                             <a href="#">
                                 <div>
                                     <p>
@@ -181,7 +181,7 @@
                                 <strong>See All Tasks</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
@@ -191,7 +191,7 @@
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <i class="fa fa-comment fa-fw"></i> New Comment
@@ -241,7 +241,7 @@
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
@@ -251,9 +251,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i>My Profile</a>
+                        <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i>My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -393,6 +393,11 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
+                                <form id="FORM" method="POST" action="/crs/forwardToWardenOff/"> 
+                                    <button type="submit" name="forward" form="FORM" class="btn btn-outline btn-primary" style="float:right">&nbsp;&nbsp;&nbsp;Forward&nbsp;&nbsp;&nbsp;</button>
+
+                                    <!-- write the backend accordingly for both reject buttons one here and other in the complain details -->
+                                    <button type="submit" name="reject" class="btn btn-outline btn-info" style="float:right" onclick="/crs/rejectComplain/">&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button>
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
@@ -410,7 +415,7 @@
                                         {% for item in public %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
-                                                    <td> <input type="checkbox" class="checked" name="compalain" value="{{ item.cid }}"></td>
+                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}"></td>
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
                                                     <td>{{ item.time }}</td>
@@ -427,7 +432,15 @@
                                                         {% endif %}
                                                     </td>
                                                     
-                                                    <td class="center">Public
+                                                    <td class="center"><!-- {% if item.access == 0 %}
+                                                                        Public
+                                                                       {% elif item.access == 1 %}
+                                                                        Private
+                                                                       {% elif item.access == 2 %}
+                                                                        Custom
+                                                                        {% endif %} -->
+                                                                        Public
+
                                                     </td>
                                                     <td class="center">{% if item.status == 1 %}
                                                                         Complain Lodged
@@ -467,7 +480,15 @@
                                                         {% endif %}
                                                     </td>
                                                     
-                                                    <td class="center">Public
+                                                    <td class="center"><!-- {% if item.access == 0 %}
+                                                                        Public
+                                                                       {% elif item.access == 1 %}
+                                                                        Private
+                                                                       {% elif item.access == 2 %}
+                                                                        Custom
+                                                                        {% endif %} -->
+                                                                        Public
+
                                                     </td>
                                                     <td class="center">{% if item.status == 1 %}
                                                                         Complain Lodged
@@ -511,7 +532,15 @@
                                                         {% endif %}
                                                     </td>
                                                     
-                                                    <td class="center">Private
+                                                    <td class="center"><!-- {% if item.access == 0 %}
+                                                                        Public
+                                                                       {% elif item.access == 1 %}
+                                                                        Private
+                                                                       {% elif item.access == 2 %}
+                                                                        Custom
+                                                                        {% endif %} -->
+                                                                        Private
+
                                                     </td>
                                                     <td class="center">{% if item.status == 1 %}
                                                                         Complain Lodged
@@ -551,7 +580,15 @@
                                                         {% endif %}
                                                     </td>
                                                     
-                                                    <td class="center">Private
+                                                    <td class="center"><!-- {% if item.access == 0 %}
+                                                                        Public
+                                                                       {% elif item.access == 1 %}
+                                                                        Private
+                                                                       {% elif item.access == 2 %}
+                                                                        Custom
+                                                                        {% endif %} -->
+                                                                        Private
+
                                                     </td>
                                                     <td class="center">{% if item.status == 1 %}
                                                                         Complain Lodged
@@ -576,6 +613,7 @@
                                     {% endfor %}
                                         </tbody>
                                 </table>
+                            </form>
                             </div>
                             <!-- /.table-responsive -->
                         </div>

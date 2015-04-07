@@ -30,7 +30,6 @@ def secComplainView(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
 	uid=request.session.get('uid')
-<<<<<<< HEAD
 	pubComplains = []
 	priComplains = []
 	try:

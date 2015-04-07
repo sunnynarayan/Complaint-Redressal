@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^admin/$', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^crs/$', 'login.views.login'),
     # url(r'^captcha/', include('captcha.urls')),
     url(r'^crs/login/$', 'login.views.afterLogin'),

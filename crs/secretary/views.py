@@ -229,6 +229,7 @@ def addItemToPoll(request):
 	lunchItems = request.POST.getlist('lunch')
 	dinnerItems = request.POST.getlist('dinner')
 	mealList = request.session.get('mealList')
+	mealItems = []
 	for x in mealList:
 		mealItems.append(MealItems(x))
 
@@ -237,18 +238,18 @@ def addItemToPoll(request):
 		for breakfast in breakfastItems:
 			if int(breakfast) < 1 or int(breakfast) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel'),meal = mealItems[int(breakfast)-1].name,type=1, protein = mealItems[int(breakfast)-1].protein, vitamin = mealItems[int(breakfast)-1].vitamin, fat = mealItems[int(breakfast)-1].fat))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel'),meal = mealItems[int(breakfast)-1].name,type=1, protein = mealItems[int(breakfast)-1].protein, vitamin = mealItems[int(breakfast)-1].vitamin, fat = mealItems[int(breakfast)-1].fat, nutritions = mealItems[int(breakfast)-1].avgnutrition))
 	if len(lunchItems) > 0:
 		for lunch in lunchItems:
 			if int(lunch) < 1 or int(lunch) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,meal = mealItems[int(lunch)-1].name,type=2, protein = mealItems[int(lunch)-1].protein, vitamin = mealItems[int(lunch)-1].vitamin, fat = mealItems[int(lunch)-1].fat))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,meal = mealItems[int(lunch)-1].name,type=2, protein = mealItems[int(lunch)-1].protein, vitamin = mealItems[int(lunch)-1].vitamin, fat = mealItems[int(lunch)-1].fat, nutritions = mealItems[int(lunch)-1].avgnutrition))
 
 	if len(dinnerItems) > 0:
 		for dinner in dinnerItems:
 			if int(dinner) < 1 or int(dinner) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,meal = mealItems[int(dinner)-1].name,type=3, vitamin = mealItems[int(dinner)-1].vitamin, protein = mealItems[int(dinner)-1].protein, fat = mealItems[int(dinner)-1].fat))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,meal = mealItems[int(dinner)-1].name,type=3, vitamin = mealItems[int(dinner)-1].vitamin, protein = mealItems[int(dinner)-1].protein, fat = mealItems[int(dinner)-1].fat, nutritions = mealItems[int(dinner)-1].avgnutrition))
 
 	for item in pollMenuItem:
 		item.save()

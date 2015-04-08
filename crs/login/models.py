@@ -283,13 +283,18 @@ class Mealitems(models.Model):
 
 class Pollmenu(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
+    meal = models.TextField()
     hostel = models.IntegerField()
-    mid = models.IntegerField(db_column='MID')  # Field name made lowercase.
     type = models.CharField(max_length=1)
+    protein = models.IntegerField()
+    vitamin = models.IntegerField()
+    fat = models.IntegerField()
+    nutritions = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Meta:
         managed = False
         db_table = 'pollMenu'
+
 
 class Faculty(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

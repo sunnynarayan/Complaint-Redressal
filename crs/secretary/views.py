@@ -121,13 +121,14 @@ def addingFoodItem(request):
 def pollViewItem(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	items = Fooditems.objects.raw("SELECT * FROM foodItems")
+	items = Fooditems.objects.all()
 	return render_to_response("secretary/mess/viewItem.html", {'list': items , 'msg': request.session.get('name')})
 
 def pollMakeMeal(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	items = Fooditems.objects.raw("SELECT * FROM foodItems ORDER BY FID")
+	# items = Fooditems.objects.raw("SELECT * FROM foodItems ORDER BY FID")
+	items = Fooditems.objects.all().order_by('fid')
 	item = []
 	name = []
 	nutrition = []
@@ -152,30 +153,64 @@ def makingMeal(request):
 	length = len(itemIndex)
 	if (length == 0):
 		return redirect('/crs/pollMakeMeal/')
-
+	Fid = []
 	makeFid = str(items[int(itemIndex[0]) - 1])
-	makeName = str(name[int(itemIndex[0]) - 1])
-	makeNutrition = nutrition[int(itemIndex[0]) - 1]
+	Fid.append(str(items[int(itemIndex[0]) - 1]))
+	# makeName = str(name[int(itemIndex[0]) - 1])
+	# makeNutrition = nutrition[int(itemIndex[0]) - 1]
 	for x in range(1,length):
 		makeFid = makeFid + "," + str(items[int(itemIndex[x]) - 1])
-		makeName = makeName + "," + str(name[int(itemIndex[x]) - 1])
-		makeNutrition = makeNutrition + nutrition[int(itemIndex[x]) - 1]
+		Fid.append(str(items[int(itemIndex[x]) - 1]))
+		# makeName = makeName + "," + str(name[int(itemIndex[x]) - 1])
+		# makeNutrition = makeNutrition + nutrition[int(itemIndex[x]) - 1]
 
-	makeNutrition = makeNutrition / length
-
-	Meal = Meals(fid = makeFid, name = makeName, avgnutrition = makeNutrition)
-	Meal.save()
+	# makeNutrition = makeNutrition / length
+	try:
+		Meal = Meals(fid = makeFid, items=length)
+		Meal.save()
+		Meal = Meals.objects.get(fid = makeFid)
+		mid = Meal.mid
+		for fid in Fid:
+			mealLink = Mealitems(mid=mid, fid=fid)
+			mealLink.save()
+	except:
+		return redirect('/crs/pollMakeMeal/')
 	return redirect('/crs/viewMeal/')
+
+class MealItems:
+    def __init__(self , MID):
+    	self.mid = MID
+    	self.FoodItems = self.PopulateFid()
+    	self.name = ""
+    	for fobj in self.FoodItems:
+    		self.name = self.name + fobj.name + ","
+
+    def PopulateFid(self):
+    	foodItems = []
+    	mealItems = Mealitems.objects.filter(mid = self.mid)
+    	for mi in mealItems:
+    		foodItems.append(Fooditems.objects.get(fid=mi.fid))
+    	return foodItems
 
 def viewMeal(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	items = Meals.objects.all()
+	# PlayerStats.objects.all().select_related('player__positionstats')
+	mealItems = []
+	mls = Meals.objects.all()
+	for meal in mls:
+		x = MealItems( meal.mid )
+		mealItems.append(x)
+
+
 	MealList = []
-	for meal in items:
+	for meal in mealItems:
 		MealList.append(int(meal.mid))
+
 	request.session['mealList'] = MealList
-	return render_to_response("secretary/mess/viewMeal.html", {'list' : items , 'msg': request.session.get('name')})
+	foodItems = Fooditems.objects.all()
+
+	return render_to_response("secretary/mess/viewMeal.html", {'list' : mealItems , 'msg': request.session.get('name')})
 
 def addItemToPoll(request):
 	if not (isSecretary(request)):

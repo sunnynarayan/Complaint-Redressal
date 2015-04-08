@@ -18,6 +18,8 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import requires_csrf_token
 from django.core.context_processors import csrf
 from student.views import validateText
+import datetime
+from datetime import timedelta
 
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
@@ -61,8 +63,13 @@ def forwardToWardenOffice(request):
 		obj=Complain.objects.get(cid=comid)
 		if obj.status==1:
 			obj.status=2
+			time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
+			obj.history = obj.history + "<br/>" + "Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
 			obj.save()
-		else:
+		elif obj.status == 11:
+			obj.status = 12
+			time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
+			obj.history = obj.history + "<br/>" + "Re-lodged Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
 			obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()

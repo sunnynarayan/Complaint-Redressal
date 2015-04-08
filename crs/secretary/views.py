@@ -180,17 +180,23 @@ def makingMeal(request):
 class MealItems:
     def __init__(self , MID):
     	self.mid = MID
-    	self.FoodItems = self.PopulateFid()
+    	self.FoodItems = []
+    	self.protein = 0
+    	self.vitamin = 0
+    	self.fat = 0
+    	self.PopulateFid()
     	self.name = ""
     	for fobj in self.FoodItems:
     		self.name = self.name + fobj.name + ","
 
     def PopulateFid(self):
-    	foodItems = []
     	mealItems = Mealitems.objects.filter(mid = self.mid)
     	for mi in mealItems:
-    		foodItems.append(Fooditems.objects.get(fid=mi.fid))
-    	return foodItems
+    		fitem = Fooditems.objects.get(fid=mi.fid)
+    		self.FoodItems.append(fitem)
+    		self.protein = self.protein + 1
+    		self.vitamin = self.vitamin + 1
+    		self.fat = self.fat + 1
 
 def viewMeal(request):
 	if not (isSecretary(request)):
@@ -219,23 +225,26 @@ def addItemToPoll(request):
 	lunchItems = request.POST.getlist('lunch')
 	dinnerItems = request.POST.getlist('dinner')
 	mealList = request.session.get('mealList')
+	for x in mealList:
+		mealItems.append(MealItems(x))
+
 	pollMenuItem = []
 	if len(breakfastItems) > 0:
 		for breakfast in breakfastItems:
 			if int(breakfast) < 1 or int(breakfast) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(breakfast)-1],type=1))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel'),meal = mealItems[int(breakfast)-1].name,type=1, protein = mealItems[int(breakfast)-1].protein, vitamin = mealItems[int(breakfast)-1].vitamin, fat = mealItems[int(breakfast)-1].fat))
 	if len(lunchItems) > 0:
 		for lunch in lunchItems:
 			if int(lunch) < 1 or int(lunch) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(lunch)-1],type=2))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,meal = mealItems[int(lunch)-1].name,type=2, protein = mealItems[int(lunch)-1].protein, vitamin = mealItems[int(lunch)-1].vitamin, fat = mealItems[int(lunch)-1].fat))
 
 	if len(dinnerItems) > 0:
 		for dinner in dinnerItems:
 			if int(dinner) < 1 or int(dinner) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(dinner)-1],type=3))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,meal = mealItems[int(dinner)-1].name,type=3, vitamin = mealItems[int(dinner)-1].vitamin, protein = mealItems[int(dinner)-1].protein, fat = mealItems[int(dinner)-1].fat))
 
 	for item in pollMenuItem:
 		item.save()

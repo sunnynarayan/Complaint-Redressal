@@ -365,7 +365,9 @@ class Secretaryrating(models.Model):
     class Meta:
         managed = False
         db_table = 'secretaryRating'
-
+    def __str__(self):              # __unicode__ on Python 2
+        fac = Faculty.objects.get(fid=self.fid)
+        return str(self.id) + " secid = " + str(self.secid) + " studid = " + str(self.studid) + " rating = " + str(self.rating)
 
 class Warden(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

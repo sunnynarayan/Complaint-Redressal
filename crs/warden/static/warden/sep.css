@@ -1,0 +1,34 @@
+body{
+			background-color: #C6C6F3;
+		}
+		#one{
+			text-align: center;
+		}
+		#leftm{
+			margin-left: 60px;
+		}
+		#rightm ,#state ,#city{
+			margin-left: 20px;
+		}
+		#personal{
+			background-color: #C6C6F3;
+			border-spacing: 2px;
+			border: solid black;
+		}
+		#top{
+			text-align: center;
+		}
+		#hostel{
+			background-color: #C6C6F3;
+			border-spacing: 2px;
+			border:  solid black;
+		}
+		#bankD{
+			background-color: #C6C6F3;
+			border-spacing: 2px;
+			border:  solid black;
+		}
+		#head{
+			margin-left: 570px;
+			font-size: 22px;
+				}

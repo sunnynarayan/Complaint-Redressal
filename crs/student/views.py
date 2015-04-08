@@ -329,13 +329,34 @@ def loadRateSecPage(request):
     uid=request.session.get('uid')
     obj=Student.objects.get(uid=uid)
     if obj.hostel==0:
-        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "0" + "\'"
-        secretary=Secretary.objects.raw(qry)
-        stud=[]
-        for sec in secretary:
-            stud.append(Student.objects.get(uid=sec.uid))
-        # return HttpResponse(stud[0].name)
-        return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec':secretary})
+        # qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "0" + "\'"
+        # query="SELECT * FROM secretaryRating b WHERE b.studID = \'"+ str(uid) + "\'"
+        secretary=Secretary.objects.filter(hostel = 0)
+        request.session['secListForRating']=secretary;
+        obj2 = None
+        try:
+            obj2=Secretaryrating.objects.filter(studid = uid)
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        except:
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+
+
+        # return HttpResponse(obj2.rating)
+        # try:
+        #     return HttpResponse(obj2)
+        # except:
+        #     return HttpResponse('nkn')
+        # stud=[]
+        # for sec in secretary:
+        #     stud.append(Student.objects.get(uid=sec.uid))
+        # # return HttpResponse(stud[0].name)
+        # return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
     elif obj.hostel==1:
         qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "1" + "\'"
         secretary=Secretary.objects.raw(qry)
@@ -374,30 +395,56 @@ def rateSecretary(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid') 
+    count=0;
+    ratingCount=0
+    n=0
+    finalRating=0.0
+    lenn=0.0
     hostel=request.session.get('hostel')
-    type1=request.POST.get('type')
+    secList=request.session.get('secListForRating')
+    # type1=request.POST.get('type')
     rating=request.POST.getlist('rating')
     length = len(rating)
-    type2=getCatagory(type1)
-    obj=Secretary.objects.get(type=type2,hostel=hostel)
-    secId=obj.uid
-    try:
-        secObj=Secretaryrating(secid=secId,rating=rating,studid=uid)
+    for eachSec in secList:
+        secObj=Secretaryrating(secid=eachSec.uid,rating=rating[count],studid=uid)
         secObj.save()
-        count=0.0
-        n=0.0
-        finalRating=0.0
-        obj=Secretaryrating.objects.filter(secid =int(secId))
-        for obje in obj:
-            count +=obje.rating
+        ++count
+    for eachSec in secList:
+        obj=Secretaryrating.objects.filter(secid = eachSec.uid)
+        for obej in obj:
+            ratingCount+=obej.rating
             n=n+1
-        finalRating=count/n
-        sec=Secretary.objects.get(uid=secId)
+        finalRating=ratingCount/n
+        # lenn=finalRating
+        # eachSec.rating=finalRating
+        sec=Secretary.objects.get(uid=eachSec.uid)
         sec.rating=finalRating
         sec.save()
-        return HttpResponse(sec.rating)
-    except:
-        return HttpResponse('You have already Voted')
+        ratingCount=0
+        finalRating=0.0
+        n=0
+    return HttpResponse('Successfully Rated')
+
+    # type2=getCatagory(type1)
+    # obj=Secretary.objects.get(type=type2,hostel=hostel)
+    # secId=obj.uid
+    # try:
+    #     secObj=Secretaryrating(secid=secId,rating=rating,studid=uid)
+    #     secObj.save()
+    #     count=0.0
+    #     n=0.0
+    #     finalRating=0.0
+    #     obj=Secretaryrating.objects.filter(secid =int(secId))
+    #     for obje in obj:
+    #         count +=obje.rating
+    #         n=n+1
+    #     finalRating=count/n
+    #     sec=Secretary.objects.get(uid=secId)
+    #     sec.rating=finalRating
+    #     sec.save()
+    #     return HttpResponse(sec.rating)
+    # except:
+    #     return HttpResponse('You have already Voted')
 
 def validateText(rawText):
     i = 0

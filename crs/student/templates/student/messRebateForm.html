@@ -9,20 +9,32 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Edit Profile</title>
-    <script type= "text/javascript" src="../../static/secretary/stateCity.js"></script>
-    <script type="text/javascript" src="../../static/secretary/mobzipValidate.js"></script>
+    <title>Mess Rebate Form</title>
+
+
     <!-- Bootstrap Core CSS -->
-   <link href="../../static/secretary/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../static/student/bootstrap.min.css" rel="stylesheet"> -->
 
     <!-- MetisMenu CSS -->
-    <link href="../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <!-- <link href="../../static/student/metisMenu.min.css" rel="stylesheet"> -->
 
     <!-- Custom CSS -->
-    <link href="../../static/secretary/dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- <link href="../../static/student/sb-admin-2.css" rel="stylesheet"> -->
 
     <!-- Custom Fonts -->
-    <link href="../../static/secretary/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="../../static/student/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+
+    <link href="../../static/student/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../static/student/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../static/student/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,11 +42,22 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script src="../../static/student/a.js"></script>
 </head>
 
-<body>
 
+<body>
+<script>
+$(document).ready(function() {
+$( "#custom" ).hide(); 
+$("#cust").click(function() {
+$( "#custom" ).show();});
+$("#pub").click(function() {
+$( "#custom" ).hide();});
+$("#pri").click(function() {
+$( "#custom" ).hide();});
+});
+</script>
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -248,7 +271,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -293,10 +316,19 @@
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
                         <li>
+                            <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
+                        </li>
+                        <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
                        <li>
                             <a href="#"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info.</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>
                         </li>
                        <!-- <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
@@ -374,128 +406,72 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Edit Profile</h1>
+                    <h1 class="page-header">Mess Rebate Form</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
+            <div class="row"> 
+                <div class="col-lg-12 ">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Basic Information
+                            Mess Rebate Form
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6">
-                                <h2>Personal Detail</h2>
-                                    <form name="test" method="POST" action="../studAfterEditProfile/"> <!--see for action-->
-                                        <fieldset disabled="">
+                                <div class="col-lg-8 ">
+                                
+                                    <form name="" action="" method="post" enctype="multipart/form-data">
+                                    	 
                                         <div class="form-group">
-                                            <label for="disabledSelect">Username</label>
-                                            <input  id="disabledInput" class="form-control" type="text" value="{{list.username}}" placeholder="{{username}}">
-                                        </div>
-                                       
-                                        <div class="form-group">
-                                            <label for="disabledSelect">Name</label>
-                                            <input  id="disabledInput" class="form-control" type="text" value="{{list.name}}" placeholder="{{name}}">
+                                            <label>Hostel</label>
+                                            <input class="form-control" name="hostel" value="{{ hostel }}" disabled>
                                         </div>
                                         <div class="form-group">
-                                            <label for="disabledSelect">Roll Number</label>
-                                            <input  id="disabledInput" class="form-control" type="text" value="{{list.roll}}" placeholder="{{roll}}">
+                                            <label>Name</label>
+                                            <input class="form-control" name="name" value="{{name}}" disabled>
                                         </div>
                                         <div class="form-group">
-                                            <label for="disabledSelect">Email</label>
-                                            <input  id="disabledInput" class="form-control" type="text" value="{{list.email}}" placeholder="{{email}}">
-                                        </div>
-
-                                         </fieldset>
-                                    <div class="col-lg-6">
-                                    <fieldset disabled="">
-                                    	<div class="form-group">
-                                            <label for="disabledSelect">Sex</label>
-                                            <select name="sex" class="form-control">
-                                                <option>
-                                                    {% if list.sex == "M" %}
-                                                             Male
-                                                    {% elif list.sex == "F" %}
-                                                             Female
-                                                    {% else %}
-                                                            Others
-                                                    {% endif %}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </fieldset>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        
-                                        <div class="form-group">
-                                            <label>Blood Group</label>
-                                            <select name="bgroup" class="form-control">
-                                                <option value="Aplus">A+</option>
-                                                <option value="Aminus">A-</option>
-                                                <option value="Bplus">B+</option>
-                                                <option value="Bminus">B-</option>
-                                                <option value="ABplus">AB+</option>
-                                                <option value="ABminus">AB-</option>
-                                                <option value="Oplus">O+</option>
-                                                <option value="Ominus">O-</option> 
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <h2>Bank Detail</h2>
-                                        <div class="form-group">
-                                            <label>Bank Name</label>
-                                            <select name="bankName" class="form-control">
-                                                <option value="1">State Bank of India</option>
-                                                <option value="10">State Bank of India and Associates</option>
-                                                <option value="22">Federal Bank</option>
-                                                <option value="29">Indian Bank</option>
-                                                <option value="28">Union Bank of India</option>
-                                                <option value="31">Andhra Bank</option>
-                                                <option value="34">Punjab National Bank </option>
-                                                <option value="35">Allahabad Bank</option>
-                                                <option value="38">Vijaya Bank</option>
-                                                <option value="39">AXIS Bank</option>
-                                                <option value="36">HDFC Bank</option>
-                                                <option value="37">Bank of Baroda</option>
-                                                <option value="42">Karnataka Bank</option>
-                                                <option value="43">Oriental Bank of Commerce</option>
-                                                <option value="40">Karur Vysya Bank</option>
-                                                <option value="46">Kotak Mahindra Bank</option>
-                                                <option value="47">INGVysya Bank</option>
-                                                <option value="44">ICICI Bank </option>
-                                                <option value="45">IndusInd Bank</option>
-                                                <option value="51">IMPS</option>
-                                                <option value="50">Central Bank of India</option>
-                                                <option value="48">Bank of India</option>
-                                                <option value="54">Syndicate Bank</option>
-                                                <option value="53">Bank of Maharashatra</option>
-                                                <option value="52">IDBI Bank</option>
-                                                <option value="56">Corporation Bank</option>
-                                                <option value="60">Yes Bank</option>
-                                                <option value="64">Nepal SBI Bank Ltd.</option>
-                                                <option value="66">Canara Bank</option>
-                                                <option value="68">UCO Bank</option>
-                                                <option value="70">BANK OF INDIA</option>
-                                                <option value="72">CENTRAL BANK OF INDIA</option>
-                                                <option value="74">UNITED BANK OF INDIA</option>
-                                            </select>
+                                            <label>Roll number</label>
+                                            <input class="form-control" name="roll" value="{{roll}}" disabled>
                                         </div>
                                         <div class="form-group">
-                                            <label>Account Number : </label>
-                                            <input class="form-control" type="text" size="20" name="accnum" value="" >
+                                            <label>Department</label>
+                                            <input class="form-control" name="department" placeholder="Department">
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Start Date of Leave</label>
+                                            <input type="date" class="form-control" name="startDateLeave" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>End Date of Leave</label>
+                                            <input type="date" class="form-control" name="endDateLeave" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Start Date of Mess Rebate</label>
+                                            <input type="date" class="form-control" name="startDateRebate" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>End Date of Mess Rebate</label>
+                                            <input type="date" class="form-control" name="endDateRebate" >
+                                        </div>
                                         </div>
                                         <div class="form-group">
-                                            <label>IFSC Code : </label>
-                                            <input class="form-control" type="text" size="20" name="ifsc" value="" >
+                                            <label>Reason for Mess Rebate</label>
+                                            <textarea class="form-control" name="rebateReason" rows="3" required ></textarea>
                                         </div>
                                         <!-- <div class="form-group">
                                             <label>Static Control</label>
                                             <p class="form-control-static">email@example.com</p>
                                         </div> -->
-                                        
+                                       
                                         
                                         <!-- <div class="form-group">
                                             <label>Checkboxes</label>
@@ -557,61 +533,25 @@
                                                 <option>5</option>
                                             </select>
                                         </div>-->
-                                        
-                                    
+                                
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+                                        <button type="submit" name = "submit" value="submit" class="btn btn-outline btn-success">Submit</button>
+                                        <!-- <button type="submit" class="btn btn-default">Submit Button</button> -->
+                                        <!-- <button type="reset" class="btn btn-default">Reset Button</button> -->
+                                        <button type="reset" value="Cancel" class="btn btn-outline btn-danger">Cancel</button>
+                                    </form>
                                 </div> 
                                 <!-- /.col-lg-6 (nested) -->
-                                <div class="col-lg-6">
-                                    <h2>Contact Detail</h2>
-                                        
-                                        <div class="form-group">
-                                            <label>Mobile : </label>
-                                            <input class="form-control" type="tel" name="mnum" value="">
-                                        </div>
-                                        <div class="col-lg-8">
+                                <!-- <div class="col-lg-6">
+                                    <h1>Disabled Form States</h1>
+                                    <form role="form">
+                                        <fieldset disabled>
                                             <div class="form-group">
-                                            
-                                            <label>Hostel</label>
-                                            <select name="hostel" class="form-control">
-                                                <option  value="Ashoka" >Ashoka</option>
-                                                <option  value="Chanakya1">Chanakya&nbsp;1</option>
-                                                <option  value="Chanakya2">Chanakya&nbsp;2</option>
-                                                <option  value="Chanakya3">Chanakya&nbsp;3</option>
-                                                <option  value="Aryabhatta">Aryabhatta</option>
-                                                <option  value="GBH">GBH</option>
-                                            </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                            <label>Room Number : </label>
-                                            <input class="form-control" type="text" size="4" name="room" value="">
-                                        </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Permanent Address</label>
-                                            <textarea class="form-control" name="message" rows="3"></textarea>
-                                        </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>State  </label>
-                                            <select id="state" class="form-control" name="state" style="width: 150px"></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>City  </label>
-                                            <select id="city" name="city" class="form-control" style="width: 150px" ></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Pincode </label>
-                                            <input type="text" id="pincode" name="pincode" class="form-control" style="width: 150px" ></select>
-                                        </div>
-                                    </div>
-
-                                            <!--    <div class="form-group">
                                                 <label for="disabledSelect">Disabled input</label>
                                                 <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input" disabled>
                                             </div>
@@ -670,21 +610,14 @@
                                                 <button class="btn btn-default" type="button"><i class="fa fa-search"></i>
                                                 </button>
                                             </span>
-                                        </div>-->
-                            
-                                </div>
+                                        </div>
+                                    </form>
+                                </div>-->
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
                             <!-- /.row (nested) -->
                         </div>
-
                         <!-- /.panel-body -->
-                    </div>
-                    <div class="col-lg-6">
-                        <button type="submit" name="submit" value="Submit" onclick="Validate(document.test.mnum,document.test.pincode)" class="btn btn-outline btn-success" style="float: right">Submit</button>
-                        <!-- <button type="submit" class="btn btn-default">Submit Button</button> -->
-                        <!-- <button type="reset" class="btn btn-default">Reset Button</button> -->
-                        <button type="reset" value="Cancel" class="btn btn-outline btn-danger" style="float: right">Cancel</button>
                     </div>
                     <!-- /.panel -->
                 </div>
@@ -698,19 +631,30 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="../../static/secretary/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- // <script src="../../static/student/jquery.min.js"></script> -->
 
     <!-- Bootstrap Core JavaScript -->
-   <script src="../../static/secretary/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- // <script src="../../static/student/bootstrap.min.js"></script> -->
 
     <!-- Metis Menu Plugin JavaScript -->
-     <script src="../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <!-- // <script src="../../static/student/metisMenu.min.js"></script> -->
 
     <!-- Custom Theme JavaScript -->
-    <script src="../../static/secretary/dist/js/sb-admin-2.js"></script>
-    <script language="javascript">
-        populateStates("state", "city");
-    </script>
+    <!-- // <script src="../../static/student/sb-admin-2.js"></script> -->
+
+
+        <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../../static/student/dist/js/sb-admin-2.js"></script>
+
 </body>
 
 </html>

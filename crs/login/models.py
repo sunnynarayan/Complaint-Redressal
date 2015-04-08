@@ -42,7 +42,8 @@ class Document(models.Model):
     class Meta:
         managed = True
         db_table = 'document'
-
+    def __str__(self):              # __unicode__ on Python 2
+        return self.cid + "(" + str(self.docfile) + ")"
 
 class Studcomplainlink(models.Model):
     cid = models.CharField(max_length=100)
@@ -51,7 +52,9 @@ class Studcomplainlink(models.Model):
     class Meta:
         # managed = False
         db_table = 'studComplainlink'
-
+    def __str__(self):              # __unicode__ on Python 2
+        stud = Student.objects.get(uid=self.studid)
+        return self.cid + " - " + str(stud.name)
 
 class Com(models.Model):
     comid = models.IntegerField(db_column='comID', primary_key=True) # Field name made lowercase.
@@ -154,6 +157,9 @@ class Complain(models.Model):
         managed = False
         db_table = 'complain'
 
+    def __str__(self):              # __unicode__ on Python 2
+        return self.cid
+
 class HostelLeavingInformation(models.Model):
     name = models.TextField()
     start_date = models.CharField(db_column='start_Date', max_length=100)  # Field name made lowercase.
@@ -168,22 +174,6 @@ class HostelLeavingInformation(models.Model):
     class Meta:
         managed = False
         db_table = 'hostel_leaving_information'
-
-class serialComplain(models.Model):
-    cid = models.IntegerField(primary_key=True)
-    uid = models.IntegerField(db_column='UID') # Field name made lowercase.
-    time = models.DateTimeField()
-    hostel = models.IntegerField()
-    type = models.IntegerField()
-    subject = models.TextField()
-    detail = models.TextField()
-    history = models.TextField()
-    comments = models.IntegerField()
-    serial_number = models.IntegerField()
-    studID = models.IntegerField()
-    class Meta:
-        managed = False
-        db_table = 'complain'
 
 class Complainid(models.Model):
     sno = models.IntegerField(primary_key=True)
@@ -205,6 +195,8 @@ class Complainlink(models.Model):
     class Meta:
        managed = False
        db_table = 'complainLink'
+    def __str__(self):              # __unicode__ on Python 2
+        return self.cid
 
 class DjangoAdminLog(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -266,6 +258,8 @@ class Fooditems(models.Model):
     class Meta:
         managed = False
         db_table = 'foodItems'
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
                 
 class Meals(models.Model):
     mid = models.IntegerField(db_column='MID', primary_key=True)  # Field name made lowercase.
@@ -276,6 +270,9 @@ class Meals(models.Model):
     class Meta:
         managed = False
         db_table = 'meals'
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 
 class Pollmenu(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
@@ -299,6 +296,8 @@ class Faculty(models.Model):
     class Meta:
         managed = False
         db_table = 'faculty'
+    def __str__(self):              # __unicode__ on Python 2
+        return self.username + ' (' + self.name + ')'
 
 class Hostel(models.Model):
     name = models.CharField(max_length=30)
@@ -306,6 +305,8 @@ class Hostel(models.Model):
     class Meta:
         managed = False
         db_table = 'hostel'
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 
 class Secretary(models.Model):
     uid = models.IntegerField(db_column='UID', primary_key=True) # Field name made lowercase.
@@ -316,6 +317,10 @@ class Secretary(models.Model):
     class Meta:
         managed = True
         db_table = 'secretary'
+    def __str__(self):              # __unicode__ on Python 2
+        stud = Student.objects.get(uid = self.uid)
+        hostel = Hostel.objects.get(id=self.hostel)
+        return stud.name + " (" + hostel.name +" - " +str(self.type) + ")"
 
 class Student(models.Model):
     uid = models.IntegerField(db_column='UID', primary_key=True) # Field name made lowercase.
@@ -342,6 +347,8 @@ class Student(models.Model):
         managed = True
         db_table = 'student'
 
+    def __str__(self):              # __unicode__ on Python 2
+        return self.username + " (" + self.name + ")"
 class Secretaryrating(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     secid = models.IntegerField(db_column='secID')  # Field name made lowercase.
@@ -359,3 +366,6 @@ class Warden(models.Model):
     class Meta:
         managed = False
         db_table = 'warden'
+    def __str__(self):              # __unicode__ on Python 2
+        fac = Faculty.objects.get(fid=self.fid)
+        return fac.name

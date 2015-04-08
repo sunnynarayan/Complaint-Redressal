@@ -1,0 +1,17 @@
+
+	#three,#five,#six{
+      margin-left: 5%;
+
+    }
+    #two{
+      margin-left: 40%;
+    }
+    #seven,#one,#four{
+      margin-left: 6%;
+    }
+    #div1{
+      border: 2px solid black; 
+    }
+    body{
+      background-color: white;
+    }

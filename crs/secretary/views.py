@@ -113,7 +113,7 @@ def addingFoodItem(request):
 	vitamins = request.POST.get('vitamins') 
 	proteins = request.POST.get('proteins')
 	fat = request.POST.get('fat')
-	avgNutr = (int(vitamins) + int(proteins) + int(fat))/3
+	avgNutr = (float(vitamins) + float(proteins) + float(fat))/3
 	item = Fooditems(name=itemName,vitamins=vitamins,proteins=proteins,fat=fat,nutritions=avgNutr)
 	item.save()
 	return redirect("/crs/pollViewItem/")
@@ -122,7 +122,7 @@ def pollViewItem(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
 	items = Fooditems.objects.raw("SELECT * FROM foodItems")
-	return render_to_response("secretary/mess/viewItem.html", {'list': items })
+	return render_to_response("secretary/mess/viewItem.html", {'list': items , 'msg': request.session.get('name')})
 
 def pollMakeMeal(request):
 	if not (isSecretary(request)):
@@ -138,7 +138,7 @@ def pollMakeMeal(request):
 	request.session['Messitem'] = item
 	request.session['Messname'] = name
 	request.session['Messnutrition'] = nutrition
-	return render_to_response("secretary/mess/makeMeal.html", {'list': items })
+	return render_to_response("secretary/mess/makeMeal.html", {'list': items , 'msg': request.session.get('name')})
 
 
 def makingMeal(request):
@@ -175,7 +175,7 @@ def viewMeal(request):
 	for meal in items:
 		MealList.append(int(meal.mid))
 	request.session['mealList'] = MealList
-	return render_to_response("secretary/mess/viewMeal.html", {'list' : items})
+	return render_to_response("secretary/mess/viewMeal.html", {'list' : items , 'msg': request.session.get('name')})
 
 def addItemToPoll(request):
 	if not (isSecretary(request)):
@@ -215,7 +215,7 @@ def viewPollOptions(request):
 	breakfastItems = Meals.objects.raw(qryBreakfast)
 	lunchItems = Meals.objects.raw(qryLunch)
 	dinnerItems = Meals.objects.raw(qryDinner)	
-	return render_to_response("secretary/mess/viewMenu.html", {'list1' : breakfastItems, 'list2' : lunchItems, 'list3' : dinnerItems})
+	return render_to_response("secretary/mess/viewMenu.html", {'list1' : breakfastItems, 'list2' : lunchItems, 'list3' : dinnerItems, 'msg': request.session.get('name')})
 
 
 from django.http import HttpResponse

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lodge Complain</title>
+    <title>Mess Rebate Form</title>
 
 
     <!-- Bootstrap Core CSS -->
@@ -35,25 +34,7 @@
 
     <!-- Custom Fonts -->
     <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
-	function calNutri () {
-		var n=0, x1=0,y1=0,z1=0;
-		var x = document.getElementById("cal1").value;
-		var y = document.getElementById("cal2").value;
-		var z = document.getElementById("cal3").value;
-		x1= parseInt(x);
-		y1= parseInt(y);
-		z1= parseInt(z);
-		n=(x1+y1+z1)/3;
-		if (x1>0 && y1 > 0 && z1 >0) {
-		document.getElementById("nutrition").innerHTML = n;
 
-		}
-		else
-			document.getElementById("nutrition").innerHTML = "Enter +ve Number.";
-	}
-
-	</script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -61,11 +42,22 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="../../static/student/a.js"></script>
 </head>
-<script src="../../static/student/a.js"></script>
+
 
 <body>
-
+<script>
+$(document).ready(function() {
+$( "#custom" ).hide(); 
+$("#cust").click(function() {
+$( "#custom" ).show();});
+$("#pub").click(function() {
+$( "#custom" ).hide();});
+$("#pri").click(function() {
+$( "#custom" ).hide();});
+});
+</script>
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -277,9 +269,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -321,25 +313,22 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="/crs/secComp/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
-                        </li>
-                        <li>
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
                         <li>
-                            <a href="/crs/pollViewItem/"><i class="fa fa-pencil-square-o fa-fw"></i>View Items</a>
+                            <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
                         </li>
                         <li>
-                            <a href="/crs/pollAddItem/"><i class="fa fa-pencil-square-o fa-fw"></i>Add Items</a>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
+                        </li>
+                       <li>
+                            <a href="#"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
                         <li>
-                            <a href="/crs/viewMeal/"><i class="fa fa-pencil-square-o fa-fw"></i>View Meal</a>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info.</a>
                         </li>
                         <li>
-                            <a href="/crs/pollMakeMeal/"><i class="fa fa-pencil-square-o fa-fw"></i>Make Meal</a>
-                        </li>
-                        <li>
-                            <a href="/crs/viewPollOptions/"><i class="fa fa-edit fa-fw"></i>Poll Options</a>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>
                         </li>
                        <!-- <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
@@ -414,69 +403,228 @@
             <!-- /.navbar-static-side -->
         </nav>
 
-    <div id="page-wrapper">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Add detail of Item</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form name="form1" action="../addingFoodItem/" method="post" > 
-                            <fieldset>
-                            <div class="col-lg-4">
-                            Name : 
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <input type="text" name="itemName" required value="" >
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                            Vitamin :
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <input id="cal1" type="number" onchange ="calNutri()" name="vitamins" required value="0" >
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                            Protein :
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <input id="cal2" type="number" onchange ="calNutri()" name="proteins" required value="0" >
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                            Fats :
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <input id="cal3" type="number" onchange ="calNutri()" name="fat" required value="0" >
-                                </div>
-                            </div> 
-                            <div class="col-lg-4">
-                            Average of Nutrition : 
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <p id="nutrition"></p>
-                                </div>
-                            </div>
-                             
-                                <!-- Change this to a button or input when using this as a form -->
-                            <div class="col-lg-4">
-                                <input type="submit" class="btn btn-lg btn-success btn-block" name="addItem" value="Add Item">
-                            </div>
-                            </fieldset>
-                        </form>
-                    </div>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Mess Rebate Form</h1>
                 </div>
+                <!-- /.col-lg-12 -->
             </div>
-        </div>
             <!-- /.row -->
-    </div>
+            <div class="row"> 
+                <div class="col-lg-12 ">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Mess Rebate Form
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-8 ">
+                                
+                                    <form name="" action="" method="post" enctype="multipart/form-data">
+                                    	 
+                                        <div class="form-group">
+                                            <label>Hostel</label>
+                                            <input class="form-control" name="hostel" value="{{ hostel }}" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input class="form-control" name="name" value="{{name}}" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Roll number</label>
+                                            <input class="form-control" name="roll" value="{{roll}}" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Department</label>
+                                            <input class="form-control" name="department" placeholder="Department">
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Start Date of Leave</label>
+                                            <input type="date" class="form-control" name="startDateLeave" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>End Date of Leave</label>
+                                            <input type="date" class="form-control" name="endDateLeave" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Start Date of Mess Rebate</label>
+                                            <input type="date" class="form-control" name="startDateRebate" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>End Date of Mess Rebate</label>
+                                            <input type="date" class="form-control" name="endDateRebate" >
+                                        </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Reason for Mess Rebate</label>
+                                            <textarea class="form-control" name="rebateReason" rows="3" required ></textarea>
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <label>Static Control</label>
+                                            <p class="form-control-static">email@example.com</p>
+                                        </div> -->
+                                       
+                                        
+                                        <!-- <div class="form-group">
+                                            <label>Checkboxes</label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">Checkbox 1
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">Checkbox 2
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">Checkbox 3
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Inline Checkboxes</label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox">1
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox">2
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox">3
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Radio Buttons</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Radio 1
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Radio 2
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">Radio 3
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="form-group">
+                                            <label>Multiple Selects</label>
+                                            <select multiple class="form-control">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>-->
+                                
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+                                        <button type="submit" name = "submit" value="submit" class="btn btn-outline btn-success">Submit</button>
+                                        <!-- <button type="submit" class="btn btn-default">Submit Button</button> -->
+                                        <!-- <button type="reset" class="btn btn-default">Reset Button</button> -->
+                                        <button type="reset" value="Cancel" class="btn btn-outline btn-danger">Cancel</button>
+                                    </form>
+                                </div> 
+                                <!-- /.col-lg-6 (nested) -->
+                                <!-- <div class="col-lg-6">
+                                    <h1>Disabled Form States</h1>
+                                    <form role="form">
+                                        <fieldset disabled>
+                                            <div class="form-group">
+                                                <label for="disabledSelect">Disabled input</label>
+                                                <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="disabledSelect">Disabled select menu</label>
+                                                <select id="disabledSelect" class="form-control">
+                                                    <option>Disabled select</option>
+                                                </select>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox">Disabled Checkbox
+                                                </label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Disabled Button</button>
+                                        </fieldset>
+                                    </form>
+                                    <h1>Form Validation States</h1>
+                                    <form role="form">
+                                        <div class="form-group has-success">
+                                            <label class="control-label" for="inputSuccess">Input with success</label>
+                                            <input type="text" class="form-control" id="inputSuccess">
+                                        </div>
+                                        <div class="form-group has-warning">
+                                            <label class="control-label" for="inputWarning">Input with warning</label>
+                                            <input type="text" class="form-control" id="inputWarning">
+                                        </div>
+                                        <div class="form-group has-error">
+                                            <label class="control-label" for="inputError">Input with error</label>
+                                            <input type="text" class="form-control" id="inputError">
+                                        </div>
+                                    </form>
+                                    <h1>Input Groups</h1>
+                                    <form role="form">
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">@</span>
+                                            <input type="text" class="form-control" placeholder="Username">
+                                        </div>
+                                        <div class="form-group input-group">
+                                            <input type="text" class="form-control">
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon"><i class="fa fa-eur"></i>
+                                            </span>
+                                            <input type="text" class="form-control" placeholder="Font Awesome Icon">
+                                        </div>
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="text" class="form-control">
+                                            <span class="input-group-addon">.00</span>
+                                        </div> 
+                                        <div class="form-group input-group">
+                                            <input type="text" class="form-control">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button"><i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>-->
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
         <!-- /#page-wrapper -->
 
     </div>

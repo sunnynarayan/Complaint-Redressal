@@ -194,9 +194,9 @@ class MealItems:
     	for mi in mealItems:
     		fitem = Fooditems.objects.get(fid=mi.fid)
     		self.FoodItems.append(fitem)
-    		self.protein = self.protein + 1
-    		self.vitamin = self.vitamin + 1
-    		self.fat = self.fat + 1
+    		self.protein = self.protein + fitem.proteins
+    		self.vitamin = self.vitamin + fitem.vitamins
+    		self.fat = self.fat + fitem.fat
 
 def viewMeal(request):
 	if not (isSecretary(request)):

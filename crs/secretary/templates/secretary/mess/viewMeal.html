@@ -688,8 +688,8 @@
                                         <tr class="odd gradeX">
                                           <td>{{ forloop.counter }}</td>
                                           <td>{{ item.name }}</td>
-                                          <td>{{ item.proteins }}</td>
-                                          <td>{{ item.vitamins }}</td>
+                                          <td>{{ item.protein }}</td>
+                                          <td>{{ item.vitamin }}</td>
                                           <td>{{ item.fat }}</td>
                                           <td>{{ item.avgnutrition }}</td>
                                           <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;)"></td>
@@ -700,8 +700,8 @@
                                         <tr class="even gradeX">
                                           <td>{{ forloop.counter }}</td>
                                           <td>{{ item.name }}</td>
-                                          <td>{{ item.proteins }}</td>
-                                          <td>{{ item.vitamins }}</td>
+                                          <td>{{ item.protein }}</td>
+                                          <td>{{ item.vitamin }}</td>
                                           <td>{{ item.fat }}</td>
                                           <td>{{ item.avgnutrition }}</td>
                                           <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;,{{ item.proteins }},{{ item.vitamins}},{{ item.fat }})"></td>

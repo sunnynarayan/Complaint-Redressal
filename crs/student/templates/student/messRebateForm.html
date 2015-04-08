@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lodge Complain</title>
+    <title>Mess Rebate Form</title>
 
 
     <!-- Bootstrap Core CSS -->
@@ -316,6 +316,9 @@ $( "#custom" ).hide();});
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
                         <li>
+                            <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
+                        </li>
+                        <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
                        <li>
@@ -403,65 +406,66 @@ $( "#custom" ).hide();});
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Lodge Complain</h1>
+                    <h1 class="page-header">Mess Rebate Form</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
+            <div class="row"> 
+                <div class="col-lg-12 ">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Basic Complain Details
+                            Mess Rebate Form
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-8 ">
                                 
-                                    <form name="complainForm" action="../lodgedComplainDetail/" method="post" enctype="multipart/form-data">
-                                    	<div class="form-group">
+                                    <form name="" action="" method="post" enctype="multipart/form-data">
+                                    	 
+                                        <div class="form-group">
+                                            <label>Hostel</label>
+                                            <input class="form-control" name="hostel" value="{{ hostel }}" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input class="form-control" name="name" value="{{name}}" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Roll number</label>
+                                            <input class="form-control" name="roll" value="{{roll}}" disabled>
+                                        </div>
+                                        <div class="form-group">
                                             <label>Department</label>
-                                            <select name="catagory" class="form-control">
-                                                <option  value="Environment" >Environment</option>
-                                                <option  value="Mess">Mess</option>
-                                                <option  value="Maintenance">Maintenance</option>
-                                                <option  value="Technical">Technical</option>
-                                            </select>
+                                            <input class="form-control" name="department" placeholder="Department">
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Start Date of Leave</label>
+                                            <input type="date" class="form-control" name="startDateLeave" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>End Date of Leave</label>
+                                            <input type="date" class="form-control" name="endDateLeave" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Start Date of Mess Rebate</label>
+                                            <input type="date" class="form-control" name="startDateRebate" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>End Date of Mess Rebate</label>
+                                            <input type="date" class="form-control" name="endDateRebate" >
+                                        </div>
                                         </div>
                                         <div class="form-group">
-                                            <label>Complain is : </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="complainType" value="1" id="pri"  checked>Private
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="complainType" value="0" id="pub" >Public
-                                            </label>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="complainType" value="2" id="cust" >custom
-                                            </label>
-                                        </div>
-                                        <div id="custom" >
-                                            <p>Add other people</p>
-                                            <p>
-                                                <label for="first">First:</label>
-                                                <input type="text" name="first"  />&nbsp;
-                                                <label for="second">Second:</label>
-                                                <input type="text" name="second"  />&nbsp;
-                                                <label for="third">Third:</label>
-                                                <input type="text" name="third"  />&nbsp;
-                                                <label for="fourt">Fourth:</label>
-                                                <input type="text" name="fourth"  />&nbsp;
-                                                <label for="fifth">Fifth:</label>
-                                                <input type="text" name="fifth"  />
-                                            </p>
-                                         </div> 
-                                        <div class="form-group">
-                                            <label>Subject</label>
-                                            <input class="form-control" name="subject" placeholder="Enter Subject">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Text area</label>
-                                            <textarea class="form-control" name="message" rows="3" required ></textarea>
+                                            <label>Reason for Mess Rebate</label>
+                                            <textarea class="form-control" name="rebateReason" rows="3" required ></textarea>
                                         </div>
                                         <!-- <div class="form-group">
                                             <label>Static Control</label>
@@ -536,7 +540,7 @@ $( "#custom" ).hide();});
                 {{ form.docfile.errors }}
                 {{ form.docfile }}
             </p>
-                                        <button type="submit" name = "Lodge" value="Lodge" class="btn btn-outline btn-success">Lodge</button>
+                                        <button type="submit" name = "submit" value="submit" class="btn btn-outline btn-success">Submit</button>
                                         <!-- <button type="submit" class="btn btn-default">Submit Button</button> -->
                                         <!-- <button type="reset" class="btn btn-default">Reset Button</button> -->
                                         <button type="reset" value="Cancel" class="btn btn-outline btn-danger">Cancel</button>

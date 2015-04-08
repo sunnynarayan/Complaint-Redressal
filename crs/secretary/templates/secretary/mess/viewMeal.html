@@ -671,6 +671,9 @@
                                         <tr>
                                             <th>Serial No.</th>
                                             <th>Name</th>
+                                            <th>Protein</th>
+                                            <th>Vitamin</th>
+                                            <th>Fat</th>
                                             <th>Avg. nutrition Value</th>
                                             <th>Breakfast</th>
                                             <th>Lunch</th>
@@ -685,6 +688,9 @@
                                         <tr class="odd gradeX">
                                           <td>{{ forloop.counter }}</td>
                                           <td>{{ item.name }}</td>
+                                          <td>{{ item.proteins }}</td>
+                                          <td>{{ item.vitamins }}</td>
+                                          <td>{{ item.fat }}</td>
                                           <td>{{ item.avgnutrition }}</td>
                                           <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;)"></td>
                                           <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition }}&#34;)"></td>
@@ -694,18 +700,30 @@
                                         <tr class="even gradeX">
                                           <td>{{ forloop.counter }}</td>
                                           <td>{{ item.name }}</td>
+                                          <td>{{ item.proteins }}</td>
+                                          <td>{{ item.vitamins }}</td>
+                                          <td>{{ item.fat }}</td>
                                           <td>{{ item.avgnutrition }}</td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;)"></td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition }}&#34;)"></td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition }}&#34;)"></td>
+                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;,{{ item.proteins }},{{ item.vitamins}},{{ item.fat }})"></td>
+                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition }}&#34;,{{ item.proteins }},{{ item.vitamins }}, {{ item.fat }})"></td>
+                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition }}&#34;,{{ item.proteins }},{{ item.vitamins }}, {{ item.fat }})"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <input type="hidden" value="{{ bfThresoldVlaue}}" id="id1">
-                                <input type="hidden" value="{{ lunchThresoldVlaue}}" id="id2">
-                                <input type="hidden" value="{{ dinnerThresoldVlaue}}" id="id3">
+                                <input type="hidden" value= "15" id="id1">
+                                <input type="hidden" value= "10" id="id1.1">
+                                <input type="hidden" value= "10" id="id1.2">
+                                <input type="hidden" value= "10" id="id1.3">
+                                <input type="hidden" value= "{{ lunchThresoldVlaue }}"  id="id2">
+                                <input type="hidden" value= "15" id="id2.1">
+                                <input type="hidden" value= "15" id="id2.2">
+                                <input type="hidden" value= "15" id="id2.3">
+                                <input type="hidden" value= "{{ dinnerThresoldVlaue }}"  id="id3">
+                                <input type="hidden" value= "15" id="id3.1">
+                                <input type="hidden" value= "15" id="id3.2">
+                                <input type="hidden" value= "15" id="id3.3">
                                 <p >Average Nutrition for Breakfast </p>  <p id="breakfast" > Limit </p> 
                                 <p >Average Nutrition for Lunch</p>  <p id="lunch" > Limit </p>
                                 <p >Average Nutrition for Dinner</p>  <p id="dinner" > Limit </p>
@@ -747,13 +765,29 @@
     var x=0,a=0,count1=0;
     var l=0,b=0,count2=0;
     var m=0,c=0,count3=0;
-  function Display(strItemValue)
+    var p11=0,p12=0;
+    var v11=0,v12=0;
+    var f11=0,f12=0;
+  function Display(strItemValue,strProtein,strVitamin,strFat)
   {
     var item_value = parseFloat(strItemValue);
+    var protein_value = parseFloat(strProtein);
+    var vitamin_value = parseFloat(strVitamin);
+    var fat_value = parseFloat(strFat);
     //var count1=0;
+    var m;
     var y;
+    var p13,v13,f13;
+    var s1="";
+    var s2="";
+    var s3="";
+    var s4="";
     var z=document.querySelectorAll('input[type="checkbox"][name="breakfast"]:checked').length;
+    
     var lim=parseFloat(document.getElementById("id1").value);
+    var lim1=parseFloat(document.getElementById("id1.1").value);
+    var lim2=parseFloat(document.getElementById("id1.2").value);
+    var lim3=parseFloat(document.getElementById("id1.3").value);
     if(z==0)
     {
       y=0;
@@ -774,9 +808,68 @@
                 y=x/z;
         }
                 a=z;
+       
+       if(z==0)
+    {
+      v13=0;
+      v11=0;
+      v12=0;
+    }
+    else
+    {
+       if(z>v12)
+         {
+          v11=v11+vitamin_value;
+         }
+       else
+         {
+          v11=v11-vitamin_value;
+         }
+
+                v13=v11/z;
+        }
+                v12=z;
+
+          if(z==0)
+    {
+      f13=0;
+      f11=0;
+      f12=0;
+    }
+    else
+    {
+       if(z>f12)
+         {
+          f11=f11+protein_value;
+         }
+       else
+         {
+          f11=f11-protein_value;
+         }
+
+                f13=f11/z;
+        }
+                f12=z;
+         if(p13<lim1)
+         {
+         	s1+="Protein";
+         }
+         if(v13<lim2)
+         {
+         	s2+="Vitamin";
+         }
+         
+         if(f13<lim3)
+         {
+         	s3+="Fat";
+         }
          if(y<lim)
          {
-            document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+ y.toFixed(2)+", too less";
+         	s4+="AvgNutrition";
+         }
+         if(p13<lim1 || v13<lim2 || f13<lim3 || y<lim)
+         {
+            document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+ y.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
             count1=0;
          }
          else

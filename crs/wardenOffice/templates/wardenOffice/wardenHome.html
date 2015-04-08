@@ -583,6 +583,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
+                            <form id="FORM" method="POST" action="/crs/forwardToWard/"> 
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
@@ -595,13 +596,17 @@
                                             <th>Status</th>
                                         </tr>
                                         
-                                    </thead>  
+                                    </thead> 
+                                    
+                                    <button type="submit" name="forward" form="FORM" class="btn btn-outline btn-primary" style="float:right">&nbsp;&nbsp;&nbsp;Forward&nbsp;&nbsp;&nbsp;</button> 
                                         <tbody>
                                         {% for item in list1 %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
-                                                    <td> <input type="checkbox" class="checked" name="compalain" value="{{ item.cid }}"></td>
+                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}"></td>
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
+
+                                                    
                                                     <td>{{ item.subject }}</td>
                                                     <td>{{ item.time }}</td>
                                                     <td>{% if item.type == 1 %}
@@ -695,8 +700,10 @@
 
                                                     </td>
                                                 </tr>
+
                                             {% endif %}
                                     {% endfor %}
+
                                     {% for item in list2 %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
@@ -796,8 +803,10 @@
                                                 </tr>
                                             {% endif %}
                                     {% endfor %}
+
                                         </tbody>
                                 </table>
+                                 </form>
                             </div>
                             <!-- /.table-responsive -->
                         </div>

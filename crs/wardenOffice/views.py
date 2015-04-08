@@ -28,8 +28,8 @@ def wardenOfficeComplainView(request):
 	# PublicComplainObjects = Complainlink.objects.all?().filter(wardenid = uid).filter(studid = 0);
 	# query1 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID = 0'
 	# query2 = 'SELECT * FROM complainLink WHERE woID = ' + str(uid) + ' AND studID != 0'
-	query1 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status = 22 OR complain.status=12) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID'
-	query2 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status=22 OR complain.status=12) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID'
+	query1 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status = 22 OR complain.status=12 OR complain.status=3 OR complain.status=23 OR complain.status=13) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID'
+	query2 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status=22 OR complain.status=12 OR complain.status=3 OR complain.status=23 OR complain.status=13) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID'
 	PublicComplainObjects = Complainlink.objects.raw(query1)
 	PrivateComplainObjects = Complainlink.objects.raw(query2)
 	# PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
@@ -69,8 +69,7 @@ def forwardToWarden(request):
 			obj.save()
 		else:
 			obj.status=23
-			obj.save()
-		
+			obj.save()	
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
 	return redirect('../wardenComplain');

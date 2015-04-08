@@ -18,6 +18,8 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import requires_csrf_token
 from django.core.context_processors import csrf
 from student.views import validateText
+import datetime
+from datetime import timedelta
 
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
@@ -61,8 +63,13 @@ def forwardToWardenOffice(request):
 		obj=Complain.objects.get(cid=comid)
 		if obj.status==1:
 			obj.status=2
+			time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
+			obj.history = obj.history + "<br/>" + "Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
 			obj.save()
-		else:
+		elif obj.status == 11:
+			obj.status = 12
+			time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
+			obj.history = obj.history + "<br/>" + "Re-lodged Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
 			obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
@@ -114,13 +121,14 @@ def addingFoodItem(request):
 def pollViewItem(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	items = Fooditems.objects.raw("SELECT * FROM foodItems")
+	items = Fooditems.objects.all()
 	return render_to_response("secretary/mess/viewItem.html", {'list': items , 'msg': request.session.get('name')})
 
 def pollMakeMeal(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	items = Fooditems.objects.raw("SELECT * FROM foodItems ORDER BY FID")
+	# items = Fooditems.objects.raw("SELECT * FROM foodItems ORDER BY FID")
+	items = Fooditems.objects.all().order_by('fid')
 	item = []
 	name = []
 	nutrition = []
@@ -145,30 +153,70 @@ def makingMeal(request):
 	length = len(itemIndex)
 	if (length == 0):
 		return redirect('/crs/pollMakeMeal/')
-
+	Fid = []
 	makeFid = str(items[int(itemIndex[0]) - 1])
-	makeName = str(name[int(itemIndex[0]) - 1])
-	makeNutrition = nutrition[int(itemIndex[0]) - 1]
+	Fid.append(str(items[int(itemIndex[0]) - 1]))
+	# makeName = str(name[int(itemIndex[0]) - 1])
+	# makeNutrition = nutrition[int(itemIndex[0]) - 1]
 	for x in range(1,length):
 		makeFid = makeFid + "," + str(items[int(itemIndex[x]) - 1])
-		makeName = makeName + "," + str(name[int(itemIndex[x]) - 1])
-		makeNutrition = makeNutrition + nutrition[int(itemIndex[x]) - 1]
+		Fid.append(str(items[int(itemIndex[x]) - 1]))
+		# makeName = makeName + "," + str(name[int(itemIndex[x]) - 1])
+		# makeNutrition = makeNutrition + nutrition[int(itemIndex[x]) - 1]
 
-	makeNutrition = makeNutrition / length
-
-	Meal = Meals(fid = makeFid, name = makeName, avgnutrition = makeNutrition)
-	Meal.save()
+	# makeNutrition = makeNutrition / length
+	try:
+		Meal = Meals(fid = makeFid, items=length)
+		Meal.save()
+		Meal = Meals.objects.get(fid = makeFid)
+		mid = Meal.mid
+		for fid in Fid:
+			mealLink = Mealitems(mid=mid, fid=fid)
+			mealLink.save()
+	except:
+		return redirect('/crs/pollMakeMeal/')
 	return redirect('/crs/viewMeal/')
+
+class MealItems:
+    def __init__(self , MID):
+    	self.mid = MID
+    	self.FoodItems = []
+    	self.protein = 0
+    	self.vitamin = 0
+    	self.fat = 0
+    	self.PopulateFid()
+    	self.name = ""
+    	for fobj in self.FoodItems:
+    		self.name = self.name + fobj.name + ","
+
+    def PopulateFid(self):
+    	mealItems = Mealitems.objects.filter(mid = self.mid)
+    	for mi in mealItems:
+    		fitem = Fooditems.objects.get(fid=mi.fid)
+    		self.FoodItems.append(fitem)
+    		self.protein = self.protein + 1
+    		self.vitamin = self.vitamin + 1
+    		self.fat = self.fat + 1
 
 def viewMeal(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	items = Meals.objects.all()
+	# PlayerStats.objects.all().select_related('player__positionstats')
+	mealItems = []
+	mls = Meals.objects.all()
+	for meal in mls:
+		x = MealItems( meal.mid )
+		mealItems.append(x)
+
+
 	MealList = []
-	for meal in items:
+	for meal in mealItems:
 		MealList.append(int(meal.mid))
+
 	request.session['mealList'] = MealList
-	return render_to_response("secretary/mess/viewMeal.html", {'list' : items , 'msg': request.session.get('name')})
+	foodItems = Fooditems.objects.all()
+
+	return render_to_response("secretary/mess/viewMeal.html", {'list' : mealItems , 'msg': request.session.get('name')})
 
 def addItemToPoll(request):
 	if not (isSecretary(request)):
@@ -177,23 +225,26 @@ def addItemToPoll(request):
 	lunchItems = request.POST.getlist('lunch')
 	dinnerItems = request.POST.getlist('dinner')
 	mealList = request.session.get('mealList')
+	for x in mealList:
+		mealItems.append(MealItems(x))
+
 	pollMenuItem = []
 	if len(breakfastItems) > 0:
 		for breakfast in breakfastItems:
 			if int(breakfast) < 1 or int(breakfast) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(breakfast)-1],type=1))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel'),meal = mealItems[int(breakfast)-1].name,type=1, protein = mealItems[int(breakfast)-1].protein, vitamin = mealItems[int(breakfast)-1].vitamin, fat = mealItems[int(breakfast)-1].fat))
 	if len(lunchItems) > 0:
 		for lunch in lunchItems:
 			if int(lunch) < 1 or int(lunch) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(lunch)-1],type=2))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,meal = mealItems[int(lunch)-1].name,type=2, protein = mealItems[int(lunch)-1].protein, vitamin = mealItems[int(lunch)-1].vitamin, fat = mealItems[int(lunch)-1].fat))
 
 	if len(dinnerItems) > 0:
 		for dinner in dinnerItems:
 			if int(dinner) < 1 or int(dinner) > len(mealList):
 				return redirect('/crs/viewMeal/')
-			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,mid= mealList[int(dinner)-1],type=3))
+			pollMenuItem.append(Pollmenu(hostel=request.session.get('hostel') ,meal = mealItems[int(dinner)-1].name,type=3, vitamin = mealItems[int(dinner)-1].vitamin, protein = mealItems[int(dinner)-1].protein, fat = mealItems[int(dinner)-1].fat))
 
 	for item in pollMenuItem:
 		item.save()

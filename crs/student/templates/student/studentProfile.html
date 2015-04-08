@@ -440,7 +440,15 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Hostel</label>
-                                            <input class="form-control" name="hostel"  value="{{hostel}}">
+
+                                            <input class="form-control" name="hostel"  
+                                            value=" {% if hostel == 0 %}Ashoka
+                                                    {% elif hostel == 1 %}Aryabhatta
+                                                    {% elif hostel == 2 %}Chanakya 1
+                                                    {% elif hostel == 3 %}Chanakya 2
+                                                    {% elif hostel == 4 %}GBH
+                                                    {% endif %}">
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6">

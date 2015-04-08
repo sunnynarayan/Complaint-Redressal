@@ -295,6 +295,14 @@ class Pollmenu(models.Model):
         managed = False
         db_table = 'pollMenu'
 
+class Pollvoting(models.Model):
+    idx = models.IntegerField(primary_key=True)
+    id = models.IntegerField()
+    uid = models.IntegerField(db_column='UID')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'pollVoting'
 
 class Faculty(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

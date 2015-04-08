@@ -185,6 +185,7 @@ class MealItems:
     	self.vitamin = 0
     	self.fat = 0
     	self.PopulateFid()
+    	self.avgnutrition = int((self.fat + self.protein + self.fat)/3)
     	self.name = ""
     	for fobj in self.FoodItems:
     		self.name = self.name + fobj.name + ","
@@ -197,6 +198,9 @@ class MealItems:
     		self.protein = self.protein + fitem.proteins
     		self.vitamin = self.vitamin + fitem.vitamins
     		self.fat = self.fat + fitem.fat
+    	self.protein = int(self.protein/len(mealItems))
+    	self.vitamin = int(self.vitamin/len(mealItems))
+    	self.fat = int(self.fat /len(mealItems))
 
 def viewMeal(request):
 	if not (isSecretary(request)):

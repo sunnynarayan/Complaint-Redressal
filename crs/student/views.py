@@ -82,7 +82,7 @@ def HostelLeavingSubmit(request):
     mobile=obj.mobile
     hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,laptop=laptop,destination=destination,reason=reason,hostel=hostel,mobile=mobile)
     hostel.save()
-    return HttpResponse('Hostel form submitted successfully')
+    return HttpResponse('Hostel Form submitted successfully')
 
 def validatePassword(passwd):
     return ((len(passwd) < 21) and (len(passwd) > 7))
@@ -172,23 +172,46 @@ def afterEditProfile(request):
     pincode=request.POST.get('pincode')
     bank=request.POST.get('bankName')
     ifsc=request.POST.get('ifsc')
+    bgroup=request.POST.get('bgroup')
     account=request.POST.get('accnum')
-    email=request.POST.get('email')
+    # email=request.POST.get('email')
     mobile=request.POST.get('mobile');
     if len(account)<=11 and  len(ifsc)<=11 and len(mobile)==10 and len(pincode)==6:
         obj.mobile=mobile;
         obj.bank=bank;
         obj.ifsc=ifsc;
         obj.baccno=account;
-        obj.email=email
+        # obj.email=email
         obj.padd=padd
         obj.state=state
         obj.city=city
         obj.pincode=pincode
+        obj.bloodgrp=bgroup
         obj.save();
-        return render_to_response('student/studentProfile.html')
+        # uid = request.session.get('uid')
+        student = Student.objects.get(uid=uid)
+        mobile = student.mobile
+        username = student.username
+        name = student.name
+        sex = student.sex
+        padd = student.padd
+        email = student.email
+        roll = student.roll
+        room = student.room
+        hostel = student.hostel
+        bloodgrp = student.bloodgrp
+        baccno = student.baccno
+        bank = student.bank
+        IFSC = student.ifsc
+        state=student.state
+        city=student.city
+        pincode=student.pincode
+        return render_to_response('student/studentProfile.html',
+                                  {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
+                                   'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
+                                   'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
     else:
-        return HttpResponse(len(account))
+        return HttpResponse('Error')
 
 def rateSecretary(request):
     if not (isStudent(request)):
@@ -313,7 +336,49 @@ def getComplainID(catagory, hostel):
 
 
 def loadRateSecPage(request):
-    return render_to_response('student/rateSecretaryAshoka.html')
+    uid=request.session.get('uid')
+    obj=Student.objects.get(uid=uid)
+    if obj.hostel==0:
+        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "0" + "\'"
+        secretary=Secretary.objects.raw(qry)
+        stud=[]
+        for sec in secretary:
+            stud.append(Student.objects.get(uid=sec.uid))
+        # return HttpResponse(stud[0].name)
+        return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec':secretary})
+    elif obj.hostel==1:
+        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "1" + "\'"
+        secretary=Secretary.objects.raw(qry)
+        stud=[]
+        for sec in secretary:
+            stud.append(Student.objects.get(uid=sec.uid))
+        return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
+        # return render_to_response('student/rateSecretaryAryabhatta.html')
+    elif obj.hostel==2:
+        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "2" + "\'"
+        secretary=Secretary.objects.raw(qry)
+        stud=[]
+        for sec in secretary:
+            stud.append(Student.objects.get(uid=sec.uid))
+        return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud,'sec':secretary})
+        # return render_to_response('student/rateSecretaryChanakya1.html')
+    elif obj.hostel==3:
+        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "3" + "\'"
+        secretary=Secretary.objects.raw(qry)
+        stud=[]
+        for sec in secretary:
+            stud.append(Student.objects.get(uid=sec.uid))
+        return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
+        # return render_to_response('student/rateSecretaryChanakya2.html')
+    else :
+        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "4" + "\'"
+        secretary=Secretary.objects.raw(qry)
+        stud=[]
+        for sec in secretary:
+            stud.append(Student.objects.get(uid=sec.uid))
+        return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
+        # return render_to_response('student/rateSecretaryGBH.html')
+
 
 def rateSecretary(request):
     if not (isStudent(request)):
@@ -321,7 +386,8 @@ def rateSecretary(request):
     uid = request.session.get('uid') 
     hostel=request.session.get('hostel')
     type1=request.POST.get('type')
-    rating=request.POST.get('rating')
+    rating=request.POST.getlist('rating')
+    length = len(rating)
     type2=getCatagory(type1)
     obj=Secretary.objects.get(type=type2,hostel=hostel)
     secId=obj.uid

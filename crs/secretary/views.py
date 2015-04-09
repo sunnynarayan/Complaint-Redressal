@@ -53,32 +53,6 @@ def secLodgeComplain(request):
 def forwardToWardenOffice(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-# <<<<<<< HEAD
-# 	if 'forward' in request.POST:
-# 		complainArray=request.POST.getlist('complain')
-# 		length = len(complainArray)
-# 		for x in range(0,length):
-# 			comid = complainArray[x]
-# 			ClO =Complainlink.objects.get(cid=comid)
-# 			ClO.woid = "1235"
-# 			ClO.save()
-# 			obj=Complain.objects.get(cid=comid)
-# 			if obj.status==1:
-# 				obj.status=2
-# 				obj.save()
-# 			else:
-# 				obj.save()
-# 	# complainObj.wardenID = wardenID
-# 	# complainObj.save()
-# 		return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
-# 	elif 'reject' in request.POST:
-# 		complainArray=request.POST.getlist('complain')
-# 		length = len(complainArray)
-# 		for x in range(0,length):
-# 			comid = complainArray[x]
-# 			obj=Complain.objects.get(cid=comid)
-# 			obj.status=21
-# =======
 	complainArray=request.POST.getlist('complain')
 	length = len(complainArray)
 	for x in range(0,length):
@@ -95,7 +69,7 @@ def forwardToWardenOffice(request):
 		elif obj.status == 11:
 			obj.status = 12
 			time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
-			obj.history = obj.history + "<br/>" + "Re-lodged Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
+			obj.history = obj.history + "<br/>" + "Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
 			obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()

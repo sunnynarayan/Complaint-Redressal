@@ -28,7 +28,7 @@ def login(request):
 			if request.session.get("user_type")=="student": #if yes then redirect the request to home page according to whether faculty or student
 				return render_to_response('student/tables.html/', {'msg' : request.session.get('name')});
 			elif request.session.get("user_type")=="warden":
-				return render_to_response('warden/wardenBase.html', {'msg' : request.session.get('name')})
+				return render_to_response('warden/wardenViewComplain.html', {'msg' : request.session.get('name')})
 			elif request.session.get("user_type")=="secretary":
 				return redirect ('/crs/listComp/');
 			elif request.session.get("user_type")=="wardenOffice":
@@ -68,7 +68,7 @@ def afterLogin(request):								#after login function working
 				return redirect('/crs/listCompWardenOffice/')
 			elif obj.iswarden == 1:
 				request.session['user_type']="warden";
-				return render_to_response('warden/wardenBase.html', {'msg' : obj.name})
+				return render_to_response('warden/wardenViewComplain.html', {'msg' : obj.name})
 			else:
 				request.session['login']="False";
 				request.session.flush()

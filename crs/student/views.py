@@ -71,10 +71,10 @@ def loadPage(request):
 def OpenHostelPage(request):
 	username=request.session.get("username")
 	obj=Student.objects.get(username=username)
-	return render_to_response('student/HostelLeave.html',{'obj' : obj}, context_instance=RequestContext(request))
+	return render_to_response('student/studHostelLeave.html',{'list' : obj}, context_instance=RequestContext(request))
 
 def HostelLeavingSubmit(request):
-    laptop=request.POST.get('laptop', '')
+    # laptop=request.POST.get('laptop', '')
     start_date=request.POST.get('start_date', datetime.datetime.now().date())
     end_date=request.POST.get('end_date' , datetime.datetime.now().date())
     destination=request.POST.get('destination', '')
@@ -83,8 +83,9 @@ def HostelLeavingSubmit(request):
     obj = Student.objects.get(username=username)
     # rollno = obj.roll
     hostel=obj.hostel
-    mobile=obj.mobile
-    hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,laptop=laptop,destination=destination,reason=reason,hostel=hostel,mobile=mobile)
+    roll=obj.roll
+    mobile=request.POST.get('mobile')
+    hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,destination=destination,reason=reason,hostel=hostel,roll=roll,mobile=mobile)
     hostel.save()
     return redirect('/crs/complainView/');
 def validatePassword(passwd):

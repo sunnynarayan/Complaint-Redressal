@@ -97,7 +97,7 @@
 </head>
 
 <body>
-
+<form action="/crs/student/pollChoice/" method="POST">
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -487,7 +487,7 @@
                                             <td>{{ item.proteins }}</td>
                                             <td>{{ item.vitamins }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="breakfast" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
@@ -499,7 +499,7 @@
                                             <td>{{ item.proteins }}</td>
                                             <td>{{ item.vitamins }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="breakfast" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
@@ -546,7 +546,7 @@
                                             <td>{{ item.proteins }}</td>
                                             <td>{{ item.vitamins }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="lunch" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
@@ -558,7 +558,7 @@
                                             <td>{{ item.proteins }}</td>
                                             <td>{{ item.vitamins }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="lunch" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
@@ -604,7 +604,7 @@
                                             <td>{{ item.proteins }}</td>
                                             <td>{{ item.vitamins }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="dinner" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
@@ -616,13 +616,13 @@
                                             <td>{{ item.proteins }}</td>
                                             <td>{{ item.vitamins }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="dinner" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <button type="submit" class="btn btn-lg btn-success btn-block" value="" > Start Poll </button>
+                                <button type="submit" class="btn btn-lg btn-success btn-block" > Start Poll </button>
                             </div>
                             <!-- /.table-responsive -->
                         </div>
@@ -655,6 +655,7 @@
         });
     });
     </script>
+</form>
 </body>
 </html>
 

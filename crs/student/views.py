@@ -15,6 +15,10 @@ from django.core.urlresolvers import reverse
 from django import forms
 from datetime import timedelta
 from django.db import transaction
+from wardenOffice.views import *
+from warden.views import *
+from secretary.views import *
+
 
 # global globlid
 # globlid=0
@@ -83,8 +87,7 @@ def HostelLeavingSubmit(request):
     mobile=request.POST.get('mobile')
     hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,destination=destination,reason=reason,hostel=hostel,roll=roll,mobile=mobile)
     hostel.save()
-    return HttpResponse('Hostel Form submitted successfully')
-
+    return redirect('/crs/complainView/');
 def validatePassword(passwd):
     return ((len(passwd) < 21) and (len(passwd) > 7))
 
@@ -109,27 +112,33 @@ def studentViewComplain(request):  #shows details of complain
     request.session['currentCid']=index;
     qry = ""
     if request.session.get("user_type")=="student" :
-        qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"        
+        qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"
+        complainObject = Complain.objects.raw(qry)
+        comment = []
+        documents = []
+        try:
+            documents.extend(Document.objects.get(cid=complainObject[0].cid))
+        except:
+            pass
+        try:
+            comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
+        except:
+            pass
+        return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})        
     elif request.session.get("user_type")=="secretary" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+        complainObject = Complain.objects.raw(qry)
+        return secViewComplain(complainObject)
+
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
-    elif request.session.get("user_type")=="warden" :
-        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"       
-    else :
-        return HttpResponse('error')
-    complainObject = Complain.objects.raw(qry)
-    comment = []
-    documents = []
-    try:
-    	documents.extend(Document.objects.get(cid=complainObject[0].cid))
-    except:
-        pass
-    try:
-        comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
-    except:
-        pass
-    return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
+        complainObject = Complain.objects.raw(qry)
+        return wardenOfficeViewComplain(complainObject)
+    # elif request.session.get("user_type")=="warden" :
+    #     qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"       
+    # else :
+    #     return HttpResponse('error')
+    
 
 def studentLodgeComplain(request):
     if not (isStudent(request)):
@@ -359,37 +368,89 @@ def loadRateSecPage(request):
         # # return HttpResponse(stud[0].name)
         # return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
     elif obj.hostel==1:
-        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "1" + "\'"
-        secretary=Secretary.objects.raw(qry)
-        stud=[]
-        for sec in secretary:
-            stud.append(Student.objects.get(uid=sec.uid))
-        return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
+        # qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "1" + "\'"
+        secretary=Secretary.objects.filter(hostel=1)
+        request.session['secListForRating']=secretary;
+        obj2 = None
+        try:
+            obj2=Secretaryrating.objects.filter(studid = uid)
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        except:
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        # stud=[]
+        # for sec in secretary:
+        #     stud.append(Student.objects.get(uid=sec.uid))
+        # return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
         # return render_to_response('student/rateSecretaryAryabhatta.html')
     elif obj.hostel==2:
         qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "2" + "\'"
-        secretary=Secretary.objects.raw(qry)
-        stud=[]
-        for sec in secretary:
-            stud.append(Student.objects.get(uid=sec.uid))
-        return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud,'sec':secretary})
-        # return render_to_response('student/rateSecretaryChanakya1.html')
+        secretary=Secretary.objects.filter(hostel=2)
+        request.session['secListForRating']=secretary;
+        obj2 = None
+        try:
+            obj2=Secretaryrating.objects.filter(studid = uid)
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        except:
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        # stud=[]
+        # for sec in secretary:
+        #     stud.append(Student.objects.get(uid=sec.uid))
+        # return render_to_response('student/rateSecretaryChanakya1.html',{'secretary': stud,'sec':secretary})
+        # # return render_to_response('student/rateSecretaryChanakya1.html')
     elif obj.hostel==3:
-        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "3" + "\'"
-        secretary=Secretary.objects.raw(qry)
-        stud=[]
-        for sec in secretary:
-            stud.append(Student.objects.get(uid=sec.uid))
-        return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
-        # return render_to_response('student/rateSecretaryChanakya2.html')
+        # qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "3" + "\'"
+        secretary=Secretary.objects.filter(hostel=3)
+        request.session['secListForRating']=secretary;
+        obj2 = None
+        try:
+            obj2=Secretaryrating.objects.filter(studid = uid)
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        except:
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        # stud=[]
+        # for sec in secretary:
+        #     stud.append(Student.objects.get(uid=sec.uid))
+        # return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
+        # # return render_to_response('student/rateSecretaryChanakya2.html')
     else :
-        qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "4" + "\'"
-        secretary=Secretary.objects.raw(qry)
-        stud=[]
-        for sec in secretary:
-            stud.append(Student.objects.get(uid=sec.uid))
-        return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
-        # return render_to_response('student/rateSecretaryGBH.html')
+        # qry="SELECT * FROM  secretary a WHERE a.hostel=\'" + "4" + "\'"
+        secretary=Secretary.objects.filter(hostel=4)
+        request.session['secListForRating']=secretary;
+        obj2 = None
+        try:
+            obj2=Secretaryrating.objects.filter(studid = uid)
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        except:
+            stud=[]
+            for sec in secretary:
+                stud.append(Student.objects.get(uid=sec.uid))
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
+        # stud=[]
+        # for sec in secretary:
+        #     stud.append(Student.objects.get(uid=sec.uid))
+        # return render_to_response('student/rateSecretaryAshoka.html',{'secretary': stud})
+        # # return render_to_response('student/rateSecretaryGBH.html')
 
 
 def rateSecretary(request):
@@ -407,9 +468,15 @@ def rateSecretary(request):
     rating=request.POST.getlist('rating')
     length = len(rating)
     for eachSec in secList:
-        secObj=Secretaryrating(secid=eachSec.uid,rating=rating[count],studid=uid)
-        secObj.save()
-        ++count
+        try:
+            ob=Secretaryrating.objects.get(secid=eachSec.uid,studid=uid)
+            ob.rating=rating[count]
+            ++count
+            ob.save()
+        except:
+            secObj=Secretaryrating(secid=eachSec.uid,rating=rating[count],studid=uid)
+            secObj.save()
+            ++count
     for eachSec in secList:
         obj=Secretaryrating.objects.filter(secid = eachSec.uid)
         for obej in obj:
@@ -424,8 +491,7 @@ def rateSecretary(request):
         ratingCount=0
         finalRating=0.0
         n=0
-    return HttpResponse('Successfully Rated')
-
+    return redirect('/crs/complainView/');
     # type2=getCatagory(type1)
     # obj=Secretary.objects.get(type=type2,hostel=hostel)
     # secId=obj.uid

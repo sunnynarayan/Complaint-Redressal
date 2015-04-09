@@ -1,0 +1,136 @@
+body {
+
+			}
+			#down{
+				position: absolute;
+				bottom: 50px;
+					
+				width: 100%;
+			}
+			#upper{
+			background-image: url("../img/system/img-boat.jpg");
+			    
+			    background-repeat: no-repeat;
+			    background-size: 100%;
+				width: 100%;
+				height: 23.5%;
+				text-align: center;
+			}
+			#s1{color: #FFFFFF;
+
+				margin-left: 2%;
+			}
+			tr {
+				font-size: 18px;
+				width: 1px;
+			}
+			a:link {
+					color: #FFF;
+					text-decoration: none;}
+			a:hover {
+					text-decoration: underline;
+					font-weight: bold;	
+					color: black;
+				}
+			a:active{
+					color: #FFFFCC;	
+			}
+			#Left {
+					position: absolute;
+					top: 150px;
+					left: 0px;
+					font-family: "Comic Sans MS", sans-serif;
+					text-align: left;
+					width: 180px;
+					background-color:  #008dde
+
+			}
+			
+			#right{
+				position: absolute;
+				top: 23.5%;
+				left: 180px;
+				padding-left: 0px;
+				width: 86%;
+				
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: left;
+				background-color: #CCFFCC;
+				height: auto;
+			}#two1{
+				position: absolute;
+				top: 50px;
+				left: 50%;
+				width: 50%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: left;
+				background-color: #CCFFCC;
+				border: 1px solid black;
+    			border-collapse: collapse;
+			}
+			#one1{
+				position: absolute;
+				top: 50px;
+				left: 0px;
+				width: 50%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: left;
+				background-color: #CCFFCC;
+				border: 1px solid black;
+    			border-collapse: collapse;
+				}
+			#one {
+				   	border-right: 3px
+				   }
+				   table {
+				    border-spacing: 0.5rem;
+				    text-align: left;
+				    /*border-spacing: 2px;*/
+				    border-color: gray;
+				    /*display : block;*/
+				    background: white;
+				    border: 1px solid;
+				  }
+				  td {
+				    padding : 3px;
+				    margin: 3px;
+				  }
+			   
+
+			}
+			#two{
+				border: 1px solid black;
+    			border-collapse: collapse;
+				position: absolute;
+				top: 200px;
+				left: 56%;
+				width: 43.8%;
+				font-family: "Comic Sans MS", sans-serif;
+				text-align: center;
+				background-color: #CCFFCC;
+			}
+			#sidearm{
+				border: 2px solid blue;
+			}
+
+			#extra {
+				height: 105px;
+			}
+			#t1{
+				height: 30px;
+			}
+			#t{
+				text-align: center;
+				border: 2px solid black;
+			}
+			#dash{
+				width: 100%;
+				background-color:#FFFF99;
+				height: 1px; 
+			}
+			#head{
+				background-color: #FF6600;
+			}
+			#s3{
+				margin-right: 5%;
+			}

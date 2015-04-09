@@ -10,8 +10,7 @@
     <meta name="author" content="">
 
     <title>Hostel Leave</title>
-    <script type= "text/javascript" src="../../static/student/stateCity.js"></script>
-    <script type="text/javascript" src="../../static/student/mobzipValidate.js"></script>
+    
     <!-- Bootstrap Core CSS -->
    <link href="../../static/student/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -23,14 +22,34 @@
 
     <!-- Custom Fonts -->
     <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+    <script type="text/javascript">
+    function DateValidate()
+    {
+        var start = document.getElementById("start_date").value;
+        var end = document.getElementById("end_date").value;
+        var temp = document.getElementById("mobile").value;
+        var check = /^[0-9]{10}/;
+        if(start > end)
+        {
+            alert("Start date cannot exceed End date !!");
+            return false;
+        }
+        else
+        {
+            if(temp.match(check))
+            {
+                return true;
+            }
+            else
+            {
+                alert("Mobile Number not in correct format");
+                return false;
+            }
+        }
+    }
+    
+    
+    </script>
 </head>
 
 <body>
@@ -277,10 +296,10 @@
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
+                            <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info.</a>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>
@@ -308,7 +327,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                             <form name="test" method="POST" action=""> <!--see for action-->
+                             <form name="input" method="POST" action="/studHostelLeave/"> <!--see for action-->
                                 <div class="col-lg-6">
                                     <h3>Default Information</h3>
                                         <fieldset disabled="">
@@ -316,64 +335,68 @@
                                                 <label for="disabledSelect">Name</label>
                                                 <input  id="disabledInput" class="form-control" type="text" value="{{list.name}}" placeholder="{{name}}">
                                             </div>
-                                            <div class="form-group">
+                                           <!--  <div class="form-group">
                                                 <label for="disabledSelect">Roll Number</label>
                                                 <input  id="disabledInput" class="form-control" type="text" value="{{list.roll}}" placeholder="{{roll}}">
-                                            </div>
+                                            </div> -->
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Hostel</label>
-                                                    <input class="form-control" name="hostel"  value="{{hostel}}">
+                                                    <input class="form-control" name="hostel"  value="{{list.hostel}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Room</label>
-                                                    <input class="form-control" name="room" value="{{room}}">
+                                                    <input class="form-control" name="room" value="{{list.room}}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>Default Mobile Number</label>
-                                                <input class="form-control" name="mnum" value="{{mobile}}">
+                                                <input class="form-control" name="mnum" value="{{list.mobile}}">
                                             </div>
                                         </fieldset>      
                                 </div>
                                 <div class="col-lg-6">
                                     <h3>Editable Information</h3>    
                                             <div class="form-group">
-                                                <label>Start Date</label>
-                                                <input type="date" class="form-control" name="startdate" placeholder="Select Start date">
+                                                <label>Start Date&nbsp;&nbsp;(MM/DD/YYYY)</label>
+                                                <input type="date" class="form-control" required value="" id="start_date" name="start_date" placeholder="Select Start date">
                                             </div>
                                             <div class="form-group">
-                                                <label>End Date</label>
-                                                <input type="date" class="form-control" name="enddate" placeholder="Select End date">
+                                                <label>End Date&nbsp;&nbsp;(MM/DD/YYYY)</label>
+                                                <input type="date" class="form-control" id="end_date" required value="" name="end_date" placeholder="Select End date">
                                             </div>
-                                             <div class="form-group">
-                                                <label>Address Of Leave</label>
-                                                <textarea class="form-control" name="place" placeholder="Place"></textarea>
+                                            <div class="form-group">
+                                                <label>Residing Address during Leave</label>
+                                                <textarea class="form-control" name="destination" required value="" placeholder="Place"></textarea>
                                             </div>
                                              <div class="form-group">
                                                 <label>Reason For Leave</label>
-                                                <input class="form-control" name="reason">
+                                                <input class="form-control" name="reason" required value="">
                                             </div>
                                             <div class="form-group">
                                                 <label>Mobile Number During Absence</label>
-                                                <input class="form-control" name="">
+                                                <input class="form-control" name="mobile" id="mobile" required value="">
                                             </div>
                                 </div>
+                                <div class="col-lg-6">
+                        			<button type="submit" name="submit" value="Submit" onclick="DateValidate()" class="btn btn-outline btn-success" style="float: right" >Submit</button>
+
+                        			<button type="reset" value="Cancel" class="btn btn-outline btn-danger" style="float: right">Reset</button>
+                    			</div>
+
                                 </form> 
                                 <!-- /.col-lg-6 (nested) -->
                                                                 <!-- /.col-lg-6 (nested) -->
                             </div>
                             <!-- /.row (nested) -->
                         </div>
+                        
 
                         <!-- /.panel-body -->
                     </div>
-                    <div class="col-lg-6">
-                        <button type="submit" name="submit" value="Submit" onclick="" class="btn btn-outline btn-success" style="float: right">Submit</button>
-                        <button type="reset" value="Cancel" class="btn btn-outline btn-danger" style="float: right">Cancel</button>
-                    </div>
+            
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->
@@ -396,9 +419,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../../static/student/dist/js/sb-admin-2.js"></script>
-    <script language="javascript">
-        populateStates("state", "city");
-    </script>
 </body>
 
 </html>

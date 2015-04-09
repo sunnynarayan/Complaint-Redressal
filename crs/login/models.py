@@ -164,11 +164,11 @@ class HostelLeavingInformation(models.Model):
     name = models.TextField()
     start_date = models.CharField(db_column='start_Date', max_length=100)  # Field name made lowercase.
     end_date = models.CharField(db_column='end_Date', max_length=100)  # Field name made lowercase.
-    laptop = models.CharField(max_length=3)
+    # laptop = models.CharField(max_length=3)
     destination = models.CharField(max_length=30)
     reason = models.TextField()
     hostel = models.IntegerField()
-    # roll = models.CharField(max_length=8)
+    roll = models.CharField(max_length=8)
     mobile = models.TextField()
 
     class Meta:
@@ -283,13 +283,26 @@ class Mealitems(models.Model):
 
 class Pollmenu(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
+    meal = models.TextField()
     hostel = models.IntegerField()
-    mid = models.IntegerField(db_column='MID')  # Field name made lowercase.
     type = models.CharField(max_length=1)
+    protein = models.IntegerField()
+    vitamin = models.IntegerField()
+    fat = models.IntegerField()
+    nutritions = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Meta:
         managed = False
         db_table = 'pollMenu'
+
+class Pollvoting(models.Model):
+    idx = models.IntegerField(primary_key=True)
+    id = models.IntegerField()
+    uid = models.IntegerField(db_column='UID')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'pollVoting'
 
 class Faculty(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

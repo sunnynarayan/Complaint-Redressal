@@ -11,7 +11,7 @@ import hashlib
 import datetime
 from login.models import *
 import re
-from student.views import getTypeDescription,getCatagory
+from student.views import *
 def isWarden(request):
 	user_type = request.session.get("user_type",'')
 	if user_type != "warden":

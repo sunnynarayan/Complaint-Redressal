@@ -62,7 +62,7 @@ def list(request): # Handle file upload
     #     context_instance=RequestContext(request)
     # )
     else:
-        return HttpResponse('kjkj')
+        return HttpResponse('Error!!')
 
 def loadPage(request):
     form =DocumentForm()

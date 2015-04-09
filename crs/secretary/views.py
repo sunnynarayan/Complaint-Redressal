@@ -217,6 +217,8 @@ def viewMeal(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
 	# PlayerStats.objects.all().select_related('player__positionstats')
+	if checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+		return redirect('/crs/')
 	mealItems = []
 	mls = Meals.objects.all()
 	for meal in mls:
@@ -236,6 +238,9 @@ def viewMeal(request):
 def addItemToPoll(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
+	if checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+		return redirect('/crs/')
+        # redirect to page that shows that no poll is available!
 	breakfastItems = request.POST.getlist('breakfast')
 	lunchItems = request.POST.getlist('lunch')
 	dinnerItems = request.POST.getlist('dinner')
@@ -266,19 +271,19 @@ def addItemToPoll(request):
 		item.save()
 	return redirect('/crs/viewMeal/')
 
-def viewPollOptions(request):
-	if not (isSecretary(request)):
-		return redirect('/crs/')
-	qryBreakfast = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 1 AND a.MID = b.MID"
-	qryLunch = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 2 AND a.MID = b.MID"
-	qryDinner = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 3 AND a.MID = b.MID"
-	breakfastItems = Meals.objects.raw(qryBreakfast)
-	lunchItems = Meals.objects.raw(qryLunch)
-	dinnerItems = Meals.objects.raw(qryDinner)	
-	return render_to_response("secretary/mess/viewMenu.html", {'list1' : breakfastItems, 'list2' : lunchItems, 'list3' : dinnerItems, 'msg': request.session.get('name')})
+# def viewPollOptions(request):
+# 	if not (isSecretary(request)):
+# 		return redirect('/crs/')
+# 	qryBreakfast = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 1 AND a.MID = b.MID"
+# 	qryLunch = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 2 AND a.MID = b.MID"
+# 	qryDinner = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 3 AND a.MID = b.MID"
+# 	breakfastItems = Meals.objects.raw(qryBreakfast)
+# 	lunchItems = Meals.objects.raw(qryLunch)
+# 	dinnerItems = Meals.objects.raw(qryDinner)	
+# 	return render_to_response("secretary/mess/viewMenu.html", {'list1' : breakfastItems, 'list2' : lunchItems, 'list3' : dinnerItems, 'msg': request.session.get('name')})
 
 
-from django.http import HttpResponse
+
 
 def some_view(request):
 	# Create the HttpResponse object with the appropriate PDF headers.

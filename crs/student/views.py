@@ -661,7 +661,7 @@ def studentProfile(request):
 
 def checkAvailabilityOfPoll(hostel):
     #if PollMenu contain any entry of this hostel then poll is available.
-    pollOptions = PollMenu.objects.filter(hostel=hostel).count()
+    pollOptions = Pollmenu.objects.filter(hostel=hostel).count()
     if pollOptions > 0:
         return True
     else:
@@ -672,11 +672,11 @@ def pollPage(request):
         return redirect('/crs/')
     # check if any poll is available for this student
     if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
-        pass
+        return redirect('/crs/')
         # redirect to page that shows that no poll is available!
-    breakfastPollOptions = PollMenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
-    lunchPollOptions = PollMenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
-    dinnerPollOptions = PollMenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
+    breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
+    lunchPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
+    dinnerPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
     sessionBreakfastArray = []
     sessionLunchArray = []
     sessionDinnerArray = []
@@ -691,7 +691,7 @@ def pollPage(request):
     request.session['lunchArray'] = sessionLunchArray
     request.session['dinnerArray'] = sessionDinnerArray
 
-    return render_to_response("student/viewMenu.html", {'list1' : breakfastPollOptions, 'list2' : lunchPollOptions, 'list3' : dinnerPollOptions})
+    return render_to_response("student/startPoll.html", {'list1' : breakfastPollOptions, 'list2' : lunchPollOptions, 'list3' : dinnerPollOptions})
 
 def studentPolling(request):
     breakfastPOindex = request.POST.getlist('breakfast')

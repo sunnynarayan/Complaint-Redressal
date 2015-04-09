@@ -709,16 +709,15 @@ def studentPolling(request):
             newObj = Pollvoting(id = breakfastPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect
+            return redirect('/crs/student/pollOptions/')
             # redirect page to polling page again
-            pass
 
     for x in lunchPOindex:
         if x >= 0 and x < len(lunchPollOptions):
             newObj = Pollvoting(id = lunchPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect
+            return redirect('/crs/student/pollOptions/')
             # redirect page to polling page again
             pass
 
@@ -727,7 +726,7 @@ def studentPolling(request):
             newObj = Pollvoting(id = dinnerPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect
+            return redirect('/crs/student/pollOptions/')
             # redirect page to polling page again
             pass
 

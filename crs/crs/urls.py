@@ -68,7 +68,7 @@ urlpatterns = patterns('',
     url(r'^crs/searchResult/$', 'secretary.views.searchItem'),
     url(r'^crs/student/pollOptions/$', 'student.views.pollPage'),
     url(r'^crs/student/pollChoice/$', 'student.views.studentPolling'),
-    url(r'^crs/student/poolResult/$', 'secretary.views.searchItem'),
+    url(r'^crs/student/pollResult/$', 'secretary.views.searchItem'),
     # url(r'^crs/searchResult/$', 'secretary.views.searchItem'),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -671,7 +671,7 @@ def pollPage(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     # check if any poll is available for this student
-    if not checkAvailabilityOfPoll(int(request.session.get('hostel')))
+    if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
         pass
         # redirect to page that shows that no poll is available!
     breakfastPollOptions = PollMenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)

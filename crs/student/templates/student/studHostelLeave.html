@@ -25,13 +25,29 @@
     <script type="text/javascript">
     function DateValidate()
     {
-        var start = document.getElementById("start").value;
-        var end = document.getElementById("end").value;
+        var start = document.getElementById("start_date").value;
+        var end = document.getElementById("end_date").value;
+        var temp = document.getElementById("mobile").value;
+        var check = /^[0-9]{10}/;
         if(start > end)
+        {
             alert("Start date cannot exceed End date !!");
-
+            return false;
+        }
+        else
+        {
+            if(temp.match(check))
+            {
+                return true;
+            }
+            else
+            {
+                alert("Mobile Number not in correct format");
+                return false;
+            }
+        }
     }
-    
+
     </script>
 </head>
 
@@ -360,7 +376,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Mobile Number During Absence</label>
-                                                <input class="form-control" name="mobile" required value="">
+                                                <input class="form-control" name="mobile" id="mobile" required value="">
                                             </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -402,9 +418,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../../static/student/dist/js/sb-admin-2.js"></script>
-    <script language="javascript">
-        populateStates("state", "city");
-    </script>
 </body>
 
 </html>

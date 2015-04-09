@@ -56,7 +56,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-default navbar-static-top" id="headbar" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -74,7 +74,7 @@
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <strong>John Smith</strong>
@@ -115,7 +115,7 @@
                                 <strong>Read All Messages</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
@@ -125,7 +125,7 @@
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-tasks">
-                        <li>
+                       <!--  <li>
                             <a href="#">
                                 <div>
                                     <p>
@@ -194,7 +194,7 @@
                                 <strong>See All Tasks</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
@@ -204,7 +204,7 @@
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <i class="fa fa-comment fa-fw"></i> New Comment
@@ -254,7 +254,7 @@
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
@@ -266,7 +266,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -334,14 +334,16 @@
                                                 <label for="disabledSelect">Name</label>
                                                 <input  id="disabledInput" class="form-control" type="text" value="{{list.name}}" placeholder="{{name}}">
                                             </div>
-                                           <!--  <div class="form-group">
-                                                <label for="disabledSelect">Roll Number</label>
-                                                <input  id="disabledInput" class="form-control" type="text" value="{{list.roll}}" placeholder="{{roll}}">
-                                            </div> -->
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Hostel</label>
-                                                    <input class="form-control" name="hostel"  value="{{list.hostel}}">
+                                                    <input class="form-control" name="hostel"  
+                                                    value=  "{% if list.hostel == 0 %}Ashoka
+                                                             {% elif hostel == 1 %}Aryabhatta
+                                                             {% elif hostel == 2 %}Chanakya 1
+                                                             {% elif hostel == 3 %}Chanakya 2
+                                                             {% elif hostel == 4 %}GBH
+                                                             {% endif %}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -365,6 +367,10 @@
                                             <div class="form-group">
                                                 <label>End Date&nbsp;&nbsp;(MM/DD/YYYY)</label>
                                                 <input type="date" class="form-control" id="end_date" required value="" name="end_date" placeholder="Select End date">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Leaving Time</label>
+                                                <input type="time" class="form-control" required value="" >
                                             </div>
                                             <div class="form-group">
                                                 <label>Residing Address during Leave</label>

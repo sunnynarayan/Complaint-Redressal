@@ -43,6 +43,14 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="../../static/student/a.js"></script>
+
+
+    <style type="text/css">
+    #one{
+        background-color: #337ab7;
+        color: #ffffff;
+    }
+    </style>
 </head>
 
 
@@ -315,6 +323,9 @@ $( "#custom" ).hide();});
                         <li>
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
+                         <li id="one">
+                            <a id="one" href="#"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
+                        </li>
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
@@ -322,7 +333,15 @@ $( "#custom" ).hide();});
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
                         <li>
-                            <a href="/OpenHostelPage/"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info.</a>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Previous Forms</a>
+                                </li>
+                                <li>
+                                    <a href="/OpenHostelPage/">Fill New Form</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>

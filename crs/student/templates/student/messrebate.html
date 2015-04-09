@@ -33,7 +33,7 @@
             alert("Start date can not be greater than End date !!");
         else
         {
-            if((startrebate < startleave) uy|| (startrebate >= endleave) || (endrebate <= startleave) || (endrebate > endleave) || (endrebate < startrebate) )
+            if((startrebate < startleave) || (startrebate >= endleave) || (endrebate <= startleave) || (endrebate > endleave) || (endrebate < startrebate) )
                 alert("Invalid date inputs for mess rebate !!");
         }
 
@@ -42,7 +42,12 @@
 
     </script>
 
-
+<style type="text/css">
+    #one{
+        background-color: #337ab7;
+        color: #ffffff;
+    }
+    </style>
 </head>
 
 <body>
@@ -126,11 +131,19 @@
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-star-o fa-fw"></i> Rate Secretary</a>
                         </li>
-                       <li>
-                            <a href="#"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
+                       <li id="one">
+                            <a id="one" href="#"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
                         <li>
-                            <a href="/OpenHostelPage/"><i class="fa fa-print fa-fw"></i> Hostel Leaving Info.</a>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Previous Forms</a>
+                                </li>
+                                <li >
+                                    <a href="/OpenHostelPage/">Fill New Form</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>

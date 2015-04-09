@@ -694,6 +694,12 @@ def pollPage(request):
     return render_to_response("student/startPoll.html", {'list1' : breakfastPollOptions, 'list2' : lunchPollOptions, 'list3' : dinnerPollOptions})
 
 def studentPolling(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    # check if any poll is available for this student
+    if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+        return redirect('/crs/')
+
     breakfastPOindex = request.POST.getlist('breakfast')
     lunchPOindex = request.POST.getlist('lunch')
     dinnerPOindex = request.POST.getlist('dinner')
@@ -734,3 +740,9 @@ def studentPolling(request):
         x.save()
 
     return redirect('/crs/pollResult/')
+
+def pollResult(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+
+    return render_to_response("student/startPoll.html")

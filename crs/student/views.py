@@ -734,4 +734,4 @@ def studentPolling(request):
     for x in voting:
         x.save()
 
-    return redirect('crs/pollResult/')
+    return redirect('/crs/pollResult/')

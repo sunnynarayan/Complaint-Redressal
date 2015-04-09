@@ -151,7 +151,7 @@ class Complain(models.Model):
     detail = models.TextField()
     history = models.TextField()
     comments = models.IntegerField()
-    # picid = models.CharField(db_column='picId',max_length=100)
+    picid = models.CharField(db_column='picId',max_length=100)
     status = models.IntegerField(blank=True, null=True)
     class Meta:
         managed = False
@@ -261,27 +261,40 @@ class Fooditems(models.Model):
         return self.name
                 
 class Meals(models.Model):
+    fid = models.CharField(db_column='FID', unique=True, max_length=100) # Field name made lowercase.
     mid = models.IntegerField(db_column='MID', primary_key=True)  # Field name made lowercase.
-    fid = models.CharField(db_column='FID', unique=True, max_length=100)  # Field name made lowercase.
-    avgnutrition = models.DecimalField(db_column='avgNutrition', max_digits=4, decimal_places=2)  # Field name made lowercase.
-    name = models.CharField(max_length=120)
+    items = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'meals'
 
     def __str__(self):              # __unicode__ on Python 2
-        return self.name
+        return str(self.mid) + " " + str(self.fid) + " " + str(self.items)
+
+class Mealitems(models.Model):
+    sno = models.IntegerField(primary_key=True)
+    mid = models.IntegerField(db_column='MID')  # Field name made lowercase.
+    fid = models.IntegerField(db_column='FID')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'mealItems'
 
 class Pollmenu(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
+    meal = models.TextField()
     hostel = models.IntegerField()
-    mid = models.IntegerField(db_column='MID')  # Field name made lowercase.
     type = models.CharField(max_length=1)
+    protein = models.IntegerField()
+    vitamin = models.IntegerField()
+    fat = models.IntegerField()
+    nutritions = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Meta:
         managed = False
         db_table = 'pollMenu'
+
 
 class Faculty(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.
@@ -357,7 +370,9 @@ class Secretaryrating(models.Model):
     class Meta:
         managed = False
         db_table = 'secretaryRating'
-
+    def __str__(self):              # __unicode__ on Python 2
+        fac = Faculty.objects.get(fid=self.fid)
+        return str(self.id) + " secid = " + str(self.secid) + " studid = " + str(self.studid) + " rating = " + str(self.rating)
 
 class Warden(models.Model):
     fid = models.IntegerField(db_column='FID', primary_key=True) # Field name made lowercase.

@@ -17,7 +17,8 @@ from reportlab.lib.pagesizes import landscape
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import requires_csrf_token
 from django.core.context_processors import csrf
-from student.views import validateText
+from student.views import *
+
 
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
@@ -33,11 +34,11 @@ def secComplainView(request):
 	pubComplains = []
 	priComplains = []
 	try:
-		pubComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID'))
+		pubComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.status != 21' ))
 	except:
 		pass
 	try:
-		priComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID'))
+		priComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.status != 21'))
 	except:
 		pass	
 	return render_to_response('secretary/messSecHome.html', {'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
@@ -51,44 +52,67 @@ def secLodgeComplain(request):
 def forwardToWardenOffice(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	complainArray=request.POST.getlist('complain')
-	length = len(complainArray)
-	for x in range(0,length):
-		comid = complainArray[x]
-		ClO =Complainlink.objects.get(cid=comid)
-		ClO.woid = "1235"
-		ClO.save()
-		obj=Complain.objects.get(cid=comid)
-		if obj.status==1:
-			obj.status=2
-			obj.save()
-		else:
+	if 'forward' in request.POST:
+		complainArray=request.POST.getlist('complain')
+		length = len(complainArray)
+		for x in range(0,length):
+			comid = complainArray[x]
+			ClO =Complainlink.objects.get(cid=comid)
+			ClO.woid = "1235"
+			ClO.save()
+			obj=Complain.objects.get(cid=comid)
+			if obj.status==1:
+				obj.status=2
+				obj.save()
+			else:
+				obj.save()
+	# complainObj.wardenID = wardenID
+	# complainObj.save()
+		return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+	elif 'reject' in request.POST:
+		complainArray=request.POST.getlist('complain')
+		length = len(complainArray)
+		for x in range(0,length):
+			comid = complainArray[x]
+			obj=Complain.objects.get(cid=comid)
+			obj.status=21
 			obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
-	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+		return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
 def rejectComplain(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	complainArray=request.POST.getlist('complain')
-	length = len(complainArray)
-	for x in range(0,length):
-		comid = complainArray[x]
-		obj=Complain.objects.get(cid=comid)
-		obj.status=21
-		obj.save()
+	if 'reject' in request.POST:
+		complainArray=request.POST.getlist('complain')
+		length = len(complainArray)
+		for x in range(0,length):
+			comid = complainArray[x]
+			obj=Complain.objects.get(cid=comid)
+			obj.status=21
+			obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
-	return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+		return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
-def secViewComplain(request):
-    indexF = request.GET.get('CID')
-    index = int(indexF)
-    qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.secID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
-    complainObject = Complain.objects.raw(qry)
-    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0]})
-
+def secViewComplain(complainObject):
+    # indexF = request.GET.get('CID')
+    # index = int(indexF)
+    # qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.secID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
+    # complainObject = Complain.objects.raw(qry)
+    # return render_to_response("secretary/complainDetail.html", {'item': complainObject[0]})
+    comment = []
+    documents = []
+    try:
+    	documents.extend(Document.objects.get(cid=complainObject[0].cid))
+    except:
+        pass
+    try:
+        comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
+    except:
+        pass
+    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
 def poll(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')

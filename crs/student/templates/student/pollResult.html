@@ -1,3 +1,60 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<title>
+		
+	</title>
+</head>
+<body>
+<h3 align="center"> Breakfast, lunch and dinner menus </h3>
+
+<div id="container">
+    <div id="one">
+    	<h2> Breakfast options:</h2>
+    	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
+    	{% for items in list1 %}
+        <tr>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div id="two">
+    	<h2> Lunch options:</h2>
+    	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
+    	{% for items in list2 %}
+        <tr>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div id="three">
+    	<h2> Dinner options:</h2>
+    	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
+    	{% for items in list3 %}
+        <tr>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <button type="submit" value="" > Start Poll </button>
+</div>
+
+</body>
+</html> -->
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,50 +67,25 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lodge Complain</title>
-
+    <title></title>
 
     <!-- Bootstrap Core CSS -->
-    <!-- <link href="../../static/student/bootstrap.min.css" rel="stylesheet"> -->
-
-    <!-- MetisMenu CSS -->
-    <!-- <link href="../../static/student/metisMenu.min.css" rel="stylesheet"> -->
-
-    <!-- Custom CSS -->
-    <!-- <link href="../../static/student/sb-admin-2.css" rel="stylesheet"> -->
-
-    <!-- Custom Fonts -->
-    <!-- <link href="../../static/student/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
-
     <link href="../../static/student/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="../../static/student/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../../static/student/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../../static/student/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="../../static/student/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
-	function calNutri () {
-		var n=0, x1=0,y1=0,z1=0;
-		var x = document.getElementById("cal1").value;
-		var y = document.getElementById("cal2").value;
-		var z = document.getElementById("cal3").value;
-		x1= parseInt(x);
-		y1= parseInt(y);
-		z1= parseInt(z);
-		n=(x1+y1+z1)/3;
-		if (x1>0 && y1 > 0 && z1 >0) {
-		document.getElementById("nutrition").innerHTML = n.toFixed(2);
-
-		}
-		else
-			document.getElementById("nutrition").innerHTML = "Enter +ve Number.";
-	}
-
-	</script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -61,8 +93,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
-<script src="../../static/student/a.js"></script>
 
 <body>
 
@@ -414,99 +446,215 @@
             <!-- /.navbar-static-side -->
         </nav>
 
-    <div id="page-wrapper">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Add detail of Item</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form name="form1" action="../addingFoodItem/" method="post" > 
-                            <fieldset>
-                            <div class="col-lg-4">
-                            Name : 
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <input type="text" name="itemName" required value="" >
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                            Vitamin :
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <input id="cal1" type="number" onchange ="calNutri()" name="vitamins" required value="0" >
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                            Protein :
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <input id="cal2" type="number" onchange ="calNutri()" name="proteins" required value="0" >
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                            Fats :
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <input id="cal3" type="number" onchange ="calNutri()" name="fat" required value="0" >
-                                </div>
-                            </div> 
-                            <div class="col-lg-4">
-                            Average of Nutrition : 
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <p id="nutrition"></p>
-                                </div>
-                            </div>
-                             
-                                <!-- Change this to a button or input when using this as a form -->
-                            <div class="col-lg-4">
-                                <input type="submit" class="btn btn-lg btn-success btn-block" name="addItem" value="Add Item">
-                            </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
+        <div id="page-wrapper">
+            <div class="row">
+                
+                <!-- /.col-lg-12 -->
             </div>
-        </div>
             <!-- /.row -->
-    </div>
-        <!-- /#page-wrapper -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Break Fast</strong>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Serial No.</th>
+                                            <th>Name</th>
+                                            <th>Avg. Nutrition Value</th>
+                                            <th>Protein</th>
+                                            <th>Vitamin</th>
+                                            <th>Fat</th>
+                                            <th>check</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        {% for item in list1 %}
+                                        {% if forloop.counter0|divisibleby:2 %}
+                                        <tr class="odd gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
 
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.proteins }}</td>
+                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr class="even gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.proteins }}</td>
+                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Lunch</strong> 
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Serial No.</th>
+                                            <th>Name</th>
+                                            <th>Avg. Nutrition Value</th>
+                                            <th>Protein</th>
+                                            <th>Vitamin</th>
+                                            <th>Fat</th>
+                                            <th>check</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        {% for item in list2 %}
+                                        {% if forloop.counter0|divisibleby:2 %}
+                                        <tr class="odd gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.proteins }}</td>
+                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr class="even gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.proteins }}</td>
+                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong><p>Dinner</p></strong>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Serial No.</th>
+                                            <th>Name</th>
+                                            <th>Avg. Nutrition Value</th>
+                                            <th>Protein</th>
+                                            <th>Vitamin</th>
+                                            <th>Fat</th>
+                                            <th>check</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        {% for item in list3 %}
+                                        {% if forloop.counter0|divisibleby:2 %}
+                                        <tr class="odd gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.proteins }}</td>
+                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr class="even gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.proteins }}</td>
+                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <button type="submit" class="btn btn-lg btn-success btn-block" value="" > Start Poll </button>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+
+        <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
-
     <!-- jQuery -->
-    <!-- // <script src="../../static/student/jquery.min.js"></script> -->
-
-    <!-- Bootstrap Core JavaScript -->
-    <!-- // <script src="../../static/student/bootstrap.min.js"></script> -->
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <!-- // <script src="../../static/student/metisMenu.min.js"></script> -->
-
-    <!-- Custom Theme JavaScript -->
-    <!-- // <script src="../../static/student/sb-admin-2.js"></script> -->
-
-
-        <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
-
+    <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-    
-
+    <!-- DataTables JavaScript -->
+    <script src="../../static/student/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../static/student/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../../static/student/dist/js/sb-admin-2.js"></script>
-
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
+    </script>
 </body>
-
 </html>
+

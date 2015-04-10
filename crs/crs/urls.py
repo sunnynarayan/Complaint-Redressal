@@ -66,7 +66,15 @@ urlpatterns = patterns('',
     url(r'^Page/$','student.views.loadPage'),
     url(r'^crs/search/$', 'secretary.views.searchDatabase'),
     url(r'^crs/searchResult/$', 'secretary.views.searchItem'),
+    url(r'^crs/showComplain/([A-Za-z1-2]+)/([A-Za-z]+)/$','warden.views.showHostelWiseComplain'),
+    # url(r'^crs/showComplain/([A-Za-z]+)/([A-Za-z]+)/$', 'warden.views.showHostelTypeWiseComplain'),
+    url(r'^crs/showComplain/([A-Za-z1-2]+)/([A-Za-z]+)/([A-Za-z]+)/$','warden.views.showHostelAdUnadWiseComplain'),
+    # url(r'^crs/getInfo([A-Za-z].)/$', 'warden.views.showHostelWiseInfo'),
+    url(r'^crs/getSecInfo/([A-Za-z1-2]+)/$','warden.views.showHostelSecWiseInfo'),
+    url(r'^crs/getStudInfo/([A-Za-z1-2]+)/$','warden.views.showHostelStudWiseInfo'),
+    # url(r'^crs/getHostelInfo([A-Za-z].)/$', 'warden.views.getHostelInfo'),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 
    # url(r'^complainDetail/$', 'secretary.views.lodgeComplainDetail'),

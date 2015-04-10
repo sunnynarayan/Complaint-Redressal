@@ -488,10 +488,12 @@ def rateSecretary(request):
         sec=Secretary.objects.get(uid=eachSec.uid)
         sec.rating=finalRating
         sec.save()
+        # return HttpResponse(finalRating)
         ratingCount=0
         finalRating=0.0
-        n=0
+    #     n=0
     return redirect('/crs/complainView/');
+
     # type2=getCatagory(type1)
     # obj=Secretary.objects.get(type=type2,hostel=hostel)
     # secId=obj.uid

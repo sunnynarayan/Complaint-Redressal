@@ -768,23 +768,30 @@ def pollResult(request):
     votesB = []
     votesL = []
     votesD = []
+    data = ""
     for x in breakfastPollOptions:
         try:
             votesB.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
         except:
             votesB.append(PollMenuVoting(x,0))
+            data = data + x.meal + "\t0\n"
     for x in lunchPollOptions:
         try:
             votesL.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
         except:
             votesL.append(PollMenuVoting(x,0))
+            data = data + x.meal + "\t0\n"
     for x in dinnerPollOptions:
         try:
             votesD.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
         except:
             votesD.append(PollMenuVoting(x,0))
+            data = data + x.meal + "\t0\n"
 
-    with open('static/data.tsv', 'w') as f:
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/data.tsv', 'w') as f:
         myfile = File(f)
-        myfile.write('Hello World')
+        myfile.write("meal\tvotes\n"+data)
     return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })

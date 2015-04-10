@@ -669,13 +669,24 @@ def checkAvailabilityOfPoll(hostel):
     else:
         return False
 
+def checkVoted(uid):
+    try:
+        totalVotes = Pollvoting.objects.filter(uid = uid).count()
+        if totalVotes > 0:
+            return True
+        else:
+            return False
+    except:
+        return False
 def pollPage(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     # check if any poll is available for this student
     if not checkAvailabilityOfPoll(request.session.get('hostel')):
-        return redirect('/crs/')
+        return redirect('/crs/pollResult/')
         # redirect to page that shows that no poll is available!
+    if checkVoted(request.session.get('uid')):
+        return redirect('/crs/pollResult/')
     breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
     lunchPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
     dinnerPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
@@ -700,7 +711,10 @@ def studentPolling(request):
         return redirect('/crs/')
     # check if any poll is available for this student
     if not checkAvailabilityOfPoll(request.session.get('hostel')):
-        return redirect('/crs/')
+        return redirect('/crs/pollResult/')
+
+    if checkVoted(request.session.get('uid')):
+        return redirect('/crs/pollResult/')
 
     breakfastPOindex = request.POST.getlist('breakfast')
     lunchPOindex = request.POST.getlist('lunch')
@@ -718,9 +732,9 @@ def studentPolling(request):
             newObj = Pollvoting(id = breakfastPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect('/crs/pollOptions/')
+            return redirect('/crs/pollOptions/')
             # redirect page to polling page again
-            pass
+            # pass
 
     for xx in lunchPOindex:
         x = int(xx)
@@ -728,7 +742,7 @@ def studentPolling(request):
             newObj = Pollvoting(id = lunchPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect('/crs/pollOptions/')
+            return redirect('/crs/pollOptions/')
             # redirect page to polling page again
             pass
 
@@ -738,7 +752,7 @@ def studentPolling(request):
             newObj = Pollvoting(id = dinnerPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect('/crs/pollOptions/')
+            return redirect('/crs/pollOptions/')
             # redirect page to polling page again
             pass
     for x in voting:
@@ -764,43 +778,56 @@ def pollResult(request):
     # breakfastPollOptions = request.session.get('breakfastArray')
     # lunchPollOptions = request.session.get('lunchArray')
     # dinnerPollOptions = request.session.get('dinnerArray')
-    breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
-    lunchPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
-    dinnerPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
+    breakfastPollOptions = []
+    lunchPollOptions = []
+    dinnerPollOptions = []
     votesB = []
     votesL = []
     votesD = []
     data = ""
-    b = 0
-    l = 0
-    d = 0
+    b = 1
+    l = 1
+    d = 1
+    try:
+        breakfastPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1))
+    except:
+        pass
+    try:
+        lunchPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2))
+    except:
+        pass
+    try:
+        dinnerPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3))
+    except:
+        pass
     for x in breakfastPollOptions:
         try:
             votesB.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            data = data + "breakfast" + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
-            b = b+1
+            data = data + "B-Item " + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            b = b + 1
         except:
             votesB.append(PollMenuVoting(x,0))
-            data = data + "breakfast" + str(b) + "\t0\n"
-            b = b+1
+            data = data + "B-Item " + str(b) + "\t0\n"
+            b = b + 1
     for x in lunchPollOptions:
         try:
             votesL.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            data = data + "lunch" + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
-            l = l+ 1
+            data = data + "L-Item " + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            l = l + 1
         except:
             votesL.append(PollMenuVoting(x,0))
-            data = data + "lunch" + str(b) + "\t0\n"
+            data = data + "L-Item " + str(b) + "\t0\n"
             l = l + 1
     for x in dinnerPollOptions:
         try:
             votesD.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            data = data + "dinner" + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
-            d = d +1
+            data = data + "D-Item" + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            d = d + 1
         except:
             votesD.append(PollMenuVoting(x,0))
-            data = data + "dinner" + str(b) + "\t0\n"
+            data = data + "D-Item" + str(b) + "\t0\n"
             d = d + 1
+            
     with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/data.tsv', 'w') as f:
         myfile = File(f)
         myfile.write("meal\tvotes\n"+data)

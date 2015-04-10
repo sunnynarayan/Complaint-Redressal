@@ -671,7 +671,7 @@ def pollPage(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     # check if any poll is available for this student
-    if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+    if not checkAvailabilityOfPoll(request.session.get('hostel')):
         return redirect('/crs/')
         # redirect to page that shows that no poll is available!
     breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
@@ -709,16 +709,15 @@ def studentPolling(request):
             newObj = Pollvoting(id = breakfastPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect
+            return redirect('/crs/student/pollOptions/')
             # redirect page to polling page again
-            pass
 
     for x in lunchPOindex:
         if x >= 0 and x < len(lunchPollOptions):
             newObj = Pollvoting(id = lunchPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect
+            return redirect('/crs/student/pollOptions/')
             # redirect page to polling page again
             pass
 
@@ -727,7 +726,7 @@ def studentPolling(request):
             newObj = Pollvoting(id = dinnerPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            # return redirect
+            return redirect('/crs/student/pollOptions/')
             # redirect page to polling page again
             pass
 

@@ -91,11 +91,6 @@ def rejectComplain(request):
 		return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
 def secViewComplain(complainObject):
-    # indexF = request.GET.get('CID')
-    # index = int(indexF)
-    # qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.secID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
-    # complainObject = Complain.objects.raw(qry)
-    # return render_to_response("secretary/complainDetail.html", {'item': complainObject[0]})
     comment = []
     documents = []
     try:
@@ -107,6 +102,7 @@ def secViewComplain(complainObject):
     except:
         pass
     return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
+
 def poll(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')

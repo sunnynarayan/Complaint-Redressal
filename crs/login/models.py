@@ -4,7 +4,7 @@ from django.db import models
 
 class Comment(models.Model):
     commentid = models.IntegerField(db_column='commentId', primary_key=True)  # Field name made lowercase.
-    cid = models.ForeignKey('Complain', db_column='cid')
+    cid = models.CharField(db_column='cid', max_length=19)
     name = models.CharField(max_length=100)
     time = models.DateTimeField()
     comment = models.TextField()
@@ -16,9 +16,9 @@ class Comment(models.Model):
 
 class Complain(models.Model):
     cid = models.CharField(primary_key=True, max_length=19)
-    uid = models.ForeignKey('Student', db_column='UID')  # Field name made lowercase.
+    uid = models.IntegerField(db_column='UID')  # Field name made lowercase.
     time = models.DateTimeField()
-    hostel = models.ForeignKey('Hostel', db_column='hostel')
+    hostel = models.IntegerField(db_column='hostel')
     type = models.IntegerField()
     subject = models.TextField()
     detail = models.TextField()
@@ -35,7 +35,7 @@ class Complain(models.Model):
 
 class Complainid(models.Model):
     sno = models.IntegerField(primary_key=True)
-    hostel = models.ForeignKey('Hostel', db_column='hostel')
+    hostel = models.IntegerField(db_column='hostel')
     type = models.IntegerField()
     date = models.DateField()
     id = models.IntegerField(db_column='ID')  # Field name made lowercase.
@@ -46,11 +46,11 @@ class Complainid(models.Model):
 
 
 class Complainlink(models.Model):
-    cid = models.ForeignKey(Complain, db_column='CID', primary_key=True)  # Field name made lowercase.
+    cid = models.CharField(db_column='CID', primary_key=True,max_length=19)  # Field name made lowercase.
     studid = models.IntegerField(db_column='studID', blank=True, null=True)  # Field name made lowercase.
-    secid = models.ForeignKey('Secretary', db_column='secID', blank=True, null=True)  # Field name made lowercase.
-    woid = models.ForeignKey('Faculty', db_column='woID', blank=True, null=True)  # Field name made lowercase.
-    wardenid = models.ForeignKey('Warden', db_column='wardenID', blank=True, null=True)  # Field name made lowercase.
+    secid = models.IntegerField(db_column='secID', blank=True, null=True)  # Field name made lowercase.
+    woid = models.IntegerField(db_column='woID', blank=True, null=True)  # Field name made lowercase.
+    wardenid = models.IntegerField(db_column='wardenID', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -61,7 +61,7 @@ class Complainlink(models.Model):
 class Document(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     docfile = models.CharField(max_length=100)
-    cid = models.ForeignKey(Complain, db_column='cid')
+    cid = models.CharField(db_column='cid',max_length=19)
 
     class Meta:
         managed = False
@@ -110,13 +110,13 @@ class Hostel(models.Model):
 
 class HostelLeavingInformation(models.Model):
     sno = models.IntegerField(primary_key=True)
-    studid = models.ForeignKey('Student', db_column='studid')
+    studid = models.IntegerField(db_column='studid')
     name = models.CharField(max_length=30)
     start_date = models.DateTimeField(db_column='start_Date')  # Field name made lowercase.
     end_date = models.DateTimeField(db_column='end_Date')  # Field name made lowercase.
     destination = models.CharField(max_length=1000)
     reason = models.TextField()
-    hostel = models.ForeignKey(Hostel, db_column='hostel')
+    hostel = models.IntegerField(db_column='hostel')
     roll = models.CharField(max_length=8)
     mobile = models.TextField()
 
@@ -128,8 +128,8 @@ class HostelLeavingInformation(models.Model):
 
 class Mealitems(models.Model):
     sno = models.IntegerField(primary_key=True)
-    mid = models.ForeignKey('Meals', db_column='MID')  # Field name made lowercase.
-    fid = models.ForeignKey(Fooditems, db_column='FID')  # Field name made lowercase.
+    mid = models.IntegerField(db_column='MID')  # Field name made lowercase.
+    fid = models.IntegerField(db_column='FID')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -151,7 +151,7 @@ class Meals(models.Model):
 class Pollmenu(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
     meal = models.TextField()
-    hostel = models.ForeignKey(Hostel, db_column='hostel')
+    hostel = models.IntegerField(db_column='hostel')
     type = models.IntegerField()
     protein = models.IntegerField()
     vitamin = models.IntegerField()
@@ -165,8 +165,8 @@ class Pollmenu(models.Model):
 
 class Pollvoting(models.Model):
     idx = models.IntegerField(primary_key=True)
-    id = models.ForeignKey(Pollmenu, db_column='id')
-    uid = models.ForeignKey('Student', db_column='UID')  # Field name made lowercase.
+    id = models.IntegerField(db_column='id')
+    uid = models.IntegerField(db_column='UID')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -174,9 +174,9 @@ class Pollvoting(models.Model):
 
 
 class Secretary(models.Model):
-    uid = models.ForeignKey('Student', db_column='UID', primary_key=True)  # Field name made lowercase.
+    uid = models.IntegerField(db_column='UID', primary_key=True)  # Field name made lowercase.
     type = models.IntegerField()
-    hostel = models.ForeignKey(Hostel, db_column='hostel')
+    hostel = models.IntegerField(db_column='hostel')
     rating = models.DecimalField(max_digits=2, decimal_places=2)
 
     class Meta:
@@ -190,8 +190,8 @@ class Secretary(models.Model):
 
 class Secretaryrating(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    secid = models.ForeignKey(Secretary, db_column='secID')  # Field name made lowercase.
-    studid = models.ForeignKey('Student', db_column='studID')  # Field name made lowercase.
+    secid = models.IntegerField(db_column='secID')  # Field name made lowercase.
+    studid = models.IntegerField(db_column='studID')  # Field name made lowercase.
     rating = models.IntegerField()
 
     class Meta:
@@ -204,8 +204,8 @@ class Secretaryrating(models.Model):
 
 class Studcomplainlink(models.Model):
     id = models.IntegerField(primary_key=True)  # AutoField?
-    cid = models.ForeignKey(Complain, db_column='cid')
-    studid = models.ForeignKey('Student', db_column='studid')
+    cid = models.CharField(db_column='cid', max_length=19)
+    studid = models.IntegerField(db_column='studid')
 
     class Meta:
         managed = False
@@ -228,7 +228,7 @@ class Student(models.Model):
     email = models.CharField(max_length=50, blank=True)
     roll = models.CharField(max_length=8, blank=True)
     room = models.IntegerField(blank=True, null=True)
-    hostel = models.ForeignKey(Hostel, db_column='hostel', blank=True, null=True)
+    hostel = models.IntegerField(db_column='hostel', blank=True, null=True)
     bloodgrp = models.CharField(db_column='bloodGrp', max_length=3, blank=True)  # Field name made lowercase.
     baccno = models.IntegerField(db_column='bAccNo', blank=True, null=True)  # Field name made lowercase.
     bank = models.CharField(max_length=50, blank=True)
@@ -245,8 +245,8 @@ class Student(models.Model):
         return self.username + " (" + self.name + ")"
 
 class Warden(models.Model):
-    fid = models.ForeignKey(Faculty, db_column='FID', primary_key=True)  # Field name made lowercase.
-    hostel = models.ForeignKey(Hostel, db_column='hostel')
+    fid = models.IntegerField(db_column='FID', primary_key=True)  # Field name made lowercase.
+    hostel = models.IntegerField(db_column='hostel')
 
     class Meta:
         managed = False

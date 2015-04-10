@@ -18,7 +18,7 @@ from django.db import transaction
 from wardenOffice.views import *
 from warden.views import *
 from secretary.views import *
-
+from django.core.files import File
 
 # global globlid
 # globlid=0
@@ -671,7 +671,7 @@ def pollPage(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     # check if any poll is available for this student
-    if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+    if not checkAvailabilityOfPoll(request.session.get('hostel')):
         return redirect('/crs/')
         # redirect to page that shows that no poll is available!
     breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
@@ -697,7 +697,7 @@ def studentPolling(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     # check if any poll is available for this student
-    if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+    if not checkAvailabilityOfPoll(request.session.get('hostel')):
         return redirect('/crs/')
 
     breakfastPOindex = request.POST.getlist('breakfast')
@@ -710,39 +710,81 @@ def studentPolling(request):
 
     voting = []
 
-    for x in breakfastPOindex:
-        if x >= 0 and x < len(breakfastPollOptions):
+    for xx in breakfastPOindex:
+        x = int(xx)
+        if x > -1 and x < len(breakfastPollOptions):
             newObj = Pollvoting(id = breakfastPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            return redirect('/crs/student/pollOptions/')
+            # return redirect('/crs/pollOptions/')
             # redirect page to polling page again
+            pass
 
-    for x in lunchPOindex:
-        if x >= 0 and x < len(lunchPollOptions):
+    for xx in lunchPOindex:
+        x = int(xx)
+        if x > -1 and x < len(lunchPollOptions):
             newObj = Pollvoting(id = lunchPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            return redirect('/crs/student/pollOptions/')
+            # return redirect('/crs/pollOptions/')
             # redirect page to polling page again
             pass
 
-    for x in dinnerPOindex:
-        if x >= 0 and x < len(dinnerPollOptions):
+    for xx in dinnerPOindex:
+        x = int(xx)
+        if x > -1 and x < len(dinnerPollOptions):
             newObj = Pollvoting(id = dinnerPollOptions[x], uid = request.session.get('uid'))
             voting.append(newObj)
         else:
-            return redirect('/crs/student/pollOptions/')
+            # return redirect('/crs/pollOptions/')
             # redirect page to polling page again
             pass
-
     for x in voting:
         x.save()
 
     return redirect('/crs/pollResult/')
 
+class PollMenuVoting():
+    """docstring for PollMenuVoting"""
+    def __init__(self, arg, arg1):
+        self.meal = arg.meal
+        self.protein = arg.protein
+        self.vitamin = arg.vitamin
+        self.fat = arg.fat
+        self.nutritions = arg.nutritions
+        self.votes = arg1   
+    def __str__(self):              # __unicode__ on Python 2
+        return str(self.votes)
+
 def pollResult(request):
     if not (isStudent(request)):
         return redirect('/crs/')
+    # breakfastPollOptions = request.session.get('breakfastArray')
+    # lunchPollOptions = request.session.get('lunchArray')
+    # dinnerPollOptions = request.session.get('dinnerArray')
+    breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
+    lunchPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
+    dinnerPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
+    votesB = []
+    votesL = []
+    votesD = []
+    for x in breakfastPollOptions:
+        try:
+            votesB.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+        except:
+            votesB.append(PollMenuVoting(x,0))
+    for x in lunchPollOptions:
+        try:
+            votesL.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+        except:
+            votesL.append(PollMenuVoting(x,0))
+    for x in dinnerPollOptions:
+        try:
+            votesD.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+        except:
+            votesD.append(PollMenuVoting(x,0))
 
-    return render_to_response("student/startPoll.html")
+    with open('static/data.tsv', 'w') as f:
+        myfile = File(f)
+        myfile.write('Hello World')
+    return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })

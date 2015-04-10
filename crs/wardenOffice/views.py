@@ -91,6 +91,146 @@ def forwardToWarden(request):
 	# complainObj.save()
 	return redirect('../wardenComplain');
 
+def getHostelType(hostelstr):
+	if hostelstr == "Ashoka":
+		return 1
+	elif hostelstr == "Aryabhatta":
+		return 2
+	elif hostelstr == "Chanakya1":
+		return 3
+	elif hostelstr == "Chanakya2":
+		return 4
+	elif hostelstr == "GBH":
+		return 5
+	else:
+		return 0
+
+def isAddressed(address):
+	if address == "Addressed":
+		return 0
+	elif address == "New":
+		return 1
+	else:
+		return 2
+
+def complainType(typec):
+	if typec=="Mess":
+		return 1
+	elif typec=="Environment":
+		return 2
+	elif typec=="Technical":
+		return 3
+	elif typec=="Maintenance":
+		return 4
+	elif typec=="Mess":
+		return 5
+	else:
+		return 6
+
+
+def showHostelWiseComplain(request,hostel,isadd):
+	if not (isWardenOffice(request)):
+		return redirect('/crs/')
+	uid=request.session.get('uid')
+	hostelType = getHostelType(hostel)
+	isadd=isAddressed(isadd)
+	if hostelType == 0:
+		return HttpResponse('error')
+	if isadd==1:
+		query1 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status = 22 OR complain.status=12 OR complain.status=3 OR complain.status=23 OR complain.status=13) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType)
+		query2 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status=22 OR complain.status=12 OR complain.status=3 OR complain.status=23 OR complain.status=13) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType)
+	elif isadd==0:
+		query1 = 'SELECT * FROM `complain`, complainLink WHERE complain.status=0 AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType)
+		query2 = 'SELECT * FROM `complain`, complainLink WHERE complain.status=0 AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType)	
+	else:
+		return HttpResponse('error')	
+	PublicComplainObjects = Complainlink.objects.raw(query1)
+	PrivateComplainObjects = Complainlink.objects.raw(query2)
+	# PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
+	Privatelist=[];
+	Publiclist=[];
+	for num in PrivateComplainObjects:
+		numCid=num.cid
+		Privatelist.append(Complain.objects.get(cid=numCid));		#username  in fac table
+	for num in PublicComplainObjects:
+		numCid=num.cid
+		Publiclist.append(Complain.objects.get(cid=numCid));
+	return render_to_response('wardenOffice/wardenHome.html',{'list1' : Publiclist, 'list2':Privatelist, 'msg': request.session.get('name')});
+
+def showHostelTypeWiseComplain(request,hostel,typeComplain):
+	if not (isWardenOffice(request)):
+		return redirect('/crs/')
+	uid=request.session.get('uid')
+	hostelType = getHostelType(hostel)
+	typec = complainType(typeComplain)
+	if hostelType == 0 or typec==6:
+		return HttpResponse('error')
+	query1 = "SELECT * FROM complain, complainLink WHERE (complain.status = 2 OR complain.status = 22 OR complain.status=12 OR complain.status=3 OR complain.status=23 OR complain.status=13) AND (complainLink.woID = " + str(uid) + " AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.hostel = " + str(hostelType) + " AND complain.type = " + str(typec)
+	query2 = 'SELECT * FROM complain, complainLink WHERE (complain.status = 2 OR complain.status=22 OR complain.status=12 OR complain.status=3 OR complain.status=23 OR complain.status=13) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType) + ' AND complain.type = ' +  str(typec)
+	PublicComplainObjects = Complainlink.objects.raw(query1)
+	PrivateComplainObjects = Complainlink.objects.raw(query2)
+	PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
+	Privatelist=[];
+	Publiclist=[];
+	for num in PrivateComplainObjects:
+		numCid=num.cid
+		Privatelist.append(Complain.objects.get(cid=numCid));		#username  in fac table
+	for num in PublicComplainObjects:
+		numCid=num.cid
+		Publiclist.append(Complain.objects.get(cid=numCid));
+	return render_to_response('wardenOffice/wardenHome.html',{'list1' : Publiclist, 'list2':Privatelist, 'msg': request.session.get('name')});
+
+def showHostelAdUnadWiseComplain(request,hostel,typec,isadd):
+	if not (isWardenOffice(request)):
+		return redirect('/crs/')
+	uid=request.session.get('uid')
+	hostelType = getHostelType(hostel)
+	typec=complainType(typec)
+	addressed=isAddressed(isadd)
+	if hostelType==0   or typec == 6 or addressed == 2:
+		return HttpResponse('error1')
+	if addressed==1:
+		query1 = 'SELECT * FROM complain, complainLink WHERE (complain.status = 2 OR complain.status = 22 OR complain.status=12 OR complain.status=3 OR complain.status=23 OR complain.status=13) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType) + ' AND complain.type = ' + str(typec)
+		query2 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 2 OR complain.status=22 OR complain.status=12 OR complain.status=3 OR complain.status=23 OR complain.status=13) AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType) + ' AND complain.type = ' + str(typec)
+	elif addressed==0:
+		query1 = 'SELECT * FROM `complain`, complainLink WHERE complain.status=0 AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType) + ' AND complain.type = ' + str(typec)
+		query2 = 'SELECT * FROM `complain`, complainLink WHERE complain.status=0 AND (complainLink.woID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.hostel = ' + str(hostelType) + ' AND complain.type = ' + str(typec)
+	else:
+		return HttpResponse('error2')
+	PublicComplainObjects = Complainlink.objects.raw(query1)
+	PrivateComplainObjects = Complainlink.objects.raw(query2)
+	# PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
+	Privatelist=[];
+	Publiclist=[];
+	for num in PrivateComplainObjects:
+		numCid=num.cid
+		Privatelist.append(Complain.objects.get(cid=numCid));		#username  in fac table
+	for num in PublicComplainObjects:
+		numCid=num.cid
+		Publiclist.append(Complain.objects.get(cid=numCid));
+	return render_to_response('wardenOffice/wardenHome.html',{'list1' : Publiclist, 'list2':Privatelist, 'msg': request.session.get('name')});
+
+
+def showHostelSecWiseInfo(request,hostel):
+	if not (isWardenOffice(request)):
+		return redirect('/crs/')
+	uid=request.session.get('uid')
+	hostelType = getHostelType(hostel)
+	if hostelType == 0:
+		return HttpResponse('error')
+	obj=Secretary.objects.filter(hostel=hostelType)
+	return render_to_response('secInfo.html',{'list':obj})
+
+def showHostelStudWiseInfo(request,hostel):
+	if not (isWardenOffice(request)):
+		return redirect('/crs/')
+	uid=request.session.get('uid')
+	hostelType = getHostelType(hostel)
+	if hostelType == 0:
+		return HttpResponse('error')
+	obj=Student.objects.filter(hostel=hostelType)
+	return render_to_response('studInfo.html',{'list':obj})
+
 
 def viewSecretary(request):
 	if not (isWardenOffice(request)):

@@ -276,8 +276,8 @@
                 <div  class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
-                        <li id="one">
-                            <a id="one" href="#"><i class="fa fa-table fa-fw"></i>View Complain</a>
+                        <li >
+                            <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
                         <li>
                             <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
@@ -289,10 +289,10 @@
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
                         <li>
-                            <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <a id="one" href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Previous Forms</a>
+                                <li id="one">
+                                    <a id="one" href="#">Previous Forms</a>
                                 </li>
                                 <li>
                                     <a id href="/OpenHostelPage/">Fill New Form</a>
@@ -313,7 +313,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Complains</h1>
+                    <h1 class="page-header">Prevoiusly Filled Forms</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -322,7 +322,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading" >
-                            Your Complains
+                            Your Forms
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -330,11 +330,8 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>ComplainID</th>
-                                            <th>Subject</th>
-                                            <th>Time</th>
-                                            <th>Type</th>
-                                            <th>Access</th>
+                                            <th>FormID</th>
+                                            <th>Date Of Submition</th>
                                             <th>Status</th>
                                         </tr>
                                         
@@ -344,46 +341,12 @@
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.subject }}</td>
-                                                    <td>{{ item.time }}</td>
-                                                    <td>{% if item.type == 1 %}
-                                                             Mess
-                                                        {% elif item.type == 2 %}
-                                                             Environment
-                                                        {% elif item.type == 3 %}
-                                                             Technical
-                                                        {% elif item.type == 4 %}
-                                                            Maintainance
-                                                        {% elif item.type == 0 %}
-                                                            Others
-                                                        {% endif %}
-                                                    </td>
-                                                    
-                                                    <td class="center">{% if item.access == 0 %}
-                                                                        Public
-                                                                       {% elif item.access == 1 %}
-                                                                        Private
-                                                                       {% elif item.access == 2 %}
-                                                                        Custom
-                                                                        {% endif %}
-
-                                                    </td>
+                                                    <td>{{ item.date }}</td>
                                                     <td class="center">{% if item.status == 1 %}
-                                                                        Complain Lodged
+                                                                        Approved By Warden
                                                                        {% elif item.status == 2 %}
-                                                                        Forwarded to W.O.
+                                                                        Approval Denied by Warden 
                                                                        {% elif item.status == 3 %}
-                                                                        Forwarded to Warden
-                                                                       {% elif item.status == 11 %}
-                                                                        Complain Re-lodged
-                                                                       {% elif item.status == 12 %}
-                                                                        Re-lodged Forwarded to W.O.
-                                                                       {% elif item.status == 21 %}
-                                                                        Rejected by Secretary
-                                                                       {% elif item.status == 22 %}
-                                                                         By-passed , Forwarded to W.O
-                                                                       {% elif item.status == 23 %}
-                                                                         By-passwd , Forwarded to Warden
                                                                        {% endif %}
 
                                                     </td>
@@ -391,46 +354,12 @@
                                             {% else %}
                                                 <tr class="even gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.subject }}</td>
-                                                    <td>{{ item.time }}</td>
-                                                    <td>{% if item.type == 1 %}
-                                                             Mess
-                                                        {% elif item.type == 2 %}
-                                                             Environment
-                                                        {% elif item.type == 3 %}
-                                                             Technical
-                                                        {% elif item.type == 4 %}
-                                                            Maintainance
-                                                        {% elif item.type == 0 %}
-                                                            Others
-                                                        {% endif %}
-                                                    </td>
-                                                    
-                                                    <td class="center">{% if item.access == 0 %}
-                                                                        Public
-                                                                       {% elif item.access == 1 %}
-                                                                        Private
-                                                                       {% elif item.access == 2 %}
-                                                                        Custom
-                                                                        {% endif %}
-
-                                                    </td>
+                                                    <td>{{ item.date }}</td>
                                                     <td class="center">{% if item.status == 1 %}
-                                                                        Complain Lodged
+                                                                        Approved By Warden
                                                                        {% elif item.status == 2 %}
-                                                                        Forwarded to W.O.
+                                                                        Approval Denied by Warden 
                                                                        {% elif item.status == 3 %}
-                                                                        Forwarded to Warden
-                                                                       {% elif item.status == 11 %}
-                                                                        Complain Re-lodged
-                                                                       {% elif item.status == 12 %}
-                                                                        Re-lodged Forwarded to W.O.
-                                                                       {% elif item.status == 21 %}
-                                                                        Rejected by Secretary
-                                                                       {% elif item.status == 22 %}
-                                                                         By-passed , Forwarded to W.O
-                                                                       {% elif item.status == 23 %}
-                                                                         By-passwd , Forwarded to Warden
                                                                        {% endif %}
 
                                                     </td>

@@ -1,80 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<title>
-		
-	</title>
-</head>
-<body>
-<h3 align="center">  Make dish</h3>
-<form name="form_2" action="../makingMeal/" method="POST">
-<table>
-<tr> 
-   <th> Items </th>
-   <th> Protein Value </th>
-   <th> Vitamin Value </th>
-   <th> Fat Value </th>
-   <th> Nutritional Value </th>
-</tr>
-{% for item in list %}
-<tr>
-   <td> <input type="checkbox" class="item_list" name="foodItems" value="{{ forloop.counter }}" onclick="Display(&#34;{{ item.nutritions }}&#34;)">{{ item.name }}</td>
-   <td> {{ item.proteins }} </td>
-   <td> {{ item.vitamins }} </td>
-   <td> {{ item.fat }} </td>
-   <td> {{ item.nutritions }} </td>
-
-</tr>
-{% endfor %}
-<tr>
-	<td>
-		
-	</td>
-	<td>
-		<button type="submit" align="center" value=""> Submit </button>
-	</td>
-	
-</tr>
-</form>
-<p id="my_nutrition">
-        Current Value
-	</p>
-<script type="text/javascript">
-    var x=0,a=0;
-	function Display(strItemValue)
-	{
-		item_value = parseInt(strItemValue);
-		var y;
-		var z=document.querySelectorAll('input[type="checkbox"]:checked').length;
-		if(z==0)
-		{
-			y=0;
-			x=0;
-			a=0;
-		}
-		else
-		{
-		   if(z>a)
-		     {
-			    x=x+item_value;
-		     }
-		   else
-		     {
-			    x=x-item_value;
-		     }
-
-                y=x/z;
-        }
-                a=z;
-         
-        document.getElementById("my_nutrition").innerHTML="Current Nutrition Value= "+ y.toFixed(2);
-      
-    }
-       
-</script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,24 +10,24 @@
     <meta name="author" content="">
 
     <title></title>
-
+    <!-- <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/responsive/1.0.4/css/dataTables.responsive.css    "> -->
     <!-- Bootstrap Core CSS -->
-    <link href="../../../static/secretary/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/student/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="../../static/student/metisMenu.min.css" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="../../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../static/student/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="../../../static/secretary/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+    <link href="../../static/student/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../../static/secretary/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../static/student/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../../../static/secretary/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../static/student/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -112,6 +35,13 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style type="text/css">
+    #one{
+        background-color: #337ab7;
+        color: #ffffff;
+    }
+    </style>
 
 </head>
 
@@ -128,7 +58,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="">{{ msg }}</a>                <!-- ADD USER NAME, ADD VIEW PROFILE URL-->
+                <a class="navbar-brand" href="index.html">{{msg}}</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -138,7 +68,7 @@
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
-                       <!--  <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <strong>John Smith</strong>
@@ -189,7 +119,7 @@
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-tasks">
-                        <!-- <li>
+                       <!--  <li>
                             <a href="#">
                                 <div>
                                     <p>
@@ -328,7 +258,7 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i>My Profile</a>
+                        <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
                         <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
@@ -343,120 +273,36 @@
             <!-- /.navbar-top-links -->
 
             <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
+                <div  class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
-                           <!--  <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div> -->
-                            <!-- /input-group -->
-                       <!--  </li>
-                        <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="flot.html">Flot Charts</a>
-                                </li>
-                                <li>
-                                    <a href="morris.html">Morris.js Charts</a>
-                                </li>
-                            </ul> -->
-                            <!-- /.nav-second-level -->
-                        <li>
-                            <a href="/crs/secComp/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
-                        </li>
-                        <li>
+                        <li >
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
                         <li>
-                            <a href="/crs/pollViewItem/"><i class="fa fa-list fa-fw"></i>View Items</a>
+                            <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
                         </li>
                         <li>
-                            <a href="/crs/pollAddItem/"><i class="fa fa-cutlery fa-fw"></i>Add Items</a>
+                            <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
                         <li>
-                            <a href="/crs/viewMeal/"><i class="fa fa-list fa-fw"></i>View Meal</a>
+                            <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
                         <li>
-                            <a href="/crs/pollMakeMeal/"><i class="fa fa-pencil-square-o fa-fw"></i>Make Meal</a>
-                        </li>
-                        <li>
-                            <a href="/crs/viewPollOptions/"><i class="fa fa-edit fa-fw"></i>Poll Options</a>
-                        </li>
-                       <!-- <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                            <a id="one" href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
+                                <li id="one">
+                                    <a id="one" href="#">Previous Forms</a>
                                 </li>
                                 <li>
-                                    <a href="buttons.html">Buttons</a>
+                                    <a id href="/OpenHostelPage/">Fill New Form</a>
                                 </li>
-                                <li>
-                                    <a href="notifications.html">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="icons.html"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grid</a>
-                                </li>
-                            </ul> -->
-                            <!-- /.nav-second-level -->
-                        <!-- </li>
+                            </ul>
+                        </li>
                         <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul> -->
-                                    <!-- /.nav-third-level -->
-<!--                                 </li>
-                            </ul> -->
-                            <!-- /.nav-second-level -->
-                        <!-- </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.html">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
-                                </li>
-                            </ul> -->
-                            <!-- /.nav-second-level -->
-                        <!-- </li> -->
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>
+                        </li>
+                        
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -467,7 +313,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Mess</h1>
+                    <h1 class="page-header">Prevoiusly Filled Forms</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -475,49 +321,54 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            List Of Items
+                        <div class="panel-heading" >
+                            Your Forms
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                            <form name="form_2" action="../makingMeal/" method="POST">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>Name Of Item</th>
-                                            <th>Protein Value</th>
-                                            <th>Vitamin Value</th>
-                                            <th>Fats Value</th>
-                                            <th>Nutritional Value</th>
+                                            <th>FormID</th>
+                                            <th>Date Of Submition</th>
+                                            <th>Status</th>
                                         </tr>
                                         
-                                    </thead>
-                                    
-                                    <tbody>
+                                    </thead>  
+                                        <tbody>
                                         {% for item in list %}
-                                        {% if forloop.counter0|divisibleby:2 %}
-                                        <tr class="odd gradeX">
-                                            <td><input type="checkbox" class="item_list" name="foodItems" value="{{ forloop.counter }}" onclick="Display(&#34;{{ item.nutritions }}&#34;)">&nbsp;{{ item.name }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
-                                            <td>{{ item.fat }}</td>
-                                            <td>{{ item.nutritions }}</td>
-                                        </tr>
-                                        {% else %}
-                                        <tr class="even gradeX">
-                                            <td><input type="checkbox" class="item_list" name="foodItems" value="{{ forloop.counter }}" onclick="Display(&#34;{{ item.nutritions }}&#34;)">&nbsp;{{ item.name }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
-                                            <td>{{ item.fat }}</td>
-                                            <td>{{ item.nutritions }}</td>
-                                        </tr>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </tbody>
+                                            {% if forloop.counter0|divisibleby:2 %}
+                                                <tr class="odd gradeX">
+                                                    <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
+                                                    <td>{{ item.date }}</td>
+                                                    <td class="center">{% if item.status == 1 %}
+                                                                        Approved By Warden
+                                                                       {% elif item.status == 2 %}
+                                                                        Approval Denied by Warden 
+                                                                       {% elif item.status == 3 %}
+                                                                       {% endif %}
+
+                                                    </td>
+                                                </tr>
+                                            {% else %}
+                                                <tr class="even gradeX">
+                                                    <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
+                                                    <td>{{ item.date }}</td>
+                                                    <td class="center">{% if item.status == 1 %}
+                                                                        Approved By Warden
+                                                                       {% elif item.status == 2 %}
+                                                                        Approval Denied by Warden 
+                                                                       {% elif item.status == 3 %}
+                                                                       {% endif %}
+
+                                                    </td>
+
+                                                </tr>
+                                            {% endif %}
+                                    {% endfor %}
+                                        </tbody>
                                 </table>
-                                <button type="submit" align="center" value=""> Submit </button>
-                                </form>
                             </div>
                             <!-- /.table-responsive -->
                         </div>
@@ -528,22 +379,27 @@
                 <!-- /.col-lg-12 -->
             </div>
         <!-- /#page-wrapper -->
+        </div>
     </div>
+
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="../../../static/secretary/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../static/student/a.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../../static/secretary/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../static/student/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="../../static/student/metisMenu.min.js"></script>
     <!-- DataTables JavaScript -->
-    <script src="../../../static/secretary/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
-    <script src="../../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="../../static/student/jquery.dataTables.min.js"></script>
+    <script src="../../static/student/dataTables.bootstrap.min.js"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="../../../static/secretary/dist/js/sb-admin-2.js"></script>
+    <script src="../../static/student/sb-admin-2.js"></script>
+    <script type="text/javascript" src="../../static/student/bower_components/datatables/media/js/jquery.dataTables.js" ></script>
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <!-- // <script type="text/javascript" src="http://cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.js"></script> -->
     <script>
     $(document).ready(function() {
+ 
         $('#dataTables-example').DataTable({
                 responsive: true
         });
@@ -551,4 +407,3 @@
     </script>
 </body>
 </html>
-

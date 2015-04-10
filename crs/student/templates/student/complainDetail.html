@@ -10,17 +10,18 @@
     <meta name="author" content="">
 
     <title></title>
-     <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
-
+    <!-- jQuery -->
+    <script src="../../static/student/a.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
+    <script src="../../static/student/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
+    <script src="../../static/student/metisMenu.min.js"></script>
+    <!-- DataTables JavaScript -->
+    <script src="../../static/student/jquery.dataTables.min.js"></script>
+    <script src="../../static/student/dataTables.bootstrap.min.js"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="../../static/student/dist/js/sb-admin-2.js"></script>
-    
+    <script src="../../static/student/sb-admin-2.js"></script>
+    <script type="text/javascript" src="../../static/student/bower_components/datatables/media/js/jquery.dataTables.js" ></script>
 
     <!-- Bootstrap Core CSS -->
 
@@ -34,18 +35,6 @@
 
     <!-- Custom Fonts -->
     <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-        <!-- jQuery -->
-    <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="../../static/student/dist/js/sb-admin-2.js"></script>
 </head>
 <script type="text/javascript">
 $(document).ready(function()
@@ -81,7 +70,7 @@ function onclick(int time )
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <strong>John Smith</strong>
@@ -122,7 +111,7 @@ function onclick(int time )
                                 <strong>Read All Messages</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
@@ -132,7 +121,7 @@ function onclick(int time )
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-tasks">
-                        <li>
+                       <!--  <li>
                             <a href="#">
                                 <div>
                                     <p>
@@ -201,7 +190,7 @@ function onclick(int time )
                                 <strong>See All Tasks</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
@@ -211,7 +200,7 @@ function onclick(int time )
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-alerts">
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <i class="fa fa-comment fa-fw"></i> New Comment
@@ -261,7 +250,7 @@ function onclick(int time )
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
@@ -273,7 +262,7 @@ function onclick(int time )
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -289,31 +278,7 @@ function onclick(int time )
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
-                            <!-- <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div> -->
-                            <!-- /input-group -->
                         </li>
-                        <!-- <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="flot.html">Flot Charts</a>
-                                </li>
-                                <li>
-                                    <a href="morris.html">Morris.js Charts</a>
-                                </li>
-                            </ul> -->
-                            <!-- /.nav-second-level -->
-                        <!-- </li> -->
                         <li>
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
@@ -324,8 +289,18 @@ function onclick(int time )
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
                         <li>
-                            <a href="/OpenHostelPage/"><i class="fa fa-print fa-fw"></i> Hostel Leaving Info.</a>
+                            <a id="one" href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Previous Forms</a>
+                                </li>
+                                <li id="one">
+                                    <a id="one" href="/OpenHostelPage/">Fill New Form</a>
+                                </li>
+                            </ul>
                         </li>
+                        <li>
+
                        <li>
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
@@ -375,7 +350,17 @@ function onclick(int time )
                                             </tr>
                                             <tr>
                                                 <th>Complain Type</th>
-                                                <th>{{ item.type }}</th>   
+                                                <th>{% if item.type == 1 %}
+                                                             Mess
+                                                        {% elif item.type == 2 %}
+                                                             Environment
+                                                        {% elif item.type == 3 %}
+                                                             Technical
+                                                        {% elif item.type == 4 %}
+                                                            Maintainance
+                                                        {% elif item.type == 0 %}
+                                                            Others
+                                                        {% endif %}</th>   
                                             </tr>
                                             <tr>
                                                 <th>Complain History</th>
@@ -383,7 +368,23 @@ function onclick(int time )
                                             </tr>
                                             <tr>
                                                 <th>Complain Status</th>
-                                                <th>{{ item.status }}</th>   
+                                                <th>{% if item.status == 1 %}
+                                                        Complain Lodged
+                                                    {% elif item.status == 2 %}
+                                                        Forwarded to W.O.
+                                                    {% elif item.status == 3 %}
+                                                        Forwarded to Warden
+                                                    {% elif item.status == 11 %}
+                                                        Complain Re-lodged
+                                                    {% elif item.status == 12 %}
+                                                        Re-lodged Forwarded to W.O.
+                                                    {% elif item.status == 21 %}
+                                                        Rejected by Secretary
+                                                    {% elif item.status == 22 %}
+                                                        By-passed , Forwarded to W.O
+                                                    {% elif item.status == 23 %}
+                                                        By-passwd , Forwarded to Warden
+                                                    {% endif %}</th>   
                                             </tr>
                                         </thead>
                                     </table> 
@@ -438,18 +439,6 @@ function onclick(int time )
                                             <button type="submit" name="submit" class="btn btn-success">Submit</button>
                                         </form>
                                     </div>
-                                    
-
-
-                                        <!-- <div class="commentBox">
-                                            <form action="/comment/"   method="POST">
-                                                <div class="form-group">
-                                                    <input type="text" name="cbox">
-                                                </div>
-                                                    <button type="submit" name="submit">Submit</button>
-                                            </form>
-                                        </div> -->
-                                    
                                 </div>      
                             </div>
                                 
@@ -467,6 +456,7 @@ function onclick(int time )
         </div>
     
     <!-- /#wrapper -->
+    </div>
 
     <!-- jQuery -->
 <script type="text/javascript">

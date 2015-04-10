@@ -6,74 +6,55 @@
 	</title>
 </head>
 <body>
-<h3 align="center">  Make dish</h3>
-<form name="form_2" action="../makingMeal/" method="POST">
-<table>
-<tr> 
-   <th> Items </th>
-   <th> Protein Value </th>
-   <th> Vitamin Value </th>
-   <th> Fat Value </th>
-   <th> Nutritional Value </th>
-</tr>
-{% for item in list %}
-<tr>
-   <td> <input type="checkbox" class="item_list" name="foodItems" value="{{ forloop.counter }}" onclick="Display(&#34;{{ item.nutritions }}&#34;)">{{ item.name }}</td>
-   <td> {{ item.proteins }} </td>
-   <td> {{ item.vitamins }} </td>
-   <td> {{ item.fat }} </td>
-   <td> {{ item.nutritions }} </td>
+<h3 align="center"> Breakfast, lunch and dinner menus </h3>
 
-</tr>
-{% endfor %}
-<tr>
-	<td>
-		
-	</td>
-	<td>
-		<button type="submit" align="center" value=""> Submit </button>
-	</td>
-	
-</tr>
-</form>
-<p id="my_nutrition">
-        Current Value
-	</p>
-<script type="text/javascript">
-    var x=0,a=0;
-	function Display(strItemValue)
-	{
-		item_value = parseInt(strItemValue);
-		var y;
-		var z=document.querySelectorAll('input[type="checkbox"]:checked').length;
-		if(z==0)
-		{
-			y=0;
-			x=0;
-			a=0;
-		}
-		else
-		{
-		   if(z>a)
-		     {
-			    x=x+item_value;
-		     }
-		   else
-		     {
-			    x=x-item_value;
-		     }
+<div id="container">
+    <div id="one">
+    	<h2> Breakfast options:</h2>
+    	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
+    	{% for items in list1 %}
+        <tr>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div id="two">
+    	<h2> Lunch options:</h2>
+    	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
+    	{% for items in list2 %}
+        <tr>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div id="three">
+    	<h2> Dinner options:</h2>
+    	<table>
+        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
+    	{% for items in list3 %}
+        <tr>
+        <td>{{ forloop.counter }} </td>
+        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <button type="submit" value="" > Start Poll </button>
+</div>
 
-                y=x/z;
-        }
-                a=z;
-         
-        document.getElementById("my_nutrition").innerHTML="Current Nutrition Value= "+ y.toFixed(2);
-      
-    }
-       
-</script>
 </body>
 </html> -->
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -89,22 +70,22 @@
     <title></title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../../../static/secretary/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/student/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="../../static/student/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="../../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../static/student/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="../../../static/secretary/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+    <link href="../../static/student/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../../static/secretary/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../static/student/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../../../static/secretary/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -113,8 +94,32 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-</head>
+    <style>
 
+        .axis text {
+          font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+
+        .bar {
+          fill: steelblue;
+          fill-opacity: .9;
+        }
+
+        .x.axis path {
+          display: none;
+        }
+
+    </style>
+
+</head>
+<script src="http://d3js.org/d3.v3.min.js"></script>
 <body>
 
     <div id="wrapper">
@@ -328,9 +333,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i>My Profile</a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -370,6 +375,7 @@
                                 </li>
                             </ul> -->
                             <!-- /.nav-second-level -->
+                        </li>
                         <li>
                             <a href="/crs/secComp/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
                         </li>
@@ -386,7 +392,7 @@
                             <a href="/crs/viewMeal/"><i class="fa fa-list fa-fw"></i>View Meal</a>
                         </li>
                         <li>
-                            <a href="/crs/pollMakeMeal/"><i class="fa fa-pencil-square-o fa-fw"></i>Make Meal</a>
+                            <a href="/crs/pollMakeMeal/"><i class="fa fa-cutlery fa-fw"></i>Make Meal</a>
                         </li>
                         <li>
                             <a href="/crs/viewPollOptions/"><i class="fa fa-edit fa-fw"></i>Poll Options</a>
@@ -466,9 +472,7 @@
 
         <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Mess</h1>
-                </div>
+                
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
@@ -476,48 +480,55 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            List Of Items
+                            <strong>Break Fast</strong>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                            <form name="form_2" action="../makingMeal/" method="POST">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <div class="table-responsive">
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Name Of Item</th>
-                                            <th>Protein Value</th>
-                                            <th>Vitamin Value</th>
-                                            <th>Fats Value</th>
-                                            <th>Nutritional Value</th>
+                                            <th>Serial No.</th>
+                                            <th>Name</th>
+                                            <th>Avg. Nutrition Value</th>
+                                            <th>Protein</th>
+                                            <th>Vitamin</th>
+                                            <th>Fat</th>
+                                            <th>Votes</th>
                                         </tr>
-                                        
                                     </thead>
                                     
                                     <tbody>
-                                        {% for item in list %}
+                                        {% for item in list1 %}
                                         {% if forloop.counter0|divisibleby:2 %}
                                         <tr class="odd gradeX">
-                                            <td><input type="checkbox" class="item_list" name="foodItems" value="{{ forloop.counter }}" onclick="Display(&#34;{{ item.nutritions }}&#34;)">&nbsp;{{ item.name }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
-                                            <td>{{ item.fat }}</td>
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
-                                            <td><input type="checkbox" class="item_list" name="foodItems" value="{{ forloop.counter }}" onclick="Display(&#34;{{ item.nutritions }}&#34;)">&nbsp;{{ item.name }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
-                                            <td>{{ item.fat }}</td>
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td>{{ item.votes }}</td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <button type="submit" align="center" value=""> Submit </button>
-                                </form>
                             </div>
                             <!-- /.table-responsive -->
                         </div>
@@ -525,22 +536,237 @@
                     </div>
                     <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-12 -->
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Lunch</strong> 
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Serial No.</th>
+                                            <th>Name</th>
+                                            <th>Avg. Nutrition Value</th>
+                                            <th>Protein</th>
+                                            <th>Vitamin</th>
+                                            <th>Fat</th>
+                                            <th>Votes</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        {% for item in list2 %}
+                                        {% if forloop.counter0|divisibleby:2 %}
+                                        <tr class="odd gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.meal }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr class="even gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.meal }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong><p>Dinner</p></strong>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Serial No.</th>
+                                            <th>Name</th>
+                                            <th>Avg. Nutrition Value</th>
+                                            <th>Protein</th>
+                                            <th>Vitamin</th>
+                                            <th>Fat</th>
+                                            <th>Votes</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        {% for item in list3 %}
+                                        {% if forloop.counter0|divisibleby:2 %}
+                                        <tr class="odd gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.meal }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% else %}
+                                        <tr class="even gradeX">
+                                            <td>{{ forloop.counter }} </td>
+                                            <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
+                                            <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
+                                            <td>{{ item.meal }}</td>
+                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
+                                            <td>{{ item.fat }}</td>
+                                            <td> {{ item.votes }}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
             </div>
+
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="../../../static/secretary/bower_components/jquery/dist/jquery.min.js"></script>
+    <script>
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var formatPercent = d3.format(".0%");
+
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1, 1);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickFormat(formatPercent);
+
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        d3.tsv("../../static/data.tsv", function(error, data) {
+
+          data.forEach(function(d) {
+            d.frequency = +d.frequency;
+          });
+
+          x.domain(data.map(function(d) { return d.letter; }));
+          y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+            .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("Frequency");
+
+          svg.selectAll(".bar")
+              .data(data)
+            .enter().append("rect")
+              .attr("class", "bar")
+              .attr("x", function(d) { return x(d.letter); })
+              .attr("width", x.rangeBand())
+              .attr("y", function(d) { return y(d.frequency); })
+              .attr("height", function(d) { return height - y(d.frequency); });
+
+          d3.select("input").on("change", change);
+
+          var sortTimeout = setTimeout(function() {
+            d3.select("input").property("checked", true).each(change);
+          }, 2000);
+
+          function change() {
+            clearTimeout(sortTimeout);
+
+            // Copy-on-write since tweens are evaluated after a delay.
+            var x0 = x.domain(data.sort(this.checked
+                ? function(a, b) { return b.frequency - a.frequency; }
+                : function(a, b) { return d3.ascending(a.letter, b.letter); })
+                .map(function(d) { return d.letter; }))
+                .copy();
+
+            svg.selectAll(".bar")
+                .sort(function(a, b) { return x0(a.letter) - x0(b.letter); });
+
+            var transition = svg.transition().duration(750),
+                delay = function(d, i) { return i * 50; };
+
+            transition.selectAll(".bar")
+                .delay(delay)
+                .attr("x", function(d) { return x0(d.letter); });
+
+            transition.select(".x.axis")
+                .call(xAxis)
+              .selectAll("g")
+                .delay(delay);
+          }
+        });
+
+    </script>
+
+    <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../../static/secretary/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <!-- DataTables JavaScript -->
-    <script src="../../../static/secretary/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
-    <script src="../../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="../../static/student/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../static/student/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="../../../static/secretary/dist/js/sb-admin-2.js"></script>
+    <script src="../../static/student/dist/js/sb-admin-2.js"></script>
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {

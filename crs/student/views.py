@@ -18,7 +18,7 @@ from django.db import transaction
 from wardenOffice.views import *
 from warden.views import *
 from secretary.views import *
-
+from django.core.files import File
 
 # global globlid
 # globlid=0
@@ -62,7 +62,7 @@ def list(request): # Handle file upload
     #     context_instance=RequestContext(request)
     # )
     else:
-        return HttpResponse('kjkj')
+        return HttpResponse('Error!!')
 
 def loadPage(request):
     form =DocumentForm()
@@ -660,3 +660,140 @@ def studentProfile(request):
                               {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
+
+def checkAvailabilityOfPoll(hostel):
+    #if PollMenu contain any entry of this hostel then poll is available.
+    pollOptions = Pollmenu.objects.filter(hostel=hostel).count()
+    if pollOptions > 0:
+        return True
+    else:
+        return False
+
+def pollPage(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    # check if any poll is available for this student
+    if not checkAvailabilityOfPoll(request.session.get('hostel')):
+        return redirect('/crs/')
+        # redirect to page that shows that no poll is available!
+    breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
+    lunchPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
+    dinnerPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
+    sessionBreakfastArray = []
+    sessionLunchArray = []
+    sessionDinnerArray = []
+    for x in breakfastPollOptions:
+        sessionBreakfastArray.append(x.id)
+    for x in lunchPollOptions:
+        sessionLunchArray.append(x.id)
+    for x in dinnerPollOptions:
+        sessionDinnerArray.append(x.id)
+
+    request.session['breakfastArray'] = sessionBreakfastArray
+    request.session['lunchArray'] = sessionLunchArray
+    request.session['dinnerArray'] = sessionDinnerArray
+
+    return render_to_response("student/startPoll.html", {'list1' : breakfastPollOptions, 'list2' : lunchPollOptions, 'list3' : dinnerPollOptions})
+
+def studentPolling(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    # check if any poll is available for this student
+    if not checkAvailabilityOfPoll(request.session.get('hostel')):
+        return redirect('/crs/')
+
+    breakfastPOindex = request.POST.getlist('breakfast')
+    lunchPOindex = request.POST.getlist('lunch')
+    dinnerPOindex = request.POST.getlist('dinner')
+
+    breakfastPollOptions = request.session.get('breakfastArray')
+    lunchPollOptions = request.session.get('lunchArray')
+    dinnerPollOptions = request.session.get('dinnerArray')
+
+    voting = []
+
+    for xx in breakfastPOindex:
+        x = int(xx)
+        if x > -1 and x < len(breakfastPollOptions):
+            newObj = Pollvoting(id = breakfastPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            # return redirect('/crs/pollOptions/')
+            # redirect page to polling page again
+            pass
+
+    for xx in lunchPOindex:
+        x = int(xx)
+        if x > -1 and x < len(lunchPollOptions):
+            newObj = Pollvoting(id = lunchPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            # return redirect('/crs/pollOptions/')
+            # redirect page to polling page again
+            pass
+
+    for xx in dinnerPOindex:
+        x = int(xx)
+        if x > -1 and x < len(dinnerPollOptions):
+            newObj = Pollvoting(id = dinnerPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            # return redirect('/crs/pollOptions/')
+            # redirect page to polling page again
+            pass
+    for x in voting:
+        x.save()
+
+    return redirect('/crs/pollResult/')
+
+class PollMenuVoting():
+    """docstring for PollMenuVoting"""
+    def __init__(self, arg, arg1):
+        self.meal = arg.meal
+        self.protein = arg.protein
+        self.vitamin = arg.vitamin
+        self.fat = arg.fat
+        self.nutritions = arg.nutritions
+        self.votes = arg1   
+    def __str__(self):              # __unicode__ on Python 2
+        return str(self.votes)
+
+def pollResult(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    # breakfastPollOptions = request.session.get('breakfastArray')
+    # lunchPollOptions = request.session.get('lunchArray')
+    # dinnerPollOptions = request.session.get('dinnerArray')
+    breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
+    lunchPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
+    dinnerPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
+    votesB = []
+    votesL = []
+    votesD = []
+    data = ""
+    for x in breakfastPollOptions:
+        try:
+            votesB.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+        except:
+            votesB.append(PollMenuVoting(x,0))
+            data = data + x.meal + "\t0\n"
+    for x in lunchPollOptions:
+        try:
+            votesL.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+        except:
+            votesL.append(PollMenuVoting(x,0))
+            data = data + x.meal + "\t0\n"
+    for x in dinnerPollOptions:
+        try:
+            votesD.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+        except:
+            votesD.append(PollMenuVoting(x,0))
+            data = data + x.meal + "\t0\n"
+
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/data.tsv', 'w') as f:
+        myfile = File(f)
+        myfile.write("meal\tvotes\n"+data)
+    return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })

@@ -62,7 +62,7 @@ def list(request): # Handle file upload
     #     context_instance=RequestContext(request)
     # )
     else:
-        return HttpResponse('kjkj')
+        return HttpResponse('Error!!')
 
 def loadPage(request):
     form =DocumentForm()
@@ -658,3 +658,80 @@ def studentProfile(request):
                               {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
+
+def checkAvailabilityOfPoll(hostel):
+    #if PollMenu contain any entry of this hostel then poll is available.
+    pollOptions = Pollmenu.objects.filter(hostel=hostel).count()
+    if pollOptions > 0:
+        return True
+    else:
+        return False
+
+def pollPage(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    # check if any poll is available for this student
+    if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+        return redirect('/crs/')
+        # redirect to page that shows that no poll is available!
+    breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
+    lunchPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
+    dinnerPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
+    sessionBreakfastArray = []
+    sessionLunchArray = []
+    sessionDinnerArray = []
+    for x in breakfastPollOptions:
+        sessionBreakfastArray.append(x.id)
+    for x in lunchPollOptions:
+        sessionLunchArray.append(x.id)
+    for x in dinnerPollOptions:
+        sessionDinnerArray.append(x.id)
+
+    request.session['breakfastArray'] = sessionBreakfastArray
+    request.session['lunchArray'] = sessionLunchArray
+    request.session['dinnerArray'] = sessionDinnerArray
+
+    return render_to_response("student/startPoll.html", {'list1' : breakfastPollOptions, 'list2' : lunchPollOptions, 'list3' : dinnerPollOptions})
+
+def studentPolling(request):
+    breakfastPOindex = request.POST.getlist('breakfast')
+    lunchPOindex = request.POST.getlist('lunch')
+    dinnerPOindex = request.POST.getlist('dinner')
+
+    breakfastPollOptions = request.session.get('breakfastArray')
+    lunchPollOptions = request.session.get('lunchArray')
+    dinnerPollOptions = request.session.get('dinnerArray')
+
+    voting = []
+
+    for x in breakfastPOindex:
+        if x >= 0 and x < len(breakfastPollOptions):
+            newObj = Pollvoting(id = breakfastPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            # return redirect
+            # redirect page to polling page again
+            pass
+
+    for x in lunchPOindex:
+        if x >= 0 and x < len(lunchPollOptions):
+            newObj = Pollvoting(id = lunchPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            # return redirect
+            # redirect page to polling page again
+            pass
+
+    for x in dinnerPOindex:
+        if x >= 0 and x < len(dinnerPollOptions):
+            newObj = Pollvoting(id = dinnerPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            # return redirect
+            # redirect page to polling page again
+            pass
+
+    for x in voting:
+        x.save()
+
+    return redirect('/crs/pollResult/')

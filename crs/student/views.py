@@ -769,28 +769,36 @@ def pollResult(request):
     votesL = []
     votesD = []
     data = ""
+    b = 0
+    l = 0
+    d = 0
     for x in breakfastPollOptions:
         try:
             votesB.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            data = data + "breakfast" + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            b = b+1
         except:
             votesB.append(PollMenuVoting(x,0))
-            data = data + x.meal + "\t0\n"
+            data = data + "breakfast" + str(b) + "\t0\n"
+            b = b+1
     for x in lunchPollOptions:
         try:
             votesL.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            data = data + "lunch" + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            l = l+ 1
         except:
             votesL.append(PollMenuVoting(x,0))
-            data = data + x.meal + "\t0\n"
+            data = data + "lunch" + str(b) + "\t0\n"
+            l = l + 1
     for x in dinnerPollOptions:
         try:
             votesD.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            data = data + x.meal + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            data = data + "dinner" + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            d = d +1
         except:
             votesD.append(PollMenuVoting(x,0))
-            data = data + x.meal + "\t0\n"
-
+            data = data + "dinner" + str(b) + "\t0\n"
+            d = d + 1
     with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/data.tsv', 'w') as f:
         myfile = File(f)
         myfile.write("meal\tvotes\n"+data)

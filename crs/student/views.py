@@ -19,7 +19,11 @@ from wardenOffice.views import *
 from warden.views import *
 from secretary.views import *
 from django.core.files import File
-
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Image
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import landscape
+import os, inspect
 # global globlid
 # globlid=0
 
@@ -68,26 +72,7 @@ def loadPage(request):
     form =DocumentForm()
     return render_to_response('student/list.html',{'form': form})
 
-def OpenHostelPage(request):
-	username=request.session.get("username")
-	obj=Student.objects.get(username=username)
-	return render_to_response('student/studHostelLeave.html',{'list' : obj}, context_instance=RequestContext(request))
 
-def HostelLeavingSubmit(request):
-    # laptop=request.POST.get('laptop', '')
-    start_date=request.POST.get('start_date', datetime.datetime.now().date())
-    end_date=request.POST.get('end_date' , datetime.datetime.now().date())
-    destination=request.POST.get('destination', '')
-    reason=request.POST.get('reason', '')
-    username=request.session.get("username")
-    obj = Student.objects.get(username=username)
-    # rollno = obj.roll
-    hostel=obj.hostel
-    roll=obj.roll
-    mobile=request.POST.get('mobile')
-    hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,destination=destination,reason=reason,hostel=hostel,roll=roll,mobile=mobile)
-    hostel.save()
-    return redirect('/crs/complainView/');
 def validatePassword(passwd):
     return ((len(passwd) < 21) and (len(passwd) > 7))
 
@@ -840,3 +825,156 @@ def pollResult(request):
         myfile = File(f)
         myfile.write("meal\tvotes\n"+dataD)
     return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })
+
+def OpenHostelPage(request):
+    username=request.session.get("username")
+    obj=Student.objects.get(username=username)
+    return render_to_response('student/studHostelLeave.html',{'list' : obj}, context_instance=RequestContext(request))
+
+##GetDifferece(start_date,end_date)
+#Function takes 2 dates as arguments and @return Boolean True is start_date < end_sate
+def getDiffrence(start_date,end_date):
+    sYear = int(start_date[6:10])
+    eYear = int(end_date[6:10])
+    sMonth = int(start_date[3:5])
+    eMonth = int(end_date[3:5])
+    sDay = int(start_date[0:2])
+    eDay = int(end_date[0:2])
+    try:
+        start_time = int(datetime.datetime(sYear,sMonth,sDay).strftime('%s'))
+        end_time = int(datetime.datetime(eYear,eMonth,eDay).strftime('%s'))
+    except:
+        return False
+
+    if end_time - start_time <= 0:
+        return False
+    else:
+        return True
+
+def HostelLeavingSubmit(request):
+    # laptop=request.POST.get('laptop', '')
+    start_date=request.POST.get('start_date', datetime.datetime.now().date())
+    end_date=request.POST.get('end_date' , datetime.datetime.now().date())
+    destination=request.POST.get('destination', '')
+    reason=request.POST.get('reason', '')
+    time = request.POST.get('time','')
+    username=request.session.get("username")
+    # obj = Student.objects.get(username=username)
+    match = re.match(r'^[0-3][0-9]/[0-2][0-9]/20[0-9][0-9]$', start_date)
+    if match:
+        pass
+    else:
+        return HttpResponse("start date is invalid")
+    match = re.match(r'^[0-3][0-9]/[0-2][0-9]/20[0-9][0-9]$', start_date)
+    if match:
+        pass
+    else:
+        return HttpResponse("end date is invalid")
+
+    match = re.match(r'^[0-1][0-9]:[0-5][0-9]$')
+    if match:
+        hours = int(time[0:2])
+        if hours > 23 :
+            return HttpResponse('Invalid time!')
+    else:
+        return HttpResponse('Invalid time!')
+    destination = validateText(destination)
+    reason = validateText(reason)
+    if len(destination) == 0 or len(destination) == 0:
+        return HttpResponse("reason or destination invalid!")
+    # rollno = obj.roll
+    hostel = request.session.get('hostel')
+    # roll = obj.roll
+    mobile=request.POST.get('mobile') 
+    match = re.match(r'^\d\d\d\d\d\d\d\d\d\d$', mobile)
+    if match:
+        pass
+    else:
+        return HttpResponse("invalid mobile number!")
+    #Now validate the time difference
+    if not getDiffrence(start_date,end_date):
+        return HttpResponse("Error in Date input")
+
+    hostel = HostelLeavingInformation(stdid = request.session.get('uid'), start_date = start_date, end_date = end_date, destination = destination,reason = reason , time = time, hostel = hostel ,mobile = mobile)
+    hostel.save()
+    #redirect to page where all hostel leaving forms can be viewed!
+    return redirect('/crs/complainView/');
+
+def viewPastHostelLeaveForms(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    forms = []
+    try:
+        forms.extend(HostelLeavingInformation.objects.filter(studid = request.session.get('uid')))
+    except:
+        pass
+
+    return HttpResponse('Page where all forms are listed!')
+
+def viewForm(request,formID):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    form = None
+    try:
+        form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
+    except:
+        return HttpResponse('Not authorized to view this page!')
+
+def some_view(request,formID):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    form = None
+    try:
+        form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
+    except:
+        return HttpResponse('Not authorized to view this page!')
+    
+    # Create the HttpResponse object with the appropriate PDF headers.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
+
+    # Create the PDF object, using the response object as its "file."
+    p = canvas.Canvas(response)
+    # p.setFont('Helvetica', 48, leading=None)
+    # p.drawCentredString(300, 750, "Warden's Office")
+
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawCentredString(300, 700, "Hostel Leaving Form")
+    
+    # line1 = "I " + request.session.get('name')
+    # line2 = "staying presently in Room No 209" 
+    # line3 = "of Ashoka Hall"
+    # line4 = "do hereby intimate that I am leaving hostel"
+
+    # p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 600, line1)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 550, line2)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 500, line3)
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    
+    # Close the PDF object cleanly, and we're done.
+    stud = Student.objects.get(uid=form.studid)
+    name = stud.name
+    room = stud.room
+    start_date = form.start_date
+    end_date = form.end_date
+    time = form.time
+    hostel = Hostel.objects.get(id = stud.hostel).name
+    destination = form.destination
+    reason = form.reason
+    rollno = stud.roll
+    mobile = form.mobile
+    formid = form.sno
+    currentTime = str(datetime.datetime.now())[0:19]
+    path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    image = path + "/Hostel_Leaving_Form.png"
+    p.drawImage(image,20,40,width=600,height=800)
+    p.setFont('Helvetica', 15, leading=None)
+    p.drawString(130, 663, name)
+    p.showPage()
+    p.save()
+    return response

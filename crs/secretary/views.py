@@ -10,10 +10,6 @@ from login.models import *
 import re
 from django.db import connection
 from django.core import serializers
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Image
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.pagesizes import landscape
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import requires_csrf_token
 from django.core.context_processors import csrf
@@ -267,53 +263,6 @@ def addItemToPoll(request):
 		item.save()
 	return redirect('/crs/viewMeal/')
 
-# def viewPollOptions(request):
-# 	if not (isSecretary(request)):
-# 		return redirect('/crs/')
-# 	qryBreakfast = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 1 AND a.MID = b.MID"
-# 	qryLunch = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 2 AND a.MID = b.MID"
-# 	qryDinner = "SELECT b.MID, b.name, b.avgNutrition FROM pollMenu a, meals b WHERE a.hostel = " + str(request.session.get('hostel')) +" AND a.type = 3 AND a.MID = b.MID"
-# 	breakfastItems = Meals.objects.raw(qryBreakfast)
-# 	lunchItems = Meals.objects.raw(qryLunch)
-# 	dinnerItems = Meals.objects.raw(qryDinner)	
-# 	return render_to_response("secretary/mess/viewMenu.html", {'list1' : breakfastItems, 'list2' : lunchItems, 'list3' : dinnerItems, 'msg': request.session.get('name')})
-
-
-
-
-def some_view(request):
-	# Create the HttpResponse object with the appropriate PDF headers.
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
-
-	# Create the PDF object, using the response object as its "file."
-	p = canvas.Canvas(response)
-	p.setFont('Helvetica', 48, leading=None)
-	p.drawCentredString(300, 750, "Warden's Office")
-
-	p.setFont('Helvetica', 25, leading=None)
-	p.drawCentredString(300, 700, "Hostel Leaving Form")
-	
-	line1 = "I " + request.session.get('name')
-	line2 = "staying presently in Room No 209" 
-	line3 = "of Ashoka Hall"
-	line4 = "do hereby intimate that I am leaving hostel"
-
-	# p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
-	p.setFont('Helvetica', 25, leading=None)
-	p.drawString(50, 600, line1)
-	p.setFont('Helvetica', 25, leading=None)
-	p.drawString(50, 550, line2)
-	p.setFont('Helvetica', 25, leading=None)
-	p.drawString(50, 500, line3)
-	# Draw things on the PDF. Here's where the PDF generation happens.
-	# See the ReportLab documentation for the full list of functionality.
-	
-	# Close the PDF object cleanly, and we're done.
-	p.showPage()
-	p.save()
-	return response
-
 def searchDatabase(request):
 	return render_to_response ("secretary/search.html", context_instance=RequestContext(request))
 
@@ -389,3 +338,87 @@ def searchItem(request):
 			pass
 
 	return render_to_response("secretary/searchResult.html", {'list' : complain})
+
+def endPoll(self):
+	#check if request came from genuine mess secretary or not.
+	#check availability of polling fot this hostel
+	if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+		return HttpResponse('Not Poll available!')
+	#if polling is available then proceed
+	Pollresult.objects.filter(hostel = request.session.get('hostel')).delete()
+	#delete any existing poll result from the result table!
+	breakfastPollOptions = []
+	lunchPollOptions = []
+	dinnerPollOptions = []
+	votesB = []
+	votesL = []
+	votesD = []
+	try:
+		breakfastPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1))
+	except:
+		pass
+	try:
+		lunchPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2))
+	except:
+		pass
+	try:
+		dinnerPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3))
+	except:
+		pass
+	for x in breakfastPollOptions:
+		try:
+			votesB.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+			# dataB = dataB + "B-Item " + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+			# b = b + 1
+		except:
+			votesB.append(PollMenuVoting(x,0))
+			# dataB = dataB + "B-Item " + str(b) + "\t0\n"
+			# b = b + 1
+	for x in lunchPollOptions:
+		try:
+			votesL.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+			# dataL = dataL + "L-Item " + str(l) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+			# l = l + 1
+		except:
+			votesL.append(PollMenuVoting(x,0))
+			# dataL = dataL + "L-Item " + str(l) + "\t0\n"
+			# l = l + 1
+	for x in dinnerPollOptions:
+		try:
+			votesD.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+			# dataD = dataD + "D-Item " + str(d) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+			# d = d + 1
+		except:
+			votesD.append(PollMenuVoting(x,0))
+			# dataD = dataD + "D-Item " + str(d) + "\t0\n"
+			# d = d + 1
+
+	#Now add things to the result table!
+	PollresultArray = []
+
+	for x in votesB:
+		PollresultArray.append(Pollresult(hostel=request.session.get('hostel'),type=1,meal=x.meal,vote=x.votes,protein=x.protein,vitamin=x.vitamin,fat=x.fat,nutritions=x.nutritions))
+	for x in votesL:
+		PollresultArray.append(Pollresult(hostel=request.session.get('hostel'),type=2,meal=x.meal,vote=x.votes,protein=x.protein,vitamin=x.vitamin,fat=x.fat,nutritions=x.nutritions))
+	for x in votesD:
+		PollresultArray.append(Pollresult(hostel=request.session.get('hostel'),type=3,meal=x.meal,vote=x.votes,protein=x.protein,vitamin=x.vitamin,fat=x.fat,nutritions=x.nutritions))
+
+	#Then remove things from polling table!
+
+	for x in breakfastPollOptions:
+		Pollvoting.objects.filter(id=x.id).delete()
+		x.delete()
+
+	for x in lunchPollOptions:
+		Pollvoting.objects.filter(id=x.id).delete()
+		x.delete()
+
+	for x in dinnerPollOptions:
+		Pollvoting.objects.filter(id=x.id).delete()
+		x.delete()
+
+	#Finally pollMenu has been freed again and result has been stored in pollResult
+
+	#Now redirect the page to the poll result page!
+
+	return HttpResponse('later on page will be Redirected for final polling result page!')

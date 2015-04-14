@@ -784,9 +784,7 @@ def pollResult(request):
     votesB = []
     votesL = []
     votesD = []
-    dataB = ""
-    dataL = ""
-    dataD = ""
+    data = ""
     b = 1
     l = 1
     d = 1
@@ -805,38 +803,32 @@ def pollResult(request):
     for x in breakfastPollOptions:
         try:
             votesB.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            dataB = dataB + "B-Item " + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            data = data + "B-Item " + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
             b = b + 1
         except:
             votesB.append(PollMenuVoting(x,0))
-            dataB = dataB + "B-Item " + str(b) + "\t0\n"
+            data = data + "B-Item " + str(b) + "\t0\n"
             b = b + 1
     for x in lunchPollOptions:
         try:
             votesL.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            dataL = dataL + "L-Item " + str(l) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            data = data + "L-Item " + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
             l = l + 1
         except:
             votesL.append(PollMenuVoting(x,0))
-            dataL = dataL + "L-Item " + str(l) + "\t0\n"
+            data = data + "L-Item " + str(b) + "\t0\n"
             l = l + 1
     for x in dinnerPollOptions:
         try:
             votesD.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
-            dataD = dataD + "D-Item " + str(d) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            data = data + "D-Item" + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
             d = d + 1
         except:
             votesD.append(PollMenuVoting(x,0))
-            dataD = dataD + "D-Item " + str(d) + "\t0\n"
+            data = data + "D-Item" + str(b) + "\t0\n"
             d = d + 1
             
-    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataB.tsv', 'w') as f:
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/data.tsv', 'w') as f:
         myfile = File(f)
-        myfile.write("meal\tvotes\n"+dataB)
-    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataL.tsv', 'w') as f:
-        myfile = File(f)
-        myfile.write("meal\tvotes\n"+dataL)
-    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataD.tsv', 'w') as f:
-        myfile = File(f)
-        myfile.write("meal\tvotes\n"+dataD)
+        myfile.write("meal\tvotes\n"+data)
     return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })

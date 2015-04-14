@@ -655,320 +655,107 @@
                 </div>
                 <!-- /.col-lg-6 -->
             </div>
+
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <label><input id="ForBreakFast" type="checkbox"> Sort values</label>
-    <div id="DivForBreakFast"></div>
-    <label><input id="ForLunch" type="checkbox"> Sort values</label>
-    <div id="DivForLunch"></div>
-    <label><input id="ForDinner" type="checkbox"> Sort values</label>
-    <div id="DivForDinner"></div>
+    <label><input type="checkbox"> Sort values</label>
     <script>
 
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
-width = 960 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
 
-var formatPercent = d3.format(".%");
+        var formatPercent = d3.format(".%");
 
-var x = d3.scale.ordinal()
-        .rangeRoundBands([0, width], .1, 1);
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1, 1);
 
-var y = d3.scale.linear()
-        .range([height, 0]);
+        var y = d3.scale.linear()
+            .range([height, 0]);
 
-var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom");
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
 
-var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .tickFormat(formatPercent);
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickFormat(formatPercent);
 
-var svg1 = d3.select("#DivForBreakFast").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.tsv("../../static/dataB.tsv", function (error, data) {
+        d3.tsv("../../static/data.tsv", function(error, data) {
 
-    data.forEach(function (d) {
-        d.votes = +d.votes;
-    });
+          data.forEach(function(d) {
+            d.votes = +d.votes;
+          });
 
-    x.domain(data.map(function (d) {
-        return d.meal;
-    }));
-    y.domain([0, d3.max(data, function (d) {
-            return d.votes;
-        })]);
+          x.domain(data.map(function(d) { return d.meal; }));
+          y.domain([0, d3.max(data, function(d) { return d.votes; })]);
 
-    svg1.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
 
-    svg1.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
             .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("votes");
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("votes");
 
-    svg1.selectAll(".bar")
-            .data(data)
+          svg.selectAll(".bar")
+              .data(data)
             .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function (d) {
-                return x(d.meal);
-            })
-            .attr("width", x.rangeBand())
-            .attr("y", function (d) {
-                return y(d.votes);
-            })
-            .attr("height", function (d) {
-                return height - y(d.votes);
-            });
+              .attr("class", "bar")
+              .attr("x", function(d) { return x(d.meal); })
+              .attr("width", x.rangeBand())
+              .attr("y", function(d) { return y(d.votes); })
+              .attr("height", function(d) { return height - y(d.votes); });
 
-    d3.select("#ForBreakFast").on("change", change);
+          d3.select("input").on("change", change);
 
-    var sortTimeout = setTimeout(function () {
-        d3.select("#ForBreakFast").property("checked", true).each(change);
-    }, 2000);
+          var sortTimeout = setTimeout(function() {
+            d3.select("input").property("checked", true).each(change);
+          }, 2000);
 
-    function change() {
-        clearTimeout(sortTimeout);
+          function change() {
+            clearTimeout(sortTimeout);
 
-        // Copy-on-write since tweens are evaluated after a delay.
-        var x0 = x.domain(data.sort(this.checked
-                ? function (a, b) {
-                    return b.votes - a.votes;
-                }
-        : function (a, b) {
-            return d3.ascending(a.meal, b.meal);
-        })
-                .map(function (d) {
-                    return d.meal;
-                }))
+            // Copy-on-write since tweens are evaluated after a delay.
+            var x0 = x.domain(data.sort(this.checked
+                ? function(a, b) { return b.votes - a.votes; }
+                : function(a, b) { return d3.ascending(a.meal, b.meal); })
+                .map(function(d) { return d.meal; }))
                 .copy();
 
-        svg1.selectAll(".bar")
-                .sort(function (a, b) {
-                    return x0(a.meal) - x0(b.meal);
-                });
+            svg.selectAll(".bar")
+                .sort(function(a, b) { return x0(a.meal) - x0(b.meal); });
 
-        var transition = svg1.transition().duration(750),
-                delay = function (d, i) {
-                    return i * 50;
-                };
+            var transition = svg.transition().duration(750),
+                delay = function(d, i) { return i * 50; };
 
-        transition.selectAll(".bar")
+            transition.selectAll(".bar")
                 .delay(delay)
-                .attr("x", function (d) {
-                    return x0(d.meal);
-                });
+                .attr("x", function(d) { return x0(d.meal); });
 
-        transition.select(".x.axis")
+            transition.select(".x.axis")
                 .call(xAxis)
-                .selectAll("g")
+              .selectAll("g")
                 .delay(delay);
-    }
-});
+          }
+        });
 
-var svg2 = d3.select("#DivForLunch").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.tsv("../../static/dataL.tsv", function (error, data) {
-
-    data.forEach(function (d) {
-        d.votes = +d.votes;
-    });
-
-    x.domain(data.map(function (d) {
-        return d.meal;
-    }));
-    y.domain([0, d3.max(data, function (d) {
-            return d.votes;
-        })]);
-
-    svg2.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
-
-    svg2.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("votes");
-
-    svg2.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function (d) {
-                return x(d.meal);
-            })
-            .attr("width", x.rangeBand())
-            .attr("y", function (d) {
-                return y(d.votes);
-            })
-            .attr("height", function (d) {
-                return height - y(d.votes);
-            });
-
-    d3.select("#ForLunch").on("change", change);
-
-    var sortTimeout = setTimeout(function () {
-        d3.select("#ForLunch").property("checked", true).each(change);
-    }, 2000);
-
-    function change() {
-        clearTimeout(sortTimeout);
-
-        // Copy-on-write since tweens are evaluated after a delay.
-        var x0 = x.domain(data.sort(this.checked
-                ? function (a, b) {
-                    return b.votes - a.votes;
-                }
-        : function (a, b) {
-            return d3.ascending(a.meal, b.meal);
-        })
-                .map(function (d) {
-                    return d.meal;
-                }))
-                .copy();
-
-        svg2.selectAll(".bar")
-                .sort(function (a, b) {
-                    return x0(a.meal) - x0(b.meal);
-                });
-
-        var transition = svg2.transition().duration(750),
-                delay = function (d, i) {
-                    return i * 50;
-                };
-
-        transition.selectAll(".bar")
-                .delay(delay)
-                .attr("x", function (d) {
-                    return x0(d.meal);
-                });
-
-        transition.select(".x.axis")
-                .call(xAxis)
-                .selectAll("g")
-                .delay(delay);
-    }
-});
-
-var svg3 = d3.select("#DivForDinner").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.tsv("../../static/dataD.tsv", function (error, data) {
-
-    data.forEach(function (d) {
-        d.votes = +d.votes;
-    });
-
-    x.domain(data.map(function (d) {
-        return d.meal;
-    }));
-    y.domain([0, d3.max(data, function (d) {
-            return d.votes;
-        })]);
-
-    svg3.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
-
-    svg3.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("votes");
-
-    svg3.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function (d) {
-                return x(d.meal);
-            })
-            .attr("width", x.rangeBand())
-            .attr("y", function (d) {
-                return y(d.votes);
-            })
-            .attr("height", function (d) {
-                return height - y(d.votes);
-            });
-
-    d3.select("#ForDinner").on("change", change);
-
-    var sortTimeout = setTimeout(function () {
-        d3.select("#ForDinner").property("checked", true).each(change);
-    }, 2000);
-
-    function change() {
-        clearTimeout(sortTimeout);
-
-        // Copy-on-write since tweens are evaluated after a delay.
-        var x0 = x.domain(data.sort(this.checked
-                ? function (a, b) {
-                    return b.votes - a.votes;
-                }
-        : function (a, b) {
-            return d3.ascending(a.meal, b.meal);
-        })
-                .map(function (d) {
-                    return d.meal;
-                }))
-                .copy();
-
-        svg3.selectAll(".bar")
-                .sort(function (a, b) {
-                    return x0(a.meal) - x0(b.meal);
-                });
-
-        var transition = svg3.transition().duration(750),
-                delay = function (d, i) {
-                    return i * 50;
-                };
-
-        transition.selectAll(".bar")
-                .delay(delay)
-                .attr("x", function (d) {
-                    return x0(d.meal);
-                });
-
-        transition.select(".x.axis")
-                .call(xAxis)
-                .selectAll("g")
-                .delay(delay);
-    }
-});
     </script>
 
     <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>

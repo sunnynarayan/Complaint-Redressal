@@ -21,7 +21,11 @@ var s_a = new Array();    // city array
 
 		s_a[5]="Ambikapur|Baikunthpur|Balod|Baloda Bazar|Balrampur|Bastar|Bemetara|Bijapur|Bilaspur|Dantewada|Dhamtari|Durg|Gariaband|Jagdalpur|Jashpur|Janjgir-Champa|Kondagaon|Korba|Koriya|Kanker|Kabirdham|Kawardha|Mahasamund|Mungeli|Narayanpur|Raigarh|Rajnandgaon|Raipur|Surajpur|Sukma|Surguja";
 		
-
+        s_a[10]="Ahmedabad|Surat|Vadodara|Rajkot|Bhavnagar|Jamnagar|Junagadh|Gandhinagar|Mahesana|Morbi|Surendranagar|Gandhidham|Veraval|Navsari|Bharuch|Anand|Porbandar|Godhra|Botad|Sidhpur";
+        s_a[8]="Delhi|Najafgarh|Narela|New Delhi|Sultanpur Majra|Kirari Suleman Nagar|Bhalswa Jahangir Pur|Nangloi|Karawal Nagar";
+        s_a[11]="Ambala|Bhiwani|Faridabad|Fatehabad|Gurgaon|Hisar|Jhajjar|Jind|Kaithal|Kurukshetra|Mahendragarh|Mewat|Palwal|Panchkula|Panipat|Rewari|Rohtak|Sirsa|Sonipat|Yamuna Nagar";
+        s_a[31]="Kanpur |Lucknow |Ghaziabad |Agra|Varanasi|Meerut |Allahabad|Bareilly|Aligarh|Moradabad|Saharanpur|Gorakhpur|Noida |Jhansi 	|Muzaffarnag|Mathura|Budaun |Rampur |Shahjahanpur|Farrukhabad|Maunath |Hapur |Faizabad |Etawah |Mirzapur|Bulandshahr|Sambhal |Amroha|Hardoi|Fatehpur"; 	
+        s_a[33]="Kolkata|Asansol|Siliguri|Durgapur|Bardhaman|Malda|Baharampur|Habra|Jalpaiguri|Kharagpur|Shantipur|Dankuni|Dhulian|Ranaghat|Haldia|Raniganj|Krishnangar|Nabadwip";
 function populateCities( stateElementId, cityElementId ){
 	
 	var selectedStateIndex = document.getElementById( stateElementId ).selectedIndex;

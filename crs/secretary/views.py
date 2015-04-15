@@ -87,17 +87,17 @@ def rejectComplain(request):
 		return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
 def secViewComplain(complainObject):
-    comment = []
-    documents = []
-    try:
-    	documents.extend(Document.objects.get(cid=complainObject[0].cid))
-    except:
-        pass
-    try:
-        comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
-    except:
-        pass
-    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
+	comment = []
+	documents = []
+	try:
+		documents.extend(Document.objects.get(cid=complainObject[0].cid))
+	except:
+		pass
+	try:
+		comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
+	except:
+		pass
+	return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
 
 def poll(request):
 	if not (isSecretary(request)):
@@ -181,29 +181,29 @@ def makingMeal(request):
 	return redirect('/crs/viewMeal/')
 
 class MealItems:
-    def __init__(self , MID):
-    	self.mid = MID
-    	self.FoodItems = []
-    	self.protein = 0
-    	self.vitamin = 0
-    	self.fat = 0
-    	self.PopulateFid()
-    	self.avgnutrition = int((self.fat + self.protein + self.fat)/3)
-    	self.name = ""
-    	for fobj in self.FoodItems:
-    		self.name = self.name + fobj.name + ","
+	def __init__(self , MID):
+		self.mid = MID
+		self.FoodItems = []
+		self.protein = 0
+		self.vitamin = 0
+		self.fat = 0
+		self.PopulateFid()
+		self.avgnutrition = int((self.fat + self.protein + self.fat)/3)
+		self.name = ""
+		for fobj in self.FoodItems:
+			self.name = self.name + fobj.name + ","
 
-    def PopulateFid(self):
-    	mealItems = Mealitems.objects.filter(mid = self.mid)
-    	for mi in mealItems:
-    		fitem = Fooditems.objects.get(fid=mi.fid)
-    		self.FoodItems.append(fitem)
-    		self.protein = self.protein + fitem.proteins
-    		self.vitamin = self.vitamin + fitem.vitamins
-    		self.fat = self.fat + fitem.fat
-    	self.protein = int(self.protein/len(mealItems))
-    	self.vitamin = int(self.vitamin/len(mealItems))
-    	self.fat = int(self.fat /len(mealItems))
+	def PopulateFid(self):
+		mealItems = Mealitems.objects.filter(mid = self.mid)
+		for mi in mealItems:
+			fitem = Fooditems.objects.get(fid=mi.fid)
+			self.FoodItems.append(fitem)
+			self.protein = self.protein + fitem.proteins
+			self.vitamin = self.vitamin + fitem.vitamins
+			self.fat = self.fat + fitem.fat
+		self.protein = int(self.protein/len(mealItems))
+		self.vitamin = int(self.vitamin/len(mealItems))
+		self.fat = int(self.fat /len(mealItems))
 
 def viewMeal(request):
 	if not (isSecretary(request)):
@@ -232,7 +232,7 @@ def addItemToPoll(request):
 		return redirect('/crs/')
 	if checkAvailabilityOfPoll(int(request.session.get('hostel'))):
 		return redirect('/crs/')
-        # redirect to page that shows that no poll is available!
+	# redirect to page that shows that no poll is available!
 	breakfastItems = request.POST.getlist('breakfast')
 	lunchItems = request.POST.getlist('lunch')
 	dinnerItems = request.POST.getlist('dinner')
@@ -340,10 +340,13 @@ def searchItem(request):
 	return render_to_response("secretary/searchResult.html", {'list' : complain})
 
 def endPoll(self):
+	#check if request came from secretary or not
+	if not (isSecretary(request)):
+		return redirect('/crs/')
 	#check if request came from genuine mess secretary or not.
 	#check availability of polling fot this hostel
 	if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
-		return HttpResponse('Not Poll available!')
+		return HttpResponse('No polling available')
 	#if polling is available then proceed
 	Pollresult.objects.filter(hostel = request.session.get('hostel')).delete()
 	#delete any existing poll result from the result table!
@@ -422,3 +425,50 @@ def endPoll(self):
 	#Now redirect the page to the poll result page!
 
 	return HttpResponse('later on page will be Redirected for final polling result page!')
+
+def finalPollResult(request):
+	totalpollresults = Pollresult.objects.filter(hostel=request.session.get('hostel')).count()
+	if totalpollresults <= 0:
+		return HttpResponse("Sorry no poll results are available!")
+	breakfastPollOptions = []
+	lunchPollOptions = []
+	dinnerPollOptions = []
+	dataB = ""
+	dataL = ""
+	dataD = ""
+	b = 1
+	l = 1
+	d = 1
+	try:
+		breakfastPollOptions.extend(Pollresult.objects.filter(hostel=request.session.get('hostel')).filter(type = 1))
+	except:
+		pass
+	try:
+		lunchPollOptions.extend(Pollresult.objects.filter(hostel=request.session.get('hostel')).filter(type = 2))
+	except:
+		pass
+	try:
+		dinnerPollOptions.extend(Pollresult.objects.filter(hostel=request.session.get('hostel')).filter(type = 3))
+	except:
+		pass
+	for x in breakfastPollOptions:
+		dataB = dataB + "B-Item " + str(b) + "\t" + str(x.vote) + "\n"
+		b = b + 1
+	for x in lunchPollOptions:
+		dataL = dataL + "L-Item " + str(l) + "\t" + str(x.vote) + "\n"
+		l = l + 1
+	for x in dinnerPollOptions:
+		dataD = dataD + "D-Item " + str(d) + "\t" + str(x.vote) + "\n"
+		d = d + 1
+		
+	with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/FinalVotingDataB.tsv', 'w') as f:
+		myfile = File(f)
+		myfile.write("meal\tvotes\n"+dataB)
+	with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/FinalVotingDataL.tsv', 'w') as f:
+		myfile = File(f)
+		myfile.write("meal\tvotes\n"+dataL)
+	with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/FinalVotingDataD.tsv', 'w') as f:
+		myfile = File(f)
+		myfile.write("meal\tvotes\n"+dataD)
+
+	return render_to_response("student/pollResult.html", {'list1' : breakfastPollOptions, 'list2' : lunchPollOptions, 'list3' : dinnerPollOptions })

@@ -760,6 +760,8 @@ class PollMenuVoting():
 def pollResult(request):
     if not (isStudent(request)):
         return redirect('/crs/')
+    if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+        return finalPollResult(request)
     # breakfastPollOptions = request.session.get('breakfastArray')
     # lunchPollOptions = request.session.get('lunchArray')
     # dinnerPollOptions = request.session.get('dinnerArray')
@@ -827,19 +829,21 @@ def pollResult(request):
     return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })
 
 def OpenHostelPage(request):
-    username=request.session.get("username")
-    obj=Student.objects.get(username=username)
+    obj=Student.objects.get(uid=request.session.get('uid'))
+    print str(obj.hostel)
     return render_to_response('student/studHostelLeave.html',{'list' : obj}, context_instance=RequestContext(request))
 
 ##GetDifferece(start_date,end_date)
 #Function takes 2 dates as arguments and @return Boolean True is start_date < end_sate
 def getDiffrence(start_date,end_date):
-    sYear = int(start_date[6:10])
-    eYear = int(end_date[6:10])
-    sMonth = int(start_date[3:5])
-    eMonth = int(end_date[3:5])
-    sDay = int(start_date[0:2])
-    eDay = int(end_date[0:2])
+    sYear = int(start_date[0:4])
+    eYear = int(end_date[0:4])
+    sMonth = int(start_date[5:7])
+    eMonth = int(end_date[5:7])
+    sDay = int(start_date[8:10])
+    eDay = int(end_date[8:10])
+    start_time= 0
+    end_time = 0
     try:
         start_time = int(datetime.datetime(sYear,sMonth,sDay).strftime('%s'))
         end_time = int(datetime.datetime(eYear,eMonth,eDay).strftime('%s'))
@@ -849,33 +853,38 @@ def getDiffrence(start_date,end_date):
     if end_time - start_time <= 0:
         return False
     else:
-        return True
+        if start_time - int(datetime.datetime.now().strftime('%s')) <= 86400:
+            return False
+        else:
+            return True
 
 def HostelLeavingSubmit(request):
     # laptop=request.POST.get('laptop', '')
-    start_date=request.POST.get('start_date', datetime.datetime.now().date())
-    end_date=request.POST.get('end_date' , datetime.datetime.now().date())
+    start_date=request.POST.get('start_date', '')
+    end_date=request.POST.get('end_date' , '')
     destination=request.POST.get('destination', '')
     reason=request.POST.get('reason', '')
     time = request.POST.get('time','')
     username=request.session.get("username")
+    print start_date;
     # obj = Student.objects.get(username=username)
-    match = re.match(r'^[0-3][0-9]/[0-2][0-9]/20[0-9][0-9]$', start_date)
+    match = re.match(r'^20[0-9][0-9]-[0-1][0-9]-[0-3][0-9]$', start_date)
     if match:
         pass
     else:
         return HttpResponse("start date is invalid")
-    match = re.match(r'^[0-3][0-9]/[0-2][0-9]/20[0-9][0-9]$', start_date)
+    match = re.match(r'^20[0-9][0-9]-[0-1][0-9]-[0-3][0-9]$', start_date)
     if match:
         pass
     else:
         return HttpResponse("end date is invalid")
-
-    match = re.match(r'^[0-1][0-9]:[0-5][0-9]$')
+    print time
+    match = re.match(r'^[0-2][0-9]:[0-5][0-9]$', time)
+    print match
     if match:
         hours = int(time[0:2])
         if hours > 23 :
-            return HttpResponse('Invalid time!')
+            return HttpResponse('Invalid time! Hour > 23')
     else:
         return HttpResponse('Invalid time!')
     destination = validateText(destination)
@@ -895,7 +904,7 @@ def HostelLeavingSubmit(request):
     if not getDiffrence(start_date,end_date):
         return HttpResponse("Error in Date input")
 
-    hostel = HostelLeavingInformation(stdid = request.session.get('uid'), start_date = start_date, end_date = end_date, destination = destination,reason = reason , time = time, hostel = hostel ,mobile = mobile)
+    hostel = HostelLeavingInformation(studid = request.session.get('uid'), start_date = start_date, end_date = end_date, destination = destination,reason = reason , time = time, hostel = hostel, mobile = mobile, status = 0)
     hostel.save()
     #redirect to page where all hostel leaving forms can be viewed!
     return redirect('/crs/complainView/');
@@ -909,7 +918,7 @@ def viewPastHostelLeaveForms(request):
     except:
         pass
 
-    return HttpResponse('Page where all forms are listed!')
+    return render_to_response('warden/newLeaveApplication.html', {'list' : forms})
 
 def viewForm(request,formID):
     if not (isStudent(request)):

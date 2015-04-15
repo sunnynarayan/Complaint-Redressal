@@ -23,31 +23,29 @@ def isWarden(request):
 
 
 def wardenComplainView(request):
-	##
-	# if not (isWarden(request)):
-	# 	return redirect('/crs/')
-	# uid=request.session.get('uid')		
-	# # PublicComplainObjects = Complainlink.objects.all().filter(wardenid = uid).filter(studid = 0);
-	# # query1 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID = 0'
-	# query1 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 3 OR complain.status = 13 OR complain.status = 23) AND (complainLink.wardenid = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID'
-	# query2 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 3 OR complain.status =  13 OR complain.status = 23) AND (complainLink.wardenid = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID'
-	# PublicComplainObjects = Complainlink.objects.raw(query1)
-	# # query2 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID != 0'
-	# PrivateComplainObjects = Complainlink.objects.raw(query2)
-	# # PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
-	# Privatelist=[];
-	# Publiclist=[];
-	# for num in PrivateComplainObjects:
-	# 	numCid=num.cid
-	# 	Privatelist.append(Complain.objects.get(cid=numCid));		#username  in fac table
-	# for num in PublicComplainObjects:
-	# 	numCid=num.cid
-	# 	Publiclist.append(Complain.objects.get(cid=numCid));
-	# return render_to_response('warden/wardenViewComplain.html',{'list1' : Publiclist, 'list2':Privatelist});
-	##
 	if not (isWarden(request)):
 		return redirect('/crs/')
-	return Schedule(request)
+	uid=request.session.get('uid')		
+	# PublicComplainObjects = Complainlink.objects.all().filter(wardenid = uid).filter(studid = 0);
+	# query1 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID = 0'
+	query1 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 3 OR complain.status = 13 OR complain.status = 23) AND (complainLink.wardenid = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID'
+	query2 = 'SELECT * FROM `complain`, complainLink WHERE (complain.status = 3 OR complain.status =  13 OR complain.status = 23) AND (complainLink.wardenid = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID'
+	PublicComplainObjects = Complainlink.objects.raw(query1)
+	# query2 = 'SELECT * FROM complainLink WHERE wardenID = ' + str(uid) + ' AND studID != 0'
+	PrivateComplainObjects = Complainlink.objects.raw(query2)
+	# PrivateComplainObjects=Complainlink.objects.all().filter(wardenid = uid).exclude(studid = 0);
+	Privatelist=[];
+	Publiclist=[];
+	for num in PrivateComplainObjects:
+		numCid=num.cid
+		Privatelist.append(Complain.objects.get(cid=numCid));		#username  in fac table
+	for num in PublicComplainObjects:
+		numCid=num.cid
+		Publiclist.append(Complain.objects.get(cid=numCid));
+	return render_to_response('warden/wardenViewComplain.html',{'list1' : Publiclist, 'list2':Privatelist});
+	# if not (isWarden(request)):
+	# 	return redirect('/crs/')
+	# return Schedule(request)
 
 def wardenHome(request):
 	if not (isWarden(request)):

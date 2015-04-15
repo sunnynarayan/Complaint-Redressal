@@ -118,8 +118,9 @@ class HostelLeavingInformation(models.Model):
     reason = models.TextField()
     hostel = models.IntegerField(db_column='hostel')
     mobile = models.TextField()
-    time = models.CharField(max_length=5)
+    time = models.CharField(max_length=8)
     status = models.IntegerField()
+    submittime = models.TimeField(db_column='submitTime')
 
     class Meta:
         managed = False

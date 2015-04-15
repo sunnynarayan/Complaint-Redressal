@@ -659,7 +659,7 @@
             <div class="row">
             <form id = "submitForm" method="POST" action="/crs/addItemToPoll/">
                 <div class="col-lg-12">
-                          <div class="panel panel-default">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             List Of Meals
                         </div>
@@ -791,28 +791,23 @@
                                     </tr>
                                     <tr>
                                           <td> Vitamin Value</td>
-                                          <td><p type="number" id="ida.2" value="0"></p> </td>
-                                          <td><p type="number" id="idb.2" value="0"></p> </td>
-                                          <td><p type="number" id="idc.2" value="0"></p> </td>
+                                          <td><p type="number" id="ida.2" >0.0</p> </td>
+                                          <td><p type="number" id="idb.2" >0.0</p> </td>
+                                          <td><p type="number" id="idc.2" >0.0</p> </td>
                                     </tr>
                                     <tr>
                                           <td> Fat Value</td>
-                                          <td><p type="number" id="ida.3" value="0"></p> </td>
-                                          <td><p type="number" id="idb.3" value="0"></p> </td>
-                                          <td><p type="number" id="idc.3" value="0"></p> </td>
+                                          <td><p type="number" id="ida.3" >0.0</p> </td>
+                                          <td><p type="number" id="idb.3" >0.0</p> </td>
+                                          <td><p type="number" id="idc.3" >0.0</p> </td>
                                     </tr>
                                     <tr>
                                           <td> Average Nutrition Value</td>
-                                          <td><p type="number" id="ida" value="0"></p> </td>
-                                          <td><p type="number" id="idb" value="0"></p> </td>
-                                          <td><p type="number" id="idc" value="0"></p> </td>
+                                          <td><p type="number" id="ida" >0.0</p> </td>
+                                          <td><p type="number" id="idb" >0.0</p> </td>
+                                          <td><p type="number" id="idc" >0.0</p> </td>
                                     </tr>
-                                    <tr>
-                                          <td> Plausability</td>
-                                          <td><p type="number" id="idx" value="0"></p> </td>
-                                          <td><p type="number" id="idy" value="0"></p> </td>
-                                          <td><p type="number" id="idz" value="0"></p> </td>
-                                    </tr>
+                                    
                                   </tbody>
                                   </table>
                                   </div>
@@ -836,13 +831,13 @@
                                 <!-- <p> Average nutrition= 17, protein cutoff=5, vitamin cutoff=5, fat cutoff=5</p> -->
                                 <!-- <p >Average Nutrition for Dinner</p>  <p id="dinner" > Limit </p> -->
                                 <!-- <p> Average nutrition= 20, protein cutoff=10, vitamin cutoff=9, fat cutoff= 12</p> -->
-                                <button form = "submitForm" type="Submit" value="" formaction = "/crs/addItemToPoll/" id="submitted" disabled="true"> Submit </button>
                                 
                                 
                             </div>
                             <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
+                        <button class="btn btn-lg btn-success btn-block" form = "submitForm" type="Submit" value="" formaction = "/crs/addItemToPoll/" id="submitted" disabled="true"> Start Poll </button>
                     </div>
                     <!-- /.panel -->
                 </div>
@@ -1027,7 +1022,7 @@
             document.getElementById("ida.2").innerHTML=v13.toFixed(2);
             document.getElementById("ida.3").innerHTML=f13.toFixed(2);
             document.getElementById("ida").innerHTML=y.toFixed(2);
-            document.getElementById("idx").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
+            // document.getElementById("idx").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
             // document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+y.toFixed(2)+" "+p13.toFixed(2)+" "+v13.toFixed(2)+" "+f13.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
             
             count1=0;
@@ -1038,7 +1033,7 @@
             document.getElementById("ida.2").innerHTML=v13.toFixed(2);
             document.getElementById("ida.3").innerHTML=f13.toFixed(2);
             document.getElementById("ida").innerHTML=y.toFixed(2);
-            document.getElementById("idx").innerHTML="value plausible";    
+            // document.getElementById("idx").innerHTML="value plausible";    
             // document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+ y.toFixed(2)+", value plausible";
             count1=1;
          }
@@ -1192,7 +1187,7 @@
             document.getElementById("idb.2").innerHTML=v23.toFixed(2);
             document.getElementById("idb.3").innerHTML=f23.toFixed(2);
             document.getElementById("idb").innerHTML=y.toFixed(2);
-            document.getElementById("idy").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
+            // document.getElementById("idy").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
            // document.getElementById("lunch").innerHTML="Current Nutrition Value for lunch= "+y.toFixed(2)+" "+p23.toFixed(2)+" "+v23.toFixed(2)+" "+f23.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
               
             count2=0;
@@ -1203,7 +1198,7 @@
             document.getElementById("idb.2").innerHTML=v23.toFixed(2);
             document.getElementById("idb.3").innerHTML=f23.toFixed(2);
             document.getElementById("idb").innerHTML=y.toFixed(2);
-            document.getElementById("idy").innerHTML="value plausible";
+            // document.getElementById("idy").innerHTML="value plausible";
             // document.getElementById("lunch").innerHTML="Current Nutrition Value for lunch= "+ y.toFixed(2)+", value plausible";
             count2=1;
          }
@@ -1357,7 +1352,7 @@
              document.getElementById("idc.2").innerHTML=v33.toFixed(2);
              document.getElementById("idc.3").innerHTML=f33.toFixed(2);
              document.getElementById("idc").innerHTML=y.toFixed(2);
-             document.getElementById("idz").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
+             // document.getElementById("idz").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
              // document.getElementById("dinner").innerHTML="Current Nutrition Value for dinner= "+y.toFixed(2)+" "+p33.toFixed(2)+" "+v33.toFixed(2)+" "+f33.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
             
             count3=0;
@@ -1368,7 +1363,7 @@
             document.getElementById("idc.2").innerHTML=v33.toFixed(2);
             document.getElementById("idc.3").innerHTML=f33.toFixed(2);
             document.getElementById("idc").innerHTML=y.toFixed(2);
-            document.getElementById("idz").innerHTML="value plausible";
+            // document.getElementById("idz").innerHTML="value plausible";
             // document.getElementById("dinner").innerHTML="Current Nutrition Value for dinner= "+ y.toFixed(2)+", value plausible";
             count3=1;
          }

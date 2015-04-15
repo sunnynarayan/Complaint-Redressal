@@ -42,6 +42,7 @@ def wardenComplainView(request):
 	for num in PublicComplainObjects:
 		numCid=num.cid
 		Publiclist.append(Complain.objects.get(cid=numCid));
+	# return HttpResponse(Privatelist[0])
 	return render_to_response('warden/wardenViewComplain.html',{'public' : Publiclist, 'private':Privatelist});
 
 def wardenViewComplain(complainObject):

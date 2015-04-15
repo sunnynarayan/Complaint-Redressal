@@ -137,14 +137,25 @@ def studentHome(request):
 
 
 def studentProfile(request):
-    if not (isStudent(request)):
+    if isStudent(request):
+        # return redirect('/crs/')
+        return render_to_response('student/studentProfile.html');
+    elif isSecretary(request):
+        return render_to_response('secretary/viewProfile.html')
+    else:
         return redirect('/crs/')
-    return render_to_response('student/studentProfile.html');
 
 def studEditProfile(request):
-    uid=request.session.get('uid')
-    obj=Student.objects.get(uid=uid)
-    return render_to_response('student/studEditProfile.html',{'list' : obj,'msg': request.session.get('name') })
+    if isStudent(request):
+        uid=request.session.get('uid')
+        obj=Student.objects.get(uid=uid)
+        return render_to_response('student/studEditProfile.html',{'list' : obj,'msg': request.session.get('name') })
+    elif isSecretary(request):
+        uid=request.session.get('uid')
+        obj=Student.objects.get(uid=uid)
+        return render_to_response('secretary/EditProfile.html',{'list' : obj,'msg': request.session.get('name') })
+    else:
+        return redirect('/crs/')
 
 def afterEditProfile(request):
     uid=request.session.get('uid');
@@ -159,6 +170,23 @@ def afterEditProfile(request):
     account=request.POST.get('accnum')
     # email=request.POST.get('email')
     mobile=request.POST.get('mobile');
+    student = Student.objects.get(uid=uid)
+    mobile = student.mobile
+    username = student.username
+    name = student.name
+    sex = student.sex
+    padd = student.padd
+    email = student.email
+    roll = student.roll
+    room = student.room
+    hostel = student.hostel
+    bloodgrp = student.bloodgrp
+    baccno = student.baccno
+    bank = student.bank
+    IFSC = student.ifsc
+    state=student.state
+    city=student.city
+    pincode=student.pincode
     if len(account)<=11 and  len(ifsc)<=11 and len(mobile)==10 and len(pincode)==6:
         obj.mobile=mobile;
         obj.bank=bank;
@@ -171,33 +199,14 @@ def afterEditProfile(request):
         obj.pincode=pincode
         obj.bloodgrp=bgroup
         obj.save();
-        # uid = request.session.get('uid')
-        student = Student.objects.get(uid=uid)
-        mobile = student.mobile
-        username = student.username
-        name = student.name
-        sex = student.sex
-        padd = student.padd
-        email = student.email
-        roll = student.roll
-        room = student.room
-        hostel = student.hostel
-        bloodgrp = student.bloodgrp
-        baccno = student.baccno
-        bank = student.bank
-        IFSC = student.ifsc
-        state=student.state
-        city=student.city
-        pincode=student.pincode
         return render_to_response('student/studentProfile.html',
                                   {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                    'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                    'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
+    elif isSecretary(request):
+        return render_to_response('secretary/EditProfile.html',{'list' : obj,'msg': request.session.get('name') })
     else:
-        return render_to_response('student/studentProfile.html',
-                                  {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
-                                   'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
-                                   'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
+        return render_to_response('student/studEditProfile.html',{'list' : obj,'msg': request.session.get('name') })
 
 # def rateSecretary(request):
 #     if not (isStudent(request)):
@@ -621,7 +630,8 @@ def comment(request):
 def studentProfile(request):
     # if not (isStudent(request)):
     #     return redirect('/crs/')  //commented so that i can use in secretary
-
+    if not (isStudent(request) or isSecretary(request)):
+        return redirect('/crs/')
     uid = request.session.get('uid')
     student = Student.objects.get(uid=uid)
     mobile = student.mobile
@@ -640,7 +650,12 @@ def studentProfile(request):
     state=student.state
     city=student.city
     pincode=student.pincode
-    return render_to_response('student/studentProfile.html',
+    address = ""
+    if isStudent(request):
+        address = "student/studentProfile.html"
+    else:
+        address = "secretary/viewProfile.html"
+    return render_to_response(address,
                               {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});

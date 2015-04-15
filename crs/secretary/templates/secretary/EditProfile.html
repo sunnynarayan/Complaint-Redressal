@@ -248,7 +248,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -295,13 +295,13 @@
                         <li>
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="/crs/secComp/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
-                        </li>
+                        </li> -->
                        <!-- <li>
                             <a href="#"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li> -->
-                        <li>
+                        <!-- <li>
                             <a href="/crs/viewPollOptions/"><i class="fa fa-edit fa-fw"></i>Poll Options</a>
                         </li>
                         <li>
@@ -322,7 +322,7 @@
                                 </li>
                                 
                             </ul>
-                        </li>
+                        </li> -->
                         <li>
                             <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -484,117 +484,50 @@
                                         <div class="form-group">
                                             <label>Bank Name</label>
                                             <select name="bankName" class="form-control">
-                                                <option value="1">State Bank of India</option>
-                                                <option value="10">State Bank of India and Associates</option>
-                                                <option value="22">Federal Bank</option>
-                                                <option value="29">Indian Bank</option>
-                                                <option value="28">Union Bank of India</option>
-                                                <option value="31">Andhra Bank</option>
-                                                <option value="34">Punjab National Bank </option>
-                                                <option value="35">Allahabad Bank</option>
-                                                <option value="38">Vijaya Bank</option>
-                                                <option value="39">AXIS Bank</option>
-                                                <option value="36">HDFC Bank</option>
-                                                <option value="37">Bank of Baroda</option>
-                                                <option value="42">Karnataka Bank</option>
-                                                <option value="43">Oriental Bank of Commerce</option>
-                                                <option value="40">Karur Vysya Bank</option>
-                                                <option value="46">Kotak Mahindra Bank</option>
-                                                <option value="47">INGVysya Bank</option>
-                                                <option value="44">ICICI Bank </option>
-                                                <option value="45">IndusInd Bank</option>
-                                                <option value="51">IMPS</option>
-                                                <option value="50">Central Bank of India</option>
-                                                <option value="48">Bank of India</option>
-                                                <option value="54">Syndicate Bank</option>
-                                                <option value="53">Bank of Maharashatra</option>
-                                                <option value="52">IDBI Bank</option>
-                                                <option value="56">Corporation Bank</option>
-                                                <option value="60">Yes Bank</option>
-                                                <option value="64">Nepal SBI Bank Ltd.</option>
-                                                <option value="66">Canara Bank</option>
-                                                <option value="68">UCO Bank</option>
-                                                <option value="70">BANK OF INDIA</option>
-                                                <option value="72">CENTRAL BANK OF INDIA</option>
-                                                <option value="74">UNITED BANK OF INDIA</option>
+                                                <option value="State Bank of India">State Bank of India</option>
+                                                <option value="State Bank of India and Associates">State Bank of India and Associates</option>
+                                                <option value="Federal Bank">Federal Bank</option>
+                                                <option value="Indian Bank">Indian Bank</option>
+                                                <option value="Union Bank of India">Union Bank of India</option>
+                                                <option value="Andhra Bank">Andhra Bank</option>
+                                                <option value="Punjab National Bank">Punjab National Bank </option>
+                                                <option value="Allahabad Bank">Allahabad Bank</option>
+                                                <option value="Vijaya Bank">Vijaya Bank</option>
+                                                <option value="AXIS Bank">AXIS Bank</option>
+                                                <option value="HDFC Bank">HDFC Bank</option>
+                                                <option value="Bank of Baroda">Bank of Baroda</option>
+                                                <option value="Karnataka Bank">Karnataka Bank</option>
+                                                <option value="Oriental Bank of Commerce<">Oriental Bank of Commerce</option>
+                                                <option value="Karur Vysya Bank">Karur Vysya Bank</option>
+                                                <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                                                <option value="INGVysya Bank">INGVysya Bank</option>
+                                                <option value="ICICI Bank">ICICI Bank </option>
+                                                <option value="IndusInd Bank">IndusInd Bank</option>
+                                                <option value="IMPS">IMPS</option>
+                                                <option value="Central Bank of India">Central Bank of India</option>
+                                                <option value="Bank of India">Bank of India</option>
+                                                <option value="Syndicate Bank">Syndicate Bank</option>
+                                                <option value="Bank of Maharashatra">Bank of Maharashatra</option>
+                                                <option value="IDBI Bank">IDBI Bank</option>
+                                                <option value="Corporation Bank">Corporation Bank</option>
+                                                <option value="Yes Bank">Yes Bank</option>
+                                                <option value="Nepal SBI Bank Ltd.">Nepal SBI Bank Ltd.</option>
+                                                <option value="Canara Bank">Canara Bank</option>
+                                                <option value="UCO Bank">UCO Bank</option>
+                                                <option value="BANK OF INDIA">BANK OF INDIA</option>
+                                                <option value="CENTRAL BANK OF INDIA">CENTRAL BANK OF INDIA</option>
+                                                <option value="UNITED BANK OF INDIA">UNITED BANK OF INDIA</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Account Number : </label>
-                                            <input class="form-control" type="text" size="20" name="accnum" value="" >
+                                            <input class="form-control" type="text" size="20" name="accnum" required value="" >
                                         </div>
                                         <div class="form-group">
                                             <label>IFSC Code : </label>
-                                            <input class="form-control" type="text" size="20" name="ifsc" value="" >
-                                        </div>
-                                        <!-- <div class="form-group">
-                                            <label>Static Control</label>
-                                            <p class="form-control-static">email@example.com</p>
-                                        </div> -->
-                                        
-                                        
-                                        <!-- <div class="form-group">
-                                            <label>Checkboxes</label>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="">Checkbox 1
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="">Checkbox 2
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="">Checkbox 3
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Inline Checkboxes</label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox">1
-                                            </label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox">2
-                                            </label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox">3
-                                            </label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Radio Buttons</label>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Radio 1
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Radio 2
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">Radio 3
-                                                </label>
-                                            </div>
+                                            <input class="form-control" type="text" size="20" name="ifsc" required value="" >
                                         </div>
                                         
-                                        
-                                        <div class="form-group">
-                                            <label>Multiple Selects</label>
-                                            <select multiple class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                        </div>-->
-                                        
-                                    
                                 </div> 
                                 <!-- /.col-lg-6 (nested) -->
                                 <div class="col-lg-6">
@@ -602,111 +535,56 @@
                                         
                                         <div class="form-group">
                                             <label>Mobile : </label>
-                                            <input class="form-control" type="tel" name="mnum" value="">
+                                            <input class="form-control" type="tel" name="mobile" required value="">
                                         </div>
                                         <div class="col-lg-8">
                                             <div class="form-group">
                                             
-                                            <label>Hostel</label>
-                                            <select name="hostel" class="form-control">
-                                                <option  value="Ashoka" >Ashoka</option>
-                                                <option  value="Chanakya1">Chanakya&nbsp;1</option>
-                                                <option  value="Chanakya2">Chanakya&nbsp;2</option>
-                                                <option  value="Chanakya3">Chanakya&nbsp;3</option>
-                                                <option  value="Aryabhatta">Aryabhatta</option>
-                                                <option  value="GBH">GBH</option>
-                                            </select>
+                                            <fieldset disabled="">
+                                            <label for="disabledSelect">Hostel</label>
+                                            <input id="disabledInput" class="form-control" name="hostel"  
+                                             value=" {% if list.hostel == 1 %}Ashoka
+                                                    {% elif list.hostel == 2 %}Aryabhatta
+                                                    {% elif list.hostel == 3 %}Chanakya 1
+                                                    {% elif list.hostel == 4 %}Chanakya 2
+                                                    {% elif list.hostel == 5 %}GBH
+                                                    {% endif %}">
+                                                </fieldset>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
+                                        <fieldset disabled="">
                                             <div class="form-group">
                                             <label>Room Number : </label>
-                                            <input class="form-control" type="text" size="4" name="room" value="">
-                                        </div>
+                                            <input class="form-control" type="text" size="4" name="room" value="{{list.room}}">
+
+                                            </div>
+                                        </fieldset>
                                         </div>
                                         <div class="form-group">
                                             <label>Permanent Address</label>
-                                            <textarea class="form-control" name="message" rows="3"></textarea>
+                                            <textarea class="form-control" name="message" rows="3" required value=""></textarea>
                                         </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>State  </label>
-                                            <select id="state" class="form-control" name="state" style="width: 150px"></select>
+                                            <select id="state" class="form-control" name="state" style="width: 150px" required value=""></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>City  </label>
-                                            <select id="city" name="city" class="form-control" style="width: 150px" ></select>
+                                            <select id="city" name="city" class="form-control" style="width: 150px" required value=""></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Pincode </label>
-                                            <input type="text" id="pincode" name="pincode" class="form-control" style="width: 150px" ></select>
+                                            <input type="text" id="pincode" name="pincode" class="form-control" style="width: 150px" required value=""></select>
                                         </div>
                                     </div>
 
-                                            <!--    <div class="form-group">
-                                                <label for="disabledSelect">Disabled input</label>
-                                                <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="disabledSelect">Disabled select menu</label>
-                                                <select id="disabledSelect" class="form-control">
-                                                    <option>Disabled select</option>
-                                                </select>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox">Disabled Checkbox
-                                                </label>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Disabled Button</button>
-                                        </fieldset>
-                                    </form>
-                                    <h1>Form Validation States</h1>
-                                    <form role="form">
-                                        <div class="form-group has-success">
-                                            <label class="control-label" for="inputSuccess">Input with success</label>
-                                            <input type="text" class="form-control" id="inputSuccess">
-                                        </div>
-                                        <div class="form-group has-warning">
-                                            <label class="control-label" for="inputWarning">Input with warning</label>
-                                            <input type="text" class="form-control" id="inputWarning">
-                                        </div>
-                                        <div class="form-group has-error">
-                                            <label class="control-label" for="inputError">Input with error</label>
-                                            <input type="text" class="form-control" id="inputError">
-                                        </div>
-                                    </form>
-                                    <h1>Input Groups</h1>
-                                    <form role="form">
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">@</span>
-                                            <input type="text" class="form-control" placeholder="Username">
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <input type="text" class="form-control">
-                                            <span class="input-group-addon">.00</span>
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon"><i class="fa fa-eur"></i>
-                                            </span>
-                                            <input type="text" class="form-control" placeholder="Font Awesome Icon">
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon">$</span>
-                                            <input type="text" class="form-control">
-                                            <span class="input-group-addon">.00</span>
-                                        </div> 
-                                        <div class="form-group input-group">
-                                            <input type="text" class="form-control">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button"><i class="fa fa-search"></i>
-                                                </button>
-                                            </span>
-                                        </div>-->
+                                            
                             
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
@@ -717,11 +595,14 @@
                         <!-- /.panel-body -->
                     </div>
                     <div class="col-lg-6">
-                        <button type="submit" name="submit" value="Submit" onclick="Validate(document.test.mnum,document.test.pincode)" class="btn btn-outline btn-success" style="float: right">Submit</button>
+                        <button type="submit" name="submit" value="Submit" onclick="Validate(document.test.mobile,document.test.pincode)" class="btn btn-success" style="float: right">Submit</button>
                         <!-- <button type="submit" class="btn btn-default">Submit Button</button> -->
                         <!-- <button type="reset" class="btn btn-default">Reset Button</button> -->
-                        <button type="reset" value="Cancel" class="btn btn-outline btn-danger" style="float: right">Cancel</button>
+                        <button type="reset" value="Cancel" class="btn btn-danger" style="float: right">Cancel</button>
                     </div>
+                    </form>
+                    <br></br><br></br>
+
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->

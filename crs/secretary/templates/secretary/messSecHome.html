@@ -253,7 +253,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i>My Profile</a>
                         </li>
-                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                       <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -303,9 +303,9 @@
                         <li>
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
-                        <li>
+                       <!--  <li>
                             <a href="/crs/secComp/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
-                        </li>
+                        </li> -->
                        <!-- <li>
                             <a href="#"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li> -->
@@ -436,10 +436,11 @@
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
                                 <form id="FORM" method="POST" action="/crs/forwardToWardenOff/"> 
-                                    <button type="submit" name="forward" form="FORM" class="btn btn-outline btn-primary" style="float:right">&nbsp;&nbsp;&nbsp;Forward&nbsp;&nbsp;&nbsp;</button>
+                                    <button id="forward1" type="submit" name="forward" form="FORM" class="btn  btn-primary" style="float:right" disabled="true">&nbsp;&nbsp;&nbsp;Forward&nbsp;&nbsp;&nbsp;</button>
 
                                     <!-- write the backend accordingly for both reject buttons one here and other in the complain details -->
-                                    <button type="submit" name="reject" class="btn btn-outline btn-info" style="float:right" onclick="/crs/rejectComplain/">&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    <button id="reject1" type="submit" name="reject" class="btn btn-danger" style="float:left" onclick="/crs/rejectComplain/" disabled="true">&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    <br></br><br></br>
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
@@ -457,7 +458,7 @@
                                         {% for item in public %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
-                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}"></td>
+                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}" onclick="Check()"></td>
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
                                                     <td>{{ item.time|date:"d-m-Y H:i:s" }}</td>
@@ -505,7 +506,7 @@
                                                 </tr>
                                             {% else %}
                                                 <tr class="even gradeX">
-                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}" ></td>
+                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}" onclick="Check()"></td>
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
                                                     <td>{{ item.time|date:"d-m-Y H:i:s" }}</td>
@@ -557,7 +558,7 @@
                                     {% for item in private %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
-                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}" ></td>
+                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}" onclick="Check()"></td>
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
                                                     <td>{{ item.time|date:"d-m-Y H:i:s" }}</td>
@@ -605,7 +606,7 @@
                                                 </tr>
                                             {% else %}
                                                 <tr class="even gradeX">
-                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}" ></td>
+                                                    <td> <input type="checkbox" class="checked" name="complain" value="{{ item.cid }}" onclick="Check()" ></td>
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
                                                     <td>{{ item.time|date:"d-m-Y H:i:s" }}</td>
@@ -694,6 +695,22 @@
                 responsive: true
         });
     });
+    </script>
+    <script type="text/javascript">
+       function Check()
+       {
+          var z=document.querySelectorAll('input[type="checkbox"][name="complain"]:checked').length;
+          if(z>0)
+          {
+            document.getElementById("reject1").disabled=false;
+            document.getElementById("forward1").disabled=false;
+          }
+          if(z==0)
+          {
+            document.getElementById("reject1").disabled=true;
+            document.getElementById("forward1").disabled=true;
+          }
+       }
     </script>
 </body>
 </html>

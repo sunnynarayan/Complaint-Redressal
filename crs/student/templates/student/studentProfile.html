@@ -51,9 +51,9 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-messages">
                         <!-- <li>
                             <a href="#">
@@ -102,9 +102,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
                        <!--  <li>
                             <a href="#">
@@ -181,9 +181,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts">
                         <!-- <li>
                             <a href="#">
@@ -247,7 +247,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -276,9 +276,9 @@
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="/OpenHostelPage/"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info.</a>
                         </li>
@@ -298,10 +298,11 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">Your Profile </h1>
                     <form action="/studEditProfile/" >
-                        <button type="submit" name = "edit" class="btn btn-outline btn-success" style="float:right">Click Here to Edit</button>
+                        <button type="submit" name = "edit" class="btn btn-success" style="float:right">Click Here to Edit</button>
+                        <br></br><br></br>
                     </form>
-                   
                 </div>
+
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
@@ -365,11 +366,11 @@
                                             <label>Hostel</label>
 
                                             <input class="form-control" name="hostel"  
-                                            value=" {% if hostel == 0 %}Ashoka
-                                                    {% elif hostel == 1 %}Aryabhatta
-                                                    {% elif hostel == 2 %}Chanakya 1
-                                                    {% elif hostel == 3 %}Chanakya 2
-                                                    {% elif hostel == 4 %}GBH
+                                            value=" {% if hostel == 1 %}Ashoka
+                                                    {% elif hostel == 2 %}Aryabhatta
+                                                    {% elif hostel == 3 %}Chanakya 1
+                                                    {% elif hostel == 4 %}Chanakya 2
+                                                    {% elif hostel == 5 %}GBH
                                                     {% endif %}">
 
                                         </div>

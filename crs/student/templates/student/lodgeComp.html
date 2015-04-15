@@ -12,17 +12,7 @@
     <title>Lodge Complain</title>
 
 
-    <!-- Bootstrap Core CSS -->
-    <!-- <link href="../../static/student/bootstrap.min.css" rel="stylesheet"> -->
-
-    <!-- MetisMenu CSS -->
-    <!-- <link href="../../static/student/metisMenu.min.css" rel="stylesheet"> -->
-
-    <!-- Custom CSS -->
-    <!-- <link href="../../static/student/sb-admin-2.css" rel="stylesheet"> -->
-
-    <!-- Custom Fonts -->
-    <!-- <link href="../../static/student/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+   
 
     <link href="../../static/student/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -36,12 +26,6 @@
     <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <script src="../../static/student/a.js"></script>
 
 
@@ -77,15 +61,15 @@ $( "#custom" ).hide();});
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="">{{ msg }}</a>                <!-- ADD USER NAME, ADD VIEW PROFILE URL-->
+                <a class="navbar-brand" href="">{{msg}}</a>                <!-- ADD USER NAME, ADD VIEW PROFILE URL-->
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-messages">
                        <!--  <li>
                             <a href="#">
@@ -134,9 +118,9 @@ $( "#custom" ).hide();});
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                   <!--  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
                         <!-- <li>
                             <a href="#">
@@ -213,9 +197,9 @@ $( "#custom" ).hide();});
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts">
                         <!-- <li>
                             <a href="#">
@@ -279,7 +263,7 @@ $( "#custom" ).hide();});
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -329,9 +313,9 @@ $( "#custom" ).hide();});
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
-                       <li>
+                       <!-- <li>
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
-                        </li>
+                        </li -->>
                         <li>
                             <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -437,7 +421,7 @@ $( "#custom" ).hide();});
                             <div class="row">
                                 <div class="col-lg-6">
                                 
-                                    <form name="complainForm" action="../lodgedComplainDetail/" method="post" enctype="multipart/form-data">
+                                    <form name="complainForm" action="../lodgedComplainDetail/" method="POST" enctype="multipart/form-data">
                                     	<div class="form-group">
                                             <label>Department</label>
                                             <select name="catagory" class="form-control">
@@ -463,7 +447,7 @@ $( "#custom" ).hide();});
                                             <p>Add other people</p>
                                             <p>
                                                 <label for="first">First:</label>
-                                                <input type="text" name="first"  />&nbsp;
+                                                <input type="text" required name="first"  />&nbsp;
                                                 <label for="second">Second:</label>
                                                 <input type="text" name="second"  />&nbsp;
                                                 <label for="third">Third:</label>
@@ -476,7 +460,7 @@ $( "#custom" ).hide();});
                                          </div> 
                                         <div class="form-group">
                                             <label>Subject</label>
-                                            <input class="form-control" name="subject" placeholder="Enter Subject">
+                                            <input class="form-control" name="subject" placeholder="Enter Subject" required >
                                         </div>
                                         <div class="form-group">
                                             <label>Text area</label>
@@ -555,10 +539,10 @@ $( "#custom" ).hide();});
                 {{ form.docfile.errors }}
                 {{ form.docfile }}
             </p>
-                                        <button type="submit" name = "Lodge" value="Lodge" class="btn btn-outline btn-success">Lodge</button>
+                                        <button type="submit" name = "Lodge" value="Lodge" class="btn btn-success">Lodge</button>
                                         <!-- <button type="submit" class="btn btn-default">Submit Button</button> -->
                                         <!-- <button type="reset" class="btn btn-default">Reset Button</button> -->
-                                        <button type="reset" value="Cancel" class="btn btn-outline btn-danger">Cancel</button>
+                                        <button type="reset" value="Cancel" class="btn btn-danger">Cancel</button>
                                     </form>
                                 </div> 
                                 <!-- /.col-lg-6 (nested) -->

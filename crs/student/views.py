@@ -127,7 +127,8 @@ def studentLodgeComplain(request):
         return redirect('/crs/')
     form =DocumentForm()
     msg=request.session.get('username')
-    return render_to_response('student/lodgeComp.html',{'form': form}, context_instance=RequestContext(request))
+    message=""
+    return render_to_response('student/lodgeComp.html',{'msg2':message,'form': form},context_instance=RequestContext(request))
 
 
 def studentHome(request):
@@ -159,7 +160,7 @@ def afterEditProfile(request):
     account=request.POST.get('accnum')
     # email=request.POST.get('email')
     mobile=request.POST.get('mobile');
-    if len(account)<=11 and  len(ifsc)<=11 and len(mobile)==10 and len(pincode)==6:
+    if len(account)==11 and  len(ifsc)==11 and len(mobile)==10 and len(pincode)==6:
         obj.mobile=mobile;
         obj.bank=bank;
         obj.ifsc=ifsc;
@@ -194,10 +195,9 @@ def afterEditProfile(request):
                                    'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                    'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
     else:
-        return render_to_response('student/studentProfile.html',
-                                  {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
-                                   'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
-                                   'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
+        message="Invalid Input"
+        return render_to_response('student/studEditProfile.html',{'list' : obj,'msg2':message,'msg':request.session.get('name')})
+        
 
 # def rateSecretary(request):
 #     if not (isStudent(request)):
@@ -517,9 +517,9 @@ def validateText(rawText):
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    subject = request.POST.get('subject', '');
+    subject = request.POST.get('subject');
     subject = validateText(subject)
-    detail = request.POST.get('message', '');
+    detail = request.POST.get('message');
     detail = validateText(detail)
     if detail == '' or subject == '':
         return redirect('/crs/complainView/')
@@ -543,6 +543,12 @@ def lodgeComplainDetail(request):
         third=request.POST.get('third','').upper()
         fourth=request.POST.get('fourth','').upper()
         fifth=request.POST.get('fifth','').upper()
+        user_roll=Student.objects.get(uid=uid).roll
+        if user_roll == first or user_roll == second or user_roll == third or user_roll == third or user_roll == fourth or user_roll==fifth or len(first)==0:
+            form =DocumentForm()
+            msg=request.session.get('username')
+            message = "You can't enter your own roll number"
+            return render_to_response('student/lodgeComp.html',{'msg2':message,'msg':msg,'form': form},context_instance=RequestContext(request))
         rollArray = []
         rollArray.append(first)
         if not second == '':
@@ -573,6 +579,9 @@ def lodgeComplainDetail(request):
         x.save()
     try:
         newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
+        im = Image.open(newdoc)
+        if im.format not in ('BMP', 'PNG', 'JPEG'):
+            return HttpResponse('Invalid File Format')
         # newdoc=Document.objects.get(docfile=request.FILES['docfile'])
         newdoc.save()
     except:
@@ -600,21 +609,21 @@ def comment(request):
     if 'submit' in request.POST:
 	   uid=request.session.get('uid')
 	   user_type=request.session.get("user_type","")
-	   comment=request.POST.get('cbox')
+	   comment=validateText(request.POST.get('cbox'))
 	   cid=request.session.get('currentCid')
 	   time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');	
-	   if user_type == "student":
+	   if user_type == "student" and len(comment)!=0:
 	       name=Student.objects.get(uid=uid).name
 	       obj=Comment(cid=cid,comment=comment,time=time,name=name)
 	       obj.save()
 	       return redirect('/crs/complainView/')
-	   elif user_type == "faculty":
+	   elif user_type == "faculty" and len(comment)!=0:
 	       name=Faculty.objects.get(fid=uid).name 
 	       obj=Comment(cid=cid,comment=comment,time=time,name=name)
 	       obj.save()
 	       return redirect('/crs/complainView/')
 	   else:
-	       return HttpResponse('unsuccessfull')
+	       return HttpResponse('Comment cant be empty')
     else:
         return HttpResponse('error')
 

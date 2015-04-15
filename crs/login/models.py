@@ -1,6 +1,35 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models import FileField
+from django.forms import forms
+from django.template.defaultfilters import filesizeformat
+from django.utils.translation import ugettext_lazy as _
+ 
+class ContentTypeRestrictedFileField(models.FileField):
+    content_types=['image/jpeg']
+    max_upload_size=2121440
+    def __init__(self, *args, **kwargs):
+        self.content_types = kwargs.pop("content_types")
+        self.max_upload_size = kwargs.pop("max_upload_size")
+        super(ContentTypeRestrictedFileField, self).__init__(*args, **kwargs)
+ 
+    def clean(self, *args, **kwargs):
+        data = super(ContentTypeRestrictedFileField, self).clean(*args, **kwargs)
+        file = data.file
+        try:
+            content_type = file.content_type
+            if content_type in self.content_types:
+                if file.size > self.max_upload_size:
+                    raise forms.ValidationError(_('Please keep filesize under'
+                                                '%s. Current filesize %s')
+                                                % (filesizeformat(self.max_upload_size), filesizeformat(file._size)))
+            else:
+                raise forms.ValidationError(_('Filetype not supported.'))
+        except AttributeError:
+            pass
+ 
+        return data
 
 class Comment(models.Model):
     commentid = models.IntegerField(db_column='commentId', primary_key=True)  # Field name made lowercase.
@@ -56,11 +85,15 @@ class Complainlink(models.Model):
         managed = False
         db_table = 'complainLink'
     def __str__(self):              # __unicode__ on Python 2
-        return self.cid
+        x = Complain.objects.get(cid=self.cid)
+        return self.cid + " " + str(x.type)
 
 class Document(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    docfile = models.CharField(max_length=100)
+    id = models.IntegerField(primary_key=True)
+    docfile = models.ImageField(upload_to='documents/%Y/%m/%d')
+    # docfile = models.FileField("Attachment", upload_to=path_and_rename("complaint_files", 'sales'), max_length=500,
+                                # help_text="Browse a file")
+    # docfile = models.CharField(max_length=100)
     cid = models.CharField(db_column='cid',max_length=19)
 
     class Meta:
@@ -111,20 +144,22 @@ class Hostel(models.Model):
 class HostelLeavingInformation(models.Model):
     sno = models.IntegerField(primary_key=True)
     studid = models.IntegerField(db_column='studid')
-    name = models.CharField(max_length=30)
     start_date = models.DateTimeField(db_column='start_Date')  # Field name made lowercase.
     end_date = models.DateTimeField(db_column='end_Date')  # Field name made lowercase.
     destination = models.CharField(max_length=1000)
     reason = models.TextField()
     hostel = models.IntegerField(db_column='hostel')
-    roll = models.CharField(max_length=8)
     mobile = models.TextField()
+    time = models.CharField(max_length=8)
+    status = models.IntegerField()
+    submittime = models.TimeField(db_column='submitTime')
 
     class Meta:
         managed = False
         db_table = 'hostel_leaving_information'
     def __str__(self):              # __unicode__ on Python 2
-        return self.name
+        stud = Student.objects.get(uid = self.studid)
+        return stud.name + " " + str(start_date)
 
 class Mealitems(models.Model):
     sno = models.IntegerField(primary_key=True)
@@ -162,6 +197,21 @@ class Pollmenu(models.Model):
         managed = False
         db_table = 'pollMenu'
 
+class Pollresult(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    hostel = models.IntegerField()
+    type = models.IntegerField()
+    meal = models.IntegerField()
+    vote = models.IntegerField()
+    protein = models.IntegerField()
+    vitamin = models.IntegerField()
+    fat = models.IntegerField()
+    nutritions = models.DecimalField(max_digits=4, decimal_places=2)
+
+    class Meta:
+        managed = False
+        db_table = 'pollResult'
+
 
 class Pollvoting(models.Model):
     idx = models.IntegerField(primary_key=True)
@@ -177,7 +227,7 @@ class Secretary(models.Model):
     uid = models.IntegerField(db_column='UID', primary_key=True)  # Field name made lowercase.
     type = models.IntegerField()
     hostel = models.IntegerField(db_column='hostel')
-    rating = models.DecimalField(max_digits=2, decimal_places=2)
+    rating = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Meta:
         managed = False

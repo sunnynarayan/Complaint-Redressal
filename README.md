@@ -11,4 +11,19 @@ Instructions :
 * for using encryption run folowing commands : <br>
 1) - sudo apt-get install <b>libffi-dev</b> <br>
 2) - sudo pip install <b>bcrypt</b>
-* for generating dynamic pdf by django install report lab : <br> <b>sudo pip install reportlab</b>
+* for generating dynamic pdf by django install report lab : <br> 
+<b>sudo pip install reportlab</b>
+<br>
+<br>
+*For viewing ER diagram of MySQL database : <br>
+<ol><li> Using MySQL workbench<ol><br>
+<li>Install <b>MySQL workbench </b> (<i>sudo apt-get install mysql-workbench</i>)</li> <br>
+<li>Either create the ER diagram yourself or see file <b>/crs/login/ER.mwb</b></li><br>
+</ol></li><br>
+<li> Directly view pdf or image <br>
+<ul>
+	<li> You can access .pdf file in <b>/crs/login/ER.pdf</b> </li><br>
+	<li> You can access .png file in <b>/crs/login/ER.png</b> </li><br>
+</ul>
+</li>
+</ol> 

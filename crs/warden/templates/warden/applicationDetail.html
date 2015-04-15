@@ -109,12 +109,14 @@
                     <form action="#" name="back">
                         <button class="btn btn-primary" style="float:left" onclick="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
+                    {% if warden %}
                     <form action="#" name="reject">
                         <button class="btn btn-success" style="float:right" onclick="#">&nbsp;&nbsp;&nbsp;&nbsp;Approve&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
                     <form action="#" name="reject">
                         <button class="btn btn-danger" style="float:right" onclick="#">&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
+                    {% endif %}
                 </div>
             </div>
             <!-- /.row -->
@@ -122,8 +124,8 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading" >
-                            <span class="form-group">For Application ID {{ item.aid }}</span>    <!-- see id -->
-                               <span class="form-group " style="float : right"> Lodge Time {{ item.time }}</span>
+                            <span class="form-group">For Application ID {{ item.sno }}</span>    <!-- see id -->
+                               <span class="form-group " style="float : right"> Lodge Time {{ item.submittime }}</span>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -135,12 +137,12 @@
                                             <tr>
                                             	
                                                 <th>Applicant's Name</th>
-                                               	<th>{{ item.name|safe }}</th>
+                                               	<th>{{ student.name }}</th>
 
                                             </tr>
                                             <tr>
                                                 <th>Roll Number</th>
-                                                <th>{{ item.roll }}</th>   
+                                                <th>{{ student.roll }}</th>   
                                             </tr>
                                             <tr>
                                                 <th>Hostel</th>
@@ -155,35 +157,35 @@
 
                                             <tr>
                                                 <th>Room</th>
-                                                <th>{{item.room}}</th>   
+                                                <th>{{ student.room }}</th>   
                                             </tr>
                                             <tr>
                                                 <th>Reason For Leave</th>
-                                                <th>{{item.reason}}</th>   
+                                                <th>{{ item.reason }}</th>   
                                             </tr>
                                             <tr>
                                                 <th>Leave Start Date</th>
-                                                <th>{{item.start}}</th>   
+                                                <th>{{ item.start_date }}</th>   
                                             </tr>
                                             <tr>
                                                 <th>Leave End Date</th>
-                                                <th>{{item.end}}</th>   
+                                                <th>{{ item.end_date }}</th>   
                                             </tr>
                                             <tr>
                                                 <th>Leaving Time</th>
-                                                <th>{{item.leavetime}</th>   
+                                                <th>{{ item.time }}</th>   
                                             </tr>
                                             <tr>
-                                                <th>Residing Address During Leave</th>
-                                                <th>{{item.address}</th>   
+                                                <th>Destination</th>
+                                                <th>{{item.destination}}</th>   
                                             </tr>
                                             <tr>
                                                 <th>Current Mobile Number</th>
-                                                <th>{{item.current}}</th>   
+                                                <th>{{ student.mobile }}</th>   
                                             </tr>
                                             <tr>
                                                 <th>Mobile Number During Absence</th>
-                                                <th>{{item.absence}}</th>   
+                                                <th>{{ item.mobile }}</th>   
                                             </tr>
 
                                         </thead>

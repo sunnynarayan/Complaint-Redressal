@@ -38,7 +38,7 @@ def ApproveComplain(request):
 	if request.session.get('user_type') == 'secretary':
 		return redirect('/crs/listComp/')
 	elif request.session.get('user_type') == 'wardenOffice':
-		return redirect('crs/wardenComplain/')
+		return redirect('/crs/listCompWardenOffice/')
 	elif request.session.get('user_type') == 'warden':
 		return redirect('/crs/wardenViewComplain/')
 	else:

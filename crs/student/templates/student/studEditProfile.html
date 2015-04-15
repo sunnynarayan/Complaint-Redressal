@@ -51,7 +51,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                         <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -78,9 +78,9 @@
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="/OpenHostelPage/"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info.</a>
                         </li>
@@ -229,44 +229,46 @@
                                         </div>
                                         <div class="col-lg-8">
                                             <div class="form-group">
-                                            
-                                            <label>Hostel</label>
-                                            <select name="hostel" class="form-control">
-                                                <option  value="0" >Ashoka</option>
-                                                <option  value="2">Chanakya&nbsp;1</option>
-                                                <option  value="3">Chanakya&nbsp;2</option>
-                                                <option  value="4">GBH&nbsp;</option>
-                                                <option  value="1">Aryabhatta</option>
-                                                <option  value="GBH">GBH</option>
-                                             </select>
+                                            <fieldset disabled="">
+                                            <label for="disabledSelect">Hostel</label>
+                                            <input id="disabledInput" class="form-control" name="hostel"  
+                                             value=" {% if list.hostel == 1 %}Ashoka
+                                                    {% elif list.hostel == 2 %}Aryabhatta
+                                                    {% elif list.hostel == 3 %}Chanakya 1
+                                                    {% elif list.hostel == 4 %}Chanakya 2
+                                                    {% elif list.hostel == 5 %}GBH
+                                                    {% endif %}">
+                                                </fieldset>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
+                                            <fieldset disabled="">
                                             <div class="form-group">
                                             <label>Room Number : </label>
-                                            <input class="form-control" type="text" size="4" name="room" value="">
-                                        </div>
+                                            <input class="form-control" type="text" size="4" name="room" value="{{list.room}}">
+                                            </div>
+                                            </fieldset>
                                         </div>
                                         <div class="form-group">
                                             <label>Permanent Address</label>
-                                            <textarea class="form-control" name="padd" rows="3"></textarea>
+                                            <textarea class="form-control" name="padd" rows="3" required value=""></textarea>
                                         </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>State  </label>
-                                            <select id="state" class="form-control" name="state" style="width: 150px"></select>
+                                            <select id="state" class="form-control" name="state" style="width: 150px" required value=""></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>City  </label>
-                                            <select id="city" name="city" class="form-control" style="width: 150px" ></select>
+                                            <select id="city" name="city" class="form-control" style="width: 150px" required value=""></select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Pincode </label>
-                                            <input type="text" id="pincode" name="pincode" class="form-control" style="width: 150px" ></select>
+                                            <input type="text" id="pincode" name="pincode" class="form-control" style="width: 150px" required value="" ></select>
                                         </div>
                                     </div>
 
@@ -277,16 +279,13 @@
                             </div>
                             <!-- /.row (nested) -->
                         </div>
-                        </form>
-
                         <!-- /.panel-body -->
                     </div>
                     <div class="col-lg-6">
-                        <button type="submit" name="submit" value="Submit" onclick="Validate(document.test.mnum,document.test.pincode)" class="btn btn-success" style="float: right">Submit</button>
-                        <!-- <button type="submit" class="btn btn-default">Submit Button</button> -->
-                        <!-- <button type="reset" class="btn btn-default">Reset Button</button> -->
+                        <button type="submit" name="submit" value="Submit" onclick="Validate(document.test.mobile,document.test.pincode)" class="btn btn-success" style="float: right">Submit</button>
                         <button type="reset" value="Cancel" class="btn btn-danger" style="float: right">Reset</button>
                     </div>
+                    </form>
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->

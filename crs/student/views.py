@@ -105,11 +105,11 @@ def studentViewComplain(request):  #shows details of complain
         except:
             pass
         return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})        
-    elif request.session.get("user_type")=="secretary" :
+    elif request.session.get("user_type")=="secretary":
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         complainObject = Complain.objects.raw(qry)
         return secViewComplain(complainObject)
-
+        
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         complainObject = Complain.objects.raw(qry)
@@ -126,6 +126,7 @@ def studentLodgeComplain(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     form =DocumentForm()
+    msg=request.session.get('username')
     return render_to_response('student/lodgeComp.html',{'form': form}, context_instance=RequestContext(request))
 
 
@@ -193,7 +194,10 @@ def afterEditProfile(request):
                                    'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                    'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
     else:
-        return HttpResponse('Error')
+        return render_to_response('student/studentProfile.html',
+                                  {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
+                                   'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
+                                   'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
 
 # def rateSecretary(request):
 #     if not (isStudent(request)):
@@ -451,7 +455,7 @@ def rateSecretary(request):
         try:
             ob=Secretaryrating.objects.get(secid=eachSec.uid,studid=uid)
             ob.rating=rating[count]
-            ++count
+            count=count+1
             ob.save()
         except:
             secObj=Secretaryrating(secid=eachSec.uid,rating=rating[count],studid=uid)
@@ -460,13 +464,13 @@ def rateSecretary(request):
     for eachSec in secList:
         obj=Secretaryrating.objects.filter(secid = eachSec.uid)
         for obej in obj:
-            ratingCount+=obej.rating
+            ratingCount=ratingCount+obej.rating
             n=n+1
         finalRating=ratingCount/n
         # return HttpResponse(finalRating)
         sec=Secretary.objects.get(uid=eachSec.uid)
         sec.rating=finalRating
-        # return HttpResponse(secListForRating)
+        # return HttpResponse(finalRating)
         sec.save()
         # return HttpResponse(finalRating)
         # return HttpResponse(finalRating)
@@ -534,11 +538,11 @@ def lodgeComplainDetail(request):
     CLObj = None
     if complainAccess == 2:
         # try:
-        first=request.POST.get('first')
-        second=request.POST.get('second','')
-        third=request.POST.get('third','')
-        fourth=request.POST.get('fourth','')
-        fifth=request.POST.get('fifth','')
+        first=request.POST.get('first').upper()
+        second=request.POST.get('second','').upper()
+        third=request.POST.get('third','').upper()
+        fourth=request.POST.get('fourth','').upper()
+        fifth=request.POST.get('fifth','').upper()
         rollArray = []
         rollArray.append(first)
         if not second == '':
@@ -561,7 +565,6 @@ def lodgeComplainDetail(request):
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
     elif complainAccess == 1:
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
-    
     complainObj.save()
     CLObj.save()
     SCLObj = Studcomplainlink(cid=cid, studid=uid)
@@ -582,7 +585,7 @@ def relodgeComplain(request):
 		return redirect('/crs/')
 	comid=request.session.get('currentCid')
 	obj=Complain.objects.get(cid=comid)
-	if obj.status==1:
+	if obj.status==10:
 		obj.status=11
 		obj.save()
 	else:

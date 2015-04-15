@@ -278,7 +278,11 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
+
+                         <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+
                         <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
+
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -303,9 +307,14 @@
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
+                        <!-- <li>
+                            <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
+                        </li> -->
+
                         <li>
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
+
                         <li>
                             <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -343,7 +352,10 @@
                         <h3 class="panel-title">Enter Details</h3>
                     </div>
                     <div class="panel-body">
+                        <form name="form1" action="/resetPassword/" method="POST" onsubmit="passwd_validate()"> 
+
                         <form name="form1" action="../restPassword/" method="post" onsubmit="passwd_validate()"> 
+
                             <fieldset>
                                 <table>
                                 <tr>

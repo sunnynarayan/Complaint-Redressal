@@ -193,7 +193,10 @@ def afterEditProfile(request):
                                    'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                    'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
     else:
-        return HttpResponse('Error')
+        return render_to_response('student/studentProfile.html',
+                                  {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
+                                   'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
+                                   'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
 
 # def rateSecretary(request):
 #     if not (isStudent(request)):

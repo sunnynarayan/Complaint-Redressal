@@ -146,7 +146,7 @@
                                                 </tr>
                                             {% else %}
                                                 <tr class="even gradeX">
-                                                    <td><a href="/crs/viewComplain?CID={{item.sno}}">{{ item.sno }}</a></td>
+                                                    <td><a href="/crs/viewFormID={{item.sno}}">{{ item.sno }}</a></td>
                                                     <td>{{ item.submittime|date:"d-m-Y" }}</td>
                                                     <td class="center">{% if item.status == 0 %}
                                                                         Application Lodged

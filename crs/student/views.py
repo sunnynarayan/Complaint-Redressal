@@ -918,7 +918,7 @@ def viewPastHostelLeaveForms(request):
     except:
         pass
 
-    return render_to_response('warden/newLeaveApplication.html', {'list' : forms})
+    return render_to_response('student/previousleave.html', {'list' : forms})
 
 def viewForm(request,formID):
     if isStudent(request) or isSecretary(request):

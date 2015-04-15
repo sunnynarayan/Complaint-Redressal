@@ -116,7 +116,7 @@ def addingFoodItem(request):
 	vitamins = request.POST.get('vitamins') 
 	proteins = request.POST.get('proteins')
 	fat = request.POST.get('fat')
-	avgNutr = (int(vitamins) + int(proteins) + int(fat))/3
+	avgNutr = (float(vitamins) + float(proteins) + float(fat))/3
 	item = Fooditems(name=itemName,vitamins=vitamins,proteins=proteins,fat=fat,nutritions=avgNutr)
 	item.save()
 	return redirect("/crs/pollViewItem/")

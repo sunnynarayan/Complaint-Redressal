@@ -124,7 +124,7 @@ class Fooditems(models.Model):
     vitamins = models.IntegerField()
     proteins = models.IntegerField()
     fat = models.IntegerField()
-    nutritions = models.DecimalField(max_digits=3, decimal_places=2)
+    nutritions = models.FloatField()
 
     class Meta:
         managed = False

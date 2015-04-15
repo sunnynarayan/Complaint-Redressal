@@ -317,9 +317,9 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                   <!--  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-messages">
                        <!--  <li>
                             <a href="#">
@@ -368,9 +368,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
                         <!-- <li>
                             <a href="#">
@@ -447,9 +447,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts">
                         <!-- <li>
                             <a href="#">
@@ -511,9 +511,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i>My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -695,7 +695,7 @@
                                           <td>{{ item.avgnutrition }}</td>
                                           <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
                                           <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
+                                          <td><input type="checkbox"	  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">

@@ -47,9 +47,14 @@
             }
         }
     }
-    
-    
+
     </script>
+    <style type="text/css">
+    #one{
+         background-color: #337ab7;
+        color: #ffffff;
+    }
+    </style>
 </head>
 
 <body>
@@ -57,7 +62,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-default navbar-static-top" id="headbar" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -71,11 +76,11 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-messages">
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <strong>John Smith</strong>
@@ -116,17 +121,17 @@
                                 <strong>Read All Messages</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
-                        <li>
+                       <!--  <li>
                             <a href="#">
                                 <div>
                                     <p>
@@ -195,17 +200,17 @@
                                 <strong>See All Tasks</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts">
-                        <li>
+                        <!-- <li>
                             <a href="#">
                                 <div>
                                     <i class="fa fa-comment fa-fw"></i> New Comment
@@ -255,7 +260,7 @@
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
@@ -267,7 +272,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -299,8 +304,17 @@
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info</a>
+                            <a id="one" href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Previous Forms</a>
+                                </li>
+                                <li id="one">
+                                    <a id="one" href="#">Fill New Form</a>
+                                </li>
+                            </ul>
                         </li>
+                        <li>
                         <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>
                         </li>
@@ -327,7 +341,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                             <form name="input" method="POST" action="/studHostelLeave/"> <!--see for action-->
+                             <form name="input" method="POST" action="/submitHostelPage/"> <!--see for action-->
                                 <div class="col-lg-6">
                                     <h3>Default Information</h3>
                                         <fieldset disabled="">
@@ -335,14 +349,16 @@
                                                 <label for="disabledSelect">Name</label>
                                                 <input  id="disabledInput" class="form-control" type="text" value="{{list.name}}" placeholder="{{name}}">
                                             </div>
-                                           <!--  <div class="form-group">
-                                                <label for="disabledSelect">Roll Number</label>
-                                                <input  id="disabledInput" class="form-control" type="text" value="{{list.roll}}" placeholder="{{roll}}">
-                                            </div> -->
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label>Hostel</label>
-                                                    <input class="form-control" name="hostel"  value="{{list.hostel}}">
+                                                    <input class="form-control" name="hostel"  
+                                                    value=  "{% if list.hostel == 0 %} Ashoka
+                                                             {% elif list.hostel == 1 %} Aryabhatta
+                                                             {% elif list.hostel == 2 %} Chanakya 1
+                                                             {% elif list.hostel == 3 %} Chanakya 2
+                                                             {% elif list.hostel == 4 %} GBH
+                                                             {% endif %}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -366,6 +382,10 @@
                                             <div class="form-group">
                                                 <label>End Date&nbsp;&nbsp;(MM/DD/YYYY)</label>
                                                 <input type="date" class="form-control" id="end_date" required value="" name="end_date" placeholder="Select End date">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Leaving Time</label>
+                                                <input type="time" class="form-control" required value="" name="time" >
                                             </div>
                                             <div class="form-group">
                                                 <label>Residing Address during Leave</label>

@@ -43,6 +43,14 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="../../static/student/a.js"></script>
+
+
+    <style type="text/css">
+    #one{
+        background-color: #337ab7;
+        color: #ffffff;
+    }
+    </style>
 </head>
 
 
@@ -75,9 +83,9 @@ $( "#custom" ).hide();});
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-messages">
                        <!--  <li>
                             <a href="#">
@@ -126,9 +134,9 @@ $( "#custom" ).hide();});
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                   <!--  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
                         <!-- <li>
                             <a href="#">
@@ -205,9 +213,9 @@ $( "#custom" ).hide();});
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts">
                         <!-- <li>
                             <a href="#">
@@ -315,6 +323,9 @@ $( "#custom" ).hide();});
                         <li>
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
+                         <li id="one">
+                            <a id="one" href="#"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
+                        </li>
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
@@ -322,7 +333,15 @@ $( "#custom" ).hide();});
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li>
                         <li>
-                            <a href="/OpenHostelPage/"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info.</a>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Previous Forms</a>
+                                </li>
+                                <li>
+                                    <a href="/OpenHostelPage/">Fill New Form</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>
@@ -418,7 +437,7 @@ $( "#custom" ).hide();});
                             <div class="row">
                                 <div class="col-lg-6">
                                 
-                                    <form name="complainForm" action="../lodgedComplainDetail/" method="post" enctype="multipart/form-data">
+                                    <form name="complainForm" action="../lodgedComplainDetail/" method="POST" enctype="multipart/form-data">
                                     	<div class="form-group">
                                             <label>Department</label>
                                             <select name="catagory" class="form-control">
@@ -457,7 +476,7 @@ $( "#custom" ).hide();});
                                          </div> 
                                         <div class="form-group">
                                             <label>Subject</label>
-                                            <input class="form-control" name="subject" placeholder="Enter Subject">
+                                            <input class="form-control" name="subject" placeholder="Enter Subject" required >
                                         </div>
                                         <div class="form-group">
                                             <label>Text area</label>

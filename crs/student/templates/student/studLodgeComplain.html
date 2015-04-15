@@ -18,6 +18,16 @@ $("#pri").click(function() {
 $( "#custom" ).hide();});
 });
 </script>
+<script type="text/javascript">
+	function IsEmpty(){ 
+
+if(document.getElementById("require").value == null )
+{
+alert("empty");
+}
+    return  false;
+}
+</script>
 
 
 <div id="right">
@@ -36,12 +46,12 @@ $( "#custom" ).hide();});
 
 	<input id="pub" type="radio" name="complainType" value="0">Public
 
-	<input id="cust" type="radio" name="complainType" value="2">Custom
+	<input id="cust" onclick="IsEmpty();" type="radio" name="complainType" value="2">Custom
 	</p>
 	<div id="custom" >
   		<p>Add other people</p>
   		<p><label for="first">First:</label>
-				<input type="text" name="first"  />&nbsp;
+				<input id="require"  type="text" name="first"  />&nbsp;
 			<label for="second">Second:</label>
 				<input type="text" name="second"  />&nbsp;
 			<label for="third">Third:</label>
@@ -52,7 +62,7 @@ $( "#custom" ).hide();});
 				<input type="text" name="fifth"  />
 			</p>
   	 </div>	
-	<p>Subject&nbsp;&nbsp;<input type="text" name="subject" placeholder="Subject" required value="" > </p>
+	<p>Subject&nbsp;&nbsp;<input type="text" name="subject" placeholder="Subject" required value=""></p>
 	
 	<p>Add description of complain</p>
 	<p><textarea  name="message" rows="10" cols="70" placeholder="Write description of complain." required value=""></textarea></p>

@@ -18,10 +18,27 @@ from django.db import transaction
 from wardenOffice.views import *
 from warden.views import *
 from secretary.views import *
-
-
+from django.core.files import File
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Image
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import landscape
+import os, inspect
 # global globlid
 # globlid=0
+# class DocumentForm(forms.Form):
+#     # name = forms.CharField(label='Name Of Your Image', widget=forms.TextInput(attrs={'class': 'form-control', }))
+#     docfile = forms.ImageFileField(label='Select a file', )
+#     # Certification = forms.BooleanField(label='I certify that this is my original work')
+#     # description = forms.CharField(label='Describe Your Image',
+#                                   # widget=forms.TextInput(attrs={'class': 'form-control', }))
+#     # Image_Keyword = forms.CharField(label='Keyword Of Image', widget=forms.TextInput(attrs={'class': 'form-control', }))
+
+#     def clean_photo(self):
+#         image_file = self.cleaned_data.get('docfile')
+#         if not image_file.name.endswith(".jpg"):
+#             raise forms.ValidationError("Only .jpg image accepted")
+#         return image_file
 
 class DocumentForm(forms.Form):
     docfile = forms.FileField(
@@ -62,32 +79,13 @@ def list(request): # Handle file upload
     #     context_instance=RequestContext(request)
     # )
     else:
-        return HttpResponse('kjkj')
+        return HttpResponse('Error!!')
 
 def loadPage(request):
     form =DocumentForm()
     return render_to_response('student/list.html',{'form': form})
 
-def OpenHostelPage(request):
-	username=request.session.get("username")
-	obj=Student.objects.get(username=username)
-	return render_to_response('student/studHostelLeave.html',{'list' : obj}, context_instance=RequestContext(request))
 
-def HostelLeavingSubmit(request):
-    # laptop=request.POST.get('laptop', '')
-    start_date=request.POST.get('start_date', datetime.datetime.now().date())
-    end_date=request.POST.get('end_date' , datetime.datetime.now().date())
-    destination=request.POST.get('destination', '')
-    reason=request.POST.get('reason', '')
-    username=request.session.get("username")
-    obj = Student.objects.get(username=username)
-    # rollno = obj.roll
-    hostel=obj.hostel
-    roll=obj.roll
-    mobile=request.POST.get('mobile')
-    hostel = HostelLeavingInformation(name = obj.name,start_date =start_date, end_date = end_date,destination=destination,reason=reason,hostel=hostel,roll=roll,mobile=mobile)
-    hostel.save()
-    return redirect('/crs/complainView/');
 def validatePassword(passwd):
     return ((len(passwd) < 21) and (len(passwd) > 7))
 
@@ -117,7 +115,7 @@ def studentViewComplain(request):  #shows details of complain
         comment = []
         documents = []
         try:
-            documents.extend(Document.objects.get(cid=complainObject[0].cid))
+            documents=(Document.objects.get(cid=complainObject[0].cid))
         except:
             pass
         try:
@@ -134,10 +132,12 @@ def studentViewComplain(request):  #shows details of complain
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         complainObject = Complain.objects.raw(qry)
         return wardenOfficeViewComplain(complainObject)
-    # elif request.session.get("user_type")=="warden" :
-    #     qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"       
-    # else :
-    #     return HttpResponse('error')
+    elif request.session.get("user_type")=="warden" :
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+        complainObject = Complain.objects.raw(qry)
+        return wardenViewComplain(complainObject)      
+    else :
+        return HttpResponse('error')
     
 
 def studentLodgeComplain(request):
@@ -458,10 +458,10 @@ def rateSecretary(request):
         return redirect('/crs/')
     uid = request.session.get('uid') 
     count=0;
-    ratingCount=0
+    ratingCount=0.0
     n=0
     finalRating=0.0
-    lenn=0.0
+    lenn=0
     hostel=request.session.get('hostel')
     secList=request.session.get('secListForRating')
     # type1=request.POST.get('type')
@@ -483,15 +483,18 @@ def rateSecretary(request):
             ratingCount+=obej.rating
             n=n+1
         finalRating=ratingCount/n
-        # lenn=finalRating
-        # eachSec.rating=finalRating
+        # return HttpResponse(finalRating)
         sec=Secretary.objects.get(uid=eachSec.uid)
         sec.rating=finalRating
+        # return HttpResponse(secListForRating)
         sec.save()
-        ratingCount=0
+        # return HttpResponse(finalRating)
+        # return HttpResponse(finalRating)
+        ratingCount=0.0
         finalRating=0.0
         n=0
     return redirect('/crs/complainView/');
+
     # type2=getCatagory(type1)
     # obj=Secretary.objects.get(type=type2,hostel=hostel)
     # secId=obj.uid
@@ -537,22 +540,15 @@ def lodgeComplainDetail(request):
     if detail == '' or subject == '':
         return redirect('/crs/complainView/')
     catagory = getCatagory(request.POST.get('catagory'));
-    hostel = request.session.get("hostel");
+    hostel = request.session.get('hostel');
     time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
     complainAccess = int(request.POST.get('complainType'));
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
-    cid = getComplainID(catagory, hostel)
+    cid = getComplainID(catagory,int(hostel))
     complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0, history=history, status = 1);
-    secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
+    secretaryObj = Secretary.objects.get(hostel=hostel,type=catagory)
     secid = secretaryObj.uid
-    try:
-    	newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
-    	# newdoc=Document.objects.get(docfile=request.FILES['docfile'])
-    	newdoc.save()
-    except:
-        pass
-
     SCLArray = []
     # CLArray = []
     CLObj = None
@@ -585,12 +581,19 @@ def lodgeComplainDetail(request):
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
     elif complainAccess == 1:
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
-    complainObj.save();
+    
+    complainObj.save()
     CLObj.save()
     SCLObj = Studcomplainlink(cid=cid, studid=uid)
     SCLArray.append(SCLObj)
     for x in SCLArray:
         x.save()
+    try:
+        newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
+        # newdoc=Document.objects.get(docfile=request.FILES['docfile'])
+        newdoc.save()
+    except:
+        pass
 
     return redirect('/crs/complainView/');
 
@@ -658,3 +661,356 @@ def studentProfile(request):
                               {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
+
+def checkAvailabilityOfPoll(hostel):
+    #if PollMenu contain any entry of this hostel then poll is available.
+    pollOptions = Pollmenu.objects.filter(hostel=hostel).count()
+    if pollOptions > 0:
+        return True
+    else:
+        return False
+
+def checkVoted(uid):
+    try:
+        totalVotes = Pollvoting.objects.filter(uid = uid).count()
+        if totalVotes > 0:
+            return True
+        else:
+            return False
+    except:
+        return False
+def pollPage(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    # check if any poll is available for this student
+    if not checkAvailabilityOfPoll(request.session.get('hostel')):
+        return redirect('/crs/pollResult/')
+        # redirect to page that shows that no poll is available!
+    if checkVoted(request.session.get('uid')):
+        return redirect('/crs/pollResult/')
+    breakfastPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1)
+    lunchPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2)
+    dinnerPollOptions = Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3)
+    sessionBreakfastArray = []
+    sessionLunchArray = []
+    sessionDinnerArray = []
+    for x in breakfastPollOptions:
+        sessionBreakfastArray.append(x.id)
+    for x in lunchPollOptions:
+        sessionLunchArray.append(x.id)
+    for x in dinnerPollOptions:
+        sessionDinnerArray.append(x.id)
+
+    request.session['breakfastArray'] = sessionBreakfastArray
+    request.session['lunchArray'] = sessionLunchArray
+    request.session['dinnerArray'] = sessionDinnerArray
+
+    return render_to_response("student/startPoll.html", {'list1' : breakfastPollOptions, 'list2' : lunchPollOptions, 'list3' : dinnerPollOptions})
+
+def studentPolling(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    # check if any poll is available for this student
+    if not checkAvailabilityOfPoll(request.session.get('hostel')):
+        return redirect('/crs/pollResult/')
+
+    if checkVoted(request.session.get('uid')):
+        return redirect('/crs/pollResult/')
+
+    breakfastPOindex = request.POST.getlist('breakfast')
+    lunchPOindex = request.POST.getlist('lunch')
+    dinnerPOindex = request.POST.getlist('dinner')
+
+    breakfastPollOptions = request.session.get('breakfastArray')
+    lunchPollOptions = request.session.get('lunchArray')
+    dinnerPollOptions = request.session.get('dinnerArray')
+
+    voting = []
+
+    for xx in breakfastPOindex:
+        x = int(xx)
+        if x > -1 and x < len(breakfastPollOptions):
+            newObj = Pollvoting(id = breakfastPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            return redirect('/crs/pollOptions/')
+            # redirect page to polling page again
+            # pass
+
+    for xx in lunchPOindex:
+        x = int(xx)
+        if x > -1 and x < len(lunchPollOptions):
+            newObj = Pollvoting(id = lunchPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            return redirect('/crs/pollOptions/')
+            # redirect page to polling page again
+            pass
+
+    for xx in dinnerPOindex:
+        x = int(xx)
+        if x > -1 and x < len(dinnerPollOptions):
+            newObj = Pollvoting(id = dinnerPollOptions[x], uid = request.session.get('uid'))
+            voting.append(newObj)
+        else:
+            return redirect('/crs/pollOptions/')
+            # redirect page to polling page again
+            pass
+    for x in voting:
+        x.save()
+
+    return redirect('/crs/pollResult/')
+
+class PollMenuVoting():
+    """docstring for PollMenuVoting"""
+    def __init__(self, arg, arg1):
+        self.meal = arg.meal
+        self.protein = arg.protein
+        self.vitamin = arg.vitamin
+        self.fat = arg.fat
+        self.nutritions = arg.nutritions
+        self.votes = arg1   
+    def __str__(self):              # __unicode__ on Python 2
+        return str(self.votes)
+
+def pollResult(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
+        return finalPollResult(request)
+    # breakfastPollOptions = request.session.get('breakfastArray')
+    # lunchPollOptions = request.session.get('lunchArray')
+    # dinnerPollOptions = request.session.get('dinnerArray')
+    breakfastPollOptions = []
+    lunchPollOptions = []
+    dinnerPollOptions = []
+    votesB = []
+    votesL = []
+    votesD = []
+    dataB = ""
+    dataL = ""
+    dataD = ""
+    b = 1
+    l = 1
+    d = 1
+    try:
+        breakfastPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 1))
+    except:
+        pass
+    try:
+        lunchPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 2))
+    except:
+        pass
+    try:
+        dinnerPollOptions.extend(Pollmenu.objects.filter(hostel=request.session.get('hostel')).filter(type = 3))
+    except:
+        pass
+    for x in breakfastPollOptions:
+        try:
+            votesB.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            dataB = dataB + "B-Item " + str(b) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            b = b + 1
+        except:
+            votesB.append(PollMenuVoting(x,0))
+            dataB = dataB + "B-Item " + str(b) + "\t0\n"
+            b = b + 1
+    for x in lunchPollOptions:
+        try:
+            votesL.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            dataL = dataL + "L-Item " + str(l) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            l = l + 1
+        except:
+            votesL.append(PollMenuVoting(x,0))
+            dataL = dataL + "L-Item " + str(l) + "\t0\n"
+            l = l + 1
+    for x in dinnerPollOptions:
+        try:
+            votesD.append(PollMenuVoting(x,Pollvoting.objects.filter(id=x.id).count()))
+            dataD = dataD + "D-Item " + str(d) + "\t" + str(Pollvoting.objects.filter(id=x.id).count()) + "\n"
+            d = d + 1
+        except:
+            votesD.append(PollMenuVoting(x,0))
+            dataD = dataD + "D-Item " + str(d) + "\t0\n"
+            d = d + 1
+            
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataB.tsv', 'w') as f:
+        myfile = File(f)
+        myfile.write("meal\tvotes\n"+dataB)
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataL.tsv', 'w') as f:
+        myfile = File(f)
+        myfile.write("meal\tvotes\n"+dataL)
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataD.tsv', 'w') as f:
+        myfile = File(f)
+        myfile.write("meal\tvotes\n"+dataD)
+    return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })
+
+def OpenHostelPage(request):
+    obj=Student.objects.get(uid=request.session.get('uid'))
+    print str(obj.hostel)
+    return render_to_response('student/studHostelLeave.html',{'list' : obj}, context_instance=RequestContext(request))
+
+##GetDifferece(start_date,end_date)
+#Function takes 2 dates as arguments and @return Boolean True is start_date < end_sate
+def getDiffrence(start_date,end_date):
+    sYear = int(start_date[0:4])
+    eYear = int(end_date[0:4])
+    sMonth = int(start_date[5:7])
+    eMonth = int(end_date[5:7])
+    sDay = int(start_date[8:10])
+    eDay = int(end_date[8:10])
+    start_time= 0
+    end_time = 0
+    try:
+        start_time = int(datetime.datetime(sYear,sMonth,sDay).strftime('%s'))
+        end_time = int(datetime.datetime(eYear,eMonth,eDay).strftime('%s'))
+    except:
+        return False
+
+    if end_time - start_time <= 0:
+        return False
+    else:
+        if start_time - int(datetime.datetime.now().strftime('%s')) <= 86400:
+            return False
+        else:
+            return True
+
+def HostelLeavingSubmit(request):
+    # laptop=request.POST.get('laptop', '')
+    start_date=request.POST.get('start_date', '')
+    end_date=request.POST.get('end_date' , '')
+    destination=request.POST.get('destination', '')
+    reason=request.POST.get('reason', '')
+    time = request.POST.get('time','')
+    username=request.session.get("username")
+    print start_date;
+    # obj = Student.objects.get(username=username)
+    match = re.match(r'^20[0-9][0-9]-[0-1][0-9]-[0-3][0-9]$', start_date)
+    if match:
+        pass
+    else:
+        return HttpResponse("start date is invalid")
+    match = re.match(r'^20[0-9][0-9]-[0-1][0-9]-[0-3][0-9]$', start_date)
+    if match:
+        pass
+    else:
+        return HttpResponse("end date is invalid")
+    print time
+    match = re.match(r'^[0-2][0-9]:[0-5][0-9]$', time)
+    print match
+    if match:
+        hours = int(time[0:2])
+        if hours > 23 :
+            return HttpResponse('Invalid time! Hour > 23')
+    else:
+        return HttpResponse('Invalid time!')
+    destination = validateText(destination)
+    reason = validateText(reason)
+    if len(destination) == 0 or len(destination) == 0:
+        return HttpResponse("reason or destination invalid!")
+    # rollno = obj.roll
+    hostel = request.session.get('hostel')
+    # roll = obj.roll
+    mobile=request.POST.get('mobile') 
+    match = re.match(r'^\d\d\d\d\d\d\d\d\d\d$', mobile)
+    if match:
+        pass
+    else:
+        return HttpResponse("invalid mobile number!")
+    #Now validate the time difference
+    if not getDiffrence(start_date,end_date):
+        return HttpResponse("Error in Date input")
+
+    hostel = HostelLeavingInformation(studid = request.session.get('uid'), start_date = start_date, end_date = end_date, destination = destination,reason = reason , time = time, hostel = hostel, mobile = mobile, status = 0)
+    hostel.save()
+    #redirect to page where all hostel leaving forms can be viewed!
+    return redirect('/crs/complainView/');
+
+def viewPastHostelLeaveForms(request):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    forms = []
+    try:
+        forms.extend(HostelLeavingInformation.objects.filter(studid = request.session.get('uid')))
+    except:
+        pass
+
+    return render_to_response('warden/newLeaveApplication.html', {'list' : forms})
+
+def viewForm(request,formID):
+    if isStudent(request):
+        form = None
+        try:
+            form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
+        except:
+            return HttpResponse('Not authorized to view this page!')
+
+        student = Student.objects.get(uid=request.session.get('uid'))
+        return render_to_response('warden/applicationDetail.html', {'item' : form, 'student' : student, 'warden' : False})
+    elif isWarden(request):
+        form = None
+        try:
+            form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID), hostel = request.session.get('hostel'))
+        except:
+            return HttpResponse('Not authorized to view this page!')
+
+        student = Student.objects.get(uid=request.session.get('uid'))
+        return render_to_response('warden/applicationDetail.html', {'item' : form, 'student' : student, 'warden' : True})
+
+def some_view(request,formID):
+    if not (isStudent(request)):
+        return redirect('/crs/')
+    form = None
+    try:
+        form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
+    except:
+        return HttpResponse('Not authorized to view this page!')
+    
+    # Create the HttpResponse object with the appropriate PDF headers.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
+
+    # Create the PDF object, using the response object as its "file."
+    p = canvas.Canvas(response)
+    # p.setFont('Helvetica', 48, leading=None)
+    # p.drawCentredString(300, 750, "Warden's Office")
+
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawCentredString(300, 700, "Hostel Leaving Form")
+    
+    # line1 = "I " + request.session.get('name')
+    # line2 = "staying presently in Room No 209" 
+    # line3 = "of Ashoka Hall"
+    # line4 = "do hereby intimate that I am leaving hostel"
+
+    # p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 600, line1)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 550, line2)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 500, line3)
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    
+    # Close the PDF object cleanly, and we're done.
+    stud = Student.objects.get(uid=form.studid)
+    name = stud.name
+    room = stud.room
+    start_date = form.start_date
+    end_date = form.end_date
+    time = form.time
+    hostel = Hostel.objects.get(id = stud.hostel).name
+    destination = form.destination
+    reason = form.reason
+    rollno = stud.roll
+    mobile = form.mobile
+    formid = form.sno
+    currentTime = str(datetime.datetime.now())[0:19]
+    path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    image = path + "/Hostel_Leaving_Form.png"
+    p.drawImage(image,20,40,width=600,height=800)
+    p.setFont('Helvetica', 15, leading=None)
+    p.drawString(130, 663, name)
+    p.showPage()
+    p.save()
+    return response

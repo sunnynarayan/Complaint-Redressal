@@ -1,61 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<title>
-		
-	</title>
-</head>
-<body>
-<h3 align="center"> Breakfast, lunch and dinner menus </h3>
-
-<div id="container">
-    <div id="one">
-    	<h2> Breakfast options:</h2>
-    	<table>
-        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
-    	{% for items in list1 %}
-        <tr>
-        <td>{{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
-        </tr>
-        {% endfor %}
-        </table>
-    </div>
-    <div id="two">
-    	<h2> Lunch options:</h2>
-    	<table>
-        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
-    	{% for items in list2 %}
-        <tr>
-        <td>{{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
-        </tr>
-        {% endfor %}
-        </table>
-    </div>
-    <div id="three">
-    	<h2> Dinner options:</h2>
-    	<table>
-        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
-    	{% for items in list3 %}
-        <tr>
-        <td>{{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
-        </tr>
-        {% endfor %}
-        </table>
-    </div>
-    <button type="submit" value="" > Start Poll </button>
-</div>
-
-</body>
-</html> -->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,8 +36,32 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-</head>
+    <style>
 
+        .axis text {
+          font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+
+        .bar {
+          fill: blue;
+          fill-opacity: .9;
+        }
+
+        .x.axis path {
+          display: none;
+        }
+
+    </style>
+
+</head>
+<script src="../../static/d3.v3.min.js"></script>
 <body>
 
     <div id="wrapper">
@@ -115,9 +81,9 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <<!-- a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-messages">
                        <!--  <li>
                             <a href="#">
@@ -166,9 +132,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
                         <!-- <li>
                             <a href="#">
@@ -245,9 +211,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts">
                         <!-- <li>
                             <a href="#">
@@ -373,7 +339,7 @@
                         <li>
                             <a href="/crs/viewPollOptions/"><i class="fa fa-edit fa-fw"></i>Poll Options</a>
                         </li>
-                       <!-- <li>
+                       <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -394,7 +360,7 @@
                                 <li>
                                     <a href="grid.html">Grid</a>
                                 </li>
-                            </ul> -->
+                            </ul>
                             <!-- /.nav-second-level -->
                         <!-- </li>
                         <li>
@@ -470,7 +436,7 @@
                                             <th>Protein</th>
                                             <th>Vitamin</th>
                                             <th>Fat</th>
-                                            <th>check</th>
+                                            <th>Votes</th>
                                         </tr>
                                     </thead>
                                     
@@ -482,10 +448,10 @@
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
 
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
                                             <td> {{ item.votes }}</td>
                                         </tr>
@@ -494,12 +460,12 @@
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> {{ item.votes }}</td>
+                                            <td>{{ item.votes }}</td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
@@ -530,7 +496,7 @@
                                             <th>Protein</th>
                                             <th>Vitamin</th>
                                             <th>Fat</th>
-                                            <th>check</th>
+                                            <th>Votes</th>
                                         </tr>
                                     </thead>
                                     
@@ -541,10 +507,10 @@
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
                                             <td> {{ item.votes }}</td>
                                         </tr>
@@ -553,10 +519,10 @@
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
                                             <td> {{ item.votes }}</td>
                                         </tr>
@@ -588,7 +554,7 @@
                                             <th>Protein</th>
                                             <th>Vitamin</th>
                                             <th>Fat</th>
-                                            <th>check</th>
+                                            <th>Votes</th>
                                         </tr>
                                     </thead>
                                     
@@ -599,10 +565,10 @@
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
                                             <td> {{ item.votes }}</td>
                                         </tr>
@@ -611,10 +577,10 @@
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
                                             <td> {{ item.votes }}</td>
                                         </tr>
@@ -622,7 +588,6 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <button type="submit" class="btn btn-lg btn-success btn-block" value="" > Start Poll </button>
                             </div>
                             <!-- /.table-responsive -->
                         </div>
@@ -632,11 +597,322 @@
                 </div>
                 <!-- /.col-lg-6 -->
             </div>
-
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
+    <label><input id="ForBreakFast" type="checkbox"> Sort values</label>
+    <div id="DivForBreakFast"></div>
+    <label><input id="ForLunch" type="checkbox"> Sort values</label>
+    <div id="DivForLunch"></div>
+    <label><input id="ForDinner" type="checkbox"> Sort values</label>
+    <div id="DivForDinner"></div>
+    <script>
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+var formatPercent = d3.format(".%");
+
+var x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .1, 1);
+
+var y = d3.scale.linear()
+        .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+
+var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .tickFormat(formatPercent);
+
+var svg1 = d3.select("#DivForBreakFast").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("../../static/dataB.tsv", function (error, data) {
+
+    data.forEach(function (d) {
+        d.votes = +d.votes;
+    });
+
+    x.domain(data.map(function (d) {
+        return d.meal;
+    }));
+    y.domain([0, d3.max(data, function (d) {
+            return d.votes;
+        })]);
+
+    svg1.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+    svg1.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("votes");
+
+    svg1.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function (d) {
+                return x(d.meal);
+            })
+            .attr("width", x.rangeBand())
+            .attr("y", function (d) {
+                return y(d.votes);
+            })
+            .attr("height", function (d) {
+                return height - y(d.votes);
+            });
+
+    d3.select("#ForBreakFast").on("change", change);
+
+    var sortTimeout = setTimeout(function () {
+        d3.select("#ForBreakFast").property("checked", true).each(change);
+    }, 2000);
+
+    function change() {
+        clearTimeout(sortTimeout);
+
+        // Copy-on-write since tweens are evaluated after a delay.
+        var x0 = x.domain(data.sort(this.checked
+                ? function (a, b) {
+                    return b.votes - a.votes;
+                }
+        : function (a, b) {
+            return d3.ascending(a.meal, b.meal);
+        })
+                .map(function (d) {
+                    return d.meal;
+                }))
+                .copy();
+
+        svg1.selectAll(".bar")
+                .sort(function (a, b) {
+                    return x0(a.meal) - x0(b.meal);
+                });
+
+        var transition = svg1.transition().duration(750),
+                delay = function (d, i) {
+                    return i * 50;
+                };
+
+        transition.selectAll(".bar")
+                .delay(delay)
+                .attr("x", function (d) {
+                    return x0(d.meal);
+                });
+
+        transition.select(".x.axis")
+                .call(xAxis)
+                .selectAll("g")
+                .delay(delay);
+    }
+});
+
+var svg2 = d3.select("#DivForLunch").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("../../static/dataL.tsv", function (error, data) {
+
+    data.forEach(function (d) {
+        d.votes = +d.votes;
+    });
+
+    x.domain(data.map(function (d) {
+        return d.meal;
+    }));
+    y.domain([0, d3.max(data, function (d) {
+            return d.votes;
+        })]);
+
+    svg2.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+    svg2.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("votes");
+
+    svg2.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function (d) {
+                return x(d.meal);
+            })
+            .attr("width", x.rangeBand())
+            .attr("y", function (d) {
+                return y(d.votes);
+            })
+            .attr("height", function (d) {
+                return height - y(d.votes);
+            });
+
+    d3.select("#ForLunch").on("change", change);
+
+    var sortTimeout = setTimeout(function () {
+        d3.select("#ForLunch").property("checked", true).each(change);
+    }, 2000);
+
+    function change() {
+        clearTimeout(sortTimeout);
+
+        // Copy-on-write since tweens are evaluated after a delay.
+        var x0 = x.domain(data.sort(this.checked
+                ? function (a, b) {
+                    return b.votes - a.votes;
+                }
+        : function (a, b) {
+            return d3.ascending(a.meal, b.meal);
+        })
+                .map(function (d) {
+                    return d.meal;
+                }))
+                .copy();
+
+        svg2.selectAll(".bar")
+                .sort(function (a, b) {
+                    return x0(a.meal) - x0(b.meal);
+                });
+
+        var transition = svg2.transition().duration(750),
+                delay = function (d, i) {
+                    return i * 50;
+                };
+
+        transition.selectAll(".bar")
+                .delay(delay)
+                .attr("x", function (d) {
+                    return x0(d.meal);
+                });
+
+        transition.select(".x.axis")
+                .call(xAxis)
+                .selectAll("g")
+                .delay(delay);
+    }
+});
+
+var svg3 = d3.select("#DivForDinner").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("../../static/dataD.tsv", function (error, data) {
+
+    data.forEach(function (d) {
+        d.votes = +d.votes;
+    });
+
+    x.domain(data.map(function (d) {
+        return d.meal;
+    }));
+    y.domain([0, d3.max(data, function (d) {
+            return d.votes;
+        })]);
+
+    svg3.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+    svg3.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("votes");
+
+    svg3.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function (d) {
+                return x(d.meal);
+            })
+            .attr("width", x.rangeBand())
+            .attr("y", function (d) {
+                return y(d.votes);
+            })
+            .attr("height", function (d) {
+                return height - y(d.votes);
+            });
+
+    d3.select("#ForDinner").on("change", change);
+
+    var sortTimeout = setTimeout(function () {
+        d3.select("#ForDinner").property("checked", true).each(change);
+    }, 2000);
+
+    function change() {
+        clearTimeout(sortTimeout);
+
+        // Copy-on-write since tweens are evaluated after a delay.
+        var x0 = x.domain(data.sort(this.checked
+                ? function (a, b) {
+                    return b.votes - a.votes;
+                }
+        : function (a, b) {
+            return d3.ascending(a.meal, b.meal);
+        })
+                .map(function (d) {
+                    return d.meal;
+                }))
+                .copy();
+
+        svg3.selectAll(".bar")
+                .sort(function (a, b) {
+                    return x0(a.meal) - x0(b.meal);
+                });
+
+        var transition = svg3.transition().duration(750),
+                delay = function (d, i) {
+                    return i * 50;
+                };
+
+        transition.selectAll(".bar")
+                .delay(delay)
+                .attr("x", function (d) {
+                    return x0(d.meal);
+                });
+
+        transition.select(".x.axis")
+                .call(xAxis)
+                .selectAll("g")
+                .delay(delay);
+    }
+});
+    </script>
+
     <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="../../static/student/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

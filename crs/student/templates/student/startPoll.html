@@ -1,61 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<title>
-		
-	</title>
-</head>
-<body>
-<h3 align="center"> Breakfast, lunch and dinner menus </h3>
-
-<div id="container">
-    <div id="one">
-    	<h2> Breakfast options:</h2>
-    	<table>
-        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
-    	{% for items in list1 %}
-        <tr>
-        <td>{{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
-        </tr>
-        {% endfor %}
-        </table>
-    </div>
-    <div id="two">
-    	<h2> Lunch options:</h2>
-    	<table>
-        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
-    	{% for items in list2 %}
-        <tr>
-        <td>{{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
-        </tr>
-        {% endfor %}
-        </table>
-    </div>
-    <div id="three">
-    	<h2> Dinner options:</h2>
-    	<table>
-        <tr><th>S.No.</th><th>Name</th><th>Average Nutrition</th></tr>
-    	{% for items in list3 %}
-        <tr>
-        <td>{{ forloop.counter }} </td>
-        <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
-        <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td>
-        </tr>
-        {% endfor %}
-        </table>
-    </div>
-    <button type="submit" value="" > Start Poll </button>
-</div>
-
-</body>
-</html> -->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,17 +29,10 @@
     <!-- Custom Fonts -->
     <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 
 <body>
-
+<form action="/crs/pollChoice/" method="POST">
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -115,9 +50,9 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                   <!--  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-messages">
                        <!--  <li>
                             <a href="#">
@@ -166,9 +101,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                   <!--  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
                         <!-- <li>
                             <a href="#">
@@ -245,9 +180,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts">
                         <!-- <li>
                             <a href="#">
@@ -482,24 +417,24 @@
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
 
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="breakfast" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="breakfast" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
@@ -541,24 +476,24 @@
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="lunch" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="lunch" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
@@ -599,30 +534,30 @@
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="dinner" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
                                             <td>{{ forloop.counter }} </td>
                                             <!-- <td><input class = "inpText"  type="text" value="{{ items.name }}"></td>
                                             <td><input class = "inpText"  type="text" value="{{ items.avgnutrition }}"></td> -->
-                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.meal }}</td>
                                             <td>{{ item.nutritions }}</td>
-                                            <td>{{ item.proteins }}</td>
-                                            <td>{{ item.vitamins }}</td>
+                                            <td>{{ item.protein }}</td>
+                                            <td>{{ item.vitamin }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td> <input type="checkbox" class="checked" name="" value="{{ item.counter }}"></td>
+                                            <td> <input type="checkbox" class="checked" name="dinner" value="{{ forloop.counter0 }}"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <button type="submit" class="btn btn-lg btn-success btn-block" value="" > Start Poll </button>
+                                <button type="submit" class="btn btn-lg btn-danger btn-block" > Vote </button>
                             </div>
                             <!-- /.table-responsive -->
                         </div>
@@ -635,6 +570,7 @@
 
         <!-- /#page-wrapper -->
     </div>
+    </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
     <script src="../../static/student/bower_components/jquery/dist/jquery.min.js"></script>
@@ -643,7 +579,7 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../../static/student/bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <!-- DataTables JavaScript -->
-    <script src="../../static/student/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../static/student/jquery.dataTables.min.js"></script>
     <script src="../../static/student/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../../static/student/dist/js/sb-admin-2.js"></script>
@@ -655,6 +591,7 @@
         });
     });
     </script>
+</form>
 </body>
 </html>
 

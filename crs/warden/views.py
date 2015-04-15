@@ -12,6 +12,7 @@ import datetime
 from login.models import *
 import re
 from student.views import *
+
 def isWarden(request):
 	user_type = request.session.get("user_type",'')
 	if user_type != "warden":
@@ -40,7 +41,25 @@ def wardenComplainView(request):
 	for num in PublicComplainObjects:
 		numCid=num.cid
 		Publiclist.append(Complain.objects.get(cid=numCid));
-	return render_to_response('warden/wardenViewComplain.html',{'list1' : Publiclist, 'list2':Privatelist});
+	return render_to_response('warden/wardenViewComplain.html',{'public' : Publiclist, 'private':Privatelist});
+
+def wardenViewComplain(complainObject):
+    # indexF = request.GET.get('CID')
+    # index = int(indexF)
+    # qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = " + str(index) + " AND (b.secID = " + str(request.session.get('uid')) + " OR b.studID = 0 ) AND b.CID = a.cid"
+    # complainObject = Complain.objects.raw(qry)
+    # return render_to_response("secretary/complainDetail.html", {'item': complainObject[0]})
+    comment = []
+    documents = []
+    try:
+    	documents.extend(Document.objects.get(cid=complainObject[0].cid))
+    except:
+        pass
+    try:
+        comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
+    except:
+        pass
+    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
 
 
 def wardenHome(request):

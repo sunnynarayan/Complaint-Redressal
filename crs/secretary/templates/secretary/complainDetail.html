@@ -376,9 +376,13 @@
                     <h1 class="page-header">Complain Details</h1>
                 </div>
                 <div class="col-lg-10">
+                 <form action="/crs/ApproveComplain/">
+                        <button type="submit" class="btn btn-outline btn-primary" style="float:right" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Approve Complain&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </form>
                     <form action="/crs/complainView/">
                         <button type="submit" class="btn btn-outline btn-primary" style="float:right" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
+                    
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -401,7 +405,7 @@
                                     <thead>
                                         <tr>
                                             <th>Complain Subject</th>
-                                            <th>{{ item.subject }}</th>   
+                                            <th>{{ item.subject | safe }}</th>   
                                         </tr>
                                         <tr>
                                             <th>Complain Type</th>
@@ -409,7 +413,7 @@
                                         </tr>
                                         <tr>
                                             <th>Complain History</th>
-                                            <th>{{ item.history }}</th>   
+                                            <th>{{ item.history | safe }}</th>   
                                         </tr>
                                         <tr>
                                             <th>Complain Status</th>
@@ -419,7 +423,7 @@
                                 </table> 
                                 <div>
                                     <h4>Details</h4>
-                                    <p>{{ item.detail }}</p>
+                                    <p>{{ item.detail  | safe}}</p>
                                 </div>
                                 <div>
                                     <h4>Attachments</h4>

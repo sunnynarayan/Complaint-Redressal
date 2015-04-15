@@ -9,12 +9,14 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.sessions.models import Session
 import hashlib
 import datetime
+from datetime import timedelta
 from login.models import *
 # from warden.views import *
 import re
 from django.core.mail import send_mail
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import requires_csrf_token
+from random import randint
 ##This function clears the whole session array and explicitely sets request.session['logout'] to "False". All users use this
 #function
 def logout(request):
@@ -36,13 +38,14 @@ def ApproveComplain(request):
 	if request.session.get('user_type') == 'secretary':
 		return redirect('/crs/listComp/')
 	elif request.session.get('user_type') == 'wardenOffice':
-		return redirect('crs/wardenComplain/')
+		return redirect('/crs/listCompWardenOffice/')
 	elif request.session.get('user_type') == 'warden':
 		return redirect('/crs/wardenViewComplain/')
 	else:
 		return HttpResponse('Error')
 
 def login(request):
+	# print request.META['HTTP_HOST']
 	request.session.set_expiry(0)
 	try:
 		if request.session.get("login") == "True": 					#check if the user is already logged in
@@ -163,57 +166,131 @@ def resetPasswd(request):
 def onClickForgetPassword(request):#page for entering email
 	return render_to_response('login/emailPage.html')
 
-def forgetPassword(request):
-	return render_to_response('login/forgetPassword.html')
+def forgetPassword(request,token):
+	return render_to_response('login/forgetPassword.html',{'token' : token})
 
-def resettingPassword(request):#resetting password
-	newpassword=request.POST.get('password')
-	key=request.POST.get('key')
-	if key.endswith("5"):
-		if validatePassword(newpassword):
-			return render_to_response('student/studentHome.html',{'msg':'Invalid Password'})
-		else:
-			obj = Student.objects.get(key_value=key)
-			hash_object = hashlib.sha256(b""+newpassword)
-			passwd = hash_object.hexdigest()
-			obj.password=passwd
-			obj.save()
-			return HttpResponse('Password changed succeesfully')
-	elif key.endswith("0"):
-		if validatePassword(newpassword):
-			return HttpResponse('Invalid Password')
+def resettingPassword(request,token):#resetting password
+	print "resetting password"
+	newpassword=request.POST.get('password','')
+	print newpassword
+	print token
+	if not (len(newpassword) > 7 and len(newpassword) < 21):
+		return HttpResponse("Password Length should be between 8 and 20!")
+	
+	hash_object = hashlib.sha256(b""+newpassword)
+	newpassword = hash_object.hexdigest()
+
+	key=token
+
+	# if key.endswith("5"):
+	# 	if validatePassword(newpassword):
+	# 		return render_to_response('student/studentHome.html',{'msg':'Invalid Password'})
+	# 	else:
+	# 		obj = Student.objects.get(key_value=key)
+	# 		hash_object = hashlib.sha256(b""+newpassword)
+	# 		passwd = hash_object.hexdigest()
+	# 		obj.password=passwd
+	# 		obj.save()
+	# 		return HttpResponse('Password changed succeesfully')
+	# elif key.endswith("0"):
+	# 	if validatePassword(newpassword):
+	# 		return HttpResponse('Invalid Password')
 		
-		else:
-			obj = Faculty.objects.get(key_value=key)
-			hash_object = hashlib.sha256(b""+newpassword)
-			passwd = hash_object.hexdigest()
-			obj.password=passwd
-			obj.save()
-			return HttpResponse('Password changed successfully')
-	else:
-		return HttpResponse('Error in key')	
+	# 	else:
+	# 		obj = Faculty.objects.get(key_value=key)
+	# 		hash_object = hashlib.sha256(b""+newpassword)
+	# 		passwd = hash_object.hexdigest()
+	# 		obj.password=passwd
+	# 		obj.save()
+	# 		return HttpResponse('Password changed successfully')
+	# else:
+	# 	return HttpResponse('Error in key')	
+	Stud = None
+	Fac = None
+	try:
+		Stud = Student.objects.get(key_value = token)
+		Stud.key_value = ""
+		Stud.password = newpassword
+		Stud.save()
+		return redirect('/crs/')
+	except:
+		print "Not Student"
+		pass
+	try:
+		Fac = Faculty.objects.get(key_value = token)
+		Fac.key_value = ""
+		Fac.password = newpassword
+		Fac.save()
+		return redirect('/crs/')
+	except:
+		print "Not Faculty"
+		pass
+
+	return HttpResponse("Improper URL!")
+
+def generateKey():
+	randString = "tcxn0z2fvpydbwuqo7ils1hagjrk34e69m58"
+	randtoken = ""
+	for i in range(0,20):
+		randtoken = randtoken + randString[randint(0,35)]
+	randtoken = randtoken + str(datetime.datetime.now())
+	return randtoken
 
 def sendEmailForPassword(request):
 	username=request.POST.get('username',"")
+	lengthUsername = len(username)
+	if lengthUsername > 29 or lengthUsername < 1:
+		return HttpResponse("Invalid username")
+	if re.search('[^a-z.@0-9]',username):				#check username for possible SQL injection and other injections
+		return HttpResponse("Improper keys in uname")
 	if username.endswith("stud"):
 		username = username.replace("@stud","")
-		email=request.POST.get('email')
-		obj=Student.objects.get(username=username,email=email);
-		subject="Confirmation Link For Reset Password"
-		message='The Key is'+obj.key_value+'Click on the Confirmation LINK '+'http://127.0.0.1:8000/confirmationLink/';
-		send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)
+		# email=request.POST.get('email')
+		obj = None
+		try:
+			obj=Student.objects.get(username=username);
+		except:
+			return HttpResponse("Improper credentials!")
+		token = generateKey()
+		hash_object = hashlib.sha256(b""+token)
+		obj.key_value = hash_object.hexdigest()
+		obj.save()
+		subject="CRS : Confirmation Link For Reset Password"
+		# message='The Key is' + token +'Click on the Confirmation LINK '+'http://127.0.0.1:8000/confirmationLink/';
+		line1 = "Dear " + username + ",\n"
+		line2 = "We received a password reset information from your CRS account at " + str((datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S')) + ".\n"
+		line3 = "To proceed with password reset goto the following URL : " + "http://" + request.META['HTTP_HOST'] + "/confirmationLink/" + obj.key_value + "/ \n"
+		line4 = "\n\nIf the request was not generated by you, please delate this email immediately!\n\n"
+		line5 = "Thank You\nCRS"
+		message = line1+line2+line3+line4+line5
+		print message
+		print obj.email
+		send_mail(subject,message,'softwareprojmanager@gmail.com',[obj.email],fail_silently=False)
 		return render_to_response('login/messageSent.html')
 
 	elif username.endswith("fac"):
 		username = username.replace("@fac","")
-		email=request.POST.get('email')
+		# email=request.POST.get('email')
+		obj = None
 		try:
-			obj=Faculty.objects.get(name=username,email=email);
-			subject="Confirmation Link For Reset Password"
-			message='The Key is'+obj.key_value+'Click on the Confirmation LINK '+'http://127.0.0.1:8000/confirmationLink/';
-			send_mail(subject,message,'softwareprojmanager@gmail.com',[email],fail_silently=False)
-			return render_to_response('login/messageSent.html')
+			obj=Faculty.objects.get(username=username);
 		except:
-			return render_to_response('login/loginPage.html')
+			return HttpResponse("Improper credentials!")
+		token = generateKey(self)
+		hash_object = hashlib.sha256(b""+token)
+		obj.key_value = hash_object.hexdigest()
+		obj.save()
+		subject="CRS : Confirmation Link For Reset Password"
+		# message='The Key is' + token +'Click on the Confirmation LINK '+'http://127.0.0.1:8000/confirmationLink/';
+		line1 = "Dear " + username + ",\n"
+		line2 = "We received a password reset information from your CRS account at " + str((datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S')) + ".\n"
+		line3 = "To proceed with password reset goto the following URL : http://127.0.0.1:8000/confirmationLink/" + obj.key_value + "/ \n"
+		line4 = "\n\nIf the request was not generated by you, please delate this email immediately!\n\n"
+		line5 = "Thank You\nCRS"
+		message = line1+line2+line3+line4+line5
+		print message
+		print obj.email
+		send_mail(subject,message,'softwareprojmanager@gmail.com',[obj.email],fail_silently=False)
+		return render_to_response('login/messageSent.html')
 	else:
 		return HttpResponse("Invalid Credentials")

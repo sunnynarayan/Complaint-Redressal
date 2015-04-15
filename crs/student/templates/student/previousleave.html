@@ -279,8 +279,8 @@
                         <li>
                             <a href="/crs/search/"><i class="fa fa-search fa-fw"></i>Search</a>
                         </li>
-                        <li >
-                            <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
+                        <li id="one">
+                            <a id="one" href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
                         <li>
                             <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
@@ -292,6 +292,17 @@
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
                         </li> -->
                         <li>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/viewPastForm/">Previous Forms</a>
+                                </li>
+                                <li>
+                                    <a id href="/OpenHostelPage/">Fill New Form</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
                             <a  href="#"><i class="fa fa-edit fa-fw"></i>  Mess Poll <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -299,17 +310,6 @@
                                 </li>
                                 <li>
                                     <a id href="/crs/pollResult/">Poll Result</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a id="one" href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li id="one">
-                                    <a id="one" href="#">Previous Forms</a>
-                                </li>
-                                <li>
-                                    <a id href="/OpenHostelPage/">Fill New Form</a>
                                 </li>
                             </ul>
                         </li>
@@ -350,26 +350,28 @@
                                         {% for item in list %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
-                                                    <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.date }}</td>
-                                                    <td class="center">{% if item.status == 1 %}
-                                                                        Approved By Warden
+                                                    <td><a href="/viewFormID/{{item.sno}}/">{{ item.sno }}</a></td>
+                                                    <td>{{ item.submittime|date:"d-m-Y" }}</td>
+                                                    <td class="center">{% if item.status == 0 %}
+                                                                        Application Lodged
+                                                                       {% elif item.status == 1 %}
+                                                                        Application Approved  
                                                                        {% elif item.status == 2 %}
-                                                                        Approval Denied by Warden 
-                                                                       {% elif item.status == 3 %}
+                                                                       Application Rejected
                                                                        {% endif %}
 
                                                     </td>
                                                 </tr>
                                             {% else %}
                                                 <tr class="even gradeX">
-                                                    <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.date }}</td>
-                                                    <td class="center">{% if item.status == 1 %}
-                                                                        Approved By Warden
+                                                    <td><a href="/viewFormID/{{item.sno}}/">{{ item.sno }}</a></td>
+                                                    <td>{{ item.submittime|date:"d-m-Y" }}</td>
+                                                    <td class="center">{% if item.status == 0 %}
+                                                                        Application Lodged
+                                                                       {% elif item.status == 1 %}
+                                                                        Application Approved  
                                                                        {% elif item.status == 2 %}
-                                                                        Approval Denied by Warden 
-                                                                       {% elif item.status == 3 %}
+                                                                       Application Rejected
                                                                        {% endif %}
 
                                                     </td>

@@ -89,7 +89,6 @@ def afterLogin(request):								#after login function working
 				request.session.flush()
 				return render_to_response('login/loginPage.html', {'msg':'User not authorised.'}, context_instance=RequestContext(request))
 		except:
-			# return HttpResponse('kll')
 			return render_to_response('login/loginPage.html', {'msg':'User is not registered'}, context_instance=RequestContext(request));
 	elif uname.endswith("stud"):
 		try:

@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title></title>
+    
+    <link href="../../static/warden/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../../static/warden/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../../static/warden/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../../static/warden/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../static/warden/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../../static/warden/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">{{msg}}</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                
+                
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="/crs/wardenProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search"></li>
+                        <li>
+                            <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
+                        </li>                  
+                        <li>
+                            <a href="#"><i class="fa   fa-institution fa-fw"></i> Hostels And Complains<span class="fa arrow"></span></a>
+                              <ul class="nav nav-second-level">
+                                <li>
+                                  <a href="#"><i class="fa fa-building fa-fw"></i>Aryabhatta Hall<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                      <li>
+                                        <a href="/crs/showComplain/Aryabhatta/"><i class="fa fa-suitcase fa-fw"></i> All <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                            <li>
+                                              <a href="/crs/showComplain/Aryabhatta/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                            </li>
+                                            <li>
+                                              <a href="/crs/showComplain/Aryabhatta/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                            </li>
+                                          </ul>
+                                      </li>
+                                      <li>
+                                        <a href="/crs/showComplain/Aryabhatta/Maintenance/"><i class="fa fa-suitcase fa-fw"></i> Maintenance <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                            <li>
+                                              <a href="/crs/showComplain/Aryabhatta/Maintenance/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                            </li>
+                                            <li>
+                                              <a href="/crs/showComplain/Aryabhatta/Maintenance/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                            </li>
+                                          </ul>
+                                      </li>
+                                      <li>
+                                        <a href="/crs/showComplain/Aryabhatta/Technical/"><i class="fa  fa-fighter-jet  fa-fw"></i> Technical <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                            <li>
+                                              <a href="/crs/showComplain/Aryabhatta/Maintenance/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                            </li>
+                                            <li>
+                                              <a href="/crs/showComplain/Aryabhatta/Maintenance/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                            </li>
+                                          </ul>
+                                            <!-- <a href="#">Technical</a> -->
+                                      </li>
+                                      <li>
+                                          <a href="/crs/showComplain/Aryabhatta/Mess/"><i class="fa  fa-beer  fa-fw"></i> Mess <span class="fa arrow"></span></a>
+                                            <ul class="nav nav-second-level">
+                                              <li>
+                                               <a href="/crs/showComplain/Aryabhatta/Mess/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                              </li>
+                                            <li>
+                                              <a href="/crs/showComplain/Aryabhatta/Mess/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                            </li>
+                                            </ul>
+                                            <!-- <a href="#">Mess</a> -->
+                                      </li>
+                                      <li>
+                                          <a href="/crs/showComplain/Aryabhatta/Environment/"><i class="fa  fa-tree  fa-fw"></i>Environment<span class="fa arrow"></span></a>
+                                            <ul class="nav nav-second-level">
+                                              <li>
+                                                <a href="/crs/showComplain/Aryabhatta/Environment/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                              </li>
+                                              <li>
+                                                <a href="/crs/showComplain/Aryabhatta/Environment/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                              </li>
+                                       Environment/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                                </li>
+                                            </ul>
+                                            <!-- <a href="#">Environment</a> -->
+                                      </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                                </li>
+                                <li>
+                                    <a href="/crs/showComplain/Ashoka/"><i class="fa fa-building fa-fw"></i>Ashoka Hall<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#"><i class="fa fa-suitcase fa-fw"></i> All <span class="fa arrow"></span></a>
+                                            <ul class="nav nav-second-level">
+                                                <li>
+                                                    <a href="/crs/showComplain/Ashoka/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/crs/showComplain/Ashoka/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                          <a href="/crs/showComplain/Ashoka/Maintenance/"><i class="fa fa-suitcase fa-fw"></i> Maintennance <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Ashoka/Maintenance/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Ashoka/Maintenance/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Maintainence</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Ashoka/Technical/"><i class="fa  fa-fighter-jet  fa-fw"></i> Technical <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Ashoka/Technical/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Ashoka/Technical/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Technical</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Ashoka/Mess/"><i class="fa  fa-beer  fa-fw"></i> Mess <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Ashoka/Mess/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Ashoka/Mess/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Mess</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Ashoka/Environment/"><i class="fa  fa-tree  fa-fw"></i>Environment<span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Ashoka/Environment/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Ashoka/Environment/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Environment</a> -->
+                                        </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                                </li>
+                                <li>
+                                   <a href="/crs/showComplain/GBH/"><i class="fa fa-building fa-fw"></i>GBH<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                          <a href="#"><i class="fa fa-suitcase fa-fw"></i> All <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>a
+                                            <a href="/crs/showComplain/GBH/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <a href="/crs/showComplain/GBH/Maintenance/"><i class="fa fa-suitcase fa-fw"></i> Maintainence <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Maintenance/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Maintenance/Addressed"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+<!--                                             <a href="">Maintainence</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/GBH/Technical/"><i class="fa  fa-fighter-jet  fa-fw"></i> Technical <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Technical/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Technical/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Technical</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/GBH/Mess/"><i class="fa  fa-beer  fa-fw"></i> Mess <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Mess/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Mess/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Mess</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/GBH/Environment/"><i class="fa  fa-tree  fa-fw"></i>Environment<span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Environment/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/GBH/Environment/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Environment</a> -->
+                                        </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                                </li>
+                                <li>
+                                    <a href="/crs/showComplain/Chanakya1/"><i class="fa fa-building fa-fw"></i>Chanakya1 Hall<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                    <li>
+                                          <a href="#"><i class="fa fa-suitcase fa-fw"></i> All <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>a
+                                            <a href="/crs/showComplain/Chanakya1/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya1/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <a href="/crs/showComplain/Chanakya1/Maintenance/"><i class="fa fa-suitcase fa-fw"></i> Maintainence <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya1/Maintenance/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya1/Maintenance/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Chanakya1/Technical/"><i class="fa  fa-fighter-jet  fa-fw"></i> Technical <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya1/Technical/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya1/Technical/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Technical</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Chanakya1/Mess/"><i class="fa  fa-beer  fa-fw"></i> Mess <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/showChanakya1MessNewComplains/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya1/Mess/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Mess</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Chanakya1/Environment/"><i class="fa  fa-tree  fa-fw"></i>Environment<span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya1/Environment/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya1/Environment/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Environment</a> -->
+                                        </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                       
+
+                                <li>
+                                    <a href="/crs/showComplain/Chanakya2/"><i class="fa fa-building fa-fw"></i>Chanakya2 Hall<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                          <a href="#"><i class="fa fa-suitcase fa-fw"></i> All <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Chankaya2/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya2/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <a href="/crs/showComplain/Chanakya2/Maintenance"><i class="fa fa-suitcase fa-fw"></i> Maintainence <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya2/Maintenance/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya2/Maintenance/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Chanakya2/Technical/"><i class="fa  fa-fighter-jet  fa-fw"></i> Technical <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya2/Technical/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya2/Technical/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Technical</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Chanakya2/Mess/"><i class="fa  fa-beer  fa-fw"></i> Mess <span class="fa arrow"></span></a>
+                                          <ul class="nav nav-second-level">
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya2/Mess/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                          </li>
+                                          <li>
+                                            <a href="/crs/showComplain/Chanakya2/Mess/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                          </li>
+                                          </ul>
+                                            <!-- <a href="#">Mess</a> -->
+                                        </li>
+                                        <li>
+                                            <a href="/crs/showComplain/Chanakya2/Environment/"><i class="fa  fa-tree  fa-fw"></i>Environment<span class="fa arrow"></span></a>
+                                            <ul class="nav nav-second-level">
+                                            <li>
+                                                <a href="/crs/showComplain/Chanakya2/Environnment/New/"><i class="fa fa-folder fa-fw"></i>New</a>
+                                            </li>
+                                            <li>
+                                                <a href="/crs/showComplain/Chanakya2/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                            </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </li>
+                            </ul>
+                            
+                            <!-- /.nav-second-level -->
+                        <li>
+                            <a href="#"><i class="fa fa-book  fa-fw"></i> Hostel Information<span class="fa arrow"></span></a>
+
+                            <ul class="nav nav-second-level">
+                        
+                                <li>
+                                    <a href="#"><i class="fa fa-building fa-fw"></i>Aryabhatta Hall<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                          <a href="/crs/getSecInfo/Aryabhatta/"><i class="fa  fa-male fa-fw"></i> Secretaries </a>
+                                        </li>
+                                        <li>
+                                          <a href="/crs/getStudInfo/Aryabhatta/"><i class="fa   fa-user fa-fw"></i> Students </a>
+                                        </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                                </li>
+                                
+                                </li>
+                               <li>
+                                    <a href="#"><i class="fa fa-building fa-fw"></i>Ashoka Hall<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                          <a href="/crs/getSecInfo/Ashoka/"><i class="fa  fa-male fa-fw"></i> Secretaries </a>
+                                        </li>
+                                        <li>
+                                          <a href="/crs/getStudInfo/Ashoka/"><i class="fa   fa-user fa-fw"></i> Students </a>
+                                        </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-building fa-fw"></i>GBH<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                          <a href="/crs/getSecInfo/GBH/"><i class="fa  fa-male fa-fw"></i> Secretaries </a>
+                                        </li>
+                                        <li>
+                                          <a href="/crs/getStudInfo/GBH/"><i class="fa   fa-user fa-fw"></i> Students </a>
+                                        </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                                </li>
+                                 <li>
+                                    <a href="#"><i class="fa fa-building fa-fw"></i>Chanakya2 Hall<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                          <a href="/crs/getSecInfo/Chanakya2/"><i class="fa  fa-male fa-fw"></i> Secretaries </a>
+                                        </li>
+                                        <li>
+                                          <a href="//crs/getStudInfo/Chanakya2"><i class="fa   fa-user fa-fw"></i> Students </a>
+                                        </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                                </li>
+
+                                <li>
+                                    <a href="#"><i class="fa fa-building fa-fw"></i>Chanakya1 Hall<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                          <a href="/crs/getSecInfo/Chanakya1/"><i class="fa  fa-male fa-fw"></i> Secretaries </a>
+                                        </li>
+                                        <li>
+                                          <a href="/crs/getStudInfo/Chanakya1/"><i class="fa   fa-user fa-fw"></i> Students </a>
+                                        </li>
+                                    </ul>
+                                     <!--/.nav-third-level-->
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                            <!-- /.nav-second-level -->
+                    </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Application Details</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+                <div class="col-lg-12">
+                    <form action="#" name="back">
+                        <button class="btn btn-primary" style="float:left" onclick="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </form>
+                    {% if warden %}
+                    <form action="#" name="reject">
+                       <a href="/rejectID/{{ item.sno }}/"> <button class="btn btn-success" style="float:right" >&nbsp;&nbsp;&nbsp;&nbsp;Approve&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
+                    </form>
+                    <form action="#" name="reject">
+                       <a href="href="/approveID/{{ item.sno }}/""> <button class="btn btn-danger" style="float:right" >&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button> </a>
+                    </form>
+                    {% endif %}
+                </div>
+                <br></br>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" >
+                            <span class="form-group">For Application ID {{ item.sno }}</span>    <!-- see id -->
+                               <span class="form-group " style="float : right"> Lodge Time {{ item.submittime }}</span>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                	<div class="alert alert-success">
+                                    <table class="table table-striped table-bordered table-hover" >
+                                        <thead>
+                                            <tr>
+                                            	
+                                                <th>Applicant's Name</th>
+                                               	<th>{{ student.name }}</th>
+
+                                            </tr>
+                                            <tr>
+                                                <th>Roll Number</th>
+                                                <th>{{ student.roll }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Hostel</th>
+                                                <th>{% if item.hostel == 0 %} Ashoka
+                                                             {% elif item.hostel == 1 %} Aryabhatta
+                                                             {% elif item.hostel == 2 %} Chanakya 1
+                                                             {% elif item.hostel == 3 %} Chanakya 2
+                                                             {% elif item.hostel == 4 %} GBH
+                                                             {% endif %}
+                                                </th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Room</th>
+                                                <th>{{ student.room }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Reason For Leave</th>
+                                                <th>{{ item.reason }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Leave Start Date</th>
+                                                <th>{{ item.start_date }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Leave End Date</th>
+                                                <th>{{ item.end_date }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Leaving Time</th>
+                                                <th>{{ item.time }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Destination</th>
+                                                <th>{{item.destination}}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Current Mobile Number</th>
+                                                <th>{{ student.mobile }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Mobile Number During Absence</th>
+                                                <th>{{ item.mobile }}</th>   
+                                            </tr>
+                                            <tr>
+                                                
+                                                <th>Current Status</th>
+                                                {% if item.status == 0 %}
+                                                <th> Pending Approval </th>
+                                                {% elif item.status == 1 %}
+                                                <th> Approved </th>
+                                                {% elif item.status == 2 %}
+                                                <th> Rejected </th>
+                                                {% endif %}
+                                            </tr>
+
+                                        </thead>
+                                    </table> 
+                                    </div>      
+                            	</div>
+                                
+                                <!-- /.col-lg-6 (nested) -->
+                        	</div>
+                            <!-- /.row (nested) -->
+                        
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        <!-- /#page-wrapper -->
+        </div>
+    </div>
+
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="../../static/warden/a.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../static/warden/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../../static/warden/metisMenu.min.js"></script>
+    <!-- DataTables JavaScript -->
+    <script src="../../static/warden/jquery.dataTables.min.js"></script>
+    <script src="../../static/warden/dataTables.bootstrap.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="../../static/warden/sb-admin-2.js"></script>
+    <script type="text/javascript" src="../../static/warden/bower_components/datatables/media/js/jquery.dataTables.js" ></script>
+    
+    <script>
+    $(document).ready(function() {
+ 
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
+    </script>
+</body>
+</html>
+    

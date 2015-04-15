@@ -82,9 +82,9 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-messages">
                         <!-- <li>
                             <a href="#">
@@ -133,9 +133,9 @@
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
                        <!--  <li>
                             <a href="#">
@@ -210,11 +210,11 @@
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
-                <!-- /.dropdown -->
+                <!-- /.dropdown -->	
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-alerts">
                         <!-- <li>
                             <a href="#">
@@ -370,8 +370,10 @@
                                                 <tr class="odd gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
-                                                    <td>{{ item.time }}</td>
-                                                    <td id="detect">{% if item.type == 1 %}
+                                                    
+                                                    <td>{{ item.time|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>{% if item.type == 1 %}
+
                                                              Mess
                                                         {% elif item.type == 2 %}
                                                              Environment
@@ -417,7 +419,7 @@
                                                 <tr class="even gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
-                                                    <td>{{ item.time }}</td>
+                                                    <td>{{ item.time|date:"Y-m-d H:i:s" }}</td>
                                                     <td>{% if item.type == 1 %}
                                                              Mess
                                                         {% elif item.type == 2 %}

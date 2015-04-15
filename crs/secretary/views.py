@@ -87,17 +87,17 @@ def rejectComplain(request):
 		return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
 def secViewComplain(complainObject):
-	comment = []
-	documents = []
-	try:
-		documents.extend(Document.objects.get(cid=complainObject[0].cid))
-	except:
-		pass
-	try:
-		comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
-	except:
-		pass
-	return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
+    comment = []
+    documents = []
+    try:
+    	documents=(Document.objects.get(cid=complainObject[0].cid))
+    except:
+        pass
+    try:
+        comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
+    except:
+        pass
+    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
 
 def poll(request):
 	if not (isSecretary(request)):

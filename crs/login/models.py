@@ -1,6 +1,35 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models import FileField
+from django.forms import forms
+from django.template.defaultfilters import filesizeformat
+from django.utils.translation import ugettext_lazy as _
+ 
+class ContentTypeRestrictedFileField(models.FileField):
+    content_types=['image/jpeg']
+    max_upload_size=2121440
+    def __init__(self, *args, **kwargs):
+        self.content_types = kwargs.pop("content_types")
+        self.max_upload_size = kwargs.pop("max_upload_size")
+        super(ContentTypeRestrictedFileField, self).__init__(*args, **kwargs)
+ 
+    def clean(self, *args, **kwargs):
+        data = super(ContentTypeRestrictedFileField, self).clean(*args, **kwargs)
+        file = data.file
+        try:
+            content_type = file.content_type
+            if content_type in self.content_types:
+                if file.size > self.max_upload_size:
+                    raise forms.ValidationError(_('Please keep filesize under'
+                                                '%s. Current filesize %s')
+                                                % (filesizeformat(self.max_upload_size), filesizeformat(file._size)))
+            else:
+                raise forms.ValidationError(_('Filetype not supported.'))
+        except AttributeError:
+            pass
+ 
+        return data
 
 class Comment(models.Model):
     commentid = models.IntegerField(db_column='commentId', primary_key=True)  # Field name made lowercase.
@@ -60,8 +89,11 @@ class Complainlink(models.Model):
         return self.cid + " " + str(x.type)
 
 class Document(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
-    docfile = models.CharField(max_length=100)
+    id = models.IntegerField(primary_key=True)
+    docfile = models.ImageField(upload_to='documents/%Y/%m/%d')
+    # docfile = models.FileField("Attachment", upload_to=path_and_rename("complaint_files", 'sales'), max_length=500,
+                                # help_text="Browse a file")
+    # docfile = models.CharField(max_length=100)
     cid = models.CharField(db_column='cid',max_length=19)
 
     class Meta:
@@ -195,7 +227,7 @@ class Secretary(models.Model):
     uid = models.IntegerField(db_column='UID', primary_key=True)  # Field name made lowercase.
     type = models.IntegerField()
     hostel = models.IntegerField(db_column='hostel')
-    rating = models.DecimalField(max_digits=2, decimal_places=2)
+    rating = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Meta:
         managed = False

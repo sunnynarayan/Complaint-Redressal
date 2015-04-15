@@ -16,7 +16,7 @@ from django.core.context_processors import csrf
 from student.views import *
 import datetime
 from datetime import timedelta
-
+from decimal import *
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
 	if user_type != "secretary":
@@ -116,7 +116,8 @@ def addingFoodItem(request):
 	vitamins = request.POST.get('vitamins') 
 	proteins = request.POST.get('proteins')
 	fat = request.POST.get('fat')
-	avgNutr = (int(vitamins) + int(proteins) + int(fat))/3
+	avgNutr = (int(vitamins) + int(proteins) + int(fat)) * 1.00/3
+	avgNutr="%.2f" % round(avgNutr,2);
 	item = Fooditems(name=itemName,vitamins=vitamins,proteins=proteins,fat=fat,nutritions=avgNutr)
 	item.save()
 	return redirect("/crs/pollViewItem/")

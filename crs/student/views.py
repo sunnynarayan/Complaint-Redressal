@@ -24,29 +24,11 @@ from reportlab.platypus import Image
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.pagesizes import landscape
 import os, inspect
-# global globlid
-# globlid=0
-# class DocumentForm(forms.Form):
-#     # name = forms.CharField(label='Name Of Your Image', widget=forms.TextInput(attrs={'class': 'form-control', }))
-#     docfile = forms.ImageFileField(label='Select a file', )
-#     # Certification = forms.BooleanField(label='I certify that this is my original work')
-#     # description = forms.CharField(label='Describe Your Image',
-#                                   # widget=forms.TextInput(attrs={'class': 'form-control', }))
-#     # Image_Keyword = forms.CharField(label='Keyword Of Image', widget=forms.TextInput(attrs={'class': 'form-control', }))
-
-#     def clean_photo(self):
-#         image_file = self.cleaned_data.get('docfile')
-#         if not image_file.name.endswith(".jpg"):
-#             raise forms.ValidationError("Only .jpg image accepted")
-#         return image_file
 
 class DocumentForm(forms.Form):
     docfile = forms.FileField(
         label='Select a file'
     )
-
-# def loadfile(request):
-    # return render_to_response('list.html')
 
 def isStudent(request):
     user_type = request.session.get("user_type", '')
@@ -332,8 +314,6 @@ def getComplainID(catagory, hostel):
 		complain = complain + str(compno)
 	
 	return complain
-
-
 
 def loadRateSecPage(request):
     uid=request.session.get('uid')
@@ -926,7 +906,7 @@ def HostelLeavingSubmit(request):
     return redirect('/crs/complainView/');
 
 def viewPastHostelLeaveForms(request):
-    if not (isStudent(request)):
+    if not (isStudent(request) or isSecretary(request)):
         return redirect('/crs/')
     forms = []
     try:
@@ -937,7 +917,7 @@ def viewPastHostelLeaveForms(request):
     return render_to_response('warden/newLeaveApplication.html', {'list' : forms})
 
 def viewForm(request,formID):
-    if isStudent(request):
+    if isStudent(request) or isSecretary(request):
         form = None
         try:
             form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
@@ -948,13 +928,35 @@ def viewForm(request,formID):
         return render_to_response('warden/applicationDetail.html', {'item' : form, 'student' : student, 'warden' : False})
     elif isWarden(request):
         form = None
+        print request.session.get('hostel')
+        print formID
         try:
-            form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID), hostel = request.session.get('hostel'))
+            form = HostelLeavingInformation.objects.get(sno = int(formID), hostel = request.session.get('hostel'))
         except:
             return HttpResponse('Not authorized to view this page!')
 
-        student = Student.objects.get(uid=request.session.get('uid'))
+        student = Student.objects.get(uid=form.studid)
         return render_to_response('warden/applicationDetail.html', {'item' : form, 'student' : student, 'warden' : True})
+
+def approveForm(request,formID):
+    if isWarden(request):
+        try:
+            form = HostelLeavingInformation.objects.get(sno = int(formID), hostel = request.session.get('hostel'))
+            form.status = 1
+            form.save()
+        except:
+            return HttpResponse('Not authorized to view this page!')
+    return redirect('/viewPastForm/')
+
+def rejectForm(request,formID):
+    if isWarden(request):
+        try:
+            form = HostelLeavingInformation.objects.get(sno = int(formID), hostel = request.session.get('hostel'))
+            form.status = 2
+            form.save()
+        except:
+            return HttpResponse('Not authorized to view this page!')
+    return redirect('/viewPastForm/')
 
 def some_view(request,formID):
     if not (isStudent(request)):

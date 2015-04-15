@@ -111,10 +111,10 @@
                     </form>
                     {% if warden %}
                     <form action="#" name="reject">
-                        <button class="btn btn-success" style="float:right" onclick="#">&nbsp;&nbsp;&nbsp;&nbsp;Approve&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                       <a href="/rejectID/{{ item.sno }}/"> <button class="btn btn-success" style="float:right" >&nbsp;&nbsp;&nbsp;&nbsp;Approve&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
                     </form>
                     <form action="#" name="reject">
-                        <button class="btn btn-danger" style="float:right" onclick="#">&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                       <a href="href="/approveID/{{ item.sno }}/""> <button class="btn btn-danger" style="float:right" >&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button> </a>
                     </form>
                     {% endif %}
                 </div>
@@ -146,11 +146,11 @@
                                             </tr>
                                             <tr>
                                                 <th>Hostel</th>
-                                                <th>{% if item.hostel == 0 %}Ashoka
-                                                             {% elif hostel == 1 %}Aryabhatta
-                                                             {% elif hostel == 2 %}Chanakya 1
-                                                             {% elif hostel == 3 %}Chanakya 2
-                                                             {% elif hostel == 4 %}GBH
+                                                <th>{% if item.hostel == 0 %} Ashoka
+                                                             {% elif item.hostel == 1 %} Aryabhatta
+                                                             {% elif item.hostel == 2 %} Chanakya 1
+                                                             {% elif item.hostel == 3 %} Chanakya 2
+                                                             {% elif item.hostel == 4 %} GBH
                                                              {% endif %}
                                                 </th>
                                             </tr>
@@ -186,6 +186,17 @@
                                             <tr>
                                                 <th>Mobile Number During Absence</th>
                                                 <th>{{ item.mobile }}</th>   
+                                            </tr>
+                                            <tr>
+                                                
+                                                <th>Current Status</th>
+                                                {% if item.status == 0 %}
+                                                <th> Pending Approval </th>
+                                                {% elif item.status == 1 %}
+                                                <th> Approved </th>
+                                                {% elif item.status == 2 %}
+                                                <th> Rejected </th>
+                                                {% endif %}
                                             </tr>
 
                                         </thead>

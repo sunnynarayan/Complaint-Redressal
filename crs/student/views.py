@@ -812,14 +812,15 @@ def pollResult(request):
             votesD.append(PollMenuVoting(x,0))
             dataD = dataD + "D-Item " + str(d) + "\t0\n"
             d = d + 1
-            
-    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataB.tsv', 'w') as f:
+    path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    print path
+    with open(path+'/static/dataB.tsv', 'w') as f:
         myfile = File(f)
         myfile.write("meal\tvotes\n"+dataB)
-    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataL.tsv', 'w') as f:
+    with open(path + '/static/dataL.tsv', 'w') as f:
         myfile = File(f)
         myfile.write("meal\tvotes\n"+dataL)
-    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/dataD.tsv', 'w') as f:
+    with open(path + '/static/dataD.tsv', 'w') as f:
         myfile = File(f)
         myfile.write("meal\tvotes\n"+dataD)
     return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })

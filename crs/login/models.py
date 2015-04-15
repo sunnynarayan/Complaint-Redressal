@@ -85,7 +85,8 @@ class Complainlink(models.Model):
         managed = False
         db_table = 'complainLink'
     def __str__(self):              # __unicode__ on Python 2
-        return self.cid
+        x = Complain.objects.get(cid=self.cid)
+        return self.cid + " " + str(x.type)
 
 class Document(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -123,7 +124,7 @@ class Fooditems(models.Model):
     vitamins = models.IntegerField()
     proteins = models.IntegerField()
     fat = models.IntegerField()
-    nutritions = models.DecimalField(max_digits=3, decimal_places=2)
+    nutritions = models.FloatField()
 
     class Meta:
         managed = False
@@ -143,20 +144,22 @@ class Hostel(models.Model):
 class HostelLeavingInformation(models.Model):
     sno = models.IntegerField(primary_key=True)
     studid = models.IntegerField(db_column='studid')
-    name = models.CharField(max_length=30)
     start_date = models.DateTimeField(db_column='start_Date')  # Field name made lowercase.
     end_date = models.DateTimeField(db_column='end_Date')  # Field name made lowercase.
     destination = models.CharField(max_length=1000)
     reason = models.TextField()
     hostel = models.IntegerField(db_column='hostel')
-    roll = models.CharField(max_length=8)
     mobile = models.TextField()
+    time = models.CharField(max_length=8)
+    status = models.IntegerField()
+    submittime = models.TimeField(db_column='submitTime')
 
     class Meta:
         managed = False
         db_table = 'hostel_leaving_information'
     def __str__(self):              # __unicode__ on Python 2
-        return self.name
+        stud = Student.objects.get(uid = self.studid)
+        return stud.name + " " + str(start_date)
 
 class Mealitems(models.Model):
     sno = models.IntegerField(primary_key=True)
@@ -193,6 +196,21 @@ class Pollmenu(models.Model):
     class Meta:
         managed = False
         db_table = 'pollMenu'
+
+class Pollresult(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    hostel = models.IntegerField()
+    type = models.IntegerField()
+    meal = models.IntegerField()
+    vote = models.IntegerField()
+    protein = models.IntegerField()
+    vitamin = models.IntegerField()
+    fat = models.IntegerField()
+    nutritions = models.DecimalField(max_digits=4, decimal_places=2)
+
+    class Meta:
+        managed = False
+        db_table = 'pollResult'
 
 
 class Pollvoting(models.Model):

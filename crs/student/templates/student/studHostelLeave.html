@@ -272,7 +272,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="/studEditProfile/"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                         <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -300,9 +300,9 @@
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a id="one" href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -341,7 +341,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                             <form name="input" method="POST" action="/studHostelLeave/"> <!--see for action-->
+                             <form name="input" method="POST" action="/submitHostelPage/"> <!--see for action-->
                                 <div class="col-lg-6">
                                     <h3>Default Information</h3>
                                         <fieldset disabled="">
@@ -353,11 +353,11 @@
                                                 <div class="form-group">
                                                     <label>Hostel</label>
                                                     <input class="form-control" name="hostel"  
-                                                    value=  "{% if list.hostel == 0 %}Ashoka
-                                                             {% elif hostel == 1 %}Aryabhatta
-                                                             {% elif hostel == 2 %}Chanakya 1
-                                                             {% elif hostel == 3 %}Chanakya 2
-                                                             {% elif hostel == 4 %}GBH
+                                                    value=  "{% if list.hostel == 0 %} Ashoka
+                                                             {% elif list.hostel == 1 %} Aryabhatta
+                                                             {% elif list.hostel == 2 %} Chanakya 1
+                                                             {% elif list.hostel == 3 %} Chanakya 2
+                                                             {% elif list.hostel == 4 %} GBH
                                                              {% endif %}">
                                                 </div>
                                             </div>
@@ -385,7 +385,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Leaving Time</label>
-                                                <input type="time" class="form-control" required value="" >
+                                                <input type="time" class="form-control" required value="" name="time" >
                                             </div>
                                             <div class="form-group">
                                                 <label>Residing Address during Leave</label>

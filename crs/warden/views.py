@@ -12,6 +12,7 @@ import datetime
 from login.models import *
 import re
 from student.views import *
+from Scheduling import *
 
 def isWarden(request):
 	user_type = request.session.get("user_type",'')
@@ -60,7 +61,6 @@ def wardenViewComplain(complainObject):
     except:
         pass
     return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
-
 
 def wardenHome(request):
 	if not (isWarden(request)):

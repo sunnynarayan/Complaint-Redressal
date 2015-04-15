@@ -132,26 +132,28 @@
                                         {% for item in list %}
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
-                                                    <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.date }}</td>
-                                                    <td class="center">{% if item.status == 1 %}
-                                                                        Approved By Warden
+                                                    <td><a href="/viewFormID/{{item.sno}}/">{{ item.sno }}</a></td>
+                                                    <td>{{ item.submittime|date:"d-m-Y" }}</td>
+                                                    <td class="center">{% if item.status == 0 %}
+                                                                        Application Lodged
+                                                                       {% elif item.status == 1 %}
+                                                                        Approval Approved  
                                                                        {% elif item.status == 2 %}
-                                                                        Approval Denied by Warden 
-                                                                       {% elif item.status == 3 %}
+                                                                       Application Rejected
                                                                        {% endif %}
 
                                                     </td>
                                                 </tr>
                                             {% else %}
                                                 <tr class="even gradeX">
-                                                    <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.date }}</td>
-                                                    <td class="center">{% if item.status == 1 %}
-                                                                        Approved By Warden
+                                                    <td><a href="/viewFormID/{{item.sno}}/">{{ item.sno }}</a></td>
+                                                    <td>{{ item.submittime|date:"d-m-Y" }}</td>
+                                                    <td class="center">{% if item.status == 0 %}
+                                                                        Application Lodged
+                                                                       {% elif item.status == 1 %}
+                                                                        Application Approved 
                                                                        {% elif item.status == 2 %}
-                                                                        Approval Denied by Warden 
-                                                                       {% elif item.status == 3 %}
+                                                                       Application Rejected
                                                                        {% endif %}
 
                                                     </td>

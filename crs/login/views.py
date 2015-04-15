@@ -90,6 +90,8 @@ def afterLogin(request):								#after login function working
 				return redirect('/crs/listCompWardenOffice/')
 			elif obj.iswarden == 1:
 				request.session['user_type']="warden";
+				war = Warden.objects.get(fid=obj.fid)
+				request.session['hostel'] = war.hostel
 				return redirect('/crs/wardenViewComplain/')
 			else:
 				request.session['login']="False";

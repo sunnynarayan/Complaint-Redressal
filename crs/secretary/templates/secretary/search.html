@@ -42,9 +42,10 @@
                         <h3 class="panel-title">Search</h3>
                     </div>
                     <div class="panel-body">
+                    <fieldset>
                         <form action="/crs/searchResult/" method="POST">
                         {% csrf_token %}
-                            <fieldset>
+                            
                                 <div class="form-group">
                                     <label>Search By</label>
                                     <select name="type" class="form-control">
@@ -60,9 +61,13 @@
                                 </div>
                                 
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button type="submit" value="Submit" name = "search" class="btn btn-outline btn-info">Search</button>
-                            </fieldset>
+                                <button type="submit" value="Submit" name = "search" class="btn btn-success col-lg-4 ">Search</button>
+                                
                         </form>
+                        <form action="/crs/complainView/">
+                            <button type="submit" class="btn btn-primary" style="float:right" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </form> 
+                        </fieldset>   
                     </div>
                 </div>
             </div>

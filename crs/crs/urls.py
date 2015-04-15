@@ -2,9 +2,6 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-
-# from user_module import views
-
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -13,8 +10,8 @@ urlpatterns = patterns('',
     # url(r'^captcha/', include('captcha.urls')),
     url(r'^crs/login/$', 'login.views.afterLogin'),
     # url(r'^test/', 'user_module.views.ankt'),
-    url(r'crs/ApproveComplain/', 'login.views.ApproveComplain'),
-    url(r'logout/', 'login.views.logout'),
+    url(r'crs/ApproveComplain/','login.views.ApproveComplain'),
+    url(r'logout/','login.views.logout'),
     url(r'^crs/complainView/$', 'student.views.studentComplainView'),
     url(r'^comment/$', 'student.views.comment'),
     url(r'^crs/viewComplain/$', 'student.views.studentViewComplain'),
@@ -41,8 +38,8 @@ urlpatterns = patterns('',
     url(r'^crs/rejectComplain/$', 'secretary.views.rejectComplain'),
     url(r'^crs/wardenComplain/$', 'wardenOffice.views.wardenOfficeComplainView'),
     url(r'^crs/forwardToWard/$', 'wardenOffice.views.forwardToWarden'),
-    url(r'^crs/changePassword/$', 'login.views.changePasswd'),
-    url(r'^crs/restPassword/$', 'login.views.resetPasswd'),
+    url(r'^changePassword/$', 'login.views.changePasswd'),
+    url(r'^crs/resetPassword/$', 'login.views.resetPasswd'),
     url(r'^mailTo/$', 'login.views.sendEmailForPassword'),
     url(r'^confirmationLink/$', 'login.views.forgetPassword'),
     url(r'^ForgetPasswordButton/$', 'login.views.onClickForgetPassword'),

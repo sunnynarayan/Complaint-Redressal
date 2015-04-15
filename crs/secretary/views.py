@@ -31,11 +31,11 @@ def secComplainView(request):
 	pubComplains = []
 	priComplains = []
 	try:
-		pubComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.status != 21' ))
+		pubComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.status != 21 AND complain.status != 10 AND complain.status!=0' ))
 	except:
 		pass
 	try:
-		priComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.status != 21'))
+		priComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.status != 21 AND complain.status != 10 AND complain.status!=0'))
 	except:
 		pass	
 	return render_to_response('secretary/messSecHome.html', {'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
@@ -49,27 +49,39 @@ def secLodgeComplain(request):
 def forwardToWardenOffice(request):
 	if not (isSecretary(request)):
 		return redirect('/crs/')
-	complainArray=request.POST.getlist('complain')
-	length = len(complainArray)
-	for x in range(0,length):
-		comid = complainArray[x]
-		ClO =Complainlink.objects.get(cid=comid)
-		ClO.woid = "1235"
-		ClO.save()
-		obj=Complain.objects.get(cid=comid)
-		if obj.status==1:
-			obj.status=2
-			time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
-			obj.history = obj.history + "<br/>" + "Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
-			obj.save()
-		elif obj.status == 11:
-			obj.status = 12
-			time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
-			obj.history = obj.history + "<br/>" + "Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
+	if 'reject' in request.POST:
+		complainArray=request.POST.getlist('complain')
+		length = len(complainArray)
+		for x in range(0,length):
+			comid = complainArray[x]
+			obj=Complain.objects.get(cid=comid)
+			obj.status=10
 			obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
 		return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
+	else:
+		complainArray=request.POST.getlist('complain')
+		length = len(complainArray)
+		for x in range(0,length):
+			comid = complainArray[x]
+			ClO =Complainlink.objects.get(cid=comid)
+			ClO.woid = "1235"
+			ClO.save()
+			obj=Complain.objects.get(cid=comid)
+			if obj.status==1:
+				obj.status=2
+				time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
+				obj.history = obj.history + "<br/>" + "Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
+				obj.save()
+			elif obj.status == 11:
+				obj.status = 12
+				time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
+				obj.history = obj.history + "<br/>" + "Complain forwarded to warden office by Secretary " + request.session.get('name') + " @ : " + str(time)
+				obj.save()
+		# complainObj.wardenID = wardenID
+		# complainObj.save()
+			return redirect('../listComp/',{'msg':'Succesfully Redirected!!!'})
 
 def rejectComplain(request):
 	if not (isSecretary(request)):
@@ -80,7 +92,7 @@ def rejectComplain(request):
 		for x in range(0,length):
 			comid = complainArray[x]
 			obj=Complain.objects.get(cid=comid)
-			obj.status=21
+			obj.status=10
 			obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()
@@ -116,8 +128,7 @@ def addingFoodItem(request):
 	vitamins = request.POST.get('vitamins') 
 	proteins = request.POST.get('proteins')
 	fat = request.POST.get('fat')
-	avgNutr = (int(vitamins) + int(proteins) + int(fat)) * 1.00/3
-	avgNutr="%.2f" % round(avgNutr,2);
+	avgNutr = (float(vitamins) + float(proteins) + float(fat))/3
 	item = Fooditems(name=itemName,vitamins=vitamins,proteins=proteins,fat=fat,nutritions=avgNutr)
 	item.save()
 	return redirect("/crs/pollViewItem/")

@@ -84,7 +84,7 @@ def rejectComplain(request):
 		for x in range(0,length):
 			comid = complainArray[x]
 			obj=Complain.objects.get(cid=comid)
-			obj.status=21
+			obj.status=1
 			obj.save()
 	# complainObj.wardenID = wardenID
 	# complainObj.save()

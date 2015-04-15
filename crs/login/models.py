@@ -231,7 +231,7 @@ class Secretaryrating(models.Model):
         db_table = 'secretaryRating'
 
     def __str__(self):              # __unicode__ on Python 2
-        fac = Faculty.objects.get(fid=self.fid)
+        # sec = Secretary.objects.get(uid=self.secid)
         return str(self.id) + " secid = " + str(self.secid) + " studid = " + str(self.studid) + " rating = " + str(self.rating)
 
 class Studcomplainlink(models.Model):

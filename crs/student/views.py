@@ -159,6 +159,7 @@ def studentLodgeComplain(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     form =DocumentForm()
+    msg=request.session.get('username')
     return render_to_response('student/lodgeComp.html',{'form': form}, context_instance=RequestContext(request))
 
 
@@ -486,7 +487,7 @@ def rateSecretary(request):
         try:
             ob=Secretaryrating.objects.get(secid=eachSec.uid,studid=uid)
             ob.rating=rating[count]
-            ++count
+            count=count+1
             ob.save()
         except:
             secObj=Secretaryrating(secid=eachSec.uid,rating=rating[count],studid=uid)
@@ -495,13 +496,13 @@ def rateSecretary(request):
     for eachSec in secList:
         obj=Secretaryrating.objects.filter(secid = eachSec.uid)
         for obej in obj:
-            ratingCount+=obej.rating
+            ratingCount=ratingCount+obej.rating
             n=n+1
         finalRating=ratingCount/n
         # return HttpResponse(finalRating)
         sec=Secretary.objects.get(uid=eachSec.uid)
         sec.rating=finalRating
-        # return HttpResponse(secListForRating)
+        # return HttpResponse(finalRating)
         sec.save()
         # return HttpResponse(finalRating)
         # return HttpResponse(finalRating)
@@ -569,11 +570,11 @@ def lodgeComplainDetail(request):
     CLObj = None
     if complainAccess == 2:
         # try:
-        first=request.POST.get('first')
-        second=request.POST.get('second','')
-        third=request.POST.get('third','')
-        fourth=request.POST.get('fourth','')
-        fifth=request.POST.get('fifth','')
+        first=request.POST.get('first').upper()
+        second=request.POST.get('second','').upper()
+        third=request.POST.get('third','').upper()
+        fourth=request.POST.get('fourth','').upper()
+        fifth=request.POST.get('fifth','').upper()
         rollArray = []
         rollArray.append(first)
         if not second == '':

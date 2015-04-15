@@ -292,6 +292,9 @@
                             <!-- /input-group -->
                         </li>
                         <li>
+                            <a href="/crs/search/"><i class="fa fa-search fa-fw"></i>Search</a>
+                        </li>
+                        <li>
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
                          <li>
@@ -316,7 +319,15 @@
                         </li>
                         <li>
                         <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i>  Mess Poll <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/crs/pollOptions/">Polling</a>
+                                </li>
+                                <li>
+                                    <a id href="/crs/pollResult/">Poll Result</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -353,11 +364,11 @@
                                                 <div class="form-group">
                                                     <label>Hostel</label>
                                                     <input class="form-control" name="hostel"  
-                                                    value=  "{% if list.hostel == 0 %} Ashoka
-                                                             {% elif list.hostel == 1 %} Aryabhatta
-                                                             {% elif list.hostel == 2 %} Chanakya 1
-                                                             {% elif list.hostel == 3 %} Chanakya 2
-                                                             {% elif list.hostel == 4 %} GBH
+                                                    value=  "{% if list.hostel == 1 %} Ashoka
+                                                             {% elif list.hostel == 2 %} Aryabhatta
+                                                             {% elif list.hostel == 3 %} Chanakya 1
+                                                             {% elif list.hostel == 4 %} Chanakya 2
+                                                             {% elif list.hostel == 5 %} GBH
                                                              {% endif %}">
                                                 </div>
                                             </div>
@@ -401,9 +412,9 @@
                                             </div>
                                 </div>
                                 <div class="col-lg-6">
-                        			<button type="submit" name="submit" value="Submit" onclick="DateValidate()" class="btn btn-outline btn-success" style="float: right" >Submit</button>
+                        			<button type="submit" name="submit" value="Submit" onclick="DateValidate()" class="btn btn-success" style="float: right" >Submit</button>
 
-                        			<button type="reset" value="Cancel" class="btn btn-outline btn-danger" style="float: right">Reset</button>
+                        			<button type="reset" value="Cancel" class="btn  btn-danger" style="float: right">Reset</button>
                     			</div>
 
                                 </form> 

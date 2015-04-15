@@ -138,11 +138,11 @@ def studentViewComplain(request):  #shows details of complain
         except:
             pass
         return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})        
-    elif request.session.get("user_type")=="secretary" :
+    elif request.session.get("user_type")=="secretary":
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         complainObject = Complain.objects.raw(qry)
         return secViewComplain(complainObject)
-
+        
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         complainObject = Complain.objects.raw(qry)
@@ -227,7 +227,10 @@ def afterEditProfile(request):
                                    'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                    'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
     else:
-        return HttpResponse('Error')
+        return render_to_response('student/studentProfile.html',
+                                  {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
+                                   'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
+                                   'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
 
 # def rateSecretary(request):
 #     if not (isStudent(request)):
@@ -597,7 +600,6 @@ def lodgeComplainDetail(request):
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
     elif complainAccess == 1:
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
-    
     complainObj.save()
     CLObj.save()
     SCLObj = Studcomplainlink(cid=cid, studid=uid)
@@ -618,7 +620,7 @@ def relodgeComplain(request):
 		return redirect('/crs/')
 	comid=request.session.get('currentCid')
 	obj=Complain.objects.get(cid=comid)
-	if obj.status==1:
+	if obj.status==10:
 		obj.status=11
 		obj.save()
 	else:

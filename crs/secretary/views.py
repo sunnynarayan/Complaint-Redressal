@@ -16,7 +16,7 @@ from django.core.context_processors import csrf
 from student.views import *
 import datetime
 from datetime import timedelta
-
+from decimal import *
 def isSecretary(request):
 	user_type = request.session.get("user_type",'')
 	if user_type != "secretary":

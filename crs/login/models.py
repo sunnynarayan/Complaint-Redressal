@@ -280,7 +280,7 @@ class Student(models.Model):
     room = models.IntegerField(blank=True, null=True)
     hostel = models.IntegerField(db_column='hostel', blank=True, null=True)
     bloodgrp = models.CharField(db_column='bloodGrp', max_length=3, blank=True)  # Field name made lowercase.
-    baccno = models.IntegerField(db_column='bAccNo', blank=True, null=True)  # Field name made lowercase.
+    baccno = models.IntegerField(db_column='bAccNo')
     bank = models.CharField(max_length=50, blank=True)
     ifsc = models.CharField(db_column='IFSC', max_length=11, blank=True)  # Field name made lowercase.
     issec = models.IntegerField(db_column='isSec')  # Field name made lowercase.

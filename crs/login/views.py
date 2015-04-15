@@ -33,7 +33,14 @@ def ApproveComplain(request):
 	obj=Complain.objects.get(cid=cid)
 	obj.status=0;
 	obj.save();
-	return HttpResponse('nk')
+	if request.session.get('user_type') == 'secretary':
+		return redirect('/crs/listComp/')
+	elif request.session.get('user_type') == 'wardenOffice':
+		return redirect('/crs/listCompWardenOffice/')
+	elif request.session.get('user_type') == 'warden':
+		return redirect('/crs/wardenViewComplain/')
+	else:
+		return HttpResponse('Error')
 
 def login(request):
 	request.session.set_expiry(0)
@@ -115,7 +122,7 @@ def afterLogin(request):								#after login function working
 
 
 def changePasswd(request):
-	return render_to_response('login/resetPasswd.html', {'Err' : ''})
+	return render_to_response('login/changePasswd.html', {'Err' : ''})
 
 def resetPasswd(request):
 	uid = request.session.get("uid")
@@ -124,7 +131,7 @@ def resetPasswd(request):
 	newPasswd2 = request.POST.get('newPasswd2','')
 
 	if validatePassword(oldPasswd) or validatePassword(newPasswd) or validatePassword(newPasswd2):
-		return render_to_response('login/resetPasswd.html', {'Err':'Password length must be between 8 & 20'})
+		return render_to_response('login/changePasswd.html', {'Err':'Password length must be between 8 & 20'})
 
 	hash_object = hashlib.sha256(b""+oldPasswd)
 	oldPasswd = hash_object.hexdigest()
@@ -135,7 +142,7 @@ def resetPasswd(request):
 	newPasswd2 = hash_object.hexdigest()
 
 	if newPasswd != newPasswd2 :
-		return render_to_response('login/resetPasswd.html', {'Err' : 'Password mismatch in New Password'})
+		return render_to_response('login/changePasswd.html', {'Err' : 'Password mismatch in New Password'})
 	
 	if(request.session.get("user_type") == 	"student" or request.session.get("user_type") == "secretary"):
 		try:
@@ -143,15 +150,15 @@ def resetPasswd(request):
 			obj.password = newPasswd
 			obj.save()
 		except:
-			return render_to_response('login/resetPasswd.html', {'Err' : 'old Password is Wrong!'})
+			return render_to_response('login/changePasswd.html', {'Err' : 'old Password is Wrong!'})
 	else:
 		try:
 			obj = Faculty.objects.get(uid=uid,password=oldPasswd)
 			obj.password = newPasswd
 			obj.save()
 		except:
-			return render_to_response('login/resetPasswd.html', {'Err' : 'old Password is Wrong!'})
-	return render_to_response('login/resetPasswd.html', {'Err' : 'Password changed successfully'})
+			return render_to_response('login/changePasswd.html', {'Err' : 'old Password is Wrong!'})
+	return render_to_response('login/loginPage.html', {'Err' : 'Password changed successfully'})
 
 def onClickForgetPassword(request):#page for entering email
 	return render_to_response('login/emailPage.html')

@@ -40,7 +40,7 @@ def wardenOfficeComplainView(request):
 		Privatelist.append(Complain.objects.get(cid=numCid));		#username  in fac table
 	for num in PublicComplainObjects:
 		numCid=num.cid
-		Publiclist.append(Complain.objects.get(cid=numCid));
+		Publiclist.append(Complain.objects.get(cid=numCid))
 	return render_to_response('wardenOffice/wardenHome.html',{'list1' : Publiclist, 'list2':Privatelist, 'msg': request.session.get('name')});
 
 def wardenOfficeViewComplain(complainObject):
@@ -59,7 +59,8 @@ def wardenOfficeViewComplain(complainObject):
         comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
     except:
         pass
-    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
+    return render_to_response("wardenOffice/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
+
 def wardenOfficeHome(request):
 	if not (isWardenOffice(request)):
 		return redirect('/crs/')

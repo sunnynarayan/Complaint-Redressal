@@ -15,11 +15,16 @@ import re
 from django.core.mail import send_mail
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import requires_csrf_token
-
+##This function clears the whole session array and explicitely sets request.session['logout'] to "False". All users use this
+#function
 def logout(request):
 	request.session['login']="False";
 	request.session.flush()
 	return redirect('/crs/')
+
+##This function checks that the password input in text field should not be exceeding 20 characters or less than 8 characers
+#@param passwd - The password input by the user (String)
+#@return boolean. True if password length is feasible else False
 def validatePassword(passwd):
 	return ((len(passwd) > 20) or (len(passwd) < 8))
 
@@ -31,6 +36,7 @@ def ApproveComplain(request):
 	return HttpResponse('nk')
 
 def login(request):
+	request.session.set_expiry(0)
 	try:
 		if request.session.get("login") == "True": 					#check if the user is already logged in
 			if request.session.get("user_type")=="student": #if yes then redirect the request to home page according to whether faculty or student
@@ -49,6 +55,7 @@ def login(request):
 
 
 def afterLogin(request):								#after login function working
+	request.session.set_expiry(0)
 	uname = request.POST.get('username','');
 	passwd = request.POST.get('password','');
 	lengthUsername = len(uname)

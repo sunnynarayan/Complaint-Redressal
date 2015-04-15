@@ -119,7 +119,7 @@
     </style>
 
 </head>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="../../static/d3.v3.min.js"></script>
 <body>
 
     <div id="wrapper">
@@ -397,7 +397,7 @@
                         <li>
                             <a href="/crs/viewPollOptions/"><i class="fa fa-edit fa-fw"></i>Poll Options</a>
                         </li>
-                       <!-- <li>
+                       <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -418,7 +418,7 @@
                                 <li>
                                     <a href="grid.html">Grid</a>
                                 </li>
-                            </ul> -->
+                            </ul>
                             <!-- /.nav-second-level -->
                         <!-- </li>
                         <li>
@@ -660,13 +660,14 @@
     </div>
     <!-- /#wrapper -->
     <!-- jQuery -->
+    <label><input type="checkbox"> Sort values</label>
     <script>
 
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
-        var formatPercent = d3.format(".0%");
+        var formatPercent = d3.format(".%");
 
         var x = d3.scale.ordinal()
             .rangeRoundBands([0, width], .1, 1);
@@ -692,11 +693,11 @@
         d3.tsv("../../static/data.tsv", function(error, data) {
 
           data.forEach(function(d) {
-            d.frequency = +d.frequency;
+            d.votes = +d.votes;
           });
 
-          x.domain(data.map(function(d) { return d.letter; }));
-          y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+          x.domain(data.map(function(d) { return d.meal; }));
+          y.domain([0, d3.max(data, function(d) { return d.votes; })]);
 
           svg.append("g")
               .attr("class", "x axis")
@@ -711,16 +712,16 @@
               .attr("y", 6)
               .attr("dy", ".71em")
               .style("text-anchor", "end")
-              .text("Frequency");
+              .text("votes");
 
           svg.selectAll(".bar")
               .data(data)
             .enter().append("rect")
               .attr("class", "bar")
-              .attr("x", function(d) { return x(d.letter); })
+              .attr("x", function(d) { return x(d.meal); })
               .attr("width", x.rangeBand())
-              .attr("y", function(d) { return y(d.frequency); })
-              .attr("height", function(d) { return height - y(d.frequency); });
+              .attr("y", function(d) { return y(d.votes); })
+              .attr("height", function(d) { return height - y(d.votes); });
 
           d3.select("input").on("change", change);
 
@@ -733,20 +734,20 @@
 
             // Copy-on-write since tweens are evaluated after a delay.
             var x0 = x.domain(data.sort(this.checked
-                ? function(a, b) { return b.frequency - a.frequency; }
-                : function(a, b) { return d3.ascending(a.letter, b.letter); })
-                .map(function(d) { return d.letter; }))
+                ? function(a, b) { return b.votes - a.votes; }
+                : function(a, b) { return d3.ascending(a.meal, b.meal); })
+                .map(function(d) { return d.meal; }))
                 .copy();
 
             svg.selectAll(".bar")
-                .sort(function(a, b) { return x0(a.letter) - x0(b.letter); });
+                .sort(function(a, b) { return x0(a.meal) - x0(b.meal); });
 
             var transition = svg.transition().duration(750),
                 delay = function(d, i) { return i * 50; };
 
             transition.selectAll(".bar")
                 .delay(delay)
-                .attr("x", function(d) { return x0(d.letter); });
+                .attr("x", function(d) { return x0(d.meal); });
 
             transition.select(".x.axis")
                 .call(xAxis)

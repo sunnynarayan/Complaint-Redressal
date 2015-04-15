@@ -967,79 +967,98 @@ def rejectForm(request,formID):
             return HttpResponse('Not authorized to view this page!')
     return redirect('/viewPastForm/')
 
-def some_view(request,formID):
-    if not (isStudent(request)):
-        return redirect('/crs/')
+def downloadPDF(request, formID):
     form = None
-    try:
-        form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
-    except:
-        return HttpResponse('Not authorized to view this page!')
-    
-    # Create the HttpResponse object with the appropriate PDF headers.
+    stud = None
+    if isStudent(request) or isSecretary(request):
+        try:
+            form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
+        except:
+            return HttpResponse('Not authorized to view this page!')
+
+        stud = Student.objects.get(uid=request.session.get('uid'))
+    elif isWarden(request):
+        form = None
+        print request.session.get('hostel')
+        print formID
+        try:
+            form = HostelLeavingInformation.objects.get(sno = int(formID), hostel = request.session.get('hostel'))
+        except:
+            return HttpResponse('Not authorized to view this page!')
+
+        stud = Student.objects.get(uid=form.studid)
+    else:
+        return HttpResponse("Not authorized to view this page!")
+
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
-
-    # Create the PDF object, using the response object as its "file."
     p = canvas.Canvas(response)
-    # p.setFont('Helvetica', 48, leading=None)
-    # p.drawCentredString(300, 750, "Warden's Office")
-
-    # p.setFont('Helvetica', 25, leading=None)
-    # p.drawCentredString(300, 700, "Hostel Leaving Form")
-    
-    # line1 = "I " + request.session.get('name')
-    # line2 = "staying presently in Room No 209" 
-    # line3 = "of Ashoka Hall"
-    # line4 = "do hereby intimate that I am leaving hostel"
-
-    # p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
-    # p.setFont('Helvetica', 25, leading=None)
-    # p.drawString(50, 600, line1)
-    # p.setFont('Helvetica', 25, leading=None)
-    # p.drawString(50, 550, line2)
-    # p.setFont('Helvetica', 25, leading=None)
-    # p.drawString(50, 500, line3)
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    
-    # Close the PDF object cleanly, and we're done.
-    stud = Student.objects.get(uid=form.studid)
     name = stud.name
-    room = stud.room
-    start_date = form.start_date
-    end_date = form.end_date
-    time = form.time
+    print name
+    room = str(stud.room)
+    print room
+    start_date = (str(form.start_date))[0:19]
+    print start_date
+    end_date = (str(form.end_date))[0:19]
+    print end_date
+    time = (str(form.time))[0:19]
+    print time
     hostel = Hostel.objects.get(id = stud.hostel).name
+    print hostel
     destination = form.destination
+    if len(destination) > 30:
+        destination = destination[0:30] + "..."
+    print destination
+    print str(len(destination))
     reason = form.reason
+    if len(reason) > 20:
+        reason = reason[0:20] + "..."
+    print reason
+    print str(len(reason))
     rollno = stud.roll
+    print rollno
     mobile = form.mobile
-    formid = form.sno
+    print mobile
+    formid = str(form.sno)
+    print formid
     currentTime = str(datetime.datetime.now())[0:19]
+    print currentTime
+    status = form.status
+    if (status == 1):
+        status = "Approval Pending"
+    elif status == 2:
+        status = "Approved"
+    else:
+        status = "Rejected"
+    curTime = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S')
     path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     image = path + "/Hostel_Leaving_Form.png"
     p.drawImage(image,20,40,width=600,height=800)
     p.setFont('Helvetica', 15, leading=None)
-    p.drawString(130, 670, name)
+    p.drawString(140, 670, name)
     p.drawString(400, 645, room)
-    p.drawString(125, 620, hostel)
-    p.drawString(198, 595, start_date)
+    p.drawString(145, 620, hostel)
+    p.setFont('Helvetica', 10, leading=None)
+    p.drawString(205, 595, start_date)
     p.drawString(286, 595, end_date)
+    p.setFont('Helvetica', 15, leading=None)
     p.drawString(380, 595, time)
-    p.drawString(286, 570, destination)
+    p.drawString(286, 572, destination)
     p.drawString(140, 545, reason)
-    p.drawString(286, 595, end_date)
+    # p.drawString(286, 595, end_date)
     p.drawString(194, 458, rollno)
     p.drawString(306, 441, mobile)
     p.drawString(130, 375, hostel)
     p.drawString(186, 304, formid)
+    p.drawString(180, 287, status)
+    p.drawString(180, 270, curTime)
     p.drawString(135, 205, name)
     p.drawString(380, 205, rollno)
     p.drawString(157, 171, hostel)
     p.drawString(350, 171, room)
-    p.drawString(115, 137, start_date)
-    p.drawString(200, 137, end_date)
+    p.setFont('Helvetica', 10, leading=None)
+    p.drawString(115, 139, start_date)
+    p.drawString(200, 139, end_date)
     p.showPage()
     p.save()
     return response

@@ -681,51 +681,16 @@
             </div>
             <!-- /.row -->
             <div class="row">
+            <form id = "submitForm" method="POST" action="/crs/addItemToPoll/">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            List Of Cutoffs
+                            List Of Meals
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                            <form id = "submitForm" method="POST" action="/crs/addItemToPoll/">
-                                <table 	class="table table-striped table-bordered table-hover" id="table1">
-                                  <thead>
-                                     <tr>
-                                          <th> Parameters</th>
-                                          <th> Breakfast </th>
-                                          <th> Lunch </th>
-                                          <th> Dinner </th>
-                                     </tr>
-                                  </thead>
-                                  <tbody>
-                                  	<tr>
-                                  	      <td> Protein Cutoff</td>
-                                  	      <td><input type="number" id="id1.1" value="0"></td>
-                                  	      <td><input type="number" id="id2.1" value="0"></td>
-                                  	      <td><input type="number" id="id3.1" value="0"></td>
-                                  	</tr>
-                                  	<tr>
-                                  	      <td> Vitamin Cutoff</td>
-                                  	      <td><input type="number" id="id1.2" value="0"> </td>
-                                  	      <td><input type="number" id="id2.2" value="0"> </td>
-                                  	      <td><input type="number" id="id3.2" value="0"> </td>
-                                  	</tr>
-                                  	<tr>
-                                  	      <td> Fat Cutoff</td>
-                                  	      <td><input type="number" id="id1.3" value="0"> </td>
-                                  	      <td><input type="number" id="id2.3" value="0"> </td>
-                                  	      <td><input type="number" id="id3.3" value="0"> </td>
-                                  	</tr>
-                                  	<tr>
-                                  	      <td> Average Nutrition Value</td>
-                                  	      <td><input type="number" id="id1" value="0"> </td>
-                                  	      <td><input type="number" id="id2" value="0"> </td>
-                                  	      <td><input type="number" id="id3" value="0"> </td>
-                                  	</tr>
-                                  	
-                                  </tbody>
+                            
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
@@ -772,6 +737,106 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                                </div>
+                                </div>
+                                </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            List Of Cutoffs
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                            
+                                <table 	class="table table-striped table-bordered table-hover" id="table1">
+                                  <thead>
+                                     <tr>
+                                          <th> Parameters</th>
+                                          <th> Breakfast </th>
+                                          <th> Lunch </th>
+                                          <th> Dinner </th>
+                                     </tr>
+                                  </thead>
+                                  <tbody>
+                                  	<tr>
+                                  	      <td> Protein Cutoff</td>
+                                  	      <td><input type="number" id="id1.1" value="0"></td>
+                                  	      <td><input type="number" id="id2.1" value="0"></td>
+                                  	      <td><input type="number" id="id3.1" value="0"></td>
+                                  	</tr>
+                                  	<tr>
+                                  	      <td> Vitamin Cutoff</td>
+                                  	      <td><input type="number" id="id1.2" value="0"> </td>
+                                  	      <td><input type="number" id="id2.2" value="0"> </td>
+                                  	      <td><input type="number" id="id3.2" value="0"> </td>
+                                  	</tr>
+                                  	<tr>
+                                  	      <td> Fat Cutoff</td>
+                                  	      <td><input type="number" id="id1.3" value="0"> </td>
+                                  	      <td><input type="number" id="id2.3" value="0"> </td>
+                                  	      <td><input type="number" id="id3.3" value="0"> </td>
+                                  	</tr>
+                                  	<tr>
+                                  	      <td> Average Nutrition Value</td>
+                                  	      <td><input type="number" id="id1" value="0"> </td>
+                                  	      <td><input type="number" id="id2" value="0"> </td>
+                                  	      <td><input type="number" id="id3" value="0"> </td>
+                                  	</tr>
+                                  	
+                                  </tbody>
+                                  </table>
+                                  </div>
+                                  </div>
+                                  </div>
+                        
+                                <div class="panel panel-default">
+                        <div class="panel-heading">
+                            List Of Values
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                            
+                                <table  class="table table-striped table-bordered table-hover" id="table2">
+                                  <thead>
+                                     <tr>
+                                          <th> Parameters</th>
+                                          <th> Breakfast </th>
+                                          <th> Lunch </th>
+                                          <th> Dinner </th>
+                                     </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                          <td> Protein Value</td>
+                                          <td><p type="number" id="ida.1" >0.0</p></td>
+                                          <td><p type="number" id="idb.1" >0.0</p></td>
+                                          <td><p type="number" id="idc.1" >0.0</p></td>
+                                    </tr>
+                                    <tr>
+                                          <td> Vitamin Value</td>
+                                          <td><p type="number" id="ida.2" >0.0</p> </td>
+                                          <td><p type="number" id="idb.2" >0.0</p> </td>
+                                          <td><p type="number" id="idc.2" >0.0</p> </td>
+                                    </tr>
+                                    <tr>
+                                          <td> Fat Value</td>
+                                          <td><p type="number" id="ida.3" >0.0</p> </td>
+                                          <td><p type="number" id="idb.3" >0.0</p> </td>
+                                          <td><p type="number" id="idc.3" >0.0</p> </td>
+                                    </tr>
+                                    <tr>
+                                          <td> Average Nutrition Value</td>
+                                          <td><p type="number" id="ida" >0.0</p> </td>
+                                          <td><p type="number" id="idb" >0.0</p> </td>
+                                          <td><p type="number" id="idc" >0.0</p> </td>
+                                    </tr>
+                                    
+                                  </tbody>
+                                  </table>
+                                  </div>
+                                  </div>
+                                  </div>
                                <!-- <input type="hidden" value= "15" id="id1">
                                 <input type="hidden" value="10" id="id1.1">
                                 <input type="hidden" value= "12" id="id1.2">
@@ -784,22 +849,23 @@
                                 <input type="hidden" value= "10" id="id3.1">
                                 <input type="hidden" value= "9" id="id3.2">
                                 <input type="hidden" value= "12" id="id3.3"> -->
-                                <p >Average Nutrition for Breakfast </p>  <p id="breakfast" > Limit </p> 
+                                <!-- <p >Average Nutrition for Breakfast </p>  <p id="breakfast" > Limit </p>  -->
                                 <!-- <p> Average nutrition= 15, protein cutoff=10, vitamin cutoff=12, fat cutoff= 15</p> -->
-                                <p >Average Nutrition for Lunch</p>  <p id="lunch" > Limit </p>
+                                <!-- <p >Average Nutrition for Lunch</p>  <p id="lunch" > Limit </p> -->
                                 <!-- <p> Average nutrition= 17, protein cutoff=5, vitamin cutoff=5, fat cutoff=5</p> -->
-                                <p >Average Nutrition for Dinner</p>  <p id="dinner" > Limit </p>
+                                <!-- <p >Average Nutrition for Dinner</p>  <p id="dinner" > Limit </p> -->
                                 <!-- <p> Average nutrition= 20, protein cutoff=10, vitamin cutoff=9, fat cutoff= 12</p> -->
-                                <button form = "submitForm" type="Submit" value="" formaction = "/crs/addItemToPoll/" id="submitted" disabled="true"> Submit </button>
-                                </form>
+                                
                                 
                             </div>
                             <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
+                        <button class="btn btn-lg btn-success btn-block" form = "submitForm" type="Submit" value="" formaction = "/crs/addItemToPoll/" id="submitted" disabled="true"> Start Poll </button>
                     </div>
                     <!-- /.panel -->
                 </div>
+                </form>
                 <!-- /.col-lg-12 -->
             </div>
         <!-- /#page-wrapper -->
@@ -941,30 +1007,58 @@
             }*/
          if(p13<lim1)
          {
+          document.getElementById("ida.1").style.color="Red";
          	s1+="Protein";
+         }
+         else
+         {
+          document.getElementById("ida.1").style.color="Green";
          }
          if(v13<lim2)
          {
+          document.getElementById("ida.2").style.color="Red";
          	s2+="Vitamin";
          }
-         
+         else
+         {
+          document.getElementById("ida.2").style.color="Green";
+         }
          if(f13<lim3)
          {
+          document.getElementById("ida.3").style.color="Red";
          	s3+="Fat";
+         }
+         else
+         {
+          document.getElementById("ida.3").style.color="Green";
          }
          if(y<lim)
          {
+          document.getElementById("ida").style.color="Red";
          	s4+="AvgNutrition";
+         }
+         {
+          document.getElementById("ida").style.color="Green";
          }
          if(p13<lim1 || v13<lim2 || f13<lim3 || y<lim)
          {
-            document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+y.toFixed(2)+" "+p13.toFixed(2)+" "+v13.toFixed(2)+" "+f13.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
+            document.getElementById("ida.1").innerHTML=p13.toFixed(2);
+            document.getElementById("ida.2").innerHTML=v13.toFixed(2);
+            document.getElementById("ida.3").innerHTML=f13.toFixed(2);
+            document.getElementById("ida").innerHTML=y.toFixed(2);
+            // document.getElementById("idx").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
+            // document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+y.toFixed(2)+" "+p13.toFixed(2)+" "+v13.toFixed(2)+" "+f13.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
             
             count1=0;
          }
          else
          {
-            document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+ y.toFixed(2)+", value plausible";
+            document.getElementById("ida.1").innerHTML=p13.toFixed(2);
+            document.getElementById("ida.2").innerHTML=v13.toFixed(2);
+            document.getElementById("ida.3").innerHTML=f13.toFixed(2);
+            document.getElementById("ida").innerHTML=y.toFixed(2);
+            // document.getElementById("idx").innerHTML="value plausible";    
+            // document.getElementById("breakfast").innerHTML="Current Nutrition Value for breakfast= "+ y.toFixed(2)+", value plausible";
             count1=1;
          }
          s1="";
@@ -1077,31 +1171,59 @@
             }*/
          if(p23<lim1)
          {
+          document.getElementById("idb.1").style.color="Red";
          	s1+="Protein";
-         }
-         if(v23<lim2)
-         {
-         	s2+="Vitamin";
-         }
-         
-         if(f23<lim3)
-         {
-         	s3+="Fat";
-         }
-         if(y<lim)
-         {
-         	s4+="AvgNutrition";
-         }
-         if(p23<lim1 || v23<lim2 || f23<lim3 || y<lim)
-         {
-           document.getElementById("lunch").innerHTML="Current Nutrition Value for lunch= "+y.toFixed(2)+" "+p23.toFixed(2)+" "+v23.toFixed(2)+" "+f23.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
-            
-            
-            count2=0;
          }
          else
          {
-            document.getElementById("lunch").innerHTML="Current Nutrition Value for lunch= "+ y.toFixed(2)+", value plausible";
+          document.getElementById("idb.1").style.color="Green";
+         }
+         if(v23<lim2)
+         {
+          document.getElementById("idb.2").style.color="Red";
+         	s2+="Vitamin";
+         }
+         else
+         {
+          document.getElementById("idb.2").style.color="Green";
+         }
+         if(f23<lim3)
+         {
+          document.getElementById("idb.3").style.color="Red";
+         	s3+="Fat";
+         }
+         else
+         {
+          document.getElementById("idb.3").style.color="Green";
+         }
+         if(y<lim)
+         {
+          document.getElementById("idb").style.color="Red";
+         	s4+="AvgNutrition";
+         }
+         else
+         {
+          document.getElementById("idb").style.color="Green";
+         }
+         if(p23<lim1 || v23<lim2 || f23<lim3 || y<lim)
+         {
+            document.getElementById("idb.1").innerHTML=p23.toFixed(2);
+            document.getElementById("idb.2").innerHTML=v23.toFixed(2);
+            document.getElementById("idb.3").innerHTML=f23.toFixed(2);
+            document.getElementById("idb").innerHTML=y.toFixed(2);
+            // document.getElementById("idy").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
+           // document.getElementById("lunch").innerHTML="Current Nutrition Value for lunch= "+y.toFixed(2)+" "+p23.toFixed(2)+" "+v23.toFixed(2)+" "+f23.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
+              
+            count2=0;
+         }
+         else
+         { 
+            document.getElementById("idb.1").innerHTML=p23.toFixed(2);
+            document.getElementById("idb.2").innerHTML=v23.toFixed(2);
+            document.getElementById("idb.3").innerHTML=f23.toFixed(2);
+            document.getElementById("idb").innerHTML=y.toFixed(2);
+            // document.getElementById("idy").innerHTML="value plausible";
+            // document.getElementById("lunch").innerHTML="Current Nutrition Value for lunch= "+ y.toFixed(2)+", value plausible";
             count2=1;
          }
          s1="";
@@ -1214,30 +1336,59 @@
             }*/
          if(p33<lim1)
          {
+          document.getElementById("idc.1").style.color="Red";
          	s1+="Protein";
+         }
+         else
+         {
+          document.getElementById("idc.1").style.color="Green";
          }
          if(v33<lim2)
          {
+          document.getElementById("idc.2").style.color="Red";
          	s2+="Vitamin";
          }
-         
+         else
+         {
+          document.getElementById("idc.2").style.color="Green";
+         }
          if(f33<lim3)
          {
+          document.getElementById("idc.3").style.color="Red";
          	s3+="Fat";
+         }
+         else
+         {
+          document.getElementById("idc.3").style.color="Green";
          }
          if(y<lim)
          {
+          document.getElementById("idc").style.color="Red";
          	s4+="AvgNutrition";
+         }
+         else
+         {
+          document.getElementById("idc").style.color="Green";
          }
          if(p33<lim1 || v33<lim2 || f33<lim3 || y<lim)
          {
-            document.getElementById("dinner").innerHTML="Current Nutrition Value for dinner= "+y.toFixed(2)+" "+p33.toFixed(2)+" "+v33.toFixed(2)+" "+f33.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
+             document.getElementById("idc.1").innerHTML=p33.toFixed(2);
+             document.getElementById("idc.2").innerHTML=v33.toFixed(2);
+             document.getElementById("idc.3").innerHTML=f33.toFixed(2);
+             document.getElementById("idc").innerHTML=y.toFixed(2);
+             // document.getElementById("idz").innerHTML="too less "+s1+" "+s2+" "+s3+" "+s4;
+             // document.getElementById("dinner").innerHTML="Current Nutrition Value for dinner= "+y.toFixed(2)+" "+p33.toFixed(2)+" "+v33.toFixed(2)+" "+f33.toFixed(2)+", too less "+s1+" "+s2+" "+s3+" "+s4;
             
             count3=0;
          }
          else
          {
-            document.getElementById("dinner").innerHTML="Current Nutrition Value for dinner= "+ y.toFixed(2)+", value plausible";
+            document.getElementById("idc.1").innerHTML=p33.toFixed(2);
+            document.getElementById("idc.2").innerHTML=v33.toFixed(2);
+            document.getElementById("idc.3").innerHTML=f33.toFixed(2);
+            document.getElementById("idc").innerHTML=y.toFixed(2);
+            // document.getElementById("idz").innerHTML="value plausible";
+            // document.getElementById("dinner").innerHTML="Current Nutrition Value for dinner= "+ y.toFixed(2)+", value plausible";
             count3=1;
          }
          s1="";

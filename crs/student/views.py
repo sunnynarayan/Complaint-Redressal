@@ -22,6 +22,19 @@ from django.core.files import File
 
 # global globlid
 # globlid=0
+# class DocumentForm(forms.Form):
+#     # name = forms.CharField(label='Name Of Your Image', widget=forms.TextInput(attrs={'class': 'form-control', }))
+#     docfile = forms.ImageFileField(label='Select a file', )
+#     # Certification = forms.BooleanField(label='I certify that this is my original work')
+#     # description = forms.CharField(label='Describe Your Image',
+#                                   # widget=forms.TextInput(attrs={'class': 'form-control', }))
+#     # Image_Keyword = forms.CharField(label='Keyword Of Image', widget=forms.TextInput(attrs={'class': 'form-control', }))
+
+#     def clean_photo(self):
+#         image_file = self.cleaned_data.get('docfile')
+#         if not image_file.name.endswith(".jpg"):
+#             raise forms.ValidationError("Only .jpg image accepted")
+#         return image_file
 
 class DocumentForm(forms.Form):
     docfile = forms.FileField(
@@ -117,7 +130,7 @@ def studentViewComplain(request):  #shows details of complain
         comment = []
         documents = []
         try:
-            documents.extend(Document.objects.get(cid=complainObject[0].cid))
+            documents=(Document.objects.get(cid=complainObject[0].cid))
         except:
             pass
         try:
@@ -134,10 +147,12 @@ def studentViewComplain(request):  #shows details of complain
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         complainObject = Complain.objects.raw(qry)
         return wardenOfficeViewComplain(complainObject)
-    # elif request.session.get("user_type")=="warden" :
-    #     qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"       
-    # else :
-    #     return HttpResponse('error')
+    elif request.session.get("user_type")=="warden" :
+        qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.wardenID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
+        complainObject = Complain.objects.raw(qry)
+        return wardenViewComplain(complainObject)      
+    else :
+        return HttpResponse('error')
     
 
 def studentLodgeComplain(request):
@@ -458,10 +473,10 @@ def rateSecretary(request):
         return redirect('/crs/')
     uid = request.session.get('uid') 
     count=0;
-    ratingCount=0
+    ratingCount=0.0
     n=0
     finalRating=0.0
-    lenn=0.0
+    lenn=0
     hostel=request.session.get('hostel')
     secList=request.session.get('secListForRating')
     # type1=request.POST.get('type')
@@ -483,15 +498,16 @@ def rateSecretary(request):
             ratingCount+=obej.rating
             n=n+1
         finalRating=ratingCount/n
-        # lenn=finalRating
-        # eachSec.rating=finalRating
+        # return HttpResponse(finalRating)
         sec=Secretary.objects.get(uid=eachSec.uid)
         sec.rating=finalRating
+        # return HttpResponse(secListForRating)
         sec.save()
         # return HttpResponse(finalRating)
-        ratingCount=0
+        # return HttpResponse(finalRating)
+        ratingCount=0.0
         finalRating=0.0
-    #     n=0
+        n=0
     return redirect('/crs/complainView/');
 
     # type2=getCatagory(type1)
@@ -539,22 +555,15 @@ def lodgeComplainDetail(request):
     if detail == '' or subject == '':
         return redirect('/crs/complainView/')
     catagory = getCatagory(request.POST.get('catagory'));
-    hostel = request.session.get("hostel");
+    hostel = request.session.get('hostel');
     time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
     complainAccess = int(request.POST.get('complainType'));
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
-    cid = getComplainID(catagory, hostel)
+    cid = getComplainID(catagory,int(hostel))
     complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0, history=history, status = 1);
-    secretaryObj = Secretary.objects.get(hostel=hostel, type=catagory)
+    secretaryObj = Secretary.objects.get(hostel=hostel,type=catagory)
     secid = secretaryObj.uid
-    try:
-    	newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
-    	# newdoc=Document.objects.get(docfile=request.FILES['docfile'])
-    	newdoc.save()
-    except:
-        pass
-
     SCLArray = []
     # CLArray = []
     CLObj = None
@@ -587,12 +596,19 @@ def lodgeComplainDetail(request):
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
     elif complainAccess == 1:
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
-    complainObj.save();
+    
+    complainObj.save()
     CLObj.save()
     SCLObj = Studcomplainlink(cid=cid, studid=uid)
     SCLArray.append(SCLObj)
     for x in SCLArray:
         x.save()
+    try:
+        newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
+        # newdoc=Document.objects.get(docfile=request.FILES['docfile'])
+        newdoc.save()
+    except:
+        pass
 
     return redirect('/crs/complainView/');
 

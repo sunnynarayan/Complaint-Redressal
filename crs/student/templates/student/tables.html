@@ -370,8 +370,10 @@
                                                 <tr class="odd gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
-                                                    <td>{{ item.time }}</td>
-                                                    <td id="detect">{% if item.type == 1 %}
+                                                    
+                                                    <td>{{ item.time|date:"Y-m-d H:i:s" }}</td>
+                                                    <td>{% if item.type == 1 %}
+
                                                              Mess
                                                         {% elif item.type == 2 %}
                                                              Environment
@@ -417,7 +419,7 @@
                                                 <tr class="even gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
                                                     <td>{{ item.subject }}</td>
-                                                    <td>{{ item.time }}</td>
+                                                    <td>{{ item.time|date:"Y-m-d H:i:s" }}</td>
                                                     <td>{% if item.type == 1 %}
                                                              Mess
                                                         {% elif item.type == 2 %}

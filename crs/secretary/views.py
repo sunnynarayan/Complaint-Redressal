@@ -94,7 +94,7 @@ def secViewComplain(complainObject):
     comment = []
     documents = []
     try:
-    	documents.extend(Document.objects.get(cid=complainObject[0].cid))
+    	documents=(Document.objects.get(cid=complainObject[0].cid))
     except:
         pass
     try:

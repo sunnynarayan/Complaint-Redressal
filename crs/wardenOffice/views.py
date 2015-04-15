@@ -218,8 +218,14 @@ def showHostelSecWiseInfo(request,hostel):
 	hostelType = getHostelType(hostel)
 	if hostelType == 0:
 		return HttpResponse('error')
-	obj=Secretary.objects.filter(hostel=hostelType)
-	return render_to_response('secInfo.html',{'list':obj})
+	obj1=Secretary.objects.filter(hostel=hostelType)
+	stud=[]
+	for sec in obj1:
+		stud.append(Student.objects.get(uid=sec.uid))
+	# obj=Student.objects.filter()
+	# return HttpResponse(obj)
+	return render_to_response('wardenOffice/viewSecretary.html',{'list1':obj1,'list2':stud})
+
 
 def showHostelStudWiseInfo(request,hostel):
 	if not (isWardenOffice(request)):
@@ -229,7 +235,8 @@ def showHostelStudWiseInfo(request,hostel):
 	if hostelType == 0:
 		return HttpResponse('error')
 	obj=Student.objects.filter(hostel=hostelType)
-	return render_to_response('studInfo.html',{'list':obj})
+	# return HttpResponse(obj)
+	return render_to_response('wardenOffice/viewStudent.html',{'list':obj})
 
 
 def viewSecretary(request):

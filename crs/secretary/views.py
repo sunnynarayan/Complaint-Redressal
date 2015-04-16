@@ -30,6 +30,7 @@ def secComplainView(request):
 	uid=request.session.get('uid')
 	pubComplains = []
 	priComplains = []
+	obj = Secretary.objects.get(uid=uid)
 	try:
 		pubComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID = 0) AND complain.cid = complainLink.CID AND complain.status != 21 AND complain.status != 10 AND complain.status!=0' ))
 	except:
@@ -37,9 +38,11 @@ def secComplainView(request):
 	try:
 		priComplains.extend(Complain.objects.raw('SELECT * FROM `complain`, complainLink WHERE (complainLink.secID = ' + str(uid) + ' AND complainLink.studID != 0) AND complain.cid = complainLink.CID AND complain.status != 21 AND complain.status != 10 AND complain.status!=0'))
 	except:
-		pass	
-	return render_to_response('secretary/messSecHome.html', {'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
-	# return render_to_response('secretary/listComp.html',{'list' : allCom, 'msg': request.session.get('name')});
+		pass
+	if obj.type==1:	
+		return render_to_response('secretary/messSecHome.html', {'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
+	else:
+		return render_to_response('secretary/listComp.html',{'public' : pubComplains, 'private' : priComplains, 'msg': request.session.get('name')});
 
 def secLodgeComplain(request):
 	if not (isSecretary(request)):

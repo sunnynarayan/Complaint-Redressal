@@ -31,20 +31,26 @@
         var check = /^[0-9]{10}/;
         if(start > end)
         {
-            alert("Start date cannot exceed End date !!");
-            return false;
+                document.getElementById("start").style.color = 'red';
+                document.getElementById("start").innerHTML="Start Date can't exceed End date ";
+        }
+        else if(start < end)
+        {
+            document.getElementById("start").style.color = 'green';
+            document.getElementById("start").innerHTML="Ok ";
+            document.getElementById("end").style.color = 'green';
+            document.getElementById("end").innerHTML="Ok ";
+        }
+        if(temp.match(check))
+        {
+             document.getElementById("m").style.color = 'green';
+            document.getElementById("m").innerHTML="Ok "
+
         }
         else
         {
-            if(temp.match(check))
-            {
-                return true;
-            }
-            else
-            {
-                alert("Mobile Number not in correct format");
-                return false;
-            }
+             document.getElementById("m").style.color = 'red';
+            document.getElementById("m").innerHTML="Mobile Number shoud be of 10 digits ";
         }
     }
 
@@ -364,11 +370,10 @@
                                                 <div class="form-group">
                                                     <label>Hostel</label>
                                                     <input class="form-control" name="hostel"  
-                                                    value=  "{% if list.hostel == 1 %} Ashoka
-                                                             {% elif list.hostel == 2 %} Aryabhatta
-                                                             {% elif list.hostel == 3 %} Chanakya 1
-                                                             {% elif list.hostel == 4 %} Chanakya 2
-                                                             {% elif list.hostel == 5 %} GBH
+                                                    value=  "{% if item.hostel == 1 %} Ashoka
+                                                             {% elif item.hostel == 2 %} Aryabhatta
+                                                             {% elif item.hostel == 3 %} Chanakya 1
+                                                             {% elif item.hostel == 4 %} Chanakya 2
                                                              {% endif %}">
                                                 </div>
                                             </div>
@@ -389,10 +394,12 @@
                                             <div class="form-group">
                                                 <label>Start Date&nbsp;&nbsp;(MM/DD/YYYY)</label>
                                                 <input type="date" class="form-control" required value="" id="start_date" name="start_date" placeholder="Select Start date">
+                                                <p id="start"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>End Date&nbsp;&nbsp;(MM/DD/YYYY)</label>
                                                 <input type="date" class="form-control" id="end_date" required value="" name="end_date" placeholder="Select End date">
+                                                <p id="end"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>Leaving Time</label>
@@ -409,6 +416,7 @@
                                             <div class="form-group">
                                                 <label>Mobile Number During Absence</label>
                                                 <input class="form-control" name="mobile" id="mobile" required value="">
+                                                <p id="m"></p>
                                             </div>
                                 </div>
                                 <div class="col-lg-6">

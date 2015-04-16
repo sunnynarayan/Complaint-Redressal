@@ -58,7 +58,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/wardenProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                        <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -75,19 +75,12 @@
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search"></li>
                         <li id="one">
-                            <a id="one" href="#"><i class="fa fa-table fa-fw"></i>View Complain</a>
+                            <a id="one" href="/crs/wardenViewComplain/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Applications<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li id="one">
-                                    <a id="one" href="#">New Forms</a>
-                                </li>
-                                <li>
-                                    <a id href="#">Approved Forms</a>
-                                </li>
-                            </ul>
+                            <a href="/viewPastForm/"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Applications<span class="fa arrow"></span></a>
+                             
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o  fa-fw"></i> Mess Poll Results</a>
@@ -147,11 +140,10 @@
                                             </tr>
                                             <tr>
                                                 <th>Hostel</th>
-                                                <th>{% if item.hostel == 0 %} Ashoka
-                                                             {% elif item.hostel == 1 %} Aryabhatta
-                                                             {% elif item.hostel == 2 %} Chanakya 1
-                                                             {% elif item.hostel == 3 %} Chanakya 2
-                                                             {% elif item.hostel == 4 %} GBH
+                                                <th>{% if item.hostel == 1 %} Ashoka
+                                                             {% elif item.hostel == 2 %} Aryabhatta
+                                                             {% elif item.hostel == 3 %} Chanakya 1
+                                                             {% elif item.hostel == 4 %} Chanakya 2
                                                              {% endif %}
                                                 </th>
                                             </tr>
@@ -187,6 +179,12 @@
                                             <tr>
                                                 <th>Mobile Number During Absence</th>
                                                 <th>{{ item.mobile }}</th>   
+                                            </tr>
+                                            </tr>
+                                                <th>Download PDF</th>
+                                                <th><form action="/crs/pdf/{{ item.sno }}/" name="reject">
+                                                <button class="btn btn-success" style="float:left" >&nbsp;&nbsp;&nbsp;&nbsp;Download&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                                </form></th>   
                                             </tr>
                                             <tr>
                                                 

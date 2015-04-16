@@ -1,5 +1,5 @@
         function Validate(inputText1,inputText2)  
-    	{  
+        {  
 
             var mob = /[0-9]{10}/;  
             var pin = /[0-9]{6}/; 
@@ -26,6 +26,26 @@
             }  
         }
 
-
-
+        function Validate2(text1,text2)
+        {
+            var acc= /^\d{1,11}$/;
+            var ifsc= /^[a-zA-Z0-9]{1,11}$/;
+             if(text1.value.match(acc))
+             {
+                if(text2.value.match(ifsc))
+                {
+                    return true;
+                } 
+                else
+                {
+                    alert("You have entered invalid IFSC number");
+                    return false;
+                }
+             }
+             else
+             {
+                    alert("You have entered invalid Account number");
+                    return false;
+             }
+        }
   

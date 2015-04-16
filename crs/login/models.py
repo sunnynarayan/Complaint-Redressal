@@ -153,14 +153,14 @@ class HostelLeavingInformation(models.Model):
     mobile = models.TextField()
     time = models.CharField(max_length=8)
     status = models.IntegerField()
-    submittime = models.TimeField(db_column='submitTime')
+    submittime = models.DateTimeField(db_column='submitTime')
 
     class Meta:
         managed = False
         db_table = 'hostel_leaving_information'
     def __str__(self):              # __unicode__ on Python 2
         stud = Student.objects.get(uid = self.studid)
-        return stud.name + " " + str(start_date)
+        return stud.name
 
 class Mealitems(models.Model):
     sno = models.IntegerField(primary_key=True)

@@ -11,10 +11,6 @@ import hashlib
 import datetime
 from datetime import timedelta
 from login.models import *
-from warden.views import *
-from secretary.views import *
-from student.views import *
-from wardenOffice.views import *
 import re
 from django.core.mail import send_mail
 from django.core.context_processors import csrf
@@ -22,6 +18,35 @@ from django.views.decorators.csrf import requires_csrf_token
 from random import randint
 ##This function clears the whole session array and explicitely sets request.session['logout'] to "False". All users use this
 #function
+
+def isStudent(request):
+    user_type = request.session.get("user_type", '')
+    if user_type != "student":
+        return False
+    else:
+        return True
+def isSecretary(request):
+    user_type = request.session.get("user_type",'')
+    if user_type != "secretary":
+        return False
+    else:
+        return True
+
+def isWardenOffice(request):
+	user_type = request.session.get("user_type",'')
+	if user_type != "wardenOffice":
+		return False
+	else:
+		return True
+
+
+def isWarden(request):
+	user_type = request.session.get("user_type",'')
+	if user_type != "warden":
+		return False
+	else:
+		return True
+
 def logout(request):
 	request.session['login']="False";
 	request.session.flush()
@@ -135,7 +160,7 @@ def changePasswd(request):
 	elif isWardenOffice(request):
 		return render_to_response('wardenOffice/changePasswd.html', {'Err' : ''})
 	elif isWarden(request):
-		return render_to_response('warden/changePasswd', {'Err' : ''})
+		return render_to_response('warden/changePasswd.html', {'Err' : ''})
 	else:
 		return redirect ('/crs/')
 

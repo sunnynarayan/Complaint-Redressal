@@ -57,7 +57,7 @@ def login(request):
 			elif request.session.get("user_type")=="warden":
 				return redirect('/crs/wardenViewComplain/')
 			elif request.session.get("user_type")=="secretary":
-				return redirect ('/crs/listComp/');
+				return redirect('/crs/listComp/')
 			elif request.session.get("user_type")=="wardenOffice":
 				return redirect('/crs/listCompWardenOffice/')
 			else:
@@ -120,7 +120,7 @@ def afterLogin(request):								#after login function working
 				return redirect ('/crs/listComp/')
 			else:
 				request.session['user_type']="student"
-				return redirect ('/crs/complainView/')
+				return redirect('/crs/complainView/')
 		except:
 			return render_to_response('login/loginPage.html', {'msg' : 'User is not registered'}, context_instance=RequestContext(request));
 	else:
@@ -157,7 +157,6 @@ def resetPasswd(request):
 	oldPasswd = request.POST.get('oldPasswd','')
 	newPasswd = request.POST.get('newPasswd1','')
 	newPasswd2 = request.POST.get('newPasswd2','')
-
 	if validatePassword(oldPasswd) or validatePassword(newPasswd) or validatePassword(newPasswd2):
 		return render_to_response(address + '/changePasswd.html', {'Err':'Password length must be between 8 & 20'})
 

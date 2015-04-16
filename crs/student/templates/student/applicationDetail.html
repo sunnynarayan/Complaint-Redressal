@@ -58,7 +58,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/wardenProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -74,23 +74,42 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search"></li>
-                        <li id="one">
-                            <a id="one" href="#"><i class="fa fa-table fa-fw"></i>View Complain</a>
-                        </li>
-
                         <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Applications<span class="fa arrow"></span></a>
-                             <ul class="nav nav-second-level">
-                                <li id="one">
-                                    <a id="one" href="#">New Forms</a>
+                            <a href="/crs/search/"><i class="fa fa-search fa-fw"></i>Search</a>
+                        </li>
+                        <li id="one">
+                            <a id="one" href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
+                        </li>
+                        <li>
+                            <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
+                        </li>
+                        <li>
+                            <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
+                        </li>
+                        <!-- <li>
+                            <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
+                        </li> -->
+                        <li>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/viewPastForm/">Previous Forms</a>
                                 </li>
                                 <li>
-                                    <a id href="#">Approved Forms</a>
+                                    <a id href="/OpenHostelPage/">Fill New Form</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o  fa-fw"></i> Mess Poll Results</a>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i>  Mess Poll <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/crs/pollOptions/">Polling</a>
+                                </li>
+                                <li>
+                                    <a id href="/crs/pollResult/">Poll Result</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -118,7 +137,7 @@
                     </form>
                     {% endif %}
                 </div>
-                <br></br><br></br>
+                <br></br>
             </div>
             <!-- /.row -->
             <div class="row">
@@ -187,6 +206,11 @@
                                             <tr>
                                                 <th>Mobile Number During Absence</th>
                                                 <th>{{ item.mobile }}</th>   
+                                            </tr>
+                                                <th>Download PDF</th>
+                                                <th><form action="/crs/pdf/{{ item.sno }}/" name="reject">
+                        <button class="btn btn-success" style="float:left" >&nbsp;&nbsp;&nbsp;&nbsp;Download&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </form></th>   
                                             </tr>
                                             <tr>
                                                 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,32 +10,24 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>View Secretary</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="../../../../static/secretary/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title></title>
+    
+    <link href="../../../../../../../../static/wardenOffice/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="../../../../../../../../static/wardenOffice/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="../../../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../../../../../../../static/wardenOffice/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="../../../../static/secretary/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+    <link href="../../../../../../../../static/wardenOffice/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../../../static/secretary/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../../../../../../../../static/wardenOffice/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../../../../static/secretary/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="../../../../../../../../static/wardenOffice/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -51,209 +44,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="">{{ msg }}</a>                <!-- ADD USER NAME, ADD VIEW PROFILE URL-->
+                <a class="navbar-brand" href="#">{{msg}}</a>
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a> -->
-                    <ul class="dropdown-menu dropdown-messages">
-                       <!--  <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li> -->
-                    </ul>
-                    <!-- /.dropdown-messages -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a> -->
-                    <ul class="dropdown-menu dropdown-tasks">
-                        <!-- <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 1</strong>
-                                        <span class="pull-right text-muted">40% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 2</strong>
-                                        <span class="pull-right text-muted">20% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                            <span class="sr-only">20% Complete</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 3</strong>
-                                        <span class="pull-right text-muted">60% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 4</strong>
-                                        <span class="pull-right text-muted">80% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                            <span class="sr-only">80% Complete (danger)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Tasks</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li> -->
-                    </ul>
-                    <!-- /.dropdown-tasks -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a> -->
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <!-- <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li> -->
-                    </ul>
-                    <!-- /.dropdown-alerts -->
-                </li>
-                <!-- /.dropdown -->
+                
+                
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        <li><a href="/crs/wardenProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -268,11 +73,10 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        
+                        <li class="sidebar-search"></li>
                         <li>
                             <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
-                        </li>
-                                            
+                        </li>                  
                         <li>
                             <a href="#"><i class="fa   fa-institution fa-fw"></i> Hostels And Complains<span class="fa arrow"></span></a>
                               <ul class="nav nav-second-level">
@@ -334,60 +138,7 @@
                                               <li>
                                                 <a href="/crs/showComplain/Aryabhatta/Environment/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
                                               </li>
-                                        <li>
-                                            <a href="/crs/showComplain/Aryabhatta/"><i class="fa fa-suitcase fa-fw"></i> All <span class="fa arrow"></span></a>
-                                            <ul class="nav nav-second-level">
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/New/"><i class="fa fa-folder fa-fw"></i>New</a>
-                                                </li>
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="/crs/showComplain/Aryabhatta/Maintenance/"><i class="fa fa-suitcase fa-fw"></i> Maintenance <span class="fa arrow"></span></a>
-                                            <ul class="nav nav-second-level">
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Maintenance/New/"><i class="fa fa-folder fa-fw"></i>New</a>
-                                                </li>
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Maintenance/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="/crs/showComplain/Aryabhatta/Technical/"><i class="fa  fa-fighter-jet  fa-fw"></i> Technical <span class="fa arrow"></span></a>
-                                            <ul class="nav nav-second-level">
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Maintenance/New/"><i class="fa fa-folder fa-fw"></i>New</a>
-                                                </li>
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Maintenance/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
-                                                </li>
-                                            </ul>
-                                            <!-- <a href="#">Technical</a> -->
-                                        </li>
-                                        <li>
-                                            <a href="/crs/showComplain/Aryabhatta/Mess/"><i class="fa  fa-beer  fa-fw"></i> Mess <span class="fa arrow"></span></a>
-                                            <ul class="nav nav-second-level">
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Mess/New/"><i class="fa fa-folder fa-fw"></i>New</a>
-                                                </li>
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Mess/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
-                                                </li>
-                                            </ul>
-                                            <!-- <a href="#">Mess</a> -->
-                                        </li>
-                                        <li>
-                                            <a href="/crs/showComplain/Aryabhatta/Environment/"><i class="fa  fa-tree  fa-fw"></i>Environment<span class="fa arrow"></span></a>
-                                            <ul class="nav nav-second-level">
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Environment/New/"><i class="fa fa-folder fa-fw"></i>New</a>
-                                                </li>
-                                                <li>
-                                                    <a href="/crs/showComplain/Aryabhatta/Environment/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
+                                       Environment/Addressed/"><i class="fa  fa-folder-open  fa-fw"></i>Addressed</a>
                                                 </li>
                                             </ul>
                                             <!-- <a href="#">Environment</a> -->
@@ -588,12 +339,7 @@
                                         </li>
                                     </ul>
                                      <!--/.nav-third-level-->
-                                </li>
-
-
-                                </ul>
-                                </li>
-                            <!-- /.nav-second-level -->
+                       
 
                                 <li>
                                     <a href="/crs/showComplain/Chanakya2/"><i class="fa fa-building fa-fw"></i>Chanakya2 Hall<span class="fa arrow"></span></a>
@@ -679,6 +425,8 @@
                                     </ul>
                                      <!--/.nav-third-level-->
                                 </li>
+                                
+                                </li>
                                <li>
                                     <a href="#"><i class="fa fa-building fa-fw"></i>Ashoka Hall<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
@@ -729,8 +477,10 @@
                                      <!--/.nav-third-level-->
                                 </li>
                             </ul>
-                        <!-- /.nav-second-level -->
-                        <!-- </li> -->
+                        </li>
+                    </ul>
+                            <!-- /.nav-second-level -->
+                    </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -740,95 +490,143 @@
 
         <div id="page-wrapper">
             <div class="row">
-                
+                <div class="col-lg-12">
+                    <h1 class="page-header">Application Details</h1>
+                </div>
                 <!-- /.col-lg-12 -->
+                <div class="col-lg-12">
+                    <form action="#" name="back">
+                        <button class="btn btn-primary" style="float:left" onclick="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </form>
+                    {% if warden %}
+                    <form action="#" name="reject">
+                       <a href="/rejectID/{{ item.sno }}/"> <button class="btn btn-success" style="float:right" >&nbsp;&nbsp;&nbsp;&nbsp;Approve&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
+                    </form>
+                    <form action="#" name="reject">
+                       <a href="href="/approveID/{{ item.sno }}/""> <button class="btn btn-danger" style="float:right" >&nbsp;&nbsp;&nbsp;&nbsp;Reject&nbsp;&nbsp;&nbsp;&nbsp;</button> </a>
+                    </form>
+                    {% endif %}
+                </div>
+                <br></br>
             </div>
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                    
-                        <div class="panel-heading">
-                            {{ items.hostel }}
+                        <div class="panel-heading" >
+                            <span class="form-group">For Application ID {{ item.sno }}</span>    <!-- see id -->
+                               <span class="form-group " style="float : right"> Lodge Time {{ item.submittime }}</span>
                         </div>
-
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>Serial No.</th>
-                                            <th>Name</th>
-                                            <th>Roll no.</th>
-                                            <th>Type</th>
-                                            <th>Mobile</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                        {% for items in list2 %}
-                                        {% if forloop.counter0|divisibleby:2 %}
-                                        <tr class="odd gradeX">
-                                            <td>{{forloop.counter}} </td>
-                                            <td>{{items.name}}</td>
-                                            <td>{{items.roll}}</td>
-                                            {% for itm in list1 %}
-                                                {% if itm.uid == items.uid %}
-                                            <td>{{itm.type}}</td>
-                                                 {% endif %}
-                                            {% endfor %}
-                                            <td>{{items.mobile}}</td>
-                                        </tr>
-                                        {% else %}
-                                        <tr class="even gradeX">
-                                            <td>{{forloop.counter}} </td>
-                                            <td>{{items.name}}</td>
-                                            <td>{{items.roll}}</td>
-                                            {% for itm in list1 %}
-                                                {% if itm.uid == items.uid %}
-                                            <td>{{itm.type}}</td>
-                                                 {% endif %}
-                                            {% endfor %}
-                                            <td>{{items.mobile}}</td>
-                                        </tr>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                	<div class="alert alert-success">
+                                    <table class="table table-striped table-bordered table-hover" >
+                                        <thead>
+                                            <tr>
+                                            	
+                                                <th>Applicant's Name</th>
+                                               	<th>{{ student.name }}</th>
+
+                                            </tr>
+                                            <tr>
+                                                <th>Roll Number</th>
+                                                <th>{{ student.roll }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Hostel</th>
+                                                <th>{% if item.hostel == 1 %} Ashoka
+                                                             {% elif item.hostel == 2 %} Aryabhatta
+                                                             {% elif item.hostel == 3 %} Chanakya 1
+                                                             {% elif item.hostel == 4 %} Chanakya 2
+                                                             {% elif item.hostel == 5 %} GBH
+                                                             {% endif %}
+                                                </th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Room</th>
+                                                <th>{{ student.room }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Reason For Leave</th>
+                                                <th>{{ item.reason }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Leave Start Date</th>
+                                                <th>{{ item.start_date }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Leave End Date</th>
+                                                <th>{{ item.end_date }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Leaving Time</th>
+                                                <th>{{ item.time }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Destination</th>
+                                                <th>{{item.destination}}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Current Mobile Number</th>
+                                                <th>{{ student.mobile }}</th>   
+                                            </tr>
+                                            <tr>
+                                                <th>Mobile Number During Absence</th>
+                                                <th>{{ item.mobile }}</th>   
+                                            </tr>
+                                            <tr>
+                                                
+                                                <th>Current Status</th>
+                                                {% if item.status == 0 %}
+                                                <th> Pending Approval </th>
+                                                {% elif item.status == 1 %}
+                                                <th> Approved </th>
+                                                {% elif item.status == 2 %}
+                                                <th> Rejected </th>
+                                                {% endif %}
+                                            </tr>
+
+                                        </thead>
+                                    </table> 
+                                    </div>      
+                            	</div>
+                                
+                                <!-- /.col-lg-6 (nested) -->
+                        	</div>
+                            <!-- /.row (nested) -->
                         
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-6 -->
+                <!-- /.col-lg-12 -->
             </div>
-
         <!-- /#page-wrapper -->
+        </div>
     </div>
+
     <!-- /#wrapper -->
-    <!-- jQuery -->
-    <script src="../../../../static/secretary/bower_components/jquery/dist/jquery.min.js"></script>
+     <script src="../../../../../../../static/wardenOffice/bower_components/jquery/dist/jquery.min.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../../../static/secretary/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../../../../../../static/wardenOffice/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="../../../../../../../static/wardenOffice/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
     <!-- DataTables JavaScript -->
-    <script src="../../../../static/secretary/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
-    <script src="../../../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="../../../../../../../static/wardenOffice/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../../../../../../static/wardenOffice/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
     <!-- Custom Theme JavaScript -->
-    <script src="../../../../static/secretary/dist/js/sb-admin-2.js"></script>
+    <script src="../../../../../../../static/wardenOffice/dist/js/sb-admin-2.js"></script>
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-                responsive: true
-        });
-    });
-    </script>
+    <!-- // <script type="text/javascript" src="http://cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.js"></script> -->
+    
+    
 </body>
 </html>
-
+    

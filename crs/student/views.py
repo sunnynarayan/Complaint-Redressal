@@ -16,7 +16,7 @@ from django import forms
 from datetime import timedelta
 from django.db import transaction
 from wardenOffice.views import *
-from warden.views import *
+from warden.views import isWarden
 from secretary.views import *
 from django.core.files import File
 from reportlab.pdfgen import canvas
@@ -131,9 +131,8 @@ def studentLodgeComplain(request):
         return redirect('/crs/')
     form =DocumentForm()
     msg=request.session.get('username')
-    return render_to_response('student/lodgeComp.html',{'form': form, 'msg': request.session.get('name')}, context_instance=RequestContext(request))
-
-
+    message=""
+    return render_to_response('student/lodgeComp.html',{'msg2':message,'form': form},context_instance=RequestContext(request))
 def studentHome(request):
     if not (isStudent(request)):
         return redirect('/crs/')
@@ -191,7 +190,7 @@ def afterEditProfile(request):
     state=student.state
     city=student.city
     pincode=student.pincode
-    if len(account)<=11 and  len(ifsc)<=11 and len(mobile)==10 and len(pincode)==6:
+    if len(account)==11 and  len(ifsc)==11 and len(mobile)==10 and len(pincode)==6:
         obj.mobile=mobile;
         obj.bank=bank;
         obj.ifsc=ifsc;
@@ -208,9 +207,11 @@ def afterEditProfile(request):
                                    'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                    'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
     elif isSecretary(request):
-        return render_to_response('secretary/EditProfile.html',{'list' : obj,'msg': request.session.get('name') })
+        message="Invalid Input"
+        return render_to_response('secretary/EditProfile.html',{'list' : obj,'msg2':message,'msg': request.session.get('name') })
     else:
-        return render_to_response('student/studEditProfile.html',{'list' : obj,'msg': request.session.get('name') })
+        message="Invalid Input"
+        return render_to_response('student/studEditProfile.html',{'list' : obj,'msg2':message,'msg':request.session.get('name')})
 
 # def rateSecretary(request):
 #     if not (isStudent(request)):
@@ -535,9 +536,9 @@ def validateRoll(roll):
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    subject = request.POST.get('subject', '');
+    subject = request.POST.get('subject');
     subject = validateText(subject)
-    detail = request.POST.get('message', '');
+    detail = request.POST.get('message');
     detail = validateText(detail)
     if detail == '' or subject == '':
         return redirect('/crs/complainView/')
@@ -556,11 +557,24 @@ def lodgeComplainDetail(request):
     CLObj = None
     if complainAccess == 2:
         # try:
-        first=validateRoll(request.POST.get('first').upper())
-        second=validateRoll(request.POST.get('second','').upper())
-        third=validateRoll(request.POST.get('third','').upper())
-        fourth=validateRoll(request.POST.get('fourth','').upper())
-        fifth=validateRoll(request.POST.get('fifth','').upper())
+
+        # first=validateRoll(request.POST.get('first').upper())
+        # second=validateRoll(request.POST.get('second','').upper())
+        # third=validateRoll(request.POST.get('third','').upper())
+        # fourth=validateRoll(request.POST.get('fourth','').upper())
+        # fifth=validateRoll(request.POST.get('fifth','').upper())
+
+        first=request.POST.get('first').upper()
+        second=request.POST.get('second','').upper()
+        third=request.POST.get('third','').upper()
+        fourth=request.POST.get('fourth','').upper()
+        fifth=request.POST.get('fifth','').upper()
+        user_roll=Student.objects.get(uid=uid).roll
+        if user_roll == first or user_roll == second or user_roll == third or user_roll == third or user_roll == fourth or user_roll==fifth or len(first)==0:
+            form =DocumentForm()
+            msg=request.session.get('username')
+            message = "You can't enter your own roll number"
+            return render_to_response('student/lodgeComp.html',{'msg2':message,'msg':msg,'form': form},context_instance=RequestContext(request))
         rollArray = []
         rollArray.append(first)
         if not second == '':
@@ -592,8 +606,11 @@ def lodgeComplainDetail(request):
     for x in SCLArray:
         x.save()
     try:
-        newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
-        # newdoc=Document.objects.get(docfile=request.FILES['docfile'])
+        newdoc=Document(docfile =request.FILES['docfile'],cid=cid)
+        # im = Image.open(newdoc)
+        # if im.format not in ('BMP', 'PNG', 'JPEG'):
+        #     return HttpResponse('Invalid File Format')
+        # # newdoc=Document.objects.get(docfile=request.FILES['docfile'])
         newdoc.save()
     except:
         pass
@@ -621,21 +638,21 @@ def comment(request):
     if 'submit' in request.POST:
 	   uid=request.session.get('uid')
 	   user_type=request.session.get("user_type","")
-	   comment=request.POST.get('cbox')
+	   comment=validateText(request.POST.get('cbox'))
 	   cid=request.session.get('currentCid')
 	   time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');	
-	   if user_type == "student":
+	   if user_type == "student" and len(comment)!=0:
 	       name=Student.objects.get(uid=uid).name
 	       obj=Comment(cid=cid,comment=comment,time=time,name=name)
 	       obj.save()
 	       return redirect('/crs/complainView/')
-	   elif user_type == "faculty":
+	   elif user_type == "faculty" and len(comment)!=0:
 	       name=Faculty.objects.get(fid=uid).name 
 	       obj=Comment(cid=cid,comment=comment,time=time,name=name)
 	       obj.save()
 	       return redirect('/crs/complainView/')
 	   else:
-	       return HttpResponse('unsuccessfull')
+	       return HttpResponse('Comment cant be empty')
     else:
         return HttpResponse('error')
 
@@ -971,7 +988,10 @@ def viewForm(request,formID):
             return HttpResponse('Not authorized to view this page!')
 
         student = Student.objects.get(uid=request.session.get('uid'))
-        return render_to_response('warden/applicationDetail.html', {'item' : form, 'student' : student, 'warden' : False})
+        if isStudent(request):
+            return render_to_response('student/applicationDetail.html', {'item' : form, 'student' : student, 'warden' : False})
+        else:
+            return render_to_response('secretary/applicationDetail.html', {'item' : form, 'student' : student, 'warden' : False})
     elif isWarden(request):
         form = None
         print request.session.get('hostel')
@@ -983,9 +1003,12 @@ def viewForm(request,formID):
 
         student = Student.objects.get(uid=form.studid)
         return render_to_response('warden/applicationDetail.html', {'item' : form, 'student' : student, 'warden' : True})
+    else:
+        redirect('/crs/')
 
 def approveForm(request,formID):
     if isWarden(request):
+        print "Form id = " + formID + " hostel" + request.Session.get('hostel')
         try:
             form = HostelLeavingInformation.objects.get(sno = int(formID), hostel = request.session.get('hostel'))
             form.status = 1
@@ -996,12 +1019,15 @@ def approveForm(request,formID):
 
 def rejectForm(request,formID):
     if isWarden(request):
+        print "Form id = " + formID + " hostel " + str(request.session.get('hostel'))
         try:
             form = HostelLeavingInformation.objects.get(sno = int(formID), hostel = request.session.get('hostel'))
             form.status = 2
             form.save()
         except:
             return HttpResponse('Not authorized to view this page!')
+    # else:
+    #     return redirect('/viewPastForm/')    
     return redirect('/viewPastForm/')
 
 def downloadPDF(request, formID):
@@ -1060,10 +1086,11 @@ def downloadPDF(request, formID):
     print formid
     currentTime = str(datetime.datetime.now())[0:19]
     print currentTime
-    status = form.status
-    if (status == 1):
+    status = int(form.status)
+    # print status
+    if (status == 0):
         status = "Approval Pending"
-    elif status == 2:
+    elif status == 1:
         status = "Approved"
     else:
         status = "Rejected"

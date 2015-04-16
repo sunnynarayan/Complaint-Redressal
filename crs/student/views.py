@@ -162,7 +162,7 @@ def studentComplainView(request):   #shows list of complains
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid')
-    qry = "SELECT a.status, a.cid, a.time, a.type, a.access, a.subject, a.comments FROM complain a, studComplainlink b WHERE (b.studid = " + str(uid) + " OR b.studid = 0) AND a.cid = b.cid"
+    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments FROM complain a, studComplainlink b WHERE (b.studid = " + str(uid) + " OR b.studid = 0) AND a.cid = b.cid"
     serialComplainObjects = Complain.objects.raw(qry);
     # request.session['complains'] = serialComplainObjects;
     #edited
@@ -637,7 +637,7 @@ def lodgeComplainDetail(request):
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
     cid = getComplainID(catagory,int(hostel))
-    complainObj = Complain(cid = cid, uid=uid,time=time, hostel=hostel , type=catagory, subject=subject,detail=detail, comments=0, history=history, status = 1, access=complainAccess);
+    complainObj = Complain(cid = cid, uid=uid,time=time, hostel=hostel , type=catagory, subject=subject,detail=detail, comments=0, history=history, status = 1);
     complainObj.save()
     secretaryObj = Secretary.objects.get(hostel=hostel,type=catagory)
     secid = secretaryObj.uid
@@ -646,7 +646,7 @@ def lodgeComplainDetail(request):
     CLObj = None
     if complainAccess == 2:
         complinObj=Complain.objects.get(cid=cid)
-        complainObj.access = 2
+        # complainObj.access = 2
         # try:
 
         # first=validateRoll(request.POST.get('first').upper())
@@ -689,11 +689,11 @@ def lodgeComplainDetail(request):
         #     pass
     elif complainAccess == 0:
         complinObj=Complain.objects.get(cid=cid)
-        complainObj.access = 0
+        # complainObj.access = 0
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
     elif complainAccess == 1:
         complinObj=Complain.objects.get(cid=cid)
-        complainObj.access = 1
+        # complainObj.access = 1
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
     complainObj.save()
     CLObj.save()

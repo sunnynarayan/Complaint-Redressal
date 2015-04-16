@@ -55,7 +55,6 @@ class Complain(models.Model):
     comments = models.IntegerField()
     status = models.IntegerField(blank=True, null=True)
     picid = models.CharField(db_column='picID', max_length=100)  # Field name made lowercase.
-    access = models.IntegerField()
 
     class Meta:
         managed = False

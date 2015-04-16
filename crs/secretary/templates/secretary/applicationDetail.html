@@ -12,22 +12,22 @@
 
     <title></title>
     
-    <link href="../../static/warden/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/secretary/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../static/warden/metisMenu.min.css" rel="stylesheet">
+    <link href="../../static/secretary/metisMenu.min.css" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="../../static/warden/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../static/secretary/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="../../static/warden/dataTables.responsive.css" rel="stylesheet">
+    <link href="../../static/secretary/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../static/warden/sb-admin-2.css" rel="stylesheet">
+    <link href="../../static/secretary/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../../static/warden/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../static/secretary/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -214,6 +214,12 @@
                                                 <th>Mobile Number During Absence</th>
                                                 <th>{{ item.mobile }}</th>   
                                             </tr>
+                                            </tr>
+                                                <th>Download PDF</th>
+                                                <th><form action="/crs/pdf/{{ item.sno }}/" name="reject">
+                                                <button class="btn btn-success" style="float:left" >&nbsp;&nbsp;&nbsp;&nbsp;Download&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                                </form></th>   
+                                            </tr>
                                             <tr>
                                                 
                                                 <th>Current Status</th>
@@ -247,26 +253,26 @@
 
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="../../static/warden/a.js"></script>
+    <script src="../../static/secretary/a.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../static/warden/bootstrap.min.js"></script>
+    <script src="../../static/secretary/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../static/warden/metisMenu.min.js"></script>
+    <script src="../../static/secretary/metisMenu.min.js"></script>
     <!-- DataTables JavaScript -->
-    <script src="../../static/warden/jquery.dataTables.min.js"></script>
-    <script src="../../static/warden/dataTables.bootstrap.min.js"></script>
+    <script src="../../static/secretary/jquery.dataTables.min.js"></script>
+    <script src="../../static/secretary/dataTables.bootstrap.min.js"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="../../static/warden/sb-admin-2.js"></script>
-    <script type="text/javascript" src="../../static/warden/bower_components/datatables/media/js/jquery.dataTables.js" ></script>
+    <script src="../../static/secretary/sb-admin-2.js"></script>
+    <script type="text/javascript" src="../../static/secretary/bower_components/datatables/media/js/jquery.dataTables.js" ></script>
     
-    <script>
-    $(document).ready(function() {
+    // <script>
+    // $(document).ready(function() {
  
-        $('#dataTables-example').DataTable({
-                responsive: true
-        });
-    });
-    </script>
+    //     $('#dataTables-example').DataTable({
+    //             responsive: true
+    //     });
+    // });
+    // </script>
 </body>
 </html>
     

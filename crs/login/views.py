@@ -11,7 +11,7 @@ import hashlib
 import datetime
 from datetime import timedelta
 from login.models import *
-from warden.views import *
+from warden.views import isWarden
 from secretary.views import *
 from student.views import *
 from wardenOffice.views import *

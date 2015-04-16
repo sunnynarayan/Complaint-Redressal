@@ -525,7 +525,12 @@ def validateText(rawText):
             i = i + 1
         # print str(i) + "," + str(len(rawText)) + " " + rawText
     return rawText
-
+def validateRoll(roll):
+    rawText = re.sub(r'^\d\d\d\d[A-Z][A-Z]\d\d$','',rawText)
+    if len(rawText) == 0:
+        return roll
+    else:
+        return ''
 @transaction.atomic
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
@@ -551,11 +556,11 @@ def lodgeComplainDetail(request):
     CLObj = None
     if complainAccess == 2:
         # try:
-        first=request.POST.get('first').upper()
-        second=request.POST.get('second','').upper()
-        third=request.POST.get('third','').upper()
-        fourth=request.POST.get('fourth','').upper()
-        fifth=request.POST.get('fifth','').upper()
+        first=validateRoll(request.POST.get('first').upper())
+        second=validateRoll(request.POST.get('second','').upper())
+        third=validateRoll(request.POST.get('third','').upper())
+        fourth=validateRoll(request.POST.get('fourth','').upper())
+        fifth=validateRoll(request.POST.get('fifth','').upper())
         rollArray = []
         rollArray.append(first)
         if not second == '':
@@ -567,10 +572,12 @@ def lodgeComplainDetail(request):
         if not fifth == '':
             rollArray.append(fifth) 
         for x in rollArray:
-            tempUid = Student.objects.get(roll = x).uid
-            obj = Studcomplainlink(cid=cid,studid=tempUid)
-            SCLArray.append(obj)
-
+            try:
+                tempUid = Student.objects.get(roll = x).uid
+                obj = Studcomplainlink(cid=cid,studid=tempUid)
+                SCLArray.append(obj)
+            except:
+                pass
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
         # except:
         #     pass
@@ -849,9 +856,14 @@ def pollResult(request):
     return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD , 'msg': request.session.get('name')})
 
 def OpenHostelPage(request):
+    if not (isStudent(request) or isSecretary(request)):
+        return redirect("/crs/")
     obj=Student.objects.get(uid=request.session.get('uid'))
     print str(obj.hostel)
-    return render_to_response('student/studHostelLeave.html',{'list' : obj, 'msg': request.session.get('name')}, context_instance=RequestContext(request))
+    if isStudent(request):
+        return render_to_response('student/studHostelLeave.html',{'list' : obj, 'msg': request.session.get('name')}, context_instance=RequestContext(request))
+    else:
+        return render_to_response('secretary/studHostelLeave.html',{'list' : obj, 'msg': request.session.get('name')}, context_instance=RequestContext(request))
 
 ##GetDifferece(start_date,end_date)
 #Function takes 2 dates as arguments and @return Boolean True is start_date < end_sate
@@ -880,6 +892,8 @@ def getDiffrence(start_date,end_date):
 
 def HostelLeavingSubmit(request):
     # laptop=request.POST.get('laptop', '')
+    if not (isStudent(request) or isSecretary(request)):
+        return redirect("/crs/")
     start_date=request.POST.get('start_date', '')
     end_date=request.POST.get('end_date' , '')
     destination=request.POST.get('destination', '')
@@ -927,18 +941,26 @@ def HostelLeavingSubmit(request):
     hostel = HostelLeavingInformation(studid = request.session.get('uid'), start_date = start_date, end_date = end_date, destination = destination,reason = reason , time = time, hostel = hostel, mobile = mobile, status = 0)
     hostel.save()
     #redirect to page where all hostel leaving forms can be viewed!
-    return redirect('/crs/complainView/');
+    return redirect('/viewPastForm/');
 
 def viewPastHostelLeaveForms(request):
-    if not (isStudent(request) or isSecretary(request)):
-        return redirect('/crs/')
-    forms = []
-    try:
-        forms.extend(HostelLeavingInformation.objects.filter(studid = request.session.get('uid')))
-    except:
-        pass
-
-    return render_to_response('warden/newLeaveApplication.html', {'list' : forms, 'msg': request.session.get('name')})
+    if (isStudent(request) or isSecretary(request)):
+        forms = []
+        try:
+            forms.extend(HostelLeavingInformation.objects.filter(studid = request.session.get('uid')))
+        except:
+            pass
+        if isStudent(request):
+            return render_to_response('student/previousleave.html', {'list' : forms, 'msg': request.session.get('name')})
+        else:
+            return render_to_response('secretary/previousleave.html', {'list' : forms, 'msg': request.session.get('name')})
+    elif isWarden(request):
+        forms = []
+        try:
+            forms.extend(HostelLeavingInformation.objects.filter(hostel = request.session.get('hostel')))
+        except:
+            pass
+        return render_to_response('warden/newLeaveApplication.html', {'list' : forms, 'msg': request.session.get('name')})
 
 def viewForm(request,formID):
     if isStudent(request) or isSecretary(request):

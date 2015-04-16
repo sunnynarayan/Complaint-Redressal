@@ -46,7 +46,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="">{{ msg }}</a>                <!-- ADD USER NAME, ADD VIEW PROFILE URL-->
+                <a class="navbar-brand" href="#">{{ msg }}</a>                <!-- ADD USER NAME, ADD VIEW PROFILE URL-->
             </div>
             <!-- /.navbar-header -->
 
@@ -543,11 +543,10 @@
                                             <fieldset disabled="">
                                             <label for="disabledSelect">Hostel</label>
                                             <input id="disabledInput" class="form-control" name="hostel"  
-                                             value=" {% if list.hostel == 1 %}Ashoka
-                                                    {% elif list.hostel == 2 %}Aryabhatta
-                                                    {% elif list.hostel == 3 %}Chanakya 1
-                                                    {% elif list.hostel == 4 %}Chanakya 2
-                                                    {% elif list.hostel == 5 %}GBH
+                                             value=" {% if item.hostel == 1 %} Ashoka
+                                                             {% elif item.hostel == 2 %} Aryabhatta
+                                                             {% elif item.hostel == 3 %} Chanakya 1
+                                                             {% elif item.hostel == 4 %} Chanakya 2
                                                     {% endif %}">
                                                 </fieldset>
                                             </div>

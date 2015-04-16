@@ -385,11 +385,10 @@
                                             <label>Hostel</label>
 
                                             <input class="form-control" name="hostel"  
-                                            value=" {% if hostel == 1 %}Ashoka
-                                                    {% elif hostel == 2 %}Aryabhatta
-                                                    {% elif hostel == 3 %}Chanakya 1
-                                                    {% elif hostel == 4 %}Chanakya 2
-                                                    {% elif hostel == 5 %}GBH
+                                            value=" {% if item.hostel == 1 %} Ashoka
+                                                             {% elif item.hostel == 2 %} Aryabhatta
+                                                             {% elif item.hostel == 3 %} Chanakya 1
+                                                             {% elif item.hostel == 4 %} Chanakya 2
                                                     {% endif %}">
 
                                         </div>

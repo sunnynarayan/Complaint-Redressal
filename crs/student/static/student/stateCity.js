@@ -1,8 +1,13 @@
+
+
+
 var state_arr = new Array("Andhra Pradesh", "Arunachal Pradesh", "Assam","Bihar", "Chhattisgarh",
-			"Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
-			"Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra",
-			"Manipur","Meghalaya","Mizoram","Nagaland","Orissa","Pondicherry","Punjab","Rajasthan","Sikkim",
-			"Tamil Nadu", "Tripura", "Uttar Pradesh", "Uttaranchal", "West Bengal"); 
+			 "Delhi", "Gujarat", "Haryana", "Uttar Pradesh","West Bengal"    );
+
+			//  "Himachal Pradesh",
+			// "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra",
+			// "Manipur","Meghalaya","Mizoram","Nagaland","Orissa","Pondicherry","Punjab","Rajasthan","Sikkim",
+			// "Tamil Nadu", "Tripura", "Uttar Pradesh", "Uttaranchal", "West Bengal"); 
 
 
 // States

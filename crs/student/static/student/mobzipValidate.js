@@ -1,5 +1,5 @@
         function Validate(inputText1,inputText2)  
-    	{  
+        {  
 
             var mob = /[0-9]{10}/;  
             var pin = /[0-9]{6}/; 

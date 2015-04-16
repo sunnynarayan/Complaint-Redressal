@@ -377,16 +377,20 @@
                                                         {% endif %}
                                                     </td>
                                                     
-                                                    <td class="center">{% if item.access == 0 %}
-                                                                        Public
-                                                                       {% elif item.access == 1 %}
-                                                                        Private
-                                                                       {% elif item.access == 2 %}
-                                                                        Custom
-                                                                        {% endif %}
+                                                    <td class="center">
 
+                                                                        {% if item.access == 0 %}
+                                                                            Public
+                                                                       {% elif item.access == 1 %}
+                                                                            Private
+                                                                       {% else %}
+                                                                            Custom
+                                                                        
+                                                                        {% endif %}
                                                     </td>
-                                                    <td class="center">{% if item.status == 1 %}
+                                                    <td class="center">{% if item.status == 0 %}
+                                                                        Complain Rejected By Secretary
+                                                                        {% elif item.status == 1 %}
                                                                         Complain Lodged
                                                                        {% elif item.status == 2 %}
                                                                         Forwarded to W.O.
@@ -424,7 +428,8 @@
                                                         {% endif %}
                                                     </td>
                                                     
-                                                    <td class="center">{% if item.access == 0 %}
+                                                    <td class="center">
+                                                                        {% if item.access == 0 %}
                                                                         Public
                                                                        {% elif item.access == 1 %}
                                                                         Private

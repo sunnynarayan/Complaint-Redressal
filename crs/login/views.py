@@ -135,7 +135,7 @@ def changePasswd(request):
 	elif isWardenOffice(request):
 		return render_to_response('wardenOffice/changePasswd.html', {'Err' : ''})
 	elif isWarden(request):
-		return render_to_response('warden/changePasswd', {'Err' : ''})
+		return render_to_response('warden/changePasswd.html', {'Err' : ''})
 	else:
 		return redirect ('/crs/')
 

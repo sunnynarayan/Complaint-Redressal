@@ -23,7 +23,6 @@ def isWarden(request):
 
 
 def wardenComplainView(request):
-	#
 	if not (isWarden(request)):
 		return redirect('/crs/')
 	uid=request.session.get('uid')		

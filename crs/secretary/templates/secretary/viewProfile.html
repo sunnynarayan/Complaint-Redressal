@@ -469,10 +469,18 @@
                                             <label>Mobile</label>
                                             <input class="form-control" name="mnum" value="{{mobile}}">
                                         </div>
-                                    <div class="col-lg-6">
+                                   <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Hostel</label>
-                                            <input class="form-control" name="hostel"  value="{{hostel}}">
+
+                                            <input class="form-control" name="hostel"  
+                                            value=" {% if hostel == 1 %}Ashoka
+                                                    {% elif hostel == 2 %}Aryabhatta
+                                                    {% elif hostel == 3 %}Chanakya 1
+                                                    {% elif hostel == 4 %}Chanakya 2
+                                                    {% elif hostel == 5 %}GBH
+                                                    {% endif %}">
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6">

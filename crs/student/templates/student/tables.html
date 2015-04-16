@@ -64,7 +64,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">{{msg}}</a>
+                <a class="navbar-brand" href="#">{{msg}}</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -402,6 +402,8 @@
                                                                          By-passed , Forwarded to W.O
                                                                        {% elif item.status == 23 %}
                                                                          By-passwd , Forwarded to Warden
+                                                                        {% elif item.status == 10 %}
+                                                                        Rejected by Secretary
                                                                        {% endif %}
 
                                                     </td>
@@ -449,6 +451,9 @@
                                                                          By-passed , Forwarded to W.O
                                                                        {% elif item.status == 23 %}
                                                                          By-passwd , Forwarded to Warden
+                                                                         By-passwd , Forwarded to Warden
+                                                                        {% elif item.status == 10 %}
+                                                                        Rejected by Secretary
                                                                        {% endif %}
 
                                                     </td>

@@ -180,6 +180,12 @@
                                                 <th>Mobile Number During Absence</th>
                                                 <th>{{ item.mobile }}</th>   
                                             </tr>
+                                            </tr>
+                                                <th>Download PDF</th>
+                                                <th><form action="/crs/pdf/{{ item.sno }}/" name="reject">
+                                                <button class="btn btn-success" style="float:left" >&nbsp;&nbsp;&nbsp;&nbsp;Download&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                                </form></th>   
+                                            </tr>
                                             <tr>
                                                 
                                                 <th>Current Status</th>

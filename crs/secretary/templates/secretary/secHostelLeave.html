@@ -349,11 +349,10 @@
                                                 <div class="form-group">
                                                     <label>Hostel</label>
                                                     <input class="form-control" name="hostel"  
-                                                    value=  "{% if list.hostel == 1 %} Ashoka
-                                                             {% elif list.hostel == 2 %} Aryabhatta
-                                                             {% elif list.hostel == 3 %} Chanakya 1
-                                                             {% elif list.hostel == 4 %} Chanakya 2
-                                                             {% elif list.hostel == 5 %} GBH
+                                                    value=  "{% elif item.hostel == 1 %} Ashoka
+                                                             {% elif item.hostel == 2 %} Aryabhatta
+                                                             {% elif item.hostel == 3 %} Chanakya 1
+                                                             {% elif item.hostel == 4 %} Chanakya 2
                                                              {% endif %}">
                                                 </div>
                                             </div>

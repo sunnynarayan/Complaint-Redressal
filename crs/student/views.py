@@ -162,7 +162,7 @@ def studentComplainView(request):   #shows list of complains
     if not (isStudent(request)):
         return redirect('/crs/')
     uid = request.session.get('uid')
-    qry = "SELECT a.status, a.cid, a.time, a.type, a.subject, a.comments FROM complain a, studComplainlink b WHERE (b.studid = " + str(uid) + " OR b.studid = 0) AND a.cid = b.cid"
+    qry = "SELECT a.status, a.cid, a.time, a.type, a.access, a.subject, a.comments FROM complain a, studComplainlink b WHERE (b.studid = " + str(uid) + " OR b.studid = 0) AND a.cid = b.cid"
     serialComplainObjects = Complain.objects.raw(qry);
     # request.session['complains'] = serialComplainObjects;
     #edited
@@ -185,7 +185,8 @@ def studentViewComplain(request):  #shows details of complain
         documents = []
         s1 = str(complainObject[0].time)
         complainTime=int(datetime.datetime(int(s1[0:4]),int(s1[5:7]),int(s1[8:10]),int(s1[11:13]),int(s1[14:16]),int(s1[17:19])).strftime('%s'))
-        diff = (int(datetime.datetime.now().strftime('%s'))) - complainTime + 19800  
+        diff = (int(datetime.datetime.now().strftime('%s'))) - complainTime + 19800 
+        # return HttpResponse(complainObject[0].access) 
         try:
             documents=(Document.objects.get(cid=complainObject[0].cid))
         except:
@@ -632,16 +633,20 @@ def lodgeComplainDetail(request):
     hostel = request.session.get('hostel');
     time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');
     complainAccess = int(request.POST.get('complainType'));
+    # return HttpResponse(complainAccess)
     uid = request.session.get('uid');
     history = "Complain added by " + request.session.get("name") + " at time : " + str(time)
     cid = getComplainID(catagory,int(hostel))
-    complainObj = Complain(cid = cid, uid=uid, time=time, hostel=hostel, type=catagory, subject=subject, detail=detail, comments=0, history=history, status = 1);
+    complainObj = Complain(cid = cid, uid=uid,time=time, hostel=hostel , type=catagory, subject=subject,detail=detail, comments=0, history=history, status = 1, access=complainAccess);
+    complainObj.save()
     secretaryObj = Secretary.objects.get(hostel=hostel,type=catagory)
     secid = secretaryObj.uid
     SCLArray = []
     # CLArray = []
     CLObj = None
     if complainAccess == 2:
+        complinObj=Complain.objects.get(cid=cid)
+        complainObj.access = 2
         # try:
 
         # first=validateRoll(request.POST.get('first').upper())
@@ -651,6 +656,7 @@ def lodgeComplainDetail(request):
         # fifth=validateRoll(request.POST.get('fifth','').upper())
 
         first=request.POST.get('first').upper()
+        # return HttpResponse(first)
         second=request.POST.get('second','').upper()
         third=request.POST.get('third','').upper()
         fourth=request.POST.get('fourth','').upper()
@@ -682,8 +688,12 @@ def lodgeComplainDetail(request):
         # except:
         #     pass
     elif complainAccess == 0:
+        complinObj=Complain.objects.get(cid=cid)
+        complainObj.access = 0
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
     elif complainAccess == 1:
+        complinObj=Complain.objects.get(cid=cid)
+        complainObj.access = 1
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
     complainObj.save()
     CLObj.save()

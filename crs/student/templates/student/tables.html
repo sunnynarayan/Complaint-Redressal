@@ -64,7 +64,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">{{msg}}</a>
+                <a class="navbar-brand" href="#">{{msg}}</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -377,16 +377,20 @@
                                                         {% endif %}
                                                     </td>
                                                     
-                                                    <td class="center">{% if item.access == 0 %}
-                                                                        Public
-                                                                       {% elif item.access == 1 %}
-                                                                        Private
-                                                                       {% elif item.access == 2 %}
-                                                                        Custom
-                                                                        {% endif %}
+                                                    <td class="center">
 
+                                                                        {% if item.access == 0 %}
+                                                                            Public
+                                                                       {% elif item.access == 1 %}
+                                                                            Private
+                                                                       {% else %}
+                                                                            Custom
+                                                                        
+                                                                        {% endif %}
                                                     </td>
-                                                    <td class="center">{% if item.status == 1 %}
+                                                    <td class="center">{% if item.status == 0 %}
+                                                                        Complain Rejected By Secretary
+                                                                        {% elif item.status == 1 %}
                                                                         Complain Lodged
                                                                        {% elif item.status == 2 %}
                                                                         Forwarded to W.O.
@@ -402,6 +406,8 @@
                                                                          By-passed , Forwarded to W.O
                                                                        {% elif item.status == 23 %}
                                                                          By-passwd , Forwarded to Warden
+                                                                        {% elif item.status == 10 %}
+                                                                        Rejected by Secretary
                                                                        {% endif %}
 
                                                     </td>
@@ -424,7 +430,8 @@
                                                         {% endif %}
                                                     </td>
                                                     
-                                                    <td class="center">{% if item.access == 0 %}
+                                                    <td class="center">
+                                                                        {% if item.access == 0 %}
                                                                         Public
                                                                        {% elif item.access == 1 %}
                                                                         Private
@@ -449,6 +456,9 @@
                                                                          By-passed , Forwarded to W.O
                                                                        {% elif item.status == 23 %}
                                                                          By-passwd , Forwarded to Warden
+                                                                         By-passwd , Forwarded to Warden
+                                                                        {% elif item.status == 10 %}
+                                                                        Rejected by Secretary
                                                                        {% endif %}
 
                                                     </td>

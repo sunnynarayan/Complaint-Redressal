@@ -10,44 +10,38 @@
     <meta name="author" content="">
 
     <title></title>
-    
-    <link href="../../static/student/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/responsive/1.0.4/css/dataTables.responsive.css    "> -->
+    <!-- Bootstrap Core CSS -->
+    <link href="../../static/secretary/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../static/student/metisMenu.min.css" rel="stylesheet">
+    <link href="../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="../../static/student/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="../../static/student/dataTables.responsive.css" rel="stylesheet">
+    <link href="../../static/secretary/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../static/student/sb-admin-2.css" rel="stylesheet">
+    <link href="../../static/secretary/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../../static/student/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../static/secretary/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <style type="text/css">
     #one{
         background-color: #337ab7;
         color: #ffffff;
     }
-    #two{
-    	background-color: #337AB7;
-    }
     </style>
-    <script type="text/javascript">
-	$(document).ready(function() {
-		var color = document.getElementById("datect").value;
-		if(color == 2)
-			document.body.style.background = "#ff4533";
-	});
-
-    </script>
-
-
-
 
 </head>
 
@@ -198,7 +192,7 @@
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
-                <!-- /.dropdown -->	
+                <!-- /.dropdown -->
                 <li class="dropdown">
                     <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -266,7 +260,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                         <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -282,40 +276,20 @@
                 <div  class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
-                        <li>
+                         <li>
                             <a href="/crs/search/"><i class="fa fa-search fa-fw"></i>Search</a>
                         </li>
-                        <li id="one">
-                            <a id="one" href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
-                        </li>
                         <li>
-                            <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
+                            <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
-                        <li>
-                            <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
-                        </li>
-                        <!-- <li>
-                            <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
-                        </li> -->
                         <li>
                             <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/viewPastForm/">Previous Forms</a>
+                                    <a href="#">Previous Forms</a>
                                 </li>
                                 <li>
-                                    <a id href="/OpenHostelPage/">Fill New Form</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a  href="#"><i class="fa fa-edit fa-fw"></i>  Mess Poll <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/crs/pollOptions/">Polling</a>
-                                </li>
-                                <li>
-                                    <a id href="/crs/pollResult/">Poll Result</a>
+                                    <a href="/OpenHostelPage/">Fill New Form</a>
                                 </li>
                             </ul>
                         </li>
@@ -327,9 +301,9 @@
         </nav>
 
         <div id="page-wrapper">
-            <div  class="row">
+            <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Complains</h1>
+                    <h1 class="page-header">Prevoiusly Filled Forms</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -338,19 +312,16 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading" >
-                            Your Complains
+                            Your Forms
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
-                                        <tr id="one">
-                                            <th>ComplainID</th>
-                                            <th>Subject</th>
-                                            <th>Time</th>
-                                            <th>Type</th>
-                                            <th>Access</th>
+                                        <tr>
+                                            <th>FormID</th>
+                                            <th>Date Of Submition</th>
                                             <th>Status</th>
                                         </tr>
                                         
@@ -360,48 +331,12 @@
                                             {% if forloop.counter0|divisibleby:2 %}
                                                 <tr class="odd gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.subject }}</td>
-                                                    
-                                                    <td>{{ item.time|date:"Y-m-d H:i:s" }}</td>
-                                                    <td>{% if item.type == 1 %}
-
-                                                             Mess
-                                                        {% elif item.type == 2 %}
-                                                             Environment
-                                                        {% elif item.type == 3 %}
-                                                             Technical
-                                                        {% elif item.type == 4 %}
-                                                            Maintainance
-                                                        {% elif item.type == 0 %}
-                                                            Others
-                                                        {% endif %}
-                                                    </td>
-                                                    
-                                                    <td class="center">{% if item.access == 0 %}
-                                                                        Public
-                                                                       {% elif item.access == 1 %}
-                                                                        Private
-                                                                       {% elif item.access == 2 %}
-                                                                        Custom
-                                                                        {% endif %}
-
-                                                    </td>
+                                                    <td>{{ item.date }}</td>
                                                     <td class="center">{% if item.status == 1 %}
-                                                                        Complain Lodged
+                                                                        Approved By Warden
                                                                        {% elif item.status == 2 %}
-                                                                        Forwarded to W.O.
+                                                                        Approval Denied by Warden 
                                                                        {% elif item.status == 3 %}
-                                                                        Forwarded to Warden
-                                                                       {% elif item.status == 11 %}
-                                                                        Complain Re-lodged
-                                                                       {% elif item.status == 12 %}
-                                                                        Re-lodged Forwarded to W.O.
-                                                                       {% elif item.status == 21 %}
-                                                                        Rejected by Secretary
-                                                                       {% elif item.status == 22 %}
-                                                                         By-passed , Forwarded to W.O
-                                                                       {% elif item.status == 23 %}
-                                                                         By-passwd , Forwarded to Warden
                                                                        {% endif %}
 
                                                     </td>
@@ -409,46 +344,12 @@
                                             {% else %}
                                                 <tr class="even gradeX">
                                                     <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.subject }}</td>
-                                                    <td>{{ item.time|date:"Y-m-d H:i:s" }}</td>
-                                                    <td>{% if item.type == 1 %}
-                                                             Mess
-                                                        {% elif item.type == 2 %}
-                                                             Environment
-                                                        {% elif item.type == 3 %}
-                                                             Technical
-                                                        {% elif item.type == 4 %}
-                                                            Maintainance
-                                                        {% elif item.type == 0 %}
-                                                            Others
-                                                        {% endif %}
-                                                    </td>
-                                                    
-                                                    <td class="center">{% if item.access == 0 %}
-                                                                        Public
-                                                                       {% elif item.access == 1 %}
-                                                                        Private
-                                                                       {% elif item.access == 2 %}
-                                                                        Custom
-                                                                        {% endif %}
-
-                                                    </td>
+                                                    <td>{{ item.date }}</td>
                                                     <td class="center">{% if item.status == 1 %}
-                                                                        Complain Lodged
+                                                                        Approved By Warden
                                                                        {% elif item.status == 2 %}
-                                                                        Forwarded to W.O.
+                                                                        Approval Denied by Warden 
                                                                        {% elif item.status == 3 %}
-                                                                        Forwarded to Warden
-                                                                       {% elif item.status == 11 %}
-                                                                        Complain Re-lodged
-                                                                       {% elif item.status == 12 %}
-                                                                        Re-lodged Forwarded to W.O.
-                                                                       {% elif item.status == 21 %}
-                                                                        Rejected by Secretary
-                                                                       {% elif item.status == 22 %}
-                                                                         By-passed , Forwarded to W.O
-                                                                       {% elif item.status == 23 %}
-                                                                         By-passwd , Forwarded to Warden
                                                                        {% endif %}
 
                                                     </td>
@@ -473,17 +374,17 @@
 
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="../../static/student/a.js"></script>
+    <script src="../../static/secretary/bower_components/jquery/dist/jquery.min.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../static/student/bootstrap.min.js"></script>
+    <script src="../../static/secretary/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../static/student/metisMenu.min.js"></script>
+    <script src="../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
     <!-- DataTables JavaScript -->
-    <script src="../../static/student/jquery.dataTables.min.js"></script>
-    <script src="../../static/student/dataTables.bootstrap.min.js"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="../../static/student/sb-admin-2.js"></script>
-    <script type="text/javascript" src="../../static/student/bower_components/datatables/media/js/jquery.dataTables.js" ></script>
+    <script src="../../static/secretary/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <!-- // <script type="text/javascript" src="http://cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.js"></script> -->
     <script>

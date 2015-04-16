@@ -9,46 +9,58 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title></title>
+    <title>Hostel Leave</title>
     
-    <link href="../../static/student/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
+   <link href="../../static/secretary/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../../static/student/metisMenu.min.css" rel="stylesheet">
+    <link href="../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="../../static/student/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="../../static/student/dataTables.responsive.css" rel="stylesheet">
+    <link href="../../static/secretary/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../../static/student/sb-admin-2.css" rel="stylesheet">
+    <link href="../../static/secretary/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../../static/student/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <style type="text/css">
-    #one{
-        background-color: #337ab7;
-        color: #ffffff;
-    }
-    #two{
-    	background-color: #337AB7;
-    }
-    </style>
+    <link href="../../static/secretary/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-	$(document).ready(function() {
-		var color = document.getElementById("datect").value;
-		if(color == 2)
-			document.body.style.background = "#ff4533";
-	});
+    function DateValidate()
+    {
+        var start = document.getElementById("start_date").value;
+        var end = document.getElementById("end_date").value;
+        var temp = document.getElementById("mobile").value;
+        var check = /^[0-9]{10}/;
+        if(start > end)
+        {
+            alert("Start date cannot exceed End date !!");
+            return false;
+        }
+        else
+        {
+            if(temp.match(check))
+            {
+                return true;
+            }
+            else
+            {
+                alert("Mobile Number not in correct format");
+                return false;
+            }
+        }
+    }
 
     </script>
-
-
-
-
+    <style type="text/css">
+    #one{
+         background-color: #337ab7;
+        color: #ffffff;
+    }
+    </style>
 </head>
 
 <body>
@@ -56,7 +68,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-default navbar-static-top" id="headbar" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -64,7 +76,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">{{msg}}</a>
+                <a class="navbar-brand" href="">{{ msg }}</a>                <!-- ADD USER NAME, ADD VIEW PROFILE URL-->
             </div>
             <!-- /.navbar-header -->
 
@@ -198,7 +210,7 @@
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
-                <!-- /.dropdown -->	
+                <!-- /.dropdown -->
                 <li class="dropdown">
                     <!-- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -266,7 +278,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="/crs/studentProfile/"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
-                        <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
+                         <li><a href="/changePassword/"><i class="fa fa-gear fa-fw"></i> Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -279,43 +291,26 @@
             <!-- /.navbar-top-links -->
 
             <div class="navbar-default sidebar" role="navigation">
-                <div  class="sidebar-nav navbar-collapse">
+                <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
+                            
+                            <!-- /input-group -->
+                        </li>
                         <li>
                             <a href="/crs/search/"><i class="fa fa-search fa-fw"></i>Search</a>
                         </li>
-                        <li id="one">
-                            <a id="one" href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
-                        </li>
                         <li>
-                            <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
+                            <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
-                        <li>
-                            <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
-                        </li>
-                        <!-- <li>
-                            <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
-                        </li> -->
                         <li>
                             <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/viewPastForm/">Previous Forms</a>
+                                    <a href="#">Previous Forms</a>
                                 </li>
                                 <li>
-                                    <a id href="/OpenHostelPage/">Fill New Form</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a  href="#"><i class="fa fa-edit fa-fw"></i>  Mess Poll <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/crs/pollOptions/">Polling</a>
-                                </li>
-                                <li>
-                                    <a id href="/crs/pollResult/">Poll Result</a>
+                                    <a href="/OpenHostelPage/">Fill New Form</a>
                                 </li>
                             </ul>
                         </li>
@@ -327,9 +322,9 @@
         </nav>
 
         <div id="page-wrapper">
-            <div  class="row">
+            <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Complains</h1>
+                    <h1 class="page-header">Hostel Leave</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -337,162 +332,113 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading" >
-                            Your Complains
+                        <div class="panel-heading">
+                            Fill Out This Form
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
-                                        <tr id="one">
-                                            <th>ComplainID</th>
-                                            <th>Subject</th>
-                                            <th>Time</th>
-                                            <th>Type</th>
-                                            <th>Access</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        
-                                    </thead>  
-                                        <tbody>
-                                        {% for item in list %}
-                                            {% if forloop.counter0|divisibleby:2 %}
-                                                <tr class="odd gradeX">
-                                                    <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.subject }}</td>
-                                                    
-                                                    <td>{{ item.time|date:"Y-m-d H:i:s" }}</td>
-                                                    <td>{% if item.type == 1 %}
+                            <div class="row">
+                             <form name="input" method="POST" action="/submitHostelPage/"> <!--see for action-->
+                                <div class="col-lg-6">
+                                    <h3>Default Information</h3>
+                                        <fieldset disabled="">
+                                            <div class="form-group">
+                                                <label for="disabledSelect">Name</label>
+                                                <input  id="disabledInput" class="form-control" type="text" value="{{list.name}}" placeholder="{{name}}">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Hostel</label>
+                                                    <input class="form-control" name="hostel"  
+                                                    value=  "{% if list.hostel == 1 %} Ashoka
+                                                             {% elif list.hostel == 2 %} Aryabhatta
+                                                             {% elif list.hostel == 3 %} Chanakya 1
+                                                             {% elif list.hostel == 4 %} Chanakya 2
+                                                             {% elif list.hostel == 5 %} GBH
+                                                             {% endif %}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Room</label>
+                                                    <input class="form-control" name="room" value="{{list.room}}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Default Mobile Number</label>
+                                                <input class="form-control" name="mnum" value="{{list.mobile}}">
+                                            </div>
+                                        </fieldset>      
+                                </div>
+                                <div class="col-lg-6">
+                                    <h3>Editable Information</h3>    
+                                            <div class="form-group">
+                                                <label>Start Date&nbsp;&nbsp;(MM/DD/YYYY)</label>
+                                                <input type="date" class="form-control" required value="" id="start_date" name="start_date" placeholder="Select Start date">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>End Date&nbsp;&nbsp;(MM/DD/YYYY)</label>
+                                                <input type="date" class="form-control" id="end_date" required value="" name="end_date" placeholder="Select End date">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Leaving Time</label>
+                                                <input type="time" class="form-control" required value="" name="time" >
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Residing Address during Leave</label>
+                                                <textarea class="form-control" name="destination" required value="" placeholder="Place"></textarea>
+                                            </div>
+                                             <div class="form-group">
+                                                <label>Reason For Leave</label>
+                                                <input class="form-control" name="reason" required value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Mobile Number During Absence</label>
+                                                <input class="form-control" name="mobile" id="mobile" required value="">
+                                            </div>
+                                </div>
+                                <div class="col-lg-6">
+                        			<button type="submit" name="submit" value="Submit" onclick="DateValidate()" class="btn btn-success" style="float: right" >Submit</button>
 
-                                                             Mess
-                                                        {% elif item.type == 2 %}
-                                                             Environment
-                                                        {% elif item.type == 3 %}
-                                                             Technical
-                                                        {% elif item.type == 4 %}
-                                                            Maintainance
-                                                        {% elif item.type == 0 %}
-                                                            Others
-                                                        {% endif %}
-                                                    </td>
-                                                    
-                                                    <td class="center">{% if item.access == 0 %}
-                                                                        Public
-                                                                       {% elif item.access == 1 %}
-                                                                        Private
-                                                                       {% elif item.access == 2 %}
-                                                                        Custom
-                                                                        {% endif %}
+                        			<button type="reset" value="Cancel" class="btn  btn-danger" style="float: right">Reset</button>
+                    			</div>
 
-                                                    </td>
-                                                    <td class="center">{% if item.status == 1 %}
-                                                                        Complain Lodged
-                                                                       {% elif item.status == 2 %}
-                                                                        Forwarded to W.O.
-                                                                       {% elif item.status == 3 %}
-                                                                        Forwarded to Warden
-                                                                       {% elif item.status == 11 %}
-                                                                        Complain Re-lodged
-                                                                       {% elif item.status == 12 %}
-                                                                        Re-lodged Forwarded to W.O.
-                                                                       {% elif item.status == 21 %}
-                                                                        Rejected by Secretary
-                                                                       {% elif item.status == 22 %}
-                                                                         By-passed , Forwarded to W.O
-                                                                       {% elif item.status == 23 %}
-                                                                         By-passwd , Forwarded to Warden
-                                                                       {% endif %}
-
-                                                    </td>
-                                                </tr>
-                                            {% else %}
-                                                <tr class="even gradeX">
-                                                    <td><a href="/crs/viewComplain?CID={{item.cid}}">{{ item.cid }}</a></td>
-                                                    <td>{{ item.subject }}</td>
-                                                    <td>{{ item.time|date:"Y-m-d H:i:s" }}</td>
-                                                    <td>{% if item.type == 1 %}
-                                                             Mess
-                                                        {% elif item.type == 2 %}
-                                                             Environment
-                                                        {% elif item.type == 3 %}
-                                                             Technical
-                                                        {% elif item.type == 4 %}
-                                                            Maintainance
-                                                        {% elif item.type == 0 %}
-                                                            Others
-                                                        {% endif %}
-                                                    </td>
-                                                    
-                                                    <td class="center">{% if item.access == 0 %}
-                                                                        Public
-                                                                       {% elif item.access == 1 %}
-                                                                        Private
-                                                                       {% elif item.access == 2 %}
-                                                                        Custom
-                                                                        {% endif %}
-
-                                                    </td>
-                                                    <td class="center">{% if item.status == 1 %}
-                                                                        Complain Lodged
-                                                                       {% elif item.status == 2 %}
-                                                                        Forwarded to W.O.
-                                                                       {% elif item.status == 3 %}
-                                                                        Forwarded to Warden
-                                                                       {% elif item.status == 11 %}
-                                                                        Complain Re-lodged
-                                                                       {% elif item.status == 12 %}
-                                                                        Re-lodged Forwarded to W.O.
-                                                                       {% elif item.status == 21 %}
-                                                                        Rejected by Secretary
-                                                                       {% elif item.status == 22 %}
-                                                                         By-passed , Forwarded to W.O
-                                                                       {% elif item.status == 23 %}
-                                                                         By-passwd , Forwarded to Warden
-                                                                       {% endif %}
-
-                                                    </td>
-
-                                                </tr>
-                                            {% endif %}
-                                    {% endfor %}
-                                        </tbody>
-                                </table>
+                                </form> 
+                                <!-- /.col-lg-6 (nested) -->
+                                                                <!-- /.col-lg-6 (nested) -->
                             </div>
-                            <!-- /.table-responsive -->
+                            <!-- /.row (nested) -->
                         </div>
+                        
+
                         <!-- /.panel-body -->
                     </div>
+            
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-        <!-- /#page-wrapper -->
+            <!-- /.row -->
         </div>
-    </div>
+        <!-- /#page-wrapper -->
 
+    </div>
     <!-- /#wrapper -->
+
     <!-- jQuery -->
-    <script src="../../static/student/a.js"></script>
+    <script src="../../static/secretary/bower_components/jquery/dist/jquery.min.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../static/student/bootstrap.min.js"></script>
+    <script src="../../static/secretary/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../static/student/metisMenu.min.js"></script>
+    <script src="../../static/secretary/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
     <!-- DataTables JavaScript -->
-    <script src="../../static/student/jquery.dataTables.min.js"></script>
-    <script src="../../static/student/dataTables.bootstrap.min.js"></script>
+    <script src="../../static/secretary/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../static/secretary/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
     <!-- Custom Theme JavaScript -->
-    <script src="../../static/student/sb-admin-2.js"></script>
-    <script type="text/javascript" src="../../static/student/bower_components/datatables/media/js/jquery.dataTables.js" ></script>
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <!-- // <script type="text/javascript" src="http://cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.js"></script> -->
-    <script>
-    $(document).ready(function() {
- 
-        $('#dataTables-example').DataTable({
-                responsive: true
-        });
-    });
-    </script>
+    <script src="../../static/secretary/dist/js/sb-admin-2.js"></script>
 </body>
+
 </html>

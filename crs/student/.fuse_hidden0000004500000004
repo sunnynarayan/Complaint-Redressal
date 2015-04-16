@@ -65,7 +65,7 @@ def list(request): # Handle file upload
 
 def loadPage(request):
     form =DocumentForm()
-    return render_to_response('student/list.html',{'form': form, 'msg': request.session.get('name')})
+    return render_to_response('student/list.html',{'form': form})
 
 
 def validatePassword(passwd):
@@ -91,15 +91,11 @@ def studentViewComplain(request):  #shows details of complain
     index = request.GET.get('CID')
     request.session['currentCid']=index;
     qry = ""
-    currDate = datetime.datetime.now()
     if request.session.get("user_type")=="student" :
         qry = "SELECT * FROM complain a, studComplainlink c WHERE c.cid = \'" + str(index) + "\' AND (c.studid = " + str(request.session.get('uid')) + " OR c.studid = 0)  AND c.cid = a.cid"
         complainObject = Complain.objects.raw(qry)
         comment = []
         documents = []
-        s1 = str(complainObject[0].time)
-        complainTime=int(datetime.datetime(int(s1[0:4]),int(s1[5:7]),int(s1[8:10]),int(s1[11:13]),int(s1[14:16]),int(s1[17:19])).strftime('%s'))
-        diff = (int(datetime.datetime.now().strftime('%s'))) - complainTime + 19800  
         try:
             documents=(Document.objects.get(cid=complainObject[0].cid))
         except:
@@ -108,12 +104,12 @@ def studentViewComplain(request):  #shows details of complain
             comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
         except:
             pass
-        return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment, 'diff' : diff, 'msg': request.session.get('name')})        
+        return render_to_response("student/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})        
     elif request.session.get("user_type")=="secretary" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.secID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         complainObject = Complain.objects.raw(qry)
         return secViewComplain(complainObject)
-        
+
     elif request.session.get("user_type")=="wardenOffice" :
         qry = "SELECT * FROM complain a, complainLink b WHERE b.CID = \'" + str(index) + "\' AND (b.woID = " + str(request.session.get('uid')) + ") AND b.CID = a.cid"
         complainObject = Complain.objects.raw(qry)
@@ -130,35 +126,24 @@ def studentLodgeComplain(request):
     if not (isStudent(request)):
         return redirect('/crs/')
     form =DocumentForm()
-    msg=request.session.get('username')
-    message=""
-    return render_to_response('student/lodgeComp.html',{'msg2':message,'form': form},context_instance=RequestContext(request))
+    return render_to_response('student/lodgeComp.html',{'form': form}, context_instance=RequestContext(request))
+
+
 def studentHome(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    return render_to_response('student/studentHome.html',{'msg': request.session.get('name')});
+    return render_to_response('student/studentHome.html');
 
 
 def studentProfile(request):
-    if isStudent(request):
-        # return redirect('/crs/')
-        return render_to_response('student/studentProfile.html');
-    elif isSecretary(request):
-        return render_to_response('secretary/viewProfile.html')
-    else:
+    if not (isStudent(request)):
         return redirect('/crs/')
+    return render_to_response('student/studentProfile.html');
 
 def studEditProfile(request):
-    if isStudent(request):
-        uid=request.session.get('uid')
-        obj=Student.objects.get(uid=uid)
-        return render_to_response('student/studEditProfile.html',{'list' : obj,'msg': request.session.get('name') })
-    elif isSecretary(request):
-        uid=request.session.get('uid')
-        obj=Student.objects.get(uid=uid)
-        return render_to_response('secretary/EditProfile.html',{'list' : obj,'msg': request.session.get('name') })
-    else:
-        return redirect('/crs/')
+    uid=request.session.get('uid')
+    obj=Student.objects.get(uid=uid)
+    return render_to_response('student/studEditProfile.html',{'list' : obj,'msg': request.session.get('name') })
 
 def afterEditProfile(request):
     uid=request.session.get('uid');
@@ -173,24 +158,7 @@ def afterEditProfile(request):
     account=request.POST.get('accnum')
     # email=request.POST.get('email')
     mobile=request.POST.get('mobile');
-    student = Student.objects.get(uid=uid)
-    mobile = student.mobile
-    username = student.username
-    name = student.name
-    sex = student.sex
-    padd = student.padd
-    email = student.email
-    roll = student.roll
-    room = student.room
-    hostel = student.hostel
-    bloodgrp = student.bloodgrp
-    baccno = student.baccno
-    bank = student.bank
-    IFSC = student.ifsc
-    state=student.state
-    city=student.city
-    pincode=student.pincode
-    if len(account)==11 and  len(ifsc)==11 and len(mobile)==10 and len(pincode)==6:
+    if len(account)<=11 and  len(ifsc)<=11 and len(mobile)==10 and len(pincode)==6:
         obj.mobile=mobile;
         obj.bank=bank;
         obj.ifsc=ifsc;
@@ -202,16 +170,30 @@ def afterEditProfile(request):
         obj.pincode=pincode
         obj.bloodgrp=bgroup
         obj.save();
+        # uid = request.session.get('uid')
+        student = Student.objects.get(uid=uid)
+        mobile = student.mobile
+        username = student.username
+        name = student.name
+        sex = student.sex
+        padd = student.padd
+        email = student.email
+        roll = student.roll
+        room = student.room
+        hostel = student.hostel
+        bloodgrp = student.bloodgrp
+        baccno = student.baccno
+        bank = student.bank
+        IFSC = student.ifsc
+        state=student.state
+        city=student.city
+        pincode=student.pincode
         return render_to_response('student/studentProfile.html',
                                   {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                    'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                    'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
-    elif isSecretary(request):
-        message="Invalid Input"
-        return render_to_response('secretary/EditProfile.html',{'list' : obj,'msg2':message,'msg': request.session.get('name') })
     else:
-        message="Invalid Input"
-        return render_to_response('student/studEditProfile.html',{'list' : obj,'msg2':message,'msg':request.session.get('name')})
+        return HttpResponse('Error')
 
 # def rateSecretary(request):
 #     if not (isStudent(request)):
@@ -222,19 +204,19 @@ def afterEditProfile(request):
 def studentPoll(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    return render_to_response('student/studPoll.html', {'msg': request.session.get('name')});
+    return render_to_response('student/studPoll.html');
 
 
 def studentHostelLeave(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    return render_to_response('student/studHostelLeave.html', {'msg': request.session.get('name')});
+    return render_to_response('student/studHostelLeave.html');
 
 
 def studentMessRebate(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    return render_to_response('student/messrebate.html', {'msg': request.session.get('name')});
+    return render_to_response('student/messrebate.html');
 
 
 def getCatagory(str):
@@ -347,12 +329,12 @@ def loadRateSecPage(request):
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         except:
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
 
 
         # return HttpResponse(obj2.rating)
@@ -375,12 +357,12 @@ def loadRateSecPage(request):
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         except:
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         # stud=[]
         # for sec in secretary:
         #     stud.append(Student.objects.get(uid=sec.uid))
@@ -396,12 +378,12 @@ def loadRateSecPage(request):
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         except:
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         # stud=[]
         # for sec in secretary:
         #     stud.append(Student.objects.get(uid=sec.uid))
@@ -417,12 +399,12 @@ def loadRateSecPage(request):
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         except:
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         # stud=[]
         # for sec in secretary:
         #     stud.append(Student.objects.get(uid=sec.uid))
@@ -438,12 +420,12 @@ def loadRateSecPage(request):
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         except:
             stud=[]
             for sec in secretary:
                 stud.append(Student.objects.get(uid=sec.uid))
-            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2, 'msg': request.session.get('name')})
+            return render_to_response('student/rateSecretaryAshoka.html',{'stud': stud,'sec' : secretary,'obj' : obj2})
         # stud=[]
         # for sec in secretary:
         #     stud.append(Student.objects.get(uid=sec.uid))
@@ -469,7 +451,7 @@ def rateSecretary(request):
         try:
             ob=Secretaryrating.objects.get(secid=eachSec.uid,studid=uid)
             ob.rating=rating[count]
-            count=count+1
+            ++count
             ob.save()
         except:
             secObj=Secretaryrating(secid=eachSec.uid,rating=rating[count],studid=uid)
@@ -478,13 +460,13 @@ def rateSecretary(request):
     for eachSec in secList:
         obj=Secretaryrating.objects.filter(secid = eachSec.uid)
         for obej in obj:
-            ratingCount=ratingCount+obej.rating
+            ratingCount+=obej.rating
             n=n+1
         finalRating=ratingCount/n
         # return HttpResponse(finalRating)
         sec=Secretary.objects.get(uid=eachSec.uid)
         sec.rating=finalRating
-        # return HttpResponse(finalRating)
+        # return HttpResponse(secListForRating)
         sec.save()
         # return HttpResponse(finalRating)
         # return HttpResponse(finalRating)
@@ -531,9 +513,9 @@ def validateText(rawText):
 def lodgeComplainDetail(request):
     if not (isStudent(request)):
         return redirect('/crs/')
-    subject = request.POST.get('subject');
+    subject = request.POST.get('subject', '');
     subject = validateText(subject)
-    detail = request.POST.get('message');
+    detail = request.POST.get('message', '');
     detail = validateText(detail)
     if detail == '' or subject == '':
         return redirect('/crs/complainView/')
@@ -552,17 +534,11 @@ def lodgeComplainDetail(request):
     CLObj = None
     if complainAccess == 2:
         # try:
-        first=request.POST.get('first').upper()
-        second=request.POST.get('second','').upper()
-        third=request.POST.get('third','').upper()
-        fourth=request.POST.get('fourth','').upper()
-        fifth=request.POST.get('fifth','').upper()
-        user_roll=Student.objects.get(uid=uid).roll
-        if user_roll == first or user_roll == second or user_roll == third or user_roll == third or user_roll == fourth or user_roll==fifth or len(first)==0:
-            form =DocumentForm()
-            msg=request.session.get('username')
-            message = "You can't enter your own roll number"
-            return render_to_response('student/lodgeComp.html',{'msg2':message,'msg':msg,'form': form},context_instance=RequestContext(request))
+        first=request.POST.get('first')
+        second=request.POST.get('second','')
+        third=request.POST.get('third','')
+        fourth=request.POST.get('fourth','')
+        fifth=request.POST.get('fifth','')
         rollArray = []
         rollArray.append(first)
         if not second == '':
@@ -585,6 +561,7 @@ def lodgeComplainDetail(request):
         CLObj = Complainlink(cid=cid, studid=0, secid=secid)
     elif complainAccess == 1:
         CLObj = Complainlink(cid=cid, studid=uid, secid=secid)
+    
     complainObj.save()
     CLObj.save()
     SCLObj = Studcomplainlink(cid=cid, studid=uid)
@@ -593,15 +570,11 @@ def lodgeComplainDetail(request):
         x.save()
     try:
         newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
-        im = Image.open(newdoc)
-        if im.format not in ('BMP', 'PNG', 'JPEG'):
-            return HttpResponse('Invalid File Format')
         # newdoc=Document.objects.get(docfile=request.FILES['docfile'])
         newdoc.save()
     except:
         pass
 
-    # return HttpResponse("451")
     return redirect('/crs/complainView/');
 
 def relodgeComplain(request):
@@ -609,7 +582,7 @@ def relodgeComplain(request):
 		return redirect('/crs/')
 	comid=request.session.get('currentCid')
 	obj=Complain.objects.get(cid=comid)
-	if obj.status==10:
+	if obj.status==1:
 		obj.status=11
 		obj.save()
 	else:
@@ -624,29 +597,28 @@ def comment(request):
     if 'submit' in request.POST:
 	   uid=request.session.get('uid')
 	   user_type=request.session.get("user_type","")
-	   comment=validateText(request.POST.get('cbox'))
+	   comment=request.POST.get('cbox')
 	   cid=request.session.get('currentCid')
 	   time = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S');	
-	   if user_type == "student" and len(comment)!=0:
+	   if user_type == "student":
 	       name=Student.objects.get(uid=uid).name
 	       obj=Comment(cid=cid,comment=comment,time=time,name=name)
 	       obj.save()
 	       return redirect('/crs/complainView/')
-	   elif user_type == "faculty" and len(comment)!=0:
+	   elif user_type == "faculty":
 	       name=Faculty.objects.get(fid=uid).name 
 	       obj=Comment(cid=cid,comment=comment,time=time,name=name)
 	       obj.save()
 	       return redirect('/crs/complainView/')
 	   else:
-	       return HttpResponse('Comment cant be empty')
+	       return HttpResponse('unsuccessfull')
     else:
         return HttpResponse('error')
 
 def studentProfile(request):
     # if not (isStudent(request)):
     #     return redirect('/crs/')  //commented so that i can use in secretary
-    if not (isStudent(request) or isSecretary(request)):
-        return redirect('/crs/')
+
     uid = request.session.get('uid')
     student = Student.objects.get(uid=uid)
     mobile = student.mobile
@@ -665,12 +637,7 @@ def studentProfile(request):
     state=student.state
     city=student.city
     pincode=student.pincode
-    address = ""
-    if isStudent(request):
-        address = "student/studentProfile.html"
-    else:
-        address = "secretary/viewProfile.html"
-    return render_to_response(address,
+    return render_to_response('student/studentProfile.html',
                               {'mobile': mobile, 'username': username, 'name': name, 'sex': sex, 'padd': padd,
                                'email': email, 'roll': roll, 'hostel': hostel, 'room': room, 'baccno': baccno,
                                'bank': bank, 'IFSC': IFSC,'state':state,'city':city,'pincode':pincode,'bloodgrp':bloodgrp,'msg': name});
@@ -856,12 +823,12 @@ def pollResult(request):
     with open(path + '/static/dataD.tsv', 'w') as f:
         myfile = File(f)
         myfile.write("meal\tvotes\n"+dataD)
-    return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD , 'msg': request.session.get('name')})
+    return render_to_response("student/pollResult.html", {'list1' : votesB, 'list2' : votesL, 'list3' : votesD })
 
 def OpenHostelPage(request):
     obj=Student.objects.get(uid=request.session.get('uid'))
     print str(obj.hostel)
-    return render_to_response('student/studHostelLeave.html',{'list' : obj, 'msg': request.session.get('name')}, context_instance=RequestContext(request))
+    return render_to_response('student/studHostelLeave.html',{'list' : obj}, context_instance=RequestContext(request))
 
 ##GetDifferece(start_date,end_date)
 #Function takes 2 dates as arguments and @return Boolean True is start_date < end_sate
@@ -948,7 +915,7 @@ def viewPastHostelLeaveForms(request):
     except:
         pass
 
-    return render_to_response('warden/newLeaveApplication.html', {'list' : forms, 'msg': request.session.get('name')})
+    return render_to_response('warden/newLeaveApplication.html', {'list' : forms})
 
 def viewForm(request,formID):
     if isStudent(request) or isSecretary(request):
@@ -992,98 +959,61 @@ def rejectForm(request,formID):
             return HttpResponse('Not authorized to view this page!')
     return redirect('/viewPastForm/')
 
-def downloadPDF(request, formID):
+def some_view(request,formID):
+    if not (isStudent(request)):
+        return redirect('/crs/')
     form = None
-    stud = None
-    if isStudent(request) or isSecretary(request):
-        try:
-            form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
-        except:
-            return HttpResponse('Not authorized to view this page!')
-
-        stud = Student.objects.get(uid=request.session.get('uid'))
-    elif isWarden(request):
-        form = None
-        print request.session.get('hostel')
-        print formID
-        try:
-            form = HostelLeavingInformation.objects.get(sno = int(formID), hostel = request.session.get('hostel'))
-        except:
-            return HttpResponse('Not authorized to view this page!')
-
-        stud = Student.objects.get(uid=form.studid)
-    else:
-        return HttpResponse("Not authorized to view this page!")
-
+    try:
+        form = HostelLeavingInformation.objects.get(studid=request.session.get('uid'), sno = int(formID) )
+    except:
+        return HttpResponse('Not authorized to view this page!')
+    
+    # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="experiment.pdf";pagesize=landscape(letter)'
+
+    # Create the PDF object, using the response object as its "file."
     p = canvas.Canvas(response)
+    # p.setFont('Helvetica', 48, leading=None)
+    # p.drawCentredString(300, 750, "Warden's Office")
+
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawCentredString(300, 700, "Hostel Leaving Form")
+    
+    # line1 = "I " + request.session.get('name')
+    # line2 = "staying presently in Room No 209" 
+    # line3 = "of Ashoka Hall"
+    # line4 = "do hereby intimate that I am leaving hostel"
+
+    # p.drawImage('sm_logo.png', 100, 100, width=None, height=None)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 600, line1)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 550, line2)
+    # p.setFont('Helvetica', 25, leading=None)
+    # p.drawString(50, 500, line3)
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    
+    # Close the PDF object cleanly, and we're done.
+    stud = Student.objects.get(uid=form.studid)
     name = stud.name
-    print name
-    room = str(stud.room)
-    print room
-    start_date = (str(form.start_date))[0:19]
-    print start_date
-    end_date = (str(form.end_date))[0:19]
-    print end_date
-    time = (str(form.time))[0:19]
-    print time
+    room = stud.room
+    start_date = form.start_date
+    end_date = form.end_date
+    time = form.time
     hostel = Hostel.objects.get(id = stud.hostel).name
-    print hostel
     destination = form.destination
-    if len(destination) > 30:
-        destination = destination[0:30] + "..."
-    print destination
-    print str(len(destination))
     reason = form.reason
-    if len(reason) > 20:
-        reason = reason[0:20] + "..."
-    print reason
-    print str(len(reason))
     rollno = stud.roll
-    print rollno
     mobile = form.mobile
-    print mobile
-    formid = str(form.sno)
-    print formid
+    formid = form.sno
     currentTime = str(datetime.datetime.now())[0:19]
-    print currentTime
-    status = form.status
-    if (status == 1):
-        status = "Approval Pending"
-    elif status == 2:
-        status = "Approved"
-    else:
-        status = "Rejected"
-    curTime = (datetime.datetime.now() + timedelta(hours=5, minutes=30)).strftime('%Y-%m-%d %H:%M:%S')
     path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     image = path + "/Hostel_Leaving_Form.png"
     p.drawImage(image,20,40,width=600,height=800)
     p.setFont('Helvetica', 15, leading=None)
-    p.drawString(140, 670, name)
-    p.drawString(400, 645, room)
-    p.drawString(145, 620, hostel)
-    p.setFont('Helvetica', 10, leading=None)
-    p.drawString(205, 595, start_date)
-    p.drawString(286, 595, end_date)
-    p.setFont('Helvetica', 15, leading=None)
-    p.drawString(380, 595, time)
-    p.drawString(286, 572, destination)
-    p.drawString(140, 545, reason)
-    # p.drawString(286, 595, end_date)
-    p.drawString(194, 458, rollno)
-    p.drawString(306, 441, mobile)
-    p.drawString(130, 375, hostel)
-    p.drawString(186, 304, formid)
-    p.drawString(180, 287, status)
-    p.drawString(180, 270, curTime)
-    p.drawString(135, 205, name)
-    p.drawString(380, 205, rollno)
-    p.drawString(157, 171, hostel)
-    p.drawString(350, 171, room)
-    p.setFont('Helvetica', 10, leading=None)
-    p.drawString(115, 139, start_date)
-    p.drawString(200, 139, end_date)
+    p.drawString(130, 663, name)
     p.showPage()
     p.save()
     return response

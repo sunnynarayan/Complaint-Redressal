@@ -37,10 +37,12 @@
     <link href="../../static/student/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <script type="text/javascript">
-$(document).ready(function()
-{
-    $('#relodge').show();
-});
+    $(document).ready(function(){
+        var time = {{diff}};    
+        if (time <= 86400){
+            $('#relodge').hide();
+        }
+    });
 </script>
 
 
@@ -114,9 +116,6 @@ $(document).ready(function()
                 <!-- /.dropdown -->
                 <li class="dropdown">
                    <!--  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-=======
-                    <!- <a class="dropdown-toggle" data-toggle="dropdown" href="#">
->>>>>>> 80260b439ffc76a1b0801420adb4f22264d9567b
                         <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a> -->
                     <ul class="dropdown-menu dropdown-tasks">
@@ -279,7 +278,10 @@ $(document).ready(function()
                         <li class="sidebar-search">
                         </li>
                         <li>
-                            <a href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
+                            <a href="/crs/search/"><i class="fa fa-search fa-fw"></i>Search</a>
+                        </li>
+                        <li id="one">
+                            <a id="one" href="/crs/complainView/"><i class="fa fa-table fa-fw"></i>View Complain</a>
                         </li>
                         <li>
                             <a href="/crs/lodgeComplain/"><i class="fa fa-pencil-square-o fa-fw"></i>Lodge Complain</a>
@@ -287,26 +289,31 @@ $(document).ready(function()
                         <li>
                             <a href="/crs/loadRateSecPage/"><i class="fa fa-edit fa-fw"></i> Rate Secretary</a>
                         </li>
+                        <!-- <li>
+                            <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
+                        </li> -->
                         <li>
-                            <a id="one" href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i> Hostel Leaving Info<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Previous Forms</a>
+                                    <a href="/viewPastForm/">Previous Forms</a>
                                 </li>
-                                <li id="one">
-                                    <a id="one" href="/OpenHostelPage/">Fill New Form</a>
+                                <li>
+                                    <a id href="/OpenHostelPage/">Fill New Form</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-
-                       <!-- <li>
-                            <a href="/crs/messrebate/"><i class="fa fa-money fa-fw"></i> Mess Rebate</a>
-                        </li> -->
-                        <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i> Mess Poll</a>
+                            <a  href="#"><i class="fa fa-edit fa-fw"></i>  Mess Poll <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/crs/pollOptions/">Polling</a>
+                                </li>
+                                <li>
+                                    <a id href="/crs/pollResult/">Poll Result</a>
+                                </li>
+                            </ul>
                         </li>
-                    
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -323,8 +330,8 @@ $(document).ready(function()
                     <form action="/crs/complainView/" name="back">
                         <button class="btn btn-primary" style="float:left" onclick="/crs/complainView/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
-                    <form action="/crs/studRelodge/" name="relodge" id="relodge">
-                        <button class="btn btn-warning" style="float:right" onclick="/crs/studRelodge/">&nbsp;&nbsp;&nbsp;&nbsp;Relodge&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <form action="/crs/studRelodge/" name="relodge" >
+                        <button id="relodge" class="btn btn-warning" style="float:right" onclick="/crs/studRelodge/">&nbsp;&nbsp;&nbsp;&nbsp;Relodge&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </form>
                     <br></br><br></br>
                 </div>

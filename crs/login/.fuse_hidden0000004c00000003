@@ -124,7 +124,7 @@ class Fooditems(models.Model):
     vitamins = models.IntegerField()
     proteins = models.IntegerField()
     fat = models.IntegerField()
-    nutritions = models.FloatField()
+    nutritions = models.DecimalField(max_digits=3, decimal_places=2)
 
     class Meta:
         managed = False
@@ -249,7 +249,7 @@ class Secretaryrating(models.Model):
         db_table = 'secretaryRating'
 
     def __str__(self):              # __unicode__ on Python 2
-        # sec = Secretary.objects.get(uid=self.secid)
+        fac = Faculty.objects.get(fid=self.fid)
         return str(self.id) + " secid = " + str(self.secid) + " studid = " + str(self.studid) + " rating = " + str(self.rating)
 
 class Studcomplainlink(models.Model):
@@ -280,7 +280,7 @@ class Student(models.Model):
     room = models.IntegerField(blank=True, null=True)
     hostel = models.IntegerField(db_column='hostel', blank=True, null=True)
     bloodgrp = models.CharField(db_column='bloodGrp', max_length=3, blank=True)  # Field name made lowercase.
-    baccno = models.IntegerField(db_column='bAccNo')
+    baccno = models.IntegerField(db_column='bAccNo', blank=True, null=True)  # Field name made lowercase.
     bank = models.CharField(max_length=50, blank=True)
     ifsc = models.CharField(db_column='IFSC', max_length=11, blank=True)  # Field name made lowercase.
     issec = models.IntegerField(db_column='isSec')  # Field name made lowercase.

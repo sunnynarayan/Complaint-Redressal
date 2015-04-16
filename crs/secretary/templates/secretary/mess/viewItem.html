@@ -19,10 +19,10 @@
    {% for item in list %}
 <tr>
    <td> {{ item.name }} </td>
-   <td> {{ item.proteins}} </td>
+   <td> {{ item.proteins|floatformat}} </td>
    <td> {{ item.vitamins}} </td>
    <td> {{ item.fat}} </td>
-   <td> {{ item.nutritions}} </td>
+   <td> {{ item.nutritions|floatformat}} </td>
 </tr>
 {% endfor %}
 </table>
@@ -479,18 +479,18 @@
                                         {% if forloop.counter0|divisibleby:2 %}
                                         <tr class="odd gradeX">
                                             <td>{{ item.name }}</td>
-                                            <td>{{ item.proteins }}</td>
+                                            <td>{{ item.proteins|floatformat }}</td>
                                             <td>{{ item.vitamins }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.nutritions|floatformat }}</td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
                                             <td>{{ item.name }}</td>
-                                            <td>{{ item.proteins }}</td>
+                                            <td>{{ item.proteins|floatformat }}</td>
                                             <td>{{ item.vitamins }}</td>
                                             <td>{{ item.fat }}</td>
-                                            <td>{{ item.nutritions }}</td>
+                                            <td>{{ item.nutritions|floatformat }}</td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}

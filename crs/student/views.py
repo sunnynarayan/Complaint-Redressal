@@ -17,7 +17,7 @@ from datetime import timedelta
 from django.db import transaction
 from wardenOffice.views import *
 from warden.views import *
-from secretary.views import *
+# from secretary.views import *
 from django.core.files import File
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Image
@@ -25,10 +25,82 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.pagesizes import landscape
 import os, inspect
 
+class MealItems:
+    def __init__(self , MID):
+        self.mid = MID
+        self.FoodItems = []
+        self.protein = 0
+        self.vitamin = 0
+        self.fat = 0
+        self.PopulateFid()
+        self.avgnutrition = int((self.fat + self.protein + self.fat)/3)
+        self.name = ""
+        for fobj in self.FoodItems:
+            self.name = self.name + fobj.name + ","
+
+    def PopulateFid(self):
+        mealItems = Mealitems.objects.filter(mid = self.mid)
+        for mi in mealItems:
+            fitem = Fooditems.objects.get(fid=mi.fid)
+            self.FoodItems.append(fitem)
+            self.protein = self.protein + fitem.proteins
+            self.vitamin = self.vitamin + fitem.vitamins
+            self.fat = self.fat + fitem.fat
+        self.protein = int(self.protein/len(mealItems))
+        self.vitamin = int(self.vitamin/len(mealItems))
+        self.fat = int(self.fat /len(mealItems))
+
 class DocumentForm(forms.Form):
     docfile = forms.FileField(
         label='Select a file'
     )
+
+def finalPollResult(request):
+    totalpollresults = Pollresult.objects.filter(hostel=request.session.get('hostel')).count()
+    if totalpollresults <= 0:
+        return HttpResponse("Sorry no poll results are available!")
+    breakfastPollOptions = []
+    lunchPollOptions = []
+    dinnerPollOptions = []
+    dataB = ""
+    dataL = ""
+    dataD = ""
+    b = 1
+    l = 1
+    d = 1
+    try:
+        breakfastPollOptions.extend(Pollresult.objects.filter(hostel=request.session.get('hostel')).filter(type = 1))
+    except:
+        pass
+    try:
+        lunchPollOptions.extend(Pollresult.objects.filter(hostel=request.session.get('hostel')).filter(type = 2))
+    except:
+        pass
+    try:
+        dinnerPollOptions.extend(Pollresult.objects.filter(hostel=request.session.get('hostel')).filter(type = 3))
+    except:
+        pass
+    for x in breakfastPollOptions:
+        dataB = dataB + "B-Item " + str(b) + "\t" + str(x.vote) + "\n"
+        b = b + 1
+    for x in lunchPollOptions:
+        dataL = dataL + "L-Item " + str(l) + "\t" + str(x.vote) + "\n"
+        l = l + 1
+    for x in dinnerPollOptions:
+        dataD = dataD + "D-Item " + str(d) + "\t" + str(x.vote) + "\n"
+        d = d + 1
+        
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/FinalVotingDataB.tsv', 'w') as f:
+        myfile = File(f)
+        myfile.write("meal\tvotes\n"+dataB)
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/FinalVotingDataL.tsv', 'w') as f:
+        myfile = File(f)
+        myfile.write("meal\tvotes\n"+dataL)
+    with open('/mnt/edu/Software/Complaint-Redressal/Complaint-Redressal/crs/student/static/FinalVotingDataD.tsv', 'w') as f:
+        myfile = File(f)
+        myfile.write("meal\tvotes\n"+dataD)
+
+    return render_to_response("student/pollResult.html", {'list1' : breakfastPollOptions, 'list2' : lunchPollOptions, 'list3' : dinnerPollOptions })
 
 def isStudent(request):
     user_type = request.session.get("user_type", '')
@@ -36,6 +108,13 @@ def isStudent(request):
         return False
     else:
         return True
+def isSecretary(request):
+    user_type = request.session.get("user_type",'')
+    if user_type != "secretary":
+        return False
+    else:
+        return True
+
 
 def list(request): # Handle file upload
     if request.method == 'POST':
@@ -558,7 +637,7 @@ def lodgeComplainDetail(request):
         fourth=request.POST.get('fourth','').upper()
         fifth=request.POST.get('fifth','').upper()
         user_roll=Student.objects.get(uid=uid).roll
-        if user_roll == first or user_roll == second or user_roll == third or user_roll == third or user_roll == fourth or user_roll==fifth or len(first)==0:
+        if first == user_roll or  second == user_roll or third==user_roll or fourth==user_roll or fifth==user_roll or len(first)==0:
             form =DocumentForm()
             msg=request.session.get('username')
             message = "You can't enter your own roll number"
@@ -787,7 +866,7 @@ class PollMenuVoting():
         return str(self.votes)
 
 def pollResult(request):
-    if not (isStudent(request)):
+    if not (isStudent(request) or isSecretary(request) or isWarden(request)):
         return redirect('/crs/')
     if not checkAvailabilityOfPoll(int(request.session.get('hostel'))):
         return finalPollResult(request)

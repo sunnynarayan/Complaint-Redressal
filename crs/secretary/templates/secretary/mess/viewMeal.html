@@ -19,10 +19,10 @@
       <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.avgnutrition }}</td>
-        <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;)"></td>
-        <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition }}&#34;)"></td>
-        <td><input type="checkbox"  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition }}&#34;)"></td>
+        <td>{{ item.avgnutrition|floatformat }}</td>
+        <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition|floatformat }}&#34;)"></td>
+        <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition|floatformat }}&#34;)"></td>
+        <td><input type="checkbox"  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition|floatformat }}&#34;)"></td>
       </tr>
       <tr></tr>
           {% endfor %}
@@ -202,9 +202,9 @@
 {% for item in list %}
 <tr>
    <td> <input type="checkbox" class="item_list" name="foodItems" value="{{ forloop.counter }}" onclick="Display(&#34;{{ item.nutritions }}&#34;)">{{ item.name }}</td>
-   <td> {{ item.proteins }} </td>
-   <td> {{ item.vitamins }} </td>
-   <td> {{ item.fat }} </td>
+   <td> {{ item.protein|floatformat }} </td>
+   <td> {{ item.vitamin|floatformat }} </td>
+   <td> {{ item.fat|floatformat }} </td>
    <td> {{ item.nutritions }} </td>
 
 </tr>
@@ -713,25 +713,25 @@
                                         <tr class="odd gradeX">
                                           <td>{{ forloop.counter }}</td>
                                           <td>{{ item.name }}</td>
-                                          <td>{{ item.protein }}</td>
-                                          <td>{{ item.vitamin }}</td>
-                                          <td>{{ item.fat }}</td>
-                                          <td>{{ item.avgnutrition }}</td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
-                                          <td><input type="checkbox"	  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
+                                          <td>{{ item.protein|floatformat }}</td>
+                                          <td>{{ item.vitamin|floatformat }}</td>
+                                          <td>{{ item.fat|floatformat }}</td>
+                                          <td>{{ item.avgnutrition|floatformat }}</td>
+                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition|floatformat }}&#34;,&#34;{{ item.protein|floatformat }}&#34;,&#34;{{ item.vitamin|floatformat }}&#34;,&#34;{{ item.fat|floatformat }}&#34;)"></td>
+                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition|floatformat }}&#34;,&#34;{{ item.protein|floatformat }}&#34;,&#34;{{ item.vitamin|floatformat }}&#34;,&#34;{{ item.fat|floatformat }}&#34;)"></td>
+                                          <td><input type="checkbox"	  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition|floatformat }}&#34;,&#34;{{ item.protein|floatformat }}&#34;,&#34;{{ item.vitamin|floatformat }}&#34;,&#34;{{ item.fat|floatformat }}&#34;)"></td>
                                         </tr>
                                         {% else %}
                                         <tr class="even gradeX">
                                           <td>{{ forloop.counter }}</td>
                                           <td>{{ item.name }}</td>
-                                          <td>{{ item.protein }}</td>
-                                          <td>{{ item.vitamin }}</td>
-                                          <td>{{ item.fat }}</td>
-                                          <td>{{ item.avgnutrition }}</td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
-                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition }}&#34;,&#34;{{ item.protein }}&#34;,&#34;{{ item.vitamin }}&#34;,&#34;{{ item.fat }}&#34;)"></td>
+                                          <td>{{ item.protein|floatformat }}</td>
+                                          <td>{{ item.vitamin|floatformat }}</td>
+                                          <td>{{ item.fat|floatformat }}</td>
+                                          <td>{{ item.avgnutrition|floatformat }}</td>
+                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="breakfast" onclick="Display(&#34;{{ item.avgnutrition|floatformat }}&#34;,&#34;{{ item.protein|floatformat }}&#34;,&#34;{{ item.vitamin|floatformat }}&#34;,&#34;{{ item.fat|floatformat }}&#34;)"></td>
+                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="lunch" onclick="Display1(&#34;{{ item.avgnutrition|floatformat }}&#34;,&#34;{{ item.protein|floatformat }}&#34;,&#34;{{ item.vitamin|floatformat }}&#34;,&#34;{{ item.fat|floatformat }}&#34;)"></td>
+                                          <td><input type="checkbox"  value="{{forloop.counter}}" name="dinner" onclick="Display2(&#34;{{ item.avgnutrition|floatformat }}&#34;,&#34;{{ item.protein|floatformat }}&#34;,&#34;{{ item.vitamin|floatformat }}&#34;,&#34;{{ item.fat|floatformat }}&#34;)"></td>
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
@@ -1037,9 +1037,11 @@
           document.getElementById("ida").style.color="Red";
          	s4+="AvgNutrition";
          }
+         else
          {
           document.getElementById("ida").style.color="Green";
          }
+         
          if(p13<lim1 || v13<lim2 || f13<lim3 || y<lim)
          {
             document.getElementById("ida.1").innerHTML=p13.toFixed(2);

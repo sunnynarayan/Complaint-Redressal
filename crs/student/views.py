@@ -592,11 +592,11 @@ def lodgeComplainDetail(request):
     for x in SCLArray:
         x.save()
     try:
-        newdoc=Document(docfile = request.FILES['docfile'],cid=cid)
-        im = Image.open(newdoc)
-        if im.format not in ('BMP', 'PNG', 'JPEG'):
-            return HttpResponse('Invalid File Format')
-        # newdoc=Document.objects.get(docfile=request.FILES['docfile'])
+        newdoc=Document(docfile =request.FILES['docfile'],cid=cid)
+        # im = Image.open(newdoc)
+        # if im.format not in ('BMP', 'PNG', 'JPEG'):
+        #     return HttpResponse('Invalid File Format')
+        # # newdoc=Document.objects.get(docfile=request.FILES['docfile'])
         newdoc.save()
     except:
         pass

@@ -247,6 +247,7 @@
                                             <label>Mobile : </label>
                                             <input class="form-control" type="tel" name="mobile" required value="" placeholder="Strictly 10 digits">
                                         </div>
+                                        <p id="mobcheck"></p>
                                         <div class="col-lg-8">
                                             <div class="form-group">
                                             <fieldset disabled="">
@@ -290,6 +291,7 @@
                                             <label>Pincode </label>
                                             <input type="text" id="pincode" name="pincode" class="form-control" style="width: 150px" required value="" ></select>
                                         </div>
+                                        <p id="pincheck"></p>
                                     </div>
 
                                         
@@ -302,7 +304,7 @@
                         <!-- /.panel-body -->
                     </div>
                     <div class="col-lg-6">
-                        <button type="submit" name="submit" value="Submit" onclick="Validate(document.test.mobile,document.test.pincode)" class="btn btn-success" style="float: right">Submit</button>
+                        <button type="submit" name="submit" value="Submit" onclick="Validate2(document.test.accnum,document.test.ifsc);Validate(document.test.mobile,document.test.pincode)" class="btn btn-success" style="float: right">Submit</button>
                         <button type="reset" value="Cancel" class="btn btn-danger" style="float: right">Reset</button>
                     </div>
                     </form>

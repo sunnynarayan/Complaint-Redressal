@@ -25,6 +25,19 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.pagesizes import landscape
 import os, inspect
 
+def secViewComplain(complainObject):
+    comment = []
+    documents = []
+    try:
+        documents=(Document.objects.get(cid=complainObject[0].cid))
+    except:
+        pass
+    try:
+        comment.extend(Comment.objects.filter(cid = complainObject[0].cid))
+    except:
+        pass
+    return render_to_response("secretary/complainDetail.html", {'item': complainObject[0],'documents':documents,'comment':comment})
+    
 def isWarden(request):
     user_type = request.session.get("user_type",'')
     if user_type != "warden":
